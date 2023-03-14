@@ -13,4 +13,7 @@ public class ItemTile {
         return type;
      }
 
+    public boolean equals(ItemTile it) {
+        return (this.type == it.type);
+    }
 }
