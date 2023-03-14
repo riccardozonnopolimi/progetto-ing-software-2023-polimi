@@ -6,14 +6,13 @@ import java.util.Observable;
 public class Match extends Observable {
     private int numPlayers=0;
     private ArrayList<ItemTile> bag = new ArrayList<ItemTile>();
-    private CommonGoalCard[2] commonGoals;
+    private CommonGoalCard[] commonGoals;
     private ArrayList<Player> players = new ArrayList<Player>();
     private LRB map;
     private boolean ended;
 
-    public Match()
-    {
-
+    public Match() {
+        //TO DO
     }
     public Match(int numPlayers, ArrayList<ItemTile> bag, ArrayList<Player> players, LRB map, CommonGoalCard commonGoals) {
         this.numPlayers = numPlayers;
@@ -22,24 +21,18 @@ public class Match extends Observable {
         this.map = map;
         this.commonGoals = new CommonGoalCard[2];
     }
-    public void start()
-    {
-
-
+    public void start() {
+        //TO DO
     }
-    public Player winner()
-    {
-
-
+    public Player winner() {
+        //TO DO
+        return null;
     }
-    public ItemTile takeItem()
-    {
-
-
+    public ItemTile takeItem() {
+        //TO DO
+        return null;
     }
-    public void setPlayersOrder()
-    {
-
-
+    public void setPlayersOrder() {
+        //TO DO
     }
 }

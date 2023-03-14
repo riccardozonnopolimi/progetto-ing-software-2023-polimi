@@ -4,7 +4,7 @@ public enum Item {
     CATS,
     BOOKS,
     GAMES,
-    FRAME,
+    FRAMES,
     TROPHIES,
     PLANTS,
     EMPTY,

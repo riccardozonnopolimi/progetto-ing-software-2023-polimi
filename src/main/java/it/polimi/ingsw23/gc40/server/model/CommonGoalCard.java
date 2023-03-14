@@ -14,7 +14,7 @@ public class CommonGoalCard extends Card {
 
     @Override
     public void checkScore(Player p) {
-        //check if goal.istanceGoal(Player p) is reached or not
+        //check if goal.instanceGoal(Player p) is reached or not
     }
 
 

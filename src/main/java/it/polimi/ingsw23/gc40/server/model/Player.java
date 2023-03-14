@@ -6,7 +6,7 @@ public class Player {
     private Token endingToken;
     private Token scoreToken1;
     private Token scoreToken2;
-    private BookShelf shelf;
+    private Bookshelf shelf;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
@@ -21,7 +21,6 @@ public class Player {
         this.scoreToken2=null;
         this.CG2Reached=null;
         this.shelf=null;
-
     }
 
     public Integer getScore() {
@@ -29,6 +28,7 @@ public class Player {
     }
 
     public void setScore(Integer score) {
+        //TO DO calcolare punteggio finale
         this.score = score;
     }
 
@@ -56,11 +56,11 @@ public class Player {
         this.scoreToken2 = scoreToken2;
     }
 
-    public BookShelf getShelf() {
+    public Bookshelf getShelf() {
         return shelf;
     }
 
-    public void setShelf(BookShelf shelf) {
+    public void setShelf(Bookshelf shelf) {
         this.shelf = shelf;
     }
 

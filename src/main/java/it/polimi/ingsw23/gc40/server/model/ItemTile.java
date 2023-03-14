@@ -7,9 +7,10 @@ public class ItemTile {
     public ItemTile(Item t){
         type = t;
     }
-    // public boolean controlSides(LRB map){}; add unimplemented exception
+    // public boolean controlSides(LRB map){};
+    //TO DO
      Item getItem() {
-         return type;
+        return type;
      }
 
 }
