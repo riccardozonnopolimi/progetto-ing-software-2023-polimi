@@ -19,7 +19,7 @@ public class Bookshelf {
         //TO DO
     }
 
-    public ItemTile getCell(int x, int y){
+    public ItemTile getItemTile(int x, int y){
         return shelf[x][y];
     }
 
@@ -29,8 +29,10 @@ public class Bookshelf {
         return 0;
     }
 
+
     public int placeables() {
         //TO DO
         return 0;
     }
+
 }

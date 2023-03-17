@@ -6,8 +6,8 @@ public class CG2 implements Goal{
         //control if the superior angles
         // and the inferior angles are both equals
         // and if the superior left angle is equal to the inferior left
-        return (p.getShelf().getCell(0,0).equals(p.getShelf().getCell(0,4))
-                && p.getShelf().getCell(5,0).equals(p.getShelf().getCell(5,4))
-                && p.getShelf().getCell(0,0).equals(p.getShelf().getCell(5,0)));
+        return (p.getShelf().getItemTile(0,0).equals(p.getShelf().getItemTile(0,4))
+                && p.getShelf().getItemTile(5,0).equals(p.getShelf().getItemTile(5,4))
+                && p.getShelf().getItemTile(0,0).equals(p.getShelf().getItemTile(5,0)));
     }
 }
