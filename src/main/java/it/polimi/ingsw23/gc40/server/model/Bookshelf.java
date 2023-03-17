@@ -29,4 +29,8 @@ public class Bookshelf {
         return 0;
     }
 
+    public int placeables() {
+        //TO DO
+        return 0;
+    }
 }

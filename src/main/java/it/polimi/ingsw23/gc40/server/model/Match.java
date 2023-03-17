@@ -35,4 +35,21 @@ public class Match extends Observable {
     public void setPlayersOrder() {
         //TO DO
     }
+    public void addPlayer(Player p){
+        players.add(p);
+        if(players.size()==numPlayers)
+        {
+            setPlayersOrder();
+        }
+    }
+
+    public void round(Player p) {
+        int placeables = p.getShelf().placeables();
+
+
+
+        //utente sceglie tile
+        map.takeables();
+
+    }
 }
