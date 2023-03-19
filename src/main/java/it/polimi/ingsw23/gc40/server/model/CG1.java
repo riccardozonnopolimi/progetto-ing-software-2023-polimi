@@ -9,6 +9,17 @@ public class CG1 implements Goal {
         this.numeroBlocchi = numeroBlocchi;
     }
 
+    //soluzione 1: 3 matrici di booleani che fanno 1) copia tutte le colonne senza conflitto e si attribuisce punti
+    //                                             2) copia tutte le righe senza conflitto e si attribuiscono punti
+    //                                             3) righe e colonne con conflitto, crei due interi che contano i conflitti
+    //                                             sulle colonne e sulle righe, se scorrendo i e j di quel conflitto,
+    //                                             se hai piu conflitti nella riga cancelli la riga
+    //                                             altrimenti cancelli la colonna,
+    //                                             e cosi con tutti i confilitti rimanenti
+    //                                             e conti i punti
+    //soluzione 2: conti tutte le colonne, tutte le righe con e senza conflitti in 4 int diversi.
+    // Se righe_tot > colonne_tot allora num finale è righe_tot + colonne_senza
+    // Se righe_tot < colonne_tot allora num finale è colonne_tot + righe_senza
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST
