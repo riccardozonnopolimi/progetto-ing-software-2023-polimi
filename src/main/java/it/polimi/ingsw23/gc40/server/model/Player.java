@@ -31,24 +31,9 @@ public class Player {
         return ADJscore;
     }
 
-    public void setADJscore(int ADJTiles) {
+    public void setADJscore(int adJscore) {
+        this.ADJscore = adJscore;
 
-        switch(ADJTiles){
-            case 0:
-                this.ADJscore=0;
-            case 1:
-                this.ADJscore=0;
-            case 2:
-                this.ADJscore=0;
-            case 3:
-                this.ADJscore=2;
-            case 4:
-                this.ADJscore=3;
-            case 5:
-                this.ADJscore=5;
-            default:
-                this.ADJscore=8;
-        }
     }
 
     public void setPGscore(int PGscore) {

@@ -69,13 +69,30 @@ public class Bookshelf {
         return 0;
     }
 
-    public int checkAdjObjects(){
+    public int ADJscore(){
         //TO DO
         //return the sum of the max adjacent same-type cells, for each type
         HashMap<Item, Integer> sommeParziali = new HashMap();
         int sum=0;
 
-        //Questo metodo deve restituire il numero di tessere adiacenti
+        // switch(ADJTiles){
+        //            case 0:
+        //                this.ADJscore=0;
+        //            case 1:
+        //                this.ADJscore=0;
+        //            case 2:
+        //                this.ADJscore=0;
+        //            case 3:
+        //                this.ADJscore=2;
+        //            case 4:
+        //                this.ADJscore=3;
+        //            case 5:
+        //                this.ADJscore=5;
+        //            default:
+        //                this.ADJscore=8;
+        //        }
+
+
         return 0;
     }
 

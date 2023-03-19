@@ -1,13 +1,13 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.lang.reflect.Type;
-import java.io.FileReader;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Observable;
 
 
 public class Match extends Observable {
@@ -63,28 +63,28 @@ public class Match extends Observable {
 
         //intialize common goals scores arrays
         if (numPlayers==4) {
-            CG1Scores.add(8);
-            CG1Scores.add(6);
-            CG1Scores.add(4);
             CG1Scores.add(2);
-            CG2Scores.add(8);
-            CG2Scores.add(6);
-            CG2Scores.add(4);
+            CG1Scores.add(4);
+            CG1Scores.add(6);
+            CG1Scores.add(8);
             CG2Scores.add(2);
+            CG2Scores.add(4);
+            CG2Scores.add(6);
+            CG2Scores.add(8);
         }
         if (numPlayers==3) {
-            CG1Scores.add(8);
-            CG1Scores.add(6);
             CG1Scores.add(4);
-            CG2Scores.add(8);
-            CG2Scores.add(6);
+            CG1Scores.add(6);
+            CG1Scores.add(8);
             CG2Scores.add(4);
+            CG2Scores.add(6);
+            CG2Scores.add(8);
         }
         if (numPlayers==2) {
-            CG1Scores.add(8);
             CG1Scores.add(4);
-            CG2Scores.add(8);
+            CG1Scores.add(8);
             CG2Scores.add(4);
+            CG2Scores.add(8);
         }
 
         //choosing 2 common goals randomly
@@ -202,10 +202,12 @@ public class Match extends Observable {
 
 
         //refresh scores
-        p.setADJscore(p.getBookshelf().checkAdjObjects());
+        p.setADJscore(p.getBookshelf().ADJscore());
 
         if(commonGoals.get(0).getGoal().instanceGoal(p))
-            p.setCGscore(CG1Scores.get(CG1Scores.size()));
+            p.setCGscore(p.getCGscore()+CG1Scores.get(CG1Scores.size())-1);
+        if(commonGoals.get(1).getGoal().instanceGoal(p))
+            p.setCGscore(p.getCGscore()+CG2Scores.get(CG2Scores.size())-1);
 
         p.getPersonalGoal().checkScore(p);
 
@@ -217,7 +219,7 @@ public class Match extends Observable {
         }
         //set turn to next player
         int num;
-        if(players.indexOf(p)==players.size())
+        if(players.indexOf(p)==players.size()-1)
             num=0;
         else
             num=players.indexOf(p)+1;
