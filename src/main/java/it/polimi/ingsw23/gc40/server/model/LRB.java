@@ -184,14 +184,18 @@ public class LRB {
         return true;
     }
 
-    public void takeables() {
+    public ItemTile[][] takeables() {
         ItemTile[][] matrixTakeables = new ItemTile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (isTakeable(this.map[i][j])) {
                     matrixTakeables[i][j] = this.map[i][j];
                 }
+                else{
+                    matrixTakeables[i][j] = new ItemTile(Item.EMPTY);
+                }
             }
         }
+        return matrixTakeables;
     }
 }

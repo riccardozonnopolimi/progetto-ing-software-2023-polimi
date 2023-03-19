@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class ServerModel {
 
-    private  int newMatchPlayers;
     private  ArrayList<Player> onlinePlayers;
     private ArrayList<Match> activeMatches;
     private Match queueMatch;
@@ -26,31 +25,35 @@ public class ServerModel {
 
     }
 
-    public Match getAvailableMatch(){
-        //TO DO
-        return null;
-    }
     public Match createNewMatch(int numPlayer, Player player){
-        //TO DO
-        return null;
+        //TO TEST
+        queueMatch = new Match(numPlayer);
+
+        return queueMatch;
+
     }
     public Match addToLastMatch(Player player){
-        return null;
-
-        //TO DO
-
+        //TO TEST
+        //if true it means that the match has all the players, so it can start
+        if(queueMatch.addPlayer(player)){
+            Match m = queueMatch;
+            activeMatches.add(m);
+            queueMatch=null;
+            return m;
+        }
+        return queueMatch;
     }
     public Boolean checkExistingNickName(String nickName){
-        //TO DO
-        return true;
+        //TO TEST
+        for (int i=0; i<onlinePlayers.size(); i++)
+            if(onlinePlayers.get(i).getNickName().equals(nickName))
+                return true;
+        return false;
     }
     public void endMatch(Match match){
         //TO DO
     }
-    public void setNewMatchPlayers(int num){
-        //TO DO
-        newMatchPlayers=num;
-    }
+
 
     public boolean hasQueueMatch() {
         return (queueMatch!=null);

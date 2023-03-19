@@ -14,17 +14,19 @@ public class Match extends Observable {
     private int numPlayers=0;
     private ArrayList<ItemTile> bag = new ArrayList<ItemTile>();
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
+    private ArrayList<Integer> CG1Scores = new ArrayList<>();
+    private ArrayList<Integer> CG2Scores = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<Player>();
     private LRB map;
     private boolean ending;
-    private Player turn;
+    private Player next;
 
 
 
     public Match(int numPlayers) {
         this.numPlayers = numPlayers;
-        this.turn=null;
+        this.next =null;
         this.ending=false;
 
         //create a map for n players
@@ -59,6 +61,32 @@ public class Match extends Observable {
         CGs.add(new CG11());
         CGs.add(new CG12());
 
+        //intialize common goals scores arrays
+        if (numPlayers==4) {
+            CG1Scores.add(8);
+            CG1Scores.add(6);
+            CG1Scores.add(4);
+            CG1Scores.add(2);
+            CG2Scores.add(8);
+            CG2Scores.add(6);
+            CG2Scores.add(4);
+            CG2Scores.add(2);
+        }
+        if (numPlayers==3) {
+            CG1Scores.add(8);
+            CG1Scores.add(6);
+            CG1Scores.add(4);
+            CG2Scores.add(8);
+            CG2Scores.add(6);
+            CG2Scores.add(4);
+        }
+        if (numPlayers==2) {
+            CG1Scores.add(8);
+            CG1Scores.add(4);
+            CG2Scores.add(8);
+            CG2Scores.add(4);
+        }
+
         //choosing 2 common goals randomly
         int rand = (int)(Math.random()*(CGs.size()+1));
         commonGoals.add(new CommonGoalCard(CGs.get(rand)));
@@ -88,15 +116,34 @@ public class Match extends Observable {
 
 
     }
-    public Player getTurn() {
-        return turn;
+    public Player getNext() {
+        return next;
     }
-    public void start() {
-        //TO DO
+
+    public boolean playable(){
+        //quando ci sono tutti i giocatori posso iniziare
+        if(players.size()==numPlayers)
+            return true;
+
+        //se un giocatore ha riempito la shelf ed il prossimo giocatore sarebbe colui che ha iniziato, non posso giocare
+        if(ending&& next.isFirst())
+            return false;
+
+        return false;
     }
     public Player winner() {
-        //TO DO
-        return null;
+        int[] scores = new int[players.size()];
+        for (int i=0; i<players.size(); i++)
+        {
+            scores[i]=players.get(i).getCGscore()+players.get(i).getPGscore()+players.get(i).getADJscore();
+            if(players.get(i).isFirst()) scores[i]++;
+        }
+
+        int max=0;
+        for (int i=0;i<players.size();i++)
+            if(scores[i]>scores[max]) max=i;
+
+        return players.get(max);
     }
     public ItemTile takeItem() {
         //TO TEST
@@ -118,13 +165,17 @@ public class Match extends Observable {
         }
         players.get(0).setFirst(true);
     }
-    public void addPlayer(Player p){
+
+    //This method returns true to server if the match is ready to start (has all players)
+    public boolean addPlayer(Player p){
         players.add(p);
 
         if(players.size()==numPlayers)
         {
             setPlayersOrder();
+            return true;
         }
+        return false;
     }
 
     public void refill()
@@ -148,7 +199,15 @@ public class Match extends Observable {
 
 
         //utente sceglie tile
-        map.takeables();
+
+
+        //refresh scores
+        p.setADJscore(p.getBookshelf().checkAdjObjects());
+
+        if(commonGoals.get(0).getGoal().instanceGoal(p))
+            p.setCGscore(CG1Scores.get(CG1Scores.size()));
+
+        p.getPersonalGoal().checkScore(p);
 
 
         //check if there is space in the player bookshelf
@@ -162,6 +221,6 @@ public class Match extends Observable {
             num=0;
         else
             num=players.indexOf(p)+1;
-        turn=players.get(num);
+        next =players.get(num);
     }
 }

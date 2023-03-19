@@ -3,7 +3,9 @@ package it.polimi.ingsw23.gc40.server.model;
 public class Player {
     private boolean first;
     private String nickName;
-    private int score;
+    private int CGscore;
+    private int PGscore;
+    private int ADJscore;
     private Bookshelf bookshelf;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
@@ -11,25 +13,57 @@ public class Player {
 
     public Player(String nickName) {
         this.nickName = nickName;
-        this.score=0;
+        this.CGscore =0;
         this.CG1Reached=false;
         this.personalGoal=null;
         this.CG2Reached=null;
         this.bookshelf =null;
         this.first=false;
+        this.PGscore=0;
+        this.ADJscore=0;
     }
 
+    public int getPGscore() {
+        return PGscore;
+    }
+
+    public int getADJscore() {
+        return ADJscore;
+    }
+
+    public void setADJscore(int ADJTiles) {
+
+        switch(ADJTiles){
+            case 0:
+                this.ADJscore=0;
+            case 1:
+                this.ADJscore=0;
+            case 2:
+                this.ADJscore=0;
+            case 3:
+                this.ADJscore=2;
+            case 4:
+                this.ADJscore=3;
+            case 5:
+                this.ADJscore=5;
+            default:
+                this.ADJscore=8;
+        }
+    }
+
+    public void setPGscore(int PGscore) {
+        this.PGscore = PGscore;
+    }
     public boolean isFirst() {
         return first;
     }
 
-    public int getScore() {
-        return score;
+    public int getCGscore() {
+        return CGscore;
     }
 
-    public void setScore(int score) {
-        //TO DO calcolare punteggio finale
-        this.score = score;
+    public void setCGscore(int CGscore) {
+        this.CGscore = CGscore;
     }
 
     public void setFirst(boolean first) {

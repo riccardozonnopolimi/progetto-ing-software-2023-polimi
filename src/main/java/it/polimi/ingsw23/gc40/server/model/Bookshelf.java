@@ -26,7 +26,7 @@ public class Bookshelf {
     }
 
     public void insertIT(ItemTile it, int column){
-        //TO DO
+        //TO TEST
         for(int i=5; i>=0; i--){
             if(shelf[i][column].getItem().equals(Item.EMPTY)){
                 shelf[i][column] = it;
@@ -75,6 +75,7 @@ public class Bookshelf {
         HashMap<Item, Integer> sommeParziali = new HashMap();
         int sum=0;
 
+        //Questo metodo deve restituire il numero di tessere adiacenti
         return 0;
     }
 

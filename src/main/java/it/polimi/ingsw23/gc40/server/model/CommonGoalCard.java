@@ -10,6 +10,9 @@ public class CommonGoalCard extends Card {
 
     }
 
+    public Goal getGoal() {
+        return goal;
+    }
 
     @Override
     public void checkScore(Player p) {

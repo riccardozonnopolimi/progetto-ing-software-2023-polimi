@@ -7,6 +7,31 @@ public class PersonalGoalCard extends Card{
     }
     @Override
     public void checkScore(Player p) {
-        //TO DO
+        //TO TEST
+        int score=0;
+        ItemTile[][] s = p.getBookshelf().getShelf();
+        for (int i=0; i<6; i++)
+            for (int j=0; j<5;j++)
+                if (goal[i][j].getItem()!=Item.EMPTY)
+                    if(goal[i][j].getItem()==s[i][j].getItem())
+                        score++;
+
+        switch (score){
+            case 1:
+                p.setPGscore(1);
+            case 2:
+                p.setPGscore(2);
+            case 3:
+                p.setPGscore(4);
+            case 4:
+                p.setPGscore(6);
+            case 5:
+                p.setPGscore(9);
+            case 6:
+                p.setPGscore(12);
+            default:
+                break;
+        }
+
     }
 }
