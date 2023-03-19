@@ -32,4 +32,7 @@ public class LRB {
         return false;
     }
 
+    public void takeables() {
+        //TO DO
+    }
 }

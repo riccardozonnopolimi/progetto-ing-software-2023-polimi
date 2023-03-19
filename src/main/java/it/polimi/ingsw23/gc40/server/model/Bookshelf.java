@@ -25,7 +25,7 @@ public class Bookshelf {
         }
     }
 
-    public ItemTile getCell(int x, int y){
+    public ItemTile getItemTile(int x, int y){
         return shelf[x][y];
     }
 
@@ -71,6 +71,12 @@ public class Bookshelf {
 
     public int checkAdjObjects(){
         //return the number of adjacencies
+        //TO DO
+        return 0;
+    }
+
+
+    public int placeables() {
         //TO DO
         return 0;
     }
