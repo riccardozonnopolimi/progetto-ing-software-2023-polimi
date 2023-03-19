@@ -10,10 +10,10 @@ public class CG4 implements Goal{
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                it = p.getShelf().getItemTile(i, j);
-                ItemTile right = it.rightTile(p.getShelf());
-                ItemTile below = it.belowTile(p.getShelf());
-                ItemTile diagonal = it.diagonalRightDownTile(p.getShelf());
+                it = p.getBookshelf().getItemTile(i, j);
+                ItemTile right = it.rightTile(p.getBookshelf());
+                ItemTile below = it.belowTile(p.getBookshelf());
+                ItemTile diagonal = it.diagonalRightDownTile(p.getBookshelf());
                 temp[0] = it;
                 temp[1] = right;
                 temp[2] = below;

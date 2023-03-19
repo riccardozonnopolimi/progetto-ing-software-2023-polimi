@@ -10,11 +10,11 @@ public class CG11 implements Goal{
 
         for (int i = 1; i < 5; i++){
             for (int j = 1; j < 4; j++) {
-                it = p.getShelf().getItemTile(i, j);
-                ItemTile diagonalRightDown = it.diagonalRightDownTile(p.getShelf());
-                ItemTile diagonalRightUp = it.diagonalRightUpTile(p.getShelf());
-                ItemTile diagonalLeftDown = it.diagonalLeftDownTile(p.getShelf());
-                ItemTile diagonalLeftUp = it.diagonalLeftUpTile(p.getShelf());
+                it = p.getBookshelf().getItemTile(i, j);
+                ItemTile diagonalRightDown = it.diagonalRightDownTile(p.getBookshelf());
+                ItemTile diagonalRightUp = it.diagonalRightUpTile(p.getBookshelf());
+                ItemTile diagonalLeftDown = it.diagonalLeftDownTile(p.getBookshelf());
+                ItemTile diagonalLeftUp = it.diagonalLeftUpTile(p.getBookshelf());
 
                 temp[0] = it;
                 temp[1] = diagonalRightDown;

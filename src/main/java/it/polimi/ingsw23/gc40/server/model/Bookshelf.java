@@ -17,6 +17,10 @@ public class Bookshelf {
         }
     }
 
+    public void setFull(boolean full) {
+        this.full = full;
+    }
+
     public void insertIT(ItemTile it, int column){
         //TO DO
         for(int i=5; i>=0; i--){

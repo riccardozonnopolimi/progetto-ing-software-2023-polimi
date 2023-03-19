@@ -1,9 +1,10 @@
 package it.polimi.ingsw23.gc40.server.model;
 
 public class Player {
+    private boolean first;
     private String nickName;
-    private Integer score;
-    private Bookshelf shelf;
+    private int score;
+    private Bookshelf bookshelf;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
@@ -14,7 +15,12 @@ public class Player {
         this.CG1Reached=false;
         this.personalGoal=null;
         this.CG2Reached=null;
-        this.shelf=null;
+        this.bookshelf =null;
+        this.first=false;
+    }
+
+    public boolean isFirst() {
+        return first;
     }
 
     public int getScore() {
@@ -25,12 +31,17 @@ public class Player {
         //TO DO calcolare punteggio finale
         this.score = score;
     }
-    public Bookshelf getShelf() {
-        return shelf;
+
+    public void setFirst(boolean first) {
+        this.first = first;
     }
 
-    public void setShelf(Bookshelf shelf) {
-        this.shelf = shelf;
+    public Bookshelf getBookshelf() {
+        return bookshelf;
+    }
+
+    public void setBookshelf(Bookshelf bookshelf) {
+        this.bookshelf = bookshelf;
     }
 
     public boolean getCG1Reached() {

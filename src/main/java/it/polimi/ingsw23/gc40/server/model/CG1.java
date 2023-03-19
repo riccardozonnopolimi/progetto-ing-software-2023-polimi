@@ -19,12 +19,12 @@ public class CG1 implements Goal{
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
-                it = p.getShelf().getItemTile(i,j);
+                it = p.getBookshelf().getItemTile(i,j);
                 //controllo sulle colonne
                 if (j<5-grandezzaBlocco){
-                    below[0] = it.belowTile(p.getShelf());
+                    below[0] = it.belowTile(p.getBookshelf());
                     for (int k = 1; k < grandezzaBlocco-1; k++){
-                        below[k] = below[k-1].belowTile(p.getShelf());
+                        below[k] = below[k-1].belowTile(p.getBookshelf());
                     }
                     if (it.equalsToN(grandezzaBlocco, below) == grandezzaBlocco){
                         n++;
@@ -33,9 +33,9 @@ public class CG1 implements Goal{
                 }
                 //controllo sulle righe
                 else if (i<6-grandezzaBlocco){
-                    right[0] = it.rightTile(p.getShelf());
+                    right[0] = it.rightTile(p.getBookshelf());
                     for (int k = 1; k < grandezzaBlocco-1; k++){
-                        right[k] = right[k-1].rightTile(p.getShelf());
+                        right[k] = right[k-1].rightTile(p.getBookshelf());
                     }
                     if (it.equalsToN(grandezzaBlocco, below) == grandezzaBlocco){
                         n++;
