@@ -3,6 +3,8 @@ package it.polimi.ingsw23.gc40.server.model;
 public class CG7 implements Goal{
     @Override
     public boolean instanceGoal(Player p) {
+        //TO TEST
+
         //control if there is a diagonal of 5 in the bookshelf that is all the same type
         if(p.getBookshelf().getItemTile(0,0).equals(p.getBookshelf().getItemTile(1,1))
         && p.getBookshelf().getItemTile(1,1).equals(p.getBookshelf().getItemTile(2,2))

@@ -9,6 +9,7 @@ public class Bookshelf {
 
     public Bookshelf(){
         shelf = new ItemTile[6][5];
+        //TO TEST
         //initialize all the ItemTile to EMPTY
         for(int i=0; i<6; i++){
             for(int j=0; j<5; j++){
@@ -19,6 +20,9 @@ public class Bookshelf {
 
     public void setFull(boolean full) {
         this.full = full;
+    }
+    public ItemTile[][] getShelf() {
+        return shelf;
     }
 
     public void insertIT(ItemTile it, int column){
