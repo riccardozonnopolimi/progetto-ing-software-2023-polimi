@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.server.model;
 
+import java.util.HashMap;
+
 public class Bookshelf {
     private ItemTile[][] shelf;
     private boolean full = false;
@@ -30,7 +32,8 @@ public class Bookshelf {
     }
 
     //return the max number of ItemTiles that we can take from the LRB checking empty slots in bookshelf
-    public int placeable(){
+    public int placeables(){
+        //TO TEST
         int maxSlotAvailable=0;
         //checking in order:
         //      if there are at least 3 free cell return directly 3 (we can take max 3 ItemTiles)
@@ -46,38 +49,24 @@ public class Bookshelf {
                 }
             }
         }
-        if (maxSlotAvailable==0){
-            full=true;
-        }
         return maxSlotAvailable;
     }
 
-    //returning the number of free slots for a column, if there aren't free slots, set full to true
+    //returning the number of free slots for a column, if there aren't free slots
     public int getAvailableSlots(int n){
+        //TO TEST
         for(int i=2; i>=0; i--){
-            if(shelf[2][n].getItem().equals(Item.EMPTY))    return i+1;
-
+            if(shelf[i][n].getItem().equals(Item.EMPTY))    return i+1;
         }
-        full=true;
         return 0;
     }
-
-
-
-
-
-
-
 
     public int checkAdjObjects(){
-        //return the number of adjacencies
         //TO DO
-        return 0;
-    }
+        //return the sum of the max adjacent same-type cells, for each type
+        HashMap<Item, Integer> sommeParziali = new HashMap();
+        int sum=0;
 
-
-    public int placeables() {
-        //TO DO
         return 0;
     }
 

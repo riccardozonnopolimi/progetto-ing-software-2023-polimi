@@ -2,8 +2,12 @@ package it.polimi.ingsw23.gc40.server.model;
 
 public class ItemTile {
     private final Item type;
+    //x, y are ItemTile's coordinates when it is placed on LRB
     private int x;
     private int y;
+
+    private boolean adjacenciesInShelf = false;
+
 
     public ItemTile(Item t) {
         type = t;
