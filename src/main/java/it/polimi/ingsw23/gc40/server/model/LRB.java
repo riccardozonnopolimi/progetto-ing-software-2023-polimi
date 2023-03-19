@@ -93,18 +93,94 @@ public class LRB {
         //TO TEST
         int coordX = it.getX();
         int coordY = it.getY();
-
-        if (this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
-                this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
-                this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
-                this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
+        if(coordX==0)
+        {
+            if (
+                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY - 1].equals(Item.EMPTY))
+            {
             return true;
-        } else if (this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
-                this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
-                this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
-                this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
+            }
+            else if (
+                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE))
+            {
             return true;
+            }
+        }
+        else if(coordX == 8)
+        {
+            if (
+                    this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY - 1].equals(Item.EMPTY))
+            {
+            return true;
+            }
+            else if (
+                    this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE))
+            {
+            return true;
+            }
+        }
+        else if (coordY == 0)
+        {
+            if (
+                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY + 1].equals(Item.EMPTY))
+            {
+                return true;
+            }
+            else if (
+                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE))
+            {
+                return true;
 
+            }
+        }
+        else if (coordY==8)
+        {
+            if (
+                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY - 1].equals(Item.EMPTY))
+            {
+                return true;
+            }
+            else if (
+                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE))
+            {
+                return true;
+
+            }
+        }
+        else
+        {
+            if (
+                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
+                    this.map[coordX][coordY - 1].equals(Item.EMPTY))
+            {
+                return true;
+            }
+            else if (
+                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
+                    this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE))
+            {
+                return true;
+            }
         }
         return false;
     }
