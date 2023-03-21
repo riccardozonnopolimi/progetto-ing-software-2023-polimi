@@ -7,13 +7,13 @@ public class Bookshelf {
     private boolean full = false;
 
 
-    public Bookshelf(){
+    public Bookshelf() {
         shelf = new ItemTile[6][5];
         //TO TEST
         //initialize all the ItemTile to EMPTY
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                shelf[i][j]= new ItemTile(Item.EMPTY);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                shelf[i][j] = new ItemTile(Item.EMPTY);
             }
         }
     }
@@ -21,37 +21,38 @@ public class Bookshelf {
     public void setFull(boolean full) {
         this.full = full;
     }
+
     public ItemTile[][] getShelf() {
         return shelf;
     }
 
-    public void insertIT(ItemTile it, int column){
+    public void insertIT(ItemTile it, int column) {
         //TO TEST
-        for(int i=5; i>=0; i--){
-            if(shelf[i][column].getItem().equals(Item.EMPTY)){
+        for (int i = 5; i >= 0; i--) {
+            if (shelf[i][column].getItem().equals(Item.EMPTY)) {
                 shelf[i][column] = it;
                 break;
             }
         }
     }
 
-    public ItemTile getItemTile(int x, int y){
+    public ItemTile getItemTile(int x, int y) {
         return shelf[x][y];
     }
 
     //return the max number of ItemTiles that we can take from the LRB checking empty slots in bookshelf
-    public int placeables(){
+    public int placeables() {
         //TO TEST
-        int maxSlotAvailable=0;
+        int maxSlotAvailable = 0;
         //checking in order:
         //      if there are at least 3 free cell return directly 3 (we can take max 3 ItemTiles)
         //      else if maxSlotAvailable is updated it check the next column
-        for(int j=0; j<=5; j++){
-            for(int i=2; i>=0; i--){
-                if(shelf[i][j].getItem().equals(Item.EMPTY)){
-                    if(i==2) return i+1;
-                    else if (maxSlotAvailable<i+1) {
-                        maxSlotAvailable=i+1;
+        for (int j = 0; j <= 5; j++) {
+            for (int i = 2; i >= 0; i--) {
+                if (shelf[i][j].getItem().equals(Item.EMPTY)) {
+                    if (i == 2) return i + 1;
+                    else if (maxSlotAvailable < i + 1) {
+                        maxSlotAvailable = i + 1;
                         break;
                     }
                 }
@@ -61,19 +62,68 @@ public class Bookshelf {
     }
 
     //returning the number of free slots for a column, if there aren't free slots
-    public int getAvailableSlots(int n){
+    public int getAvailableSlots(int n) {
         //TO TEST
-        for(int i=2; i>=0; i--){
-            if(shelf[i][n].getItem().equals(Item.EMPTY))    return i+1;
+        for (int i = 2; i >= 0; i--) {
+            if (shelf[i][n].getItem().equals(Item.EMPTY)) return i + 1;
         }
         return 0;
     }
 
-    public int ADJscore(){
-        //TO DO
+    public void checker(Integer counter, int i, int j, Item type) {
+        //TO TEST
+        if (!shelf[i][j].getCheckedADJ() && type.equals(shelf[i][j].getItem())) {
+            counter++;
+            shelf[i][j].setCheckedADJ(true);
+            
+            if(j<5)
+                checker(counter, i, j+1, type);
+            if(i<6)
+                checker(counter, i+1, j, type);
+            if(j>0)
+                checker(counter, i, j-1, type);
+            if(i>0)
+                checker(counter, i-1, j, type);
+        }
+
+    }
+
+
+    public int ADJscore() {
+        //TO TEST
         //return the sum of the max adjacent same-type cells, for each type
-        HashMap<Item, Integer> sommeParziali = new HashMap();
-        int sum=0;
+        //creating a localClass controller that allow to use a method controller for each type of ItemTile
+
+        HashMap<Item, Integer> partialSums = new HashMap<>();
+        partialSums.put(Item.CATS, 0);
+        partialSums.put(Item.BOOKS, 0);
+        partialSums.put(Item.FRAMES, 0);
+        partialSums.put(Item.GAMES, 0);
+        partialSums.put(Item.TROPHIES, 0);
+        partialSums.put(Item.PLANTS, 0);
+
+        //using the value associated to empty as a variable to storage the number of adjacencies of a specific type before updating that value
+
+        for (int i = 0; i <= 6; i++) {
+            for (int j = 0; j <= 5; j++) {
+                if (!shelf[i][j].getCheckedADJ() && !shelf[i][j].getItem().equals(Item.EMPTY)) {
+                    Integer counter=0;
+                    checker(counter, i, j, shelf[i][j].getItem());
+
+                    //caso in cui prendiamo il gruppo con maggiore numero di tiles
+                    if(counter>partialSums.get(shelf[i][j].getItem()))
+                        partialSums.put(shelf[i][j].getItem(),counter);
+
+                    //caso in cui sommiamo il numero di tiles
+                    // partialSums.put(shelf[i][j].getItem(),counter+partialSums.get(shelf[i][j].getItem()));
+
+
+                }
+            }
+        }
+
+        int sum = 0;
+
 
         // switch(ADJTiles){
         //            case 0:
@@ -95,5 +145,10 @@ public class Bookshelf {
 
         return 0;
     }
+
+    public void adjacenciesCheck(HashMap<Item, Integer> partialSums, int i, int j, Item item) {
+    }
+
+    ;
 
 }

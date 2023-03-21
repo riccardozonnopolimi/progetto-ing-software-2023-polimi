@@ -90,10 +90,9 @@ public class LRB {
         }
     }
 
-    public boolean isTakeable(ItemTile it) {
+    public boolean isTakeable(int coordX, int coordY) {
         //TO TEST
-        int coordX = it.getX();
-        int coordY = it.getY();
+
         if (coordX == 0) {
             if (
                     this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
@@ -188,7 +187,7 @@ public class LRB {
         ItemTile[][] matrixTakeables = new ItemTile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (isTakeable(this.map[i][j])) {
+                if (isTakeable(i,j)) {
                     matrixTakeables[i][j] = this.map[i][j];
                 }
                 else{

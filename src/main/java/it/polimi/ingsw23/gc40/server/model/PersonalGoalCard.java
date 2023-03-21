@@ -1,22 +1,24 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class PersonalGoalCard extends Card{
+public class PersonalGoalCard extends Card {
     private ItemTile[][] goal;
-    public PersonalGoalCard(){
+
+    public PersonalGoalCard() {
 
     }
+
     @Override
     public void checkScore(Player p) {
         //TO TEST
-        int score=0;
+        int count = 0;
         ItemTile[][] s = p.getBookshelf().getShelf();
-        for (int i=0; i<6; i++)
-            for (int j=0; j<5;j++)
-                if (goal[i][j].getItem()!=Item.EMPTY)
-                    if(goal[i][j].getItem()==s[i][j].getItem())
-                        score++;
 
-        switch (score){
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 5; j++)
+                if ((goal[i][j].getItem() != Item.EMPTY) && (goal[i][j].getItem() == s[i][j].getItem()))
+                    count++;
+
+        switch (count) {
             case 1:
                 p.setPGscore(1);
             case 2:
@@ -30,7 +32,7 @@ public class PersonalGoalCard extends Card{
             case 6:
                 p.setPGscore(12);
             default:
-                break;
+                p.setPGscore(0);
         }
 
     }

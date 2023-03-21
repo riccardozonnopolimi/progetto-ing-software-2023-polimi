@@ -3,52 +3,28 @@ package it.polimi.ingsw23.gc40.server.model;
 public class ItemTile {
     private final Item type;
     //x, y are ItemTile's coordinates when it is placed on LRB
-    private int x;
-    private int y;
 
-    private boolean adjacenciesInShelf = false;
+    private boolean checkedADJ = false;
 
 
     public ItemTile(Item t) {
         type = t;
     }
-    public int getX() {
-        return x;
-    }
-    public void setX(int x) {
-        this.x = x;
-    }
-    public int getY() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
+
     // public boolean controlSides(LRB map){};
     //TO DO
-    Item getItem() {
+    public Item getItem() {
         return type;
+    }
+
+    public boolean getCheckedADJ(){
+        return checkedADJ;
+    }
+    public void setCheckedADJ(boolean check){
+        this.checkedADJ =check;
     }
     public boolean equals(ItemTile it) {
         return (this.type == it.type);
-    }
-    public ItemTile rightTile (Bookshelf b){
-      return  b.getItemTile(this.getX(),this.getY() + 1);
-    }
-    public ItemTile belowTile (Bookshelf b){
-        return  b.getItemTile(this.getX() +1,this.getY());
-    }
-    public ItemTile diagonalRightDownTile(Bookshelf b){
-        return  b.getItemTile(this.getX() +1,this.getY()+1);
-    }
-    public ItemTile diagonalRightUpTile(Bookshelf b){
-        return  b.getItemTile(this.getX() -1,this.getY()+1);
-    }
-    public ItemTile diagonalLeftDownTile(Bookshelf b){
-        return  b.getItemTile(this.getX() +1,this.getY()-1);
-    }
-    public ItemTile diagonalLeftUpTile(Bookshelf b){
-        return  b.getItemTile(this.getX() -1,this.getY()-1);
     }
     public int equalsToN(int n, ItemTile[] i) {
         int equals = 0;
