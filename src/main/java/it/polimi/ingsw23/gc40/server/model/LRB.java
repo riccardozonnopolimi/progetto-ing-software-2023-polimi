@@ -94,67 +94,35 @@ public class LRB {
         //TO TEST
 
         if (coordX == 0) {
-            if (
-                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
+            if (this.map[coordX + 1][coordY].equals(Item.EMPTY) || this.map[coordX][coordY + 1].equals(Item.EMPTY) || this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
                 return true;
-            } else if (
-                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
+            } else if (this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
                 return true;
             }
         } else if (coordX == 8) {
-            if (
-                    this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
+            if (this.map[coordX - 1][coordY].equals(Item.EMPTY) || this.map[coordX][coordY + 1].equals(Item.EMPTY) || this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
                 return true;
-            } else if (
-                    this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
+            } else if (this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
                 return true;
             }
         } else if (coordY == 0) {
-            if (
-                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY + 1].equals(Item.EMPTY)) {
+            if (this.map[coordX + 1][coordY].equals(Item.EMPTY) || this.map[coordX - 1][coordY].equals(Item.EMPTY) || this.map[coordX][coordY + 1].equals(Item.EMPTY)) {
                 return true;
-            } else if (
-                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE)) {
+            } else if (this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE)) {
                 return true;
 
             }
         } else if (coordY == 8) {
-            if (
-                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
+            if (this.map[coordX + 1][coordY].equals(Item.EMPTY) || this.map[coordX - 1][coordY].equals(Item.EMPTY) || this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
                 return true;
-            } else if (
-                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
+            } else if (this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
                 return true;
 
             }
         } else {
-            if (
-                    this.map[coordX + 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX - 1][coordY].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY + 1].equals(Item.EMPTY) ||
-                            this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
+            if (this.map[coordX + 1][coordY].equals(Item.EMPTY) || this.map[coordX - 1][coordY].equals(Item.EMPTY) || this.map[coordX][coordY + 1].equals(Item.EMPTY) || this.map[coordX][coordY - 1].equals(Item.EMPTY)) {
                 return true;
-            } else if (
-                    this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) ||
-                            this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
+            } else if (this.map[coordX + 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX - 1][coordY].equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].equals(Item.NOTREACHABLE)) {
                 return true;
             }
         }
@@ -173,9 +141,7 @@ public class LRB {
         //to test
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (((map[i][j].getItem() != Item.EMPTY) && (map[i][j].getItem() != Item.NOTREACHABLE))
-                        && (((map[i + 1][j].getItem() != Item.EMPTY) && (map[i + 1][j].getItem() != Item.NOTREACHABLE))
-                        || ((map[i][j + 1].getItem() != Item.EMPTY) && (map[i][j + 1].getItem() != Item.NOTREACHABLE))))
+                if (((map[i][j].getItem() != Item.EMPTY) && (map[i][j].getItem() != Item.NOTREACHABLE)) && (((map[i + 1][j].getItem() != Item.EMPTY) && (map[i + 1][j].getItem() != Item.NOTREACHABLE)) || ((map[i][j + 1].getItem() != Item.EMPTY) && (map[i][j + 1].getItem() != Item.NOTREACHABLE))))
                     return false;
 
             }
@@ -187,10 +153,9 @@ public class LRB {
         ItemTile[][] matrixTakeables = new ItemTile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (isTakeable(i,j)) {
+                if (isTakeable(i, j)) {
                     matrixTakeables[i][j] = this.map[i][j];
-                }
-                else{
+                } else {
                     matrixTakeables[i][j] = new ItemTile(Item.EMPTY);
                 }
             }

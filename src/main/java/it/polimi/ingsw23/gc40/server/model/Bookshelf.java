@@ -98,12 +98,12 @@ public class Bookshelf {
         //creating a localClass controller that allow to use a method controller for each type of ItemTile
 
         HashMap<Item, Integer> partialSums = new HashMap<>();
-        partialSums.put(Item.CATS, 0);
-        partialSums.put(Item.BOOKS, 0);
-        partialSums.put(Item.FRAMES, 0);
-        partialSums.put(Item.GAMES, 0);
-        partialSums.put(Item.TROPHIES, 0);
-        partialSums.put(Item.PLANTS, 0);
+        partialSums.put(Item.CAT, 0);
+        partialSums.put(Item.BOOK, 0);
+        partialSums.put(Item.FRAME, 0);
+        partialSums.put(Item.GAME, 0);
+        partialSums.put(Item.TROPHY, 0);
+        partialSums.put(Item.PLANT, 0);
 
         //using the value associated to empty as a variable to storage the number of adjacencies of a specific type before updating that value
 

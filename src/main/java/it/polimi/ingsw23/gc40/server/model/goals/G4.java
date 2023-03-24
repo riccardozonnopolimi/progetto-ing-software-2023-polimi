@@ -1,8 +1,13 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.model.goals;
+
+import it.polimi.ingsw23.gc40.server.model.Goal;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.util.HashMap;
 
-public class CG4 implements Goal {
+public class G4 implements Goal {
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST

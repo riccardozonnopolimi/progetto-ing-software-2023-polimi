@@ -1,6 +1,11 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.model.goals;
 
-public class CG12 implements Goal {
+import it.polimi.ingsw23.gc40.server.model.Goal;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Player;
+
+public class G12 implements Goal {
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST

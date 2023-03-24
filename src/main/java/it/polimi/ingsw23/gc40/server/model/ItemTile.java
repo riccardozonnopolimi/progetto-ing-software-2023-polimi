@@ -10,11 +10,12 @@ public class ItemTile {
 
     public ItemTile(Item t) {
         type = t;
-        num=0;
+        num = 0;
     }
+
     public ItemTile(Item t, int n) {
         type = t;
-        num = n%3;
+        num = n % 3;
     }
 
     // public boolean controlSides(LRB map){};
@@ -23,20 +24,22 @@ public class ItemTile {
         return type;
     }
 
-    public boolean getCheckedADJ(){
+    public boolean getCheckedADJ() {
         return checkedADJ;
     }
-    public void setCheckedADJ(boolean check){
-        this.checkedADJ =check;
+
+    public void setCheckedADJ(boolean check) {
+        this.checkedADJ = check;
     }
+
     public boolean equals(ItemTile it) {
         return (this.type == it.type);
     }
+
     public int equalsToN(int n, ItemTile[] i) {
         int equals = 0;
-        for (int j = 0; j<n-2; j++){
-            if (i[j].equals(i[j+1]))
-                equals++;
+        for (int j = 0; j < n - 2; j++) {
+            if (i[j].equals(i[j + 1])) equals++;
         }
         return equals;
     }

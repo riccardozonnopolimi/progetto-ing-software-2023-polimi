@@ -1,14 +1,19 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.model.goals;
+import it.polimi.ingsw23.gc40.server.model.Goal;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Player;
+
 import java.util.HashMap;
 
-public class CG5 implements Goal {
+public class G5_G8_G9_G10 implements Goal {
     //number of different type
     int differentType;
     //number of blocks need to reach the goal
     int numBlocks;
     //boolean to chose if the goal search for column or not
     boolean c;
-    public CG5(int DifferentType, int numBlocks, boolean c) {
+    public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c) {
         this.differentType = DifferentType;
         this.numBlocks = numBlocks;
         this.c = c;
@@ -35,12 +40,12 @@ public class CG5 implements Goal {
         }
         for (int j = 0; j < h; j++) {
             //set the hashmap to false at every step of the cicle
-            count.put(Item.CATS, false);
-            count.put(Item.BOOKS, false);
-            count.put(Item.GAMES, false);
-            count.put(Item.FRAMES, false);
-            count.put(Item.TROPHIES, false);
-            count.put(Item.PLANTS, false);
+            count.put(Item.CAT, false);
+            count.put(Item.BOOK, false);
+            count.put(Item.GAME, false);
+            count.put(Item.FRAME, false);
+            count.put(Item.TROPHY, false);
+            count.put(Item.PLANT, false);
             for (int i = 0; i < k; i++) {
                 //if need to check for column
                 if (c)
@@ -49,17 +54,17 @@ public class CG5 implements Goal {
                 else count.put(s[i][j].getItem(), true);
             }
             //count how many types there are
-            if (count.get(Item.PLANTS))
+            if (count.get(Item.PLANT))
                 counterBool++;
-            if (count.get(Item.FRAMES))
+            if (count.get(Item.FRAME))
                 counterBool++;
-            if (count.get(Item.CATS))
+            if (count.get(Item.CAT))
                 counterBool++;
-            if (count.get(Item.GAMES))
+            if (count.get(Item.GAME))
                 counterBool++;
-            if (count.get(Item.BOOKS))
+            if (count.get(Item.BOOK))
                 counterBool++;
-            if (count.get(Item.TROPHIES))
+            if (count.get(Item.TROPHY))
                 counterBool++;
             //if the condition is verified set that a new valid block is find
             if (((counterBool <= differentType) && (differentType == 3)) || (counterBool == differentType))

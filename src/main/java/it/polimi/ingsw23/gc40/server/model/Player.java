@@ -11,6 +11,7 @@ public class Player {
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
     private Bookshelf bookshelf;
+
     public Player(String nickName) {
         this.nickName = nickName;
         this.CGscore = 0;

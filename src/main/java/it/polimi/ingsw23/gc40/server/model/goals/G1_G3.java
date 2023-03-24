@@ -1,10 +1,15 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.model.goals;
 
-public class CG1 implements Goal {
+import it.polimi.ingsw23.gc40.server.model.Bookshelf;
+import it.polimi.ingsw23.gc40.server.model.Goal;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.Player;
+
+public class G1_G3 implements Goal {
     private final int grandezzaBlocco;
     private final int numeroBlocchi;
 
-    public CG1(int grandezzaBlocco, int numeroBlocchi) {
+    public G1_G3(int grandezzaBlocco, int numeroBlocchi) {
         this.grandezzaBlocco = grandezzaBlocco;
         this.numeroBlocchi = numeroBlocchi;
     }
@@ -32,32 +37,32 @@ public class CG1 implements Goal {
         //TO DO
         //value to update when a column or a line is found
         int numberRC=0;
-        numberRC += updateRC(p.getBookshelf(), Item.CATS);
+        numberRC += updateRC(p.getBookshelf(), Item.CAT);
         if (numberRC>=numeroBlocchi){
             return true;
         }
         else
-            numberRC += updateRC(p.getBookshelf(), Item.BOOKS);
+            numberRC += updateRC(p.getBookshelf(), Item.BOOK);
         if (numberRC>=numeroBlocchi){
             return true;
         }
         else
-            numberRC += updateRC(p.getBookshelf(), Item.FRAMES);
+            numberRC += updateRC(p.getBookshelf(), Item.FRAME);
         if (numberRC>=numeroBlocchi){
             return true;
         }
         else
-            numberRC += updateRC(p.getBookshelf(), Item.GAMES);
+            numberRC += updateRC(p.getBookshelf(), Item.GAME);
         if (numberRC>=numeroBlocchi){
             return true;
         }
         else
-            numberRC += updateRC(p.getBookshelf(), Item.PLANTS);
+            numberRC += updateRC(p.getBookshelf(), Item.PLANT);
         if (numberRC>=numeroBlocchi){
             return true;
         }
         else
-            numberRC += updateRC(p.getBookshelf(), Item.TROPHIES);
+            numberRC += updateRC(p.getBookshelf(), Item.TROPHY);
         if (numberRC>=numeroBlocchi){
             return true;
         }
@@ -137,6 +142,7 @@ public class CG1 implements Goal {
 
             return 0;
         }
+        return 0;
     }
 
 

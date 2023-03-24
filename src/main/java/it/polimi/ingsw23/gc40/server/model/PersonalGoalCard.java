@@ -15,8 +15,7 @@ public class PersonalGoalCard extends Card {
 
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 5; j++)
-                if ((goal[i][j].getItem() != Item.EMPTY) && (goal[i][j].getItem() == s[i][j].getItem()))
-                    count++;
+                if ((goal[i][j].getItem() != Item.EMPTY) && (goal[i][j].getItem() == s[i][j].getItem())) count++;
 
         switch (count) {
             case 1:

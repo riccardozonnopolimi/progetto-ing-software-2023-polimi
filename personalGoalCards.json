@@ -13,7 +13,7 @@
           "y": 0
         },
         {
-          "type": "BOOKS",
+          "type": "BOOK",
           "x": 0,
           "y": 0
         },
@@ -35,39 +35,12 @@
           "y": 0
         },
         {
-          "type": "PLANTS",
+          "type": "PLANT",
           "x": 0,
           "y": 0
         },
         {
           "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
           "x": 0,
           "y": 0
         },
@@ -94,12 +67,39 @@
           "y": 0
         },
         {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
           "type": "EMPTY",
           "x": 0,
           "y": 0
         },
         {
-          "type": "TROPHIES",
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
           "x": 0,
           "y": 0
         },
@@ -131,14 +131,14 @@
           "y": 0
         },
         {
-          "type": "GAMES",
+          "type": "GAME",
           "x": 0,
           "y": 0
         }
       ],
       [
         {
-          "type": "CATS",
+          "type": "CAT",
           "x": 0,
           "y": 0
         },
@@ -189,7 +189,7 @@
           "y": 0
         },
         {
-          "type": "GAMES",
+          "type": "GAME",
           "x": 0,
           "y": 0
         }
@@ -223,7 +223,7 @@
       ],
       [
         {
-          "type": "TROPHIES",
+          "type": "TROPHY",
           "x": 0,
           "y": 0
         },
@@ -233,61 +233,7 @@
           "y": 0
         },
         {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
+          "type": "FRAME",
           "x": 0,
           "y": 0
         },
@@ -319,7 +265,7 @@
           "y": 0
         },
         {
-          "type": "EMPTY",
+          "type": "PLANT",
           "x": 0,
           "y": 0
         },
@@ -328,11 +274,7 @@
           "x": 0,
           "y": 0
         }
-      ]
-    ]
-  },
-  {
-    "goal": [
+      ],
       [
         {
           "type": "EMPTY",
@@ -340,12 +282,12 @@
           "y": 0
         },
         {
-          "type": "EMPTY",
+          "type": "BOOK",
           "x": 0,
           "y": 0
         },
         {
-          "type": "EMPTY",
+          "type": "CAT",
           "x": 0,
           "y": 0
         },
@@ -363,944 +305,6 @@
       [
         {
           "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "PLANTS",
           "x": 0,
           "y": 0
         },
@@ -1363,7 +367,559 @@
           "y": 0
         },
         {
-          "type": "TROPHIES",
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
           "x": 0,
           "y": 0
         },
@@ -1417,12 +973,124 @@
           "y": 0
         },
         {
-          "type": "FRAMES",
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
         {
-          "type": "BOOKS",
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
@@ -1459,14 +1127,77 @@
           "y": 0
         },
         {
-          "type": "PLANTS",
+          "type": "GAME",
           "x": 0,
           "y": 0
         }
       ],
       [
         {
-          "type": "GAMES",
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
@@ -1481,7 +1212,110 @@
           "y": 0
         },
         {
-          "type": "CATS",
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
@@ -1517,33 +1351,6 @@
           "y": 0
         },
         {
-          "type": "FRAMES",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "CATS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
           "type": "EMPTY",
           "x": 0,
           "y": 0
@@ -1556,34 +1363,7 @@
           "y": 0
         },
         {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "TROPHIES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
+          "type": "TROPHY",
           "x": 0,
           "y": 0
         },
@@ -1620,64 +1400,6 @@
           "y": 0
         },
         {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ]
-    ]
-  },
-  {
-    "goal": [
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "PLANTS",
-          "x": 0,
-          "y": 0
-        },
-        {
           "type": "EMPTY",
           "x": 0,
           "y": 0
@@ -1695,66 +1417,12 @@
           "y": 0
         },
         {
-          "type": "BOOKS",
+          "type": "FRAME",
           "x": 0,
           "y": 0
         },
         {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "FRAMES",
+          "type": "BOOK",
           "x": 0,
           "y": 0
         },
@@ -1791,14 +1459,14 @@
           "y": 0
         },
         {
-          "type": "CATS",
+          "type": "PLANT",
           "x": 0,
           "y": 0
         }
       ],
       [
         {
-          "type": "EMPTY",
+          "type": "GAME",
           "x": 0,
           "y": 0
         },
@@ -1813,7 +1481,7 @@
           "y": 0
         },
         {
-          "type": "TROPHIES",
+          "type": "CAT",
           "x": 0,
           "y": 0
         },
@@ -1849,7 +1517,7 @@
           "y": 0
         },
         {
-          "type": "TROPHIES",
+          "type": "FRAME",
           "x": 0,
           "y": 0
         }
@@ -1861,34 +1529,7 @@
           "y": 0
         },
         {
-          "type": "GAMES",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
-          "x": 0,
-          "y": 0
-        }
-      ],
-      [
-        {
-          "type": "BOOKS",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "EMPTY",
+          "type": "CAT",
           "x": 0,
           "y": 0
         },
@@ -1920,12 +1561,12 @@
           "y": 0
         },
         {
-          "type": "EMPTY",
+          "type": "TROPHY",
           "x": 0,
           "y": 0
         },
         {
-          "type": "CATS",
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
@@ -1937,12 +1578,12 @@
       ],
       [
         {
-          "type": "EMPTY",
+          "type": "PLANT",
           "x": 0,
           "y": 0
         },
         {
-          "type": "FRAMES",
+          "type": "EMPTY",
           "x": 0,
           "y": 0
         },
@@ -1979,7 +1620,366 @@
           "y": 0
         },
         {
-          "type": "PLANTS",
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "PLANT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    ]
+  },
+  {
+    "goal": [
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "TROPHY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "GAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "BOOK",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "CAT",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "FRAME",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      [
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "EMPTY",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "PLANT",
           "x": 0,
           "y": 0
         },
