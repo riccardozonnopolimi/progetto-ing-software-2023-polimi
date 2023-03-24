@@ -13,15 +13,9 @@ public class ServerModel {
         //TO DO
     }
 
-    public boolean addPlayer(String name) {
-        if (this.checkExistingNickName(name)) {
-            return false;
-        } else {
-            Player p = new Player(name);
-            this.onlinePlayers.add(p);
-
-            return true;
-        }
+    public void addPlayer(String name) {
+        Player p = new Player(name);
+        this.onlinePlayers.add(p);
 
     }
 
