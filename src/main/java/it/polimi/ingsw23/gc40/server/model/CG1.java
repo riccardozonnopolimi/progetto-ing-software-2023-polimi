@@ -20,6 +20,11 @@ public class CG1 implements Goal {
     //soluzione 2: conti tutte le colonne, tutte le righe con e senza conflitti in 4 int diversi.
     // Se righe_tot > colonne_tot allora num finale è righe_tot + colonne_senza
     // Se righe_tot < colonne_tot allora num finale è colonne_tot + righe_senza
+    //soluzione 3: 3 matrici di booleani cosi: 1) copia tutte le righe
+    //                                         2) copia tutte le colonne
+    //                                         3) calcola le celle[i][j] che provocano conflitto
+    //      a questo punto si contano tutte le righe e colonne senza conflitto, si cancellano dalle relative matrici
+    //      e dovremmo aver eliminato i conflitti in modo da poter calcolare il totale
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST

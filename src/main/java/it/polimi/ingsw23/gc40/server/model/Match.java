@@ -48,16 +48,22 @@ public class Match extends Observable {
 
         //Creating all common goals
         ArrayList<Goal> CGs = new ArrayList<>();
+        //create CG1
         CGs.add(new CG1(2,6));
+        //create CG3
         CGs.add(new CG1(4,4));
         CGs.add(new CG2());
         CGs.add(new CG4());
-        CGs.add(new CG5());
+        //create CG5
+        CGs.add(new CG5(3,3,true));
+        //create CG8
+        CGs.add(new CG5(3,4,false));
+        //create CG9
+        CGs.add(new CG5(6,2,true));
+        //create CG10
+        CGs.add(new CG5(5,2,false));
         CGs.add(new CG6());
         CGs.add(new CG7());
-        CGs.add(new CG8());
-        CGs.add(new CG9());
-        CGs.add(new CG10());
         CGs.add(new CG11());
         CGs.add(new CG12());
 
