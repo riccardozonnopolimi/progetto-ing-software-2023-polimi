@@ -52,85 +52,186 @@ public class G1_G3 implements Goal {
         if (numberRC >= numeroBlocchi) {
             return true;
         } else numberRC += updateRC(p.getBookshelf(), Item.TROPHY);
-        if (numberRC >= numeroBlocchi) {
-            return true;
-        } else return false;
+        return numberRC >= numeroBlocchi;
 
     }
 
     int updateRC(Bookshelf shelf, Item type) {
         //TO DO
         //inner class to create a
-
-        boolean matColumn[][] = new boolean[6][5];
-        boolean matLine[][] = new boolean[6][5];
-        boolean counted;
+        //two matrix to save line and column
+        boolean[][] matColumn = new boolean[6][5];
+        boolean[][] matLine = new boolean[6][5];
+        //5 counter, one to limit max number of column/line in the same matrix's column/line
+        int counted;
+        //other counter to save column, line, and column/line without conflict
         int numColumn = 0;
         int numLine = 0;
+        int numColumnNC = 0;
+        int numLineNC = 0;
 
 
-        //checking column of the same type
-        for (int j = 0; j <= 4; j++) {
-            counted = false;
-            for (int i = 0; i <= 2; i++) {
-                if (shelf.getItemTile(i, j).getItem().equals(type) && shelf.getItemTile(i + 1, j).getItem().equals(type) && shelf.getItemTile(i + 2, j).getItem().equals(type) && shelf.getItemTile(i + 3, j).getItem().equals(type)) {
-                    matColumn[i][j] = true;
-                    matColumn[i + 1][j] = true;
-                    matColumn[i + 2][j] = true;
-                    matColumn[i + 3][j] = true;
-                    if (!counted) {
-                        numColumn++;
-                        counted = true;
+        if (grandezzaBlocco == 4) {
+            //checking number of column
+            for (int j = 0; j <= 4; j++) {
+                counted = 0;
+                for (int i = 0; i <= 2; i++) {
+                    if (shelf.getItemTile(i, j).getItem().equals(type) && shelf.getItemTile(i + 1, j).getItem().equals(type) && shelf.getItemTile(i + 2, j).getItem().equals(type) && shelf.getItemTile(i + 3, j).getItem().equals(type)) {
+                        matColumn[i][j] = true;
+                        matColumn[i + 1][j] = true;
+                        matColumn[i + 2][j] = true;
+                        matColumn[i + 3][j] = true;
+                        if (counted < 6 / grandezzaBlocco) {
+                            numColumn++;
+                            counted++;
+                        }
                     }
                 }
             }
-        }
-        //checking for line of the same type
-        for (int i = 0; i <= 5; i++) {
-            counted = false;
-            for (int j = 0; j <= 1; j++) {
-                if (shelf.getItemTile(i, j).getItem().equals(type) && shelf.getItemTile(i, j + 1).getItem().equals(type) && shelf.getItemTile(i, j + 2).getItem().equals(type) && shelf.getItemTile(i, j + 3).getItem().equals(type)) {
-                    matColumn[i][j] = true;
-                    matColumn[i][j + 1] = true;
-                    matColumn[i][j + 2] = true;
-                    matColumn[i][j + 3] = true;
-                    if (!counted) {
-                        numLine++;
-                        counted = true;
-                    }
-                }
-            }
-        }
-        //checking presence of column/line without conflicts for multicolumn or multiline in the same column/line
-        for (int j = 0; j <= 4; j++) {
-            for (int i = 0; i <= 2; i++) {
-                if (matColumn[i][j] && !matLine[i][j] && matColumn[i + 1][j] && !matLine[i + 1][j] && matColumn[i + 2][j] && !matLine[i + 2][j] && matColumn[i + 3][j] && !matLine[i + 3][j]) {
-                    if (i == 0) {
-                        matColumn[4][j] = false;
-                        matColumn[5][j] = false;
-                    } else if (i == 1) {
-                        matColumn[0][j] = false;
-                        matColumn[5][j] = false;
-                    } else if (i == 2) {
-                        matColumn[0][j] = false;
-                        matColumn[1][j] = false;
-                    }
-                }
-            }
-        }
-        for (int i = 0; i <= 5; i++) {
-            for (int j = 0; j <= 1; j++) {
-                if (matLine[i][j] && !matColumn[i][j] && matLine[i][j + 1] && !matColumn[i][j + 1] && matLine[i][j + 2] && !matColumn[i][j + 2] && matLine[i][j + 3] && !matColumn[i][j + 3]) {
-                    if (j == 0) {
 
+            //checking number of line
+            for (int i = 0; i <= 5; i++) {
+                counted = 0;
+                for (int j = 0; j <= 1; j++) {
+                    if (shelf.getItemTile(i, j).getItem().equals(type) && shelf.getItemTile(i, j + 1).getItem().equals(type) && shelf.getItemTile(i, j + 2).getItem().equals(type) && shelf.getItemTile(i, j + 3).getItem().equals(type)) {
+                        matColumn[i][j] = true;
+                        matColumn[i][j + 1] = true;
+                        matColumn[i][j + 2] = true;
+                        matColumn[i][j + 3] = true;
+                        if (counted < 6 / grandezzaBlocco) {
+                            numLine++;
+                            counted++;
+                        }
                     }
                 }
             }
 
 
-            return 0;
+            //checking presence of column/line without conflicts for multicolumn or multiline in the same column/line
+            //multicolumn
+            for (int j = 0; j <= 4; j++) {
+                for (int i = 0; i <= 2; i++) {
+                    //if there is at least one free
+                    if (matColumn[i][j] && !matLine[i][j] && matColumn[i + 1][j] && !matLine[i + 1][j] && matColumn[i + 2][j] && !matLine[i + 2][j] && matColumn[i + 3][j] && !matLine[i + 3][j]) {
+                        if (i == 0) {
+                            matColumn[4][j] = false;
+                            matColumn[5][j] = false;
+                        } else if (i == 1) {
+                            matColumn[0][j] = false;
+                            matColumn[5][j] = false;
+                        } else {
+                            matColumn[0][j] = false;
+                            matColumn[1][j] = false;
+                        }
+                        break;
+                    }
+                    //else
+                    
+                }
+            }
+
+            //multiline
+            for (int i = 0; i <= 5; i++) {
+                for (int j = 0; j <= 1; j++) {
+                    if (matLine[i][j] && !matColumn[i][j] && matLine[i][j + 1] && !matColumn[i][j + 1] && matLine[i][j + 2] && !matColumn[i][j + 2] && matLine[i][j + 3] && !matColumn[i][j + 3]) {
+                        if (j == 0) {
+                            matLine[i][4] = false;
+                        } else {
+                            matLine[i][0] = false;
+                        }
+                    }
+                }
+            }
+
+
+
+            //count number of column and line without conflict
+            // column
+            for (int j = 0; j <= 4; j++) {
+                for (int i = 0; i <= 2; i++) {
+                    if (matColumn[i][j] && !matLine[i][j] && matColumn[i + 1][j] && !matLine[i + 1][j] && matColumn[i + 2][j] && !matLine[i + 2][j] && matColumn[i + 3][j] && !matLine[i + 3][j]) {
+                        numColumnNC++;
+                    }
+                }
+            }
+            // line
+            for (int i = 0; i <= 5; i++) {
+                for (int j = 0; j <= 1; j++) {
+                    if (matLine[i][j] && !matColumn[i][j] && matLine[i][j + 1] && !matColumn[i][j + 1] && matLine[i][j + 2] && !matColumn[i][j + 2] && matLine[i][j + 3] && !matColumn[i][j + 3]) {
+                        numLineNC++;
+                    }
+                }
+            }
+
+            //returning the number of line and column pickable of the type selected
         }
-        return 0;
+        else{
+            //checking number of column
+            for (int j = 0; j <= 4; j++) {
+                counted = 0;
+                for (int i = 0; i <= 4; i++) {
+                    if (shelf.getItemTile(i,j).getItem().equals(type) && shelf.getItemTile(i+1,j).getItem().equals(type)){
+                        matColumn[i][j] = true;
+                        matColumn[i + 1][j] = true;
+                        if (counted < 6 / grandezzaBlocco) {
+                            numColumn++;
+                            counted++;
+                            if(i!=4){
+                                if(shelf.getItemTile(i+1,j).getItem().equals(type)){
+                                    matColumn[i+1][j] = true;
+                                }
+                            }
+                            i++;
+                        }
+                    }
+                }
+            }
+
+            //checking number of line
+            for (int i = 0; i <= 5; i++) {
+                counted = 0;
+                for (int j = 0; j <= 3; j++) {
+                    if (shelf.getItemTile(i, j).getItem().equals(type) && shelf.getItemTile(i, j + 1).getItem().equals(type)) {
+                        matLine[i][j] = true;
+                        matLine[i][j + 1] = true;
+                        if (counted < 6 / grandezzaBlocco) {
+                            numLine++;
+                            counted++;
+                            if (i != 4) {
+                                if (shelf.getItemTile(i, j + 1).getItem().equals(type)) {
+                                    matColumn[i][j + 1] = true;
+                                }
+                            }
+                            j++;
+                        }
+                    }
+                }
+            }
+
+            //checking number of column without conflict
+            for (int j = 0; j <= 4; j++) {
+                for (int i = 0; i <= 4; i++) {
+                    if (matColumn[i][j] && !matLine[i][j] && matColumn[i + 1][j] && !matLine[i + 1][j]) {
+                        numColumnNC++;
+                        i++;
+                    }
+                }
+            }
+
+            //checking number of line without conflict
+            for (int i = 0; i <= 5; i++) {
+                for (int j = 0; j <= 3; j++) {
+                    if (matLine[i][j] && !matColumn[i][j] && matLine[i][j + 1] && !matColumn[i][j + 1]) {
+                        numLineNC++;
+                    }
+                }
+            }
+
+
+        }
+        return Math.max((numColumn + numLineNC), (numLine + numColumnNC));
+
+
     }
 
 
