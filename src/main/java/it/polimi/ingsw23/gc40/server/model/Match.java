@@ -52,7 +52,7 @@ public class Match extends Observable {
         CGs.add(new G1_G3(2, 6));
         //create CG3
         CGs.add(new G1_G3(4, 4));
-        CGs.add(new G2());
+        CGs.add(new G2_G7_G12(2));
         CGs.add(new G4());
         //create CG5
         CGs.add(new G5_G8_G9_G10(3, 3, true));
@@ -63,9 +63,9 @@ public class Match extends Observable {
         //create CG10
         CGs.add(new G5_G8_G9_G10(5, 2, false));
         CGs.add(new G6());
-        CGs.add(new G7());
+        CGs.add(new G2_G7_G12(7));
         CGs.add(new G11());
-        CGs.add(new G12());
+        CGs.add(new G2_G7_G12(12));
 
         //intialize common goals scores arrays
         if (numPlayers == 4) {
