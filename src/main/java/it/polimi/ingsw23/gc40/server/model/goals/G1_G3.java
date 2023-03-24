@@ -1,7 +1,6 @@
 package it.polimi.ingsw23.gc40.server.model.goals;
 
 import it.polimi.ingsw23.gc40.server.model.Bookshelf;
-import it.polimi.ingsw23.gc40.server.model.Goal;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
