@@ -122,30 +122,35 @@ public class Bookshelf {
         }
 
         int sum = 0;
+        for (int i = 0; i < partialSums.size(); i++)
+            switch (partialSums.get(i)) {
+                case 0:
+                    sum = sum + 0;
+                case 1:
+                    sum = sum + 0;
+                case 2:
+                    sum = sum + 0;
+                case 3:
+                    sum = sum + 2;
+                case 4:
+                    sum = sum + 3;
+                case 5:
+                    sum = sum + 5;
+                default:
+                    sum = sum + 8;
+            }
 
-
-        // switch(ADJTiles){
-        //            case 0:
-        //                this.ADJscore=0;
-        //            case 1:
-        //                this.ADJscore=0;
-        //            case 2:
-        //                this.ADJscore=0;
-        //            case 3:
-        //                this.ADJscore=2;
-        //            case 4:
-        //                this.ADJscore=3;
-        //            case 5:
-        //                this.ADJscore=5;
-        //            default:
-        //                this.ADJscore=8;
-        //        }
-
-
-        return 0;
+        return sum;
     }
 
-    public void adjacenciesCheck(HashMap<Item, Integer> partialSums, int i, int j, Item item) {
+    public void insertTile(ItemTile tile, int column) {
+        //TO TEST
+        for (int i = 5; i >= 0; i--) {
+            if (shelf[i][column].getItem().equals(Item.EMPTY)) {
+                shelf[i][column] = tile;
+                i = -1;
+            }
+        }
     }
 
 
