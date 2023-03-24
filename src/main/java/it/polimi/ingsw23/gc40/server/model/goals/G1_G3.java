@@ -35,40 +35,29 @@ public class G1_G3 implements Goal {
     public boolean instanceGoal(Player p) {
         //TO DO
         //value to update when a column or a line is found
-        int numberRC=0;
+        int numberRC = 0;
         numberRC += updateRC(p.getBookshelf(), Item.CAT);
-        if (numberRC>=numeroBlocchi){
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            numberRC += updateRC(p.getBookshelf(), Item.BOOK);
-        if (numberRC>=numeroBlocchi){
+        } else numberRC += updateRC(p.getBookshelf(), Item.BOOK);
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            numberRC += updateRC(p.getBookshelf(), Item.FRAME);
-        if (numberRC>=numeroBlocchi){
+        } else numberRC += updateRC(p.getBookshelf(), Item.FRAME);
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            numberRC += updateRC(p.getBookshelf(), Item.GAME);
-        if (numberRC>=numeroBlocchi){
+        } else numberRC += updateRC(p.getBookshelf(), Item.GAME);
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            numberRC += updateRC(p.getBookshelf(), Item.PLANT);
-        if (numberRC>=numeroBlocchi){
+        } else numberRC += updateRC(p.getBookshelf(), Item.PLANT);
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            numberRC += updateRC(p.getBookshelf(), Item.TROPHY);
-        if (numberRC>=numeroBlocchi){
+        } else numberRC += updateRC(p.getBookshelf(), Item.TROPHY);
+        if (numberRC >= numeroBlocchi) {
             return true;
-        }
-        else
-            return false;
+        } else return false;
 
     }
+
     int updateRC(Bookshelf shelf, Item type) {
         //TO DO
         //inner class to create a
@@ -132,8 +121,8 @@ public class G1_G3 implements Goal {
         for (int i = 0; i <= 5; i++) {
             for (int j = 0; j <= 1; j++) {
                 if (matLine[i][j] && !matColumn[i][j] && matLine[i][j + 1] && !matColumn[i][j + 1] && matLine[i][j + 2] && !matColumn[i][j + 2] && matLine[i][j + 3] && !matColumn[i][j + 3]) {
-                    if(j==0){
-                        
+                    if (j == 0) {
+
                     }
                 }
             }
@@ -143,7 +132,6 @@ public class G1_G3 implements Goal {
         }
         return 0;
     }
-
 
 
 }

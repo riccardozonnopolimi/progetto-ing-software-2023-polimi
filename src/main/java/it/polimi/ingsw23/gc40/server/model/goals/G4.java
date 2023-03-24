@@ -17,15 +17,9 @@ public class G4 implements Goal {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
-                if (i == temp_i.get(s[i][j].getItem()) &&
-                        ((j == temp_j.get(s[i][j].getItem()) - 1) ||
-                                (j == temp_j.get(s[i][j].getItem()) - 2) ||
-                                (j == temp_j.get(s[i][j].getItem())))) {
+                if (i == temp_i.get(s[i][j].getItem()) && ((j == temp_j.get(s[i][j].getItem()) - 1) || (j == temp_j.get(s[i][j].getItem()) - 2) || (j == temp_j.get(s[i][j].getItem())))) {
                 } else {
-                    if ((s[i][j].getItem() == s[i][j + 1].getItem())
-                            && (s[i][j].getItem() == s[i + 1][j].getItem())
-                            && (s[i][j].getItem() == s[i + 1][j + 1].getItem())
-                            && s[i][j].getItem() != Item.EMPTY) {
+                    if ((s[i][j].getItem() == s[i][j + 1].getItem()) && (s[i][j].getItem() == s[i + 1][j].getItem()) && (s[i][j].getItem() == s[i + 1][j + 1].getItem()) && s[i][j].getItem() != Item.EMPTY) {
 
                         count.put(s[i][j].getItem(), count.get(s[i][j].getItem()) + 1);
                         temp_j.put(s[i][j].getItem(), j + 1);
@@ -35,8 +29,7 @@ public class G4 implements Goal {
                     }
                 }
 
-                if (count.get(s[i][j].getItem()) == 2)
-                    return true;
+                if (count.get(s[i][j].getItem()) == 2) return true;
             }
 
         }

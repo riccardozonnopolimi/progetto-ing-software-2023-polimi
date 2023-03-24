@@ -79,14 +79,10 @@ public class Bookshelf {
             ADJcounter++;
             shelf[i][j].setCheckedADJ(true);
 
-            if (j < 5)
-                checker(i, j + 1, type);
-            if (i < 6)
-                checker(i + 1, j, type);
-            if (j > 0)
-                checker(i, j - 1, type);
-            if (i > 0)
-                checker(i - 1, j, type);
+            if (j < 5) checker(i, j + 1, type);
+            if (i < 6) checker(i + 1, j, type);
+            if (j > 0) checker(i, j - 1, type);
+            if (i > 0) checker(i - 1, j, type);
         }
 
     }

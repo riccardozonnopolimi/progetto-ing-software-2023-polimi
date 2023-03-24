@@ -1,4 +1,5 @@
 package it.polimi.ingsw23.gc40.server.model.goals;
+
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
@@ -12,11 +13,13 @@ public class G5_G8_G9_G10 implements Goal {
     int numBlocks;
     //boolean to chose if the goal search for column or not
     boolean c;
+
     public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c) {
         this.differentType = DifferentType;
         this.numBlocks = numBlocks;
         this.c = c;
     }
+
     @Override
     public boolean instanceGoal(Player p) {
         //TO DO
@@ -47,30 +50,22 @@ public class G5_G8_G9_G10 implements Goal {
             count.put(Item.PLANT, false);
             for (int i = 0; i < k; i++) {
                 //if need to check for column
-                if (c)
-                    count.put(s[j][i].getItem(), true);
+                if (c) count.put(s[j][i].getItem(), true);
                     //if need to check for row
                 else count.put(s[i][j].getItem(), true);
             }
             //count how many types there are
-            if (count.get(Item.PLANT))
-                counterBool++;
-            if (count.get(Item.FRAME))
-                counterBool++;
-            if (count.get(Item.CAT))
-                counterBool++;
-            if (count.get(Item.GAME))
-                counterBool++;
-            if (count.get(Item.BOOK))
-                counterBool++;
-            if (count.get(Item.TROPHY))
-                counterBool++;
+            if (count.get(Item.PLANT)) counterBool++;
+            if (count.get(Item.FRAME)) counterBool++;
+            if (count.get(Item.CAT)) counterBool++;
+            if (count.get(Item.GAME)) counterBool++;
+            if (count.get(Item.BOOK)) counterBool++;
+            if (count.get(Item.TROPHY)) counterBool++;
             //if the condition is verified set that a new valid block is find
             if (((counterBool <= differentType) && (differentType == 3)) || (counterBool == differentType))
                 countValid++;
             //if the number of blocks needed is reached return true and stop
-            if (countValid == numBlocks)
-                return true;
+            if (countValid == numBlocks) return true;
         }
         return false;
     }
