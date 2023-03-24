@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.server.model;
 
 public class ItemTile {
     private final Item type;
+    private final int num;
     //x, y are ItemTile's coordinates when it is placed on LRB
 
     private boolean checkedADJ = false;
@@ -9,6 +10,11 @@ public class ItemTile {
 
     public ItemTile(Item t) {
         type = t;
+        num=0;
+    }
+    public ItemTile(Item t, int n) {
+        type = t;
+        num = n%3;
     }
 
     // public boolean controlSides(LRB map){};

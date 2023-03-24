@@ -34,17 +34,17 @@ public class Match extends Observable {
 
         //add to the bag all the tiles
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.CATS));
+            bag.add(new ItemTile(Item.CATS,i));
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.BOOKS));
+            bag.add(new ItemTile(Item.BOOKS,i));
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.GAMES));
+            bag.add(new ItemTile(Item.GAMES,i));
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.FRAMES));
+            bag.add(new ItemTile(Item.FRAMES,i));
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.TROPHIES));
+            bag.add(new ItemTile(Item.TROPHIES,i));
         for(int i=0; i<22;i++)
-            bag.add(new ItemTile(Item.PLANTS));
+            bag.add(new ItemTile(Item.PLANTS,i));
 
         //Creating all common goals
         ArrayList<Goal> CGs = new ArrayList<>();

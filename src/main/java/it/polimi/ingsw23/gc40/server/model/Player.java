@@ -6,21 +6,22 @@ public class Player {
     private int CGscore;
     private int PGscore;
     private int ADJscore;
-    private Bookshelf bookshelf;
+
     private Boolean CG1Reached;
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
-
+    private Bookshelf bookshelf;
     public Player(String nickName) {
         this.nickName = nickName;
-        this.CGscore =0;
-        this.CG1Reached=false;
-        this.personalGoal=null;
-        this.CG2Reached=null;
-        this.bookshelf =null;
-        this.first=false;
-        this.PGscore=0;
-        this.ADJscore=0;
+        this.CGscore = 0;
+        this.CG1Reached = false;
+        this.personalGoal = null;
+        this.CG2Reached = null;
+        this.first = false;
+        this.PGscore = 0;
+        this.ADJscore = 0;
+        this.bookshelf = new Bookshelf();
+
     }
 
     public int getPGscore() {
@@ -39,6 +40,7 @@ public class Player {
     public void setPGscore(int PGscore) {
         this.PGscore = PGscore;
     }
+
     public boolean isFirst() {
         return first;
     }

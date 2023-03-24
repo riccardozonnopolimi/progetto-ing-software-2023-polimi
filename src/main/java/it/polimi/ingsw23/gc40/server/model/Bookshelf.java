@@ -6,9 +6,12 @@ public class Bookshelf {
     private ItemTile[][] shelf;
     private boolean full = false;
 
+    private int ADJcounter;
+
 
     public Bookshelf() {
         shelf = new ItemTile[6][5];
+        ADJcounter = 0;
         //TO TEST
         //initialize all the ItemTile to EMPTY
         for (int i = 0; i < 6; i++) {
@@ -70,20 +73,20 @@ public class Bookshelf {
         return 0;
     }
 
-    public void checker(Integer counter, int i, int j, Item type) {
+    public void checker(int i, int j, Item type) {
         //TO TEST
         if (!shelf[i][j].getCheckedADJ() && type.equals(shelf[i][j].getItem())) {
-            counter++;
+            ADJcounter++;
             shelf[i][j].setCheckedADJ(true);
-            
-            if(j<5)
-                checker(counter, i, j+1, type);
-            if(i<6)
-                checker(counter, i+1, j, type);
-            if(j>0)
-                checker(counter, i, j-1, type);
-            if(i>0)
-                checker(counter, i-1, j, type);
+
+            if (j < 5)
+                checker(i, j + 1, type);
+            if (i < 6)
+                checker(i + 1, j, type);
+            if (j > 0)
+                checker(i, j - 1, type);
+            if (i > 0)
+                checker(i - 1, j, type);
         }
 
     }
@@ -107,12 +110,12 @@ public class Bookshelf {
         for (int i = 0; i <= 6; i++) {
             for (int j = 0; j <= 5; j++) {
                 if (!shelf[i][j].getCheckedADJ() && !shelf[i][j].getItem().equals(Item.EMPTY)) {
-                    Integer counter=0;
-                    checker(counter, i, j, shelf[i][j].getItem());
+                    ADJcounter = 0;
+                    checker(i, j, shelf[i][j].getItem());
 
                     //caso in cui prendiamo il gruppo con maggiore numero di tiles
-                    if(counter>partialSums.get(shelf[i][j].getItem()))
-                        partialSums.put(shelf[i][j].getItem(),counter);
+                    if (ADJcounter > partialSums.get(shelf[i][j].getItem()))
+                        partialSums.put(shelf[i][j].getItem(), ADJcounter);
 
                     //caso in cui sommiamo il numero di tiles
                     // partialSums.put(shelf[i][j].getItem(),counter+partialSums.get(shelf[i][j].getItem()));
@@ -149,6 +152,5 @@ public class Bookshelf {
     public void adjacenciesCheck(HashMap<Item, Integer> partialSums, int i, int j, Item item) {
     }
 
-    ;
 
 }
