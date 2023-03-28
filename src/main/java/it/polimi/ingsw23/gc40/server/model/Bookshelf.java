@@ -143,15 +143,4 @@ public class Bookshelf {
         return sum;
     }
 
-    public void insertTile(ItemTile tile, int column) {
-        //TO TEST
-        for (int i = 5; i >= 0; i--) {
-            if (shelf[i][column].getItem().equals(Item.EMPTY)) {
-                shelf[i][column] = tile;
-                i = -1;
-            }
-        }
-    }
-
-
 }

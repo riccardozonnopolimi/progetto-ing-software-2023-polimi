@@ -186,15 +186,18 @@ public class Match extends Observable {
 
     public void refill() {
         //TO TEST
-        ItemTile[][] map = this.map.getMap();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (map[i][j].getItem() != Item.NOTREACHABLE) {
-                    if (map[i][j].getItem() == Item.EMPTY) map[i][j] = takeItem();
+        // manca il controllo di evereyTilesCompletelyFree di LRB
+        if(this.map.everyTileCompletelyFree()) {
+            ItemTile[][] map = this.map.getMap();
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (map[i][j].getItem() != Item.NOTREACHABLE) {
+                        if (map[i][j].getItem() == Item.EMPTY) map[i][j] = takeItem();
+                    }
                 }
             }
+            this.map.setMap(map);
         }
-        this.map.setMap(map);
     }
 
     public void round(Player p) {
