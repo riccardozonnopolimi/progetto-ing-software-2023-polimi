@@ -41,8 +41,11 @@ public class ServerModel {
 
     public Boolean checkExistingNickName(String nickName) {
         //TO TEST
-        for (int i = 0; i < onlinePlayers.size(); i++)
-            if (onlinePlayers.get(i).getNickName().equals(nickName)) return true;
+        for (int i = 0; i < onlinePlayers.size(); i++) {
+            if (onlinePlayers.get(i).getNickName().equals(nickName)) {
+                return true;
+            }
+        }
         return false;
     }
 
