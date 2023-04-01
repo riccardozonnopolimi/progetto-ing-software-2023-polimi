@@ -17,19 +17,20 @@ public class LRBTest extends TestCase {
         var lrb = new LRB(2);
         assertEquals(lrb.isTakeable(4,4),false); //check initialized map works
         ItemTile it = new ItemTile(Item.CAT);
-      //  for(int i=0;i<9; i++) {
-        //     for(int j=0;j<9; j++) {
-       //         if(lrb.getTileInMap(i, j).equals(Item.EMPTY)) {
-       //             lrb.setTileInMap(it, i, j);
-        //        }
-         //   }
-        //}
-        lrb.setTileInMap(it,1, 3);
-
-       // assertTrue(lrb.isTakeable(1,3));
+        for(int i=0;i<9; i++) {
+             for(int j=0;j<9; j++) {
+                if(lrb.getTileInMap(i, j).getItem().equals(Item.EMPTY)) {
+                    lrb.setTileInMap(it, i, j);
+                }
+            }
+        }
 
 
-        //assertEquals(lrb.isTakeable(4, 4), "false");
+        assertTrue(lrb.isTakeable(7,5));
+        assertTrue(lrb.isTakeable(1,3));
+        assertFalse(lrb.isTakeable(4,4));
+        assertFalse(lrb.isTakeable(0,3));
+
 
     }
 
@@ -48,5 +49,20 @@ public class LRBTest extends TestCase {
     }
 
     public void testTakeables() {
+    var lrb = new LRB(2);
+    ItemTile[][] mappaTemp = new ItemTile[9][9];
+    for(int j= 3; j<7;j++){
+        lrb.setTileInMap(new ItemTile(Item.CAT), 3 ,j);
     }
+    for(int i = 2;i<6;i++) {
+        lrb.setTileInMap(new ItemTile(Item.BOOK), i, 3);
+    }
+    mappaTemp = lrb.takeables();
+        for(int j= 3; j<7;j++){
+          assertEquals(lrb.getTileInMap(3,j).getItem(), mappaTemp[3][j].getItem());
+        }
+        for(int i = 2;i<6;i++) {
+            assertEquals(lrb.getTileInMap(i,3).getItem(), mappaTemp[i][3].getItem());
+        }
+}
 }
