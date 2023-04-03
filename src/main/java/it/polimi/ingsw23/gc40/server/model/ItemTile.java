@@ -24,6 +24,36 @@ public class ItemTile {
         return type;
     }
 
+    @Override
+    public String toString(){
+        switch(this.type){
+            case CAT -> {
+                return "C";
+            }
+            case BOOK -> {
+                return "B";
+            }
+            case GAME -> {
+                return "G";
+            }
+            case FRAME -> {
+                return "F";
+            }
+            case TROPHY -> {
+                return "T";
+            }
+            case PLANT -> {
+                return "P";
+            }
+            case EMPTY -> {
+                return " ";
+            }
+            default -> {
+                return "#";
+            }
+        }
+    }
+
     public boolean getCheckedADJ() {
         return checkedADJ;
     }
