@@ -177,34 +177,34 @@ public class BookshelfTest extends TestCase {
 
         //before and after checking the right type of ItemTile, ADJScore should be zero because the ItemTile is not of the correct type
         bookshelf.checker(0, 0, Item.CAT);
-        assertEquals(bookshelf.getADJcounter(), 0);
+        assertEquals(bookshelf.getADJCounter(), 0);
 
         bookshelf.checker(0,0, Item.BOOK);
-        assertEquals(bookshelf.getADJcounter(), 5);
+        assertEquals(bookshelf.getADJCounter(), 5);
         //resetting ADJcounter before doing other tests, during the game another the other method who call checker does this
-        bookshelf.setADJcounter(0);
+        bookshelf.setADJCounter(0);
         bookshelf.checker(0, 0, Item.CAT);
-        assertEquals(bookshelf.getADJcounter(), 0);
+        assertEquals(bookshelf.getADJCounter(), 0);
 
         bookshelf.checker(1, 0, Item.CAT);
-        assertEquals(bookshelf.getADJcounter(), 5);
-        bookshelf.setADJcounter(0);
+        assertEquals(bookshelf.getADJCounter(), 5);
+        bookshelf.setADJCounter(0);
 
         bookshelf.checker(2, 0, Item.FRAME);
-        assertEquals(bookshelf.getADJcounter(), 5);
-        bookshelf.setADJcounter(0);
+        assertEquals(bookshelf.getADJCounter(), 5);
+        bookshelf.setADJCounter(0);
 
         bookshelf.checker(3, 0, Item.PLANT);
-        assertEquals(bookshelf.getADJcounter(), 5);
-        bookshelf.setADJcounter(0);
+        assertEquals(bookshelf.getADJCounter(), 5);
+        bookshelf.setADJCounter(0);
 
         bookshelf.checker(4, 0, Item.GAME);
-        assertEquals(bookshelf.getADJcounter(), 5);
-        bookshelf.setADJcounter(0);
+        assertEquals(bookshelf.getADJCounter(), 5);
+        bookshelf.setADJCounter(0);
 
         bookshelf.checker(5, 0, Item.TROPHY);
-        assertEquals(bookshelf.getADJcounter(), 5);
-        bookshelf.setADJcounter(0);
+        assertEquals(bookshelf.getADJCounter(), 5);
+        bookshelf.setADJCounter(0);
 
         //other corner case would be done in testADJScore that call this method
     }
@@ -279,7 +279,7 @@ public class BookshelfTest extends TestCase {
         bookshelf2.insertIT(catn2,4);
         bookshelf2.insertIT(catn3,4);
 
-        assertEquals(bookshelf2.ADJscore(), 13);
+        assertEquals(bookshelf2.ADJScore(), 13);
     }
 
 }

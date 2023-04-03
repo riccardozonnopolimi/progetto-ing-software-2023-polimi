@@ -208,7 +208,7 @@ public class Match extends Observable {
 
 
         //refresh scores
-        p.setADJscore(p.getBookshelf().ADJscore());
+        p.setADJscore(p.getBookshelf().ADJScore());
 
         if (commonGoals.get(0).getGoal().instanceGoal(p))
             p.setCGscore(p.getCGscore() + CG1Scores.get(CG1Scores.size()) - 1);

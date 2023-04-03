@@ -6,12 +6,12 @@ public class Bookshelf {
     private ItemTile[][] shelf;
     private boolean full = false;
 
-    private int ADJcounter;
+    private int ADJCounter;
 
 
     public Bookshelf() {
         shelf = new ItemTile[6][5];
-        ADJcounter = 0;
+        ADJCounter = 0;
         //TO TEST
         //initialize all the ItemTile to EMPTY
         for (int i = 0; i < 6; i++) {
@@ -85,7 +85,7 @@ public class Bookshelf {
     public void checker(int i, int j, Item type) {
         //TO TEST
         if (!shelf[i][j].getCheckedADJ() && type.equals(shelf[i][j].getItem())) {
-            ADJcounter++;
+            ADJCounter++;
             shelf[i][j].setCheckedADJ(true);
 
             if (j < 4) checker(i, j + 1, type);
@@ -97,7 +97,7 @@ public class Bookshelf {
     }
 
 
-    public int ADJscore() {
+    public int ADJScore() {
         //TO TEST
         //return the sum of the max adjacent same-type cells, for each type
         //creating a localClass controller that allow to use a method controller for each type of ItemTile
@@ -115,12 +115,12 @@ public class Bookshelf {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 if (!shelf[i][j].getCheckedADJ() && !shelf[i][j].getItem().equals(Item.EMPTY)) {
-                    ADJcounter = 0;
+                    ADJCounter = 0;
                     checker(i, j, shelf[i][j].getItem());
 
                     //caso in cui prendiamo il gruppo con maggiore numero di tiles
-                    if (ADJcounter > partialSums.get(shelf[i][j].getItem()))
-                        partialSums.put(shelf[i][j].getItem(), ADJcounter);
+                    if (ADJCounter > partialSums.get(shelf[i][j].getItem()))
+                        partialSums.put(shelf[i][j].getItem(), ADJCounter);
 
                     //caso in cui sommiamo il numero di tiles
                     // partialSums.put(shelf[i][j].getItem(),counter+partialSums.get(shelf[i][j].getItem()));
@@ -161,12 +161,12 @@ public class Bookshelf {
         return sum;
     }
 
-    //Creating two methods to set/get ADJcounter to test this class
-    public int getADJcounter(){
-        return ADJcounter;
+    //Creating two methods to set/get ADJCounter to test this class
+    public int getADJCounter(){
+        return ADJCounter;
     }
-    public void setADJcounter(int x){
-        ADJcounter = x;
+    public void setADJCounter(int x){
+        ADJCounter = x;
     }
 
 }
