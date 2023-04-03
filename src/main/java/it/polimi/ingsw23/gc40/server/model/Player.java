@@ -3,10 +3,15 @@ package it.polimi.ingsw23.gc40.server.model;
 public class Player {
     private boolean first;
     private String nickName;
-    private int CGscore;
-    private int PGscore;
-    private int ADJscore;
+    private int CGScore;
+    private int PGScore;
+    private int ADJScore;
 
+    public void setFirstScore(int firstScore) {
+        this.firstScore = firstScore;
+    }
+
+    private int firstScore;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
@@ -14,44 +19,44 @@ public class Player {
 
     public Player(String nickName) {
         this.nickName = nickName;
-        this.CGscore = 0;
+        this.CGScore = 0;
         this.CG1Reached = false;
         this.personalGoal = null;
         this.CG2Reached = null;
         this.first = false;
-        this.PGscore = 0;
-        this.ADJscore = 0;
+        this.PGScore = 0;
+        this.ADJScore = 0;
         this.bookshelf = new Bookshelf();
 
     }
 
-    public int getPGscore() {
-        return PGscore;
+    public int getPGScore() {
+        return PGScore;
     }
 
-    public int getADJscore() {
-        return ADJscore;
+    public int getADJScore() {
+        return ADJScore;
     }
 
-    public void setADJscore(int adJscore) {
-        this.ADJscore = adJscore;
+    public void setADJScore(int adJscore) {
+        this.ADJScore = adJscore;
 
     }
 
-    public void setPGscore(int PGscore) {
-        this.PGscore = PGscore;
+    public void setPGScore(int PGScore) {
+        this.PGScore = PGScore;
     }
 
     public boolean isFirst() {
         return first;
     }
 
-    public int getCGscore() {
-        return CGscore;
+    public int getCGScore() {
+        return CGScore;
     }
 
-    public void setCGscore(int CGscore) {
-        this.CGscore = CGscore;
+    public void setCGScore(int CGScore) {
+        this.CGScore = CGScore;
     }
 
     public void setFirst(boolean first) {
@@ -92,5 +97,10 @@ public class Player {
 
     public String getNickName() {
         return nickName;
+    }
+
+    public int totScore() {
+
+        return CGScore+PGScore+ ADJScore+firstScore;
     }
 }

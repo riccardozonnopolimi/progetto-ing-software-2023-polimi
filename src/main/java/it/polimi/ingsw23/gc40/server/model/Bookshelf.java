@@ -24,6 +24,7 @@ public class Bookshelf {
     public void setFull(boolean full) {
         this.full = full;
     }
+    public boolean getFull(){ return this.full;}
 
     public ItemTile[][] getShelf() {
         return shelf;

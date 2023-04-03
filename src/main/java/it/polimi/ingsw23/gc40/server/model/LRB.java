@@ -175,4 +175,14 @@ public class LRB {
         }
         return matrixTakeables;
     }
+
+    public void print(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(map[i][j].toString()+"|");
+            }
+            System.out.println();
+
+        }
+    }
 }

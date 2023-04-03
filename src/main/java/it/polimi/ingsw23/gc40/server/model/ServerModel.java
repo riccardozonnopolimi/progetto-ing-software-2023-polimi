@@ -50,7 +50,14 @@ public class ServerModel {
     }
 
     public void endMatch(Match match) {
-        //TO DO
+        if(match.isEnding() && !match.playable()){
+            ArrayList<Integer>  scores=new ArrayList<>();
+            for(int i=0; i<match.getPlayers().size(); i++)
+                scores.add(new Integer(match.getPlayers().get(i).totScore()));
+            Score s = new Score(match.getPlayers(), match.winner(), scores);
+            SavedScores.add(s);
+        }
+
     }
 
 

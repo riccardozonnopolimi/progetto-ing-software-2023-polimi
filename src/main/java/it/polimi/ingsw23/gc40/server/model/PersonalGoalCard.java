@@ -19,19 +19,19 @@ public class PersonalGoalCard extends Card {
 
         switch (count) {
             case 1:
-                p.setPGscore(1);
+                p.setPGScore(1);
             case 2:
-                p.setPGscore(2);
+                p.setPGScore(2);
             case 3:
-                p.setPGscore(4);
+                p.setPGScore(4);
             case 4:
-                p.setPGscore(6);
+                p.setPGScore(6);
             case 5:
-                p.setPGscore(9);
+                p.setPGScore(9);
             case 6:
-                p.setPGscore(12);
+                p.setPGScore(12);
             default:
-                p.setPGscore(0);
+                p.setPGScore(0);
         }
 
     }

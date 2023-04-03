@@ -1,5 +1,6 @@
-package it.polimi.ingsw23.gc40.server.model;
+package model;
 
+import it.polimi.ingsw23.gc40.server.model.ServerModel;
 import junit.framework.TestCase;
 
 public class ServerModelTest extends TestCase {
@@ -18,6 +19,11 @@ public class ServerModelTest extends TestCase {
         var SM = new ServerModel();
         SM.addPlayer("Giorgio");
         assertTrue(SM.checkExistingNickName("Giorgio"));
+        SM.addPlayer("Filiberto");
+        SM.addPlayer("Giuseppe");
+        SM.addPlayer("Riccardo");
+        assertTrue(SM.checkExistingNickName("Giuseppe"));
+        assertFalse(SM.checkExistingNickName("GianpaoloCugola"));
 
     }
 
@@ -27,6 +33,4 @@ public class ServerModelTest extends TestCase {
     public void testHasQueueMatch() {
     }
 
-    public void testGetPlayer() {
-    }
-}
+ }

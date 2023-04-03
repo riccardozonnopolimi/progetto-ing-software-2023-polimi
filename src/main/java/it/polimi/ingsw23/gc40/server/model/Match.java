@@ -18,8 +18,18 @@ public class Match extends Observable {
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
     private ArrayList<Integer> CG2Scores = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     private ArrayList<Player> players = new ArrayList<Player>();
     private LRB map;
+
+    public boolean isEnding() {
+        return ending;
+    }
+
     private boolean ending;
     private Player next;
 
@@ -138,9 +148,11 @@ public class Match extends Observable {
     }
 
     public Player winner() {
+
+        //TO TEST
         int[] scores = new int[players.size()];
         for (int i = 0; i < players.size(); i++) {
-            scores[i] = players.get(i).getCGscore() + players.get(i).getPGscore() + players.get(i).getADJscore();
+            scores[i] = players.get(i).getCGScore() + players.get(i).getPGScore() + players.get(i).getADJScore();
             if (players.get(i).isFirst()) scores[i]++;
         }
 
@@ -208,12 +220,12 @@ public class Match extends Observable {
 
 
         //refresh scores
-        p.setADJscore(p.getBookshelf().ADJScore());
+        p.setADJScore(p.getBookshelf().ADJScore());
 
         if (commonGoals.get(0).getGoal().instanceGoal(p))
-            p.setCGscore(p.getCGscore() + CG1Scores.get(CG1Scores.size()) - 1);
+            p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
         if (commonGoals.get(1).getGoal().instanceGoal(p))
-            p.setCGscore(p.getCGscore() + CG2Scores.get(CG2Scores.size()) - 1);
+            p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
 
         p.getPersonalGoal().checkScore(p);
 
@@ -221,6 +233,7 @@ public class Match extends Observable {
         //check if there is space in the player bookshelf
         if (p.getBookshelf().placeables() == 0) {
             p.getBookshelf().setFull(true);
+            p.setFirstScore(1);
             this.ending = true;
         }
         //set turn to next player
