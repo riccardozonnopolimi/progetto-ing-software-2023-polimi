@@ -10,13 +10,13 @@ public class ServerModel {
     private ArrayList<Score> SavedScores;
 
     public ServerModel() {
-        //TO DO
+        onlinePlayers = new ArrayList<>();
+        activeMatches = new ArrayList<>();
     }
 
     public void addPlayer(String name) {
         Player p = new Player(name);
-        this.onlinePlayers.add(p);
-
+        onlinePlayers.add(p);
     }
 
     public Match createNewMatch(int numPlayer, Player player) {

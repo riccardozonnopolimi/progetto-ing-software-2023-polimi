@@ -50,7 +50,7 @@ public class Bookshelf {
         //checking in order:
         //      if there are at least 3 free cell return directly 3 (we can take max 3 ItemTiles)
         //      else if maxSlotAvailable is updated it check the next column
-        for (int j = 0; j <= 5; j++) {
+        for (int j = 0; j <= 4; j++) {
             for (int i = 2; i >= 0; i--) {
                 if (shelf[i][j].getItem().equals(Item.EMPTY)) {
                     if (i == 2) return i + 1;
@@ -64,7 +64,7 @@ public class Bookshelf {
         return maxSlotAvailable;
     }
 
-    //returning the number of free slots for a column, if there aren't free slots
+    //returning the number of free slots for a column, if there aren't free slots return 0
     public int getAvailableSlots(int n) {
         //TO TEST
         for (int i = 2; i >= 0; i--) {
@@ -79,8 +79,8 @@ public class Bookshelf {
             ADJcounter++;
             shelf[i][j].setCheckedADJ(true);
 
-            if (j < 5) checker(i, j + 1, type);
-            if (i < 6) checker(i + 1, j, type);
+            if (j < 4) checker(i, j + 1, type);
+            if (i < 5) checker(i + 1, j, type);
             if (j > 0) checker(i, j - 1, type);
             if (i > 0) checker(i - 1, j, type);
         }
@@ -103,8 +103,8 @@ public class Bookshelf {
 
         //using the value associated to empty as a variable to storage the number of adjacencies of a specific type before updating that value
 
-        for (int i = 0; i <= 6; i++) {
-            for (int j = 0; j <= 5; j++) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
                 if (!shelf[i][j].getCheckedADJ() && !shelf[i][j].getItem().equals(Item.EMPTY)) {
                     ADJcounter = 0;
                     checker(i, j, shelf[i][j].getItem());
@@ -122,25 +122,42 @@ public class Bookshelf {
         }
 
         int sum = 0;
-        for (int i = 0; i < partialSums.size(); i++)
-            switch (partialSums.get(i)) {
-                case 0:
-                    sum = sum + 0;
-                case 1:
-                    sum = sum + 0;
-                case 2:
-                    sum = sum + 0;
-                case 3:
-                    sum = sum + 2;
-                case 4:
-                    sum = sum + 3;
-                case 5:
-                    sum = sum + 5;
-                default:
-                    sum = sum + 8;
+        for(Item type : Item.values()){
+            if(!type.equals(Item.EMPTY) && !type.equals(Item.NOTREACHABLE)){
+                switch (partialSums.get(type))
+                {
+                    case 0:
+                        sum = sum;
+                        break;
+                    case 1:
+                        sum = sum;
+                        break;
+                    case 2:
+                        sum = sum;
+                        break;
+                    case 3:
+                        sum = sum + 2;
+                        break;
+                    case 4:
+                        sum = sum + 3;
+                        break;
+                    case 5:
+                        sum = sum + 5;
+                        break;
+                    default:
+                        sum = sum + 8;
+                }
             }
-
+        }
         return sum;
+    }
+
+    //Creating two methods to set/get ADJcounter to test this class
+    public int getADJcounter(){
+        return ADJcounter;
+    }
+    public void setADJcounter(int x){
+        ADJcounter = x;
     }
 
 }

@@ -106,7 +106,6 @@ public class G1_G3 implements Goal {
                 }
             }
 
-
             //checking presence of column/line without conflicts for multicolumn or multiline in the same column/line
             //multicolumn
             for (int j = 0; j <= 4; j++) {
@@ -126,7 +125,7 @@ public class G1_G3 implements Goal {
                         break;
                     }
                     //else
-                    
+
                 }
             }
 
@@ -142,8 +141,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
-
 
             //count number of column and line without conflict
             // column
@@ -162,8 +159,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
-            //returning the number of line and column pickable of the type selected
         }
         else{
             //checking number of column
@@ -229,6 +224,7 @@ public class G1_G3 implements Goal {
 
 
         }
+        //returning the number of line and column pickable of the type selected
         return Math.max((numColumn + numLineNC), (numLine + numColumnNC));
 
 
