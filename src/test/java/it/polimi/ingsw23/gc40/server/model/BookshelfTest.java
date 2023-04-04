@@ -210,7 +210,7 @@ public class BookshelfTest extends TestCase {
     }
 
 
-    public void testADJscore() {
+    public void testADJScore() {
         //testing some corner case
         Bookshelf bookshelf2 = new Bookshelf();
         ItemTile plantn0 = new ItemTile(Item.PLANT);
@@ -279,6 +279,7 @@ public class BookshelfTest extends TestCase {
         bookshelf2.insertIT(catn2,4);
         bookshelf2.insertIT(catn3,4);
 
+        bookshelf2.print();
         assertEquals(bookshelf2.ADJScore(), 13);
     }
 

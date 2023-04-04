@@ -40,15 +40,16 @@ public class Bookshelf {
         }
     }
 
-    public void print(){
+    public void print() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                System.out.print(shelf[i][j].toString()+"|");
+                System.out.print(shelf[i][j].toString() + "|");
             }
             System.out.println();
 
         }
     }
+
     public ItemTile getItemTile(int x, int y) {
         return shelf[x][y];
     }
@@ -97,65 +98,41 @@ public class Bookshelf {
 
     }
 
-
     public int ADJScore() {
         //TO TEST
         //return the sum of the max adjacent same-type cells, for each type
         //creating a localClass controller that allow to use a method controller for each type of ItemTile
 
-        HashMap<Item, Integer> partialSums = new HashMap<>();
-        partialSums.put(Item.CAT, 0);
-        partialSums.put(Item.BOOK, 0);
-        partialSums.put(Item.FRAME, 0);
-        partialSums.put(Item.GAME, 0);
-        partialSums.put(Item.TROPHY, 0);
-        partialSums.put(Item.PLANT, 0);
-
-        //using the value associated to empty as a variable to storage the number of adjacencies of a specific type before updating that value
-
+        int sum = 0;
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 if (!shelf[i][j].getCheckedADJ() && !shelf[i][j].getItem().equals(Item.EMPTY)) {
                     ADJCounter = 0;
                     checker(i, j, shelf[i][j].getItem());
+                    //checker returns number of item tile in a single group, put it into the switch to update sum with the corresponding score
+                    switch (ADJCounter) {
+                        case 0:
+                            sum = sum;
+                            break;
+                        case 1:
+                            sum = sum;
+                            break;
+                        case 2:
+                            sum = sum;
+                            break;
+                        case 3:
+                            sum = sum + 2;
+                            break;
+                        case 4:
+                            sum = sum + 3;
+                            break;
+                        case 5:
+                            sum = sum + 5;
+                            break;
+                        default:
+                            sum = sum + 8;
+                    }
 
-                    //caso in cui prendiamo il gruppo con maggiore numero di tiles
-                    if (ADJCounter > partialSums.get(shelf[i][j].getItem()))
-                        partialSums.put(shelf[i][j].getItem(), ADJCounter);
-
-                    //caso in cui sommiamo il numero di tiles
-                    // partialSums.put(shelf[i][j].getItem(),counter+partialSums.get(shelf[i][j].getItem()));
-
-
-                }
-            }
-        }
-
-        int sum = 0;
-        for(Item type : Item.values()){
-            if(!type.equals(Item.EMPTY) && !type.equals(Item.NOTREACHABLE)){
-                switch (partialSums.get(type))
-                {
-                    case 0:
-                        sum = sum;
-                        break;
-                    case 1:
-                        sum = sum;
-                        break;
-                    case 2:
-                        sum = sum;
-                        break;
-                    case 3:
-                        sum = sum + 2;
-                        break;
-                    case 4:
-                        sum = sum + 3;
-                        break;
-                    case 5:
-                        sum = sum + 5;
-                        break;
-                    default:
-                        sum = sum + 8;
                 }
             }
         }
@@ -163,11 +140,15 @@ public class Bookshelf {
     }
 
     //Creating two methods to set/get ADJCounter to test this class
-    public int getADJCounter(){
+    public int getADJCounter() {
         return ADJCounter;
     }
-    public void setADJCounter(int x){
+
+    public void setADJCounter(int x) {
         ADJCounter = x;
     }
 
+
 }
+
+
