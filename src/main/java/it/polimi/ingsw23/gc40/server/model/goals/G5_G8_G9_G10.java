@@ -22,7 +22,7 @@ public class G5_G8_G9_G10 implements Goal {
 
     @Override
     public boolean instanceGoal(Player p) {
-        //TO DO
+        //TESTED
         //copy of the player's bookshelf
         ItemTile[][] s = p.getBookshelf().getShelf();
         //hashmap to count which types are present
@@ -30,9 +30,9 @@ public class G5_G8_G9_G10 implements Goal {
         //number of blocks that correspond to the goal
         int countValid = 0;
         //counter of how many types are present
-        int counterBool = 0;
+        int counterBool;
         //indexes of row and column
-        int h = 0, k = 0;
+        int h, k;
         if (c) {
             h = 5;
             k = 6;
@@ -48,11 +48,12 @@ public class G5_G8_G9_G10 implements Goal {
             count.put(Item.FRAME, false);
             count.put(Item.TROPHY, false);
             count.put(Item.PLANT, false);
+            counterBool = 0;
             for (int i = 0; i < k; i++) {
                 //if need to check for column
-                if (c) count.put(s[j][i].getItem(), true);
+                if (c) count.put(s[i][j].getItem(), true);
                     //if need to check for row
-                else count.put(s[i][j].getItem(), true);
+                else count.put(s[j][i].getItem(), true);
             }
             //count how many types there are
             if (count.get(Item.PLANT)) counterBool++;
@@ -62,7 +63,10 @@ public class G5_G8_G9_G10 implements Goal {
             if (count.get(Item.BOOK)) counterBool++;
             if (count.get(Item.TROPHY)) counterBool++;
             //if the condition is verified set that a new valid block is find
-            if (((counterBool <= differentType) && (differentType == 3)) || (counterBool == differentType))
+            if (differentType == 3)
+                if(counterBool <= differentType)
+                    countValid++;
+            else if(counterBool == differentType)
                 countValid++;
             //if the number of blocks needed is reached return true and stop
             if (countValid == numBlocks) return true;

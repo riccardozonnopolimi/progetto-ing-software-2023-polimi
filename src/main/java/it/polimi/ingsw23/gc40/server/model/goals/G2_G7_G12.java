@@ -1,15 +1,12 @@
 package it.polimi.ingsw23.gc40.server.model.goals;
-
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
-
 public class G2_G7_G12 implements Goal {
     private int n;
     public G2_G7_G12(int n) {
         this.n = n;
     }
-
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST
@@ -44,10 +41,8 @@ public class G2_G7_G12 implements Goal {
                 return ((s[0][0].equals(s[0][4])) && (s[0][0].getItem() != Item.EMPTY)
                         && (s[5][0].equals(s[5][4]))
                         && (s[0][0].equals(s[5][0])));
-
             case 12:
                 //control if there is a diagonal of 5 in the bookshelf that is all fill and the space at right is empty
-
                 return (((s[0][0].getItem() == Item.EMPTY)
                         && (s[1][1].getItem() == Item.EMPTY)
                         && (s[2][2].getItem() == Item.EMPTY)

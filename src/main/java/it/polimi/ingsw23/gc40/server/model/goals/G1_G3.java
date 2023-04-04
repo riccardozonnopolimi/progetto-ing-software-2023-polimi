@@ -53,9 +53,7 @@ public class G1_G3 implements Goal {
             return true;
         } else numberRC += updateRC(p.getBookshelf(), Item.TROPHY);
         return numberRC >= numeroBlocchi;
-
     }
-
     int updateRC(Bookshelf shelf, Item type) {
         //TO DO
         //inner class to create a
@@ -69,7 +67,6 @@ public class G1_G3 implements Goal {
         int numLine = 0;
         int numColumnNC = 0;
         int numLineNC = 0;
-
 
         if (grandezzaBlocco == 4) {
             //checking number of column
@@ -88,7 +85,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //checking number of line
             for (int i = 0; i <= 5; i++) {
                 counted = 0;
@@ -105,7 +101,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //checking presence of column/line without conflicts for multicolumn or multiline in the same column/line
             //multicolumn
             for (int j = 0; j <= 4; j++) {
@@ -125,10 +120,8 @@ public class G1_G3 implements Goal {
                         break;
                     }
                     //else
-
                 }
             }
-
             //multiline
             for (int i = 0; i <= 5; i++) {
                 for (int j = 0; j <= 1; j++) {
@@ -141,7 +134,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //count number of column and line without conflict
             // column
             for (int j = 0; j <= 4; j++) {
@@ -181,7 +173,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //checking number of line
             for (int i = 0; i <= 5; i++) {
                 counted = 0;
@@ -202,7 +193,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //checking number of column without conflict
             for (int j = 0; j <= 4; j++) {
                 for (int i = 0; i <= 4; i++) {
@@ -212,7 +202,6 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
             //checking number of line without conflict
             for (int i = 0; i <= 5; i++) {
                 for (int j = 0; j <= 3; j++) {
@@ -221,14 +210,8 @@ public class G1_G3 implements Goal {
                     }
                 }
             }
-
-
         }
         //returning the number of line and column pickable of the type selected
         return Math.max((numColumn + numLineNC), (numLine + numColumnNC));
-
-
     }
-
-
 }
