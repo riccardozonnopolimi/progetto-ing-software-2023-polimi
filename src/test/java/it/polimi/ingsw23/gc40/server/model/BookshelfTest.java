@@ -210,8 +210,8 @@ public class BookshelfTest extends TestCase {
     }
 
 
-    public void testADJScore() {
-        //testing some corner case
+    public void testADJScoreTrue() {
+        //testing some corner case, verifying branch with 1/2/3/4/6+ state, the grid is full
         Bookshelf bookshelf2 = new Bookshelf();
         ItemTile plantn0 = new ItemTile(Item.PLANT);
         ItemTile plantn1 = new ItemTile(Item.PLANT);
@@ -279,8 +279,49 @@ public class BookshelfTest extends TestCase {
         bookshelf2.insertIT(catn2,4);
         bookshelf2.insertIT(catn3,4);
 
+
         bookshelf2.print();
+        System.out.println();
         assertEquals(bookshelf2.ADJScore(), 13);
     }
 
+    public void testADJScoreTrue2(){
+        Bookshelf bookshelf3 = new Bookshelf();
+        //testing some corner case, verifying branch with 5 state, the grid isn't full
+
+
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 0);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 0);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 0);
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 0);
+        bookshelf3.insertIT(new ItemTile(Item.CAT), 0);
+
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 1);
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 1);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 1);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 1);
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 1);
+
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 2);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 2);
+        bookshelf3.insertIT(new ItemTile(Item.BOOK), 2);
+        bookshelf3.insertIT(new ItemTile(Item.BOOK), 2);
+        bookshelf3.insertIT(new ItemTile(Item.BOOK), 2);
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 2);
+
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 3);
+        bookshelf3.insertIT(new ItemTile(Item.TROPHY), 3);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 3);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 3);
+        bookshelf3.insertIT(new ItemTile(Item.BOOK), 3);
+
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 4);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 4);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 4);
+        bookshelf3.insertIT(new ItemTile(Item.PLANT), 4);
+
+
+        bookshelf3.print();
+        assertEquals(bookshelf3.ADJScore(), 18);
+    }
 }

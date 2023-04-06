@@ -101,8 +101,13 @@ public class Bookshelf {
     public int ADJScore() {
         //TO TEST
         //return the sum of the max adjacent same-type cells, for each type
-        //creating a localClass controller that allow to use a method controller for each type of ItemTile
 
+        //setting false all ItemTile getChecked
+        for(int i=0; i<=5; i++){
+            for(int j=0; j<=4; j++){
+                getShelf()[i][j].setCheckedADJ(false);
+            }
+        }
         int sum = 0;
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -111,6 +116,7 @@ public class Bookshelf {
                     checker(i, j, shelf[i][j].getItem());
                     //checker returns number of item tile in a single group, put it into the switch to update sum with the corresponding score
                     switch (ADJCounter) {
+                        //unreachable state could be removed
                         case 0:
                             sum = sum;
                             break;
@@ -143,10 +149,11 @@ public class Bookshelf {
     public int getADJCounter() {
         return ADJCounter;
     }
-
     public void setADJCounter(int x) {
         ADJCounter = x;
     }
+
+
 
 
 }

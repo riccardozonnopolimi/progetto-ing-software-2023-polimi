@@ -16,18 +16,24 @@ public class G1_G3 implements Goal {
     @Override
     public boolean instanceGoal(Player p) {
         //TO TEST
+        //setting false all ItemTile getChecked
+        for(int i=0; i<=5; i++){
+            for(int j=0; j<=4; j++){
+                p.getBookshelf().getShelf()[i][j].setCheckedADJ(false);
+            }
+        }
         //value to update when a column or a line is found
 
-        int ADJCounter;
         int validBlock = numeroBlocchi;
         ItemTile[][] s = p.getBookshelf().getShelf();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 if (!s[i][j].getCheckedADJ() && !s[i][j].getItem().equals(Item.EMPTY)) {
-                    ADJCounter = 0;
+                    p.getBookshelf().setADJCounter(0);
+
                     p.getBookshelf().checker(i, j, s[i][j].getItem());
-                    //method called by CG1||CG3
-                    if (ADJCounter > grandezzaBlocco) {
+
+                    if (p.getBookshelf().getADJCounter() >= grandezzaBlocco) {
                         validBlock--;
                     }
                     if (validBlock == 0) {
