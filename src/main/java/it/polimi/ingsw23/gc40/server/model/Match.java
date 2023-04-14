@@ -77,7 +77,7 @@ public class Match extends Observable {
         CGs.add(new G11());
         CGs.add(new G2_G7_G12(12));
 
-        //intialize common goals scores arrays
+        //initialize common goals scores arrays
         if (numPlayers == 4) {
             CG1Scores.add(2);
             CG1Scores.add(4);
@@ -104,11 +104,11 @@ public class Match extends Observable {
         }
 
         //choosing 2 common goals randomly
-        int rand = (int) (Math.random() * (CGs.size() + 1));
+        int rand = (int) (Math.random() * CGs.size());
         commonGoals.add(new CommonGoalCard(CGs.get(rand)));
         CGs.remove(rand);
 
-        rand = (int) (Math.random() * (CGs.size() + 1));
+        rand = (int) (Math.random() * CGs.size());
         commonGoals.add(new CommonGoalCard(CGs.get(rand)));
         CGs.remove(rand);
 
@@ -125,7 +125,7 @@ public class Match extends Observable {
         }
         //choosing n personal goal randomly
         for (int i = 0; i < numPlayers; i++) {
-            rand = (int) (Math.random() * (PGs.size() + 1));
+            rand = (int) (Math.random() * PGs.size());
             personalGoals.add(PGs.get(rand));
             PGs.remove(rand);
         }
@@ -138,10 +138,11 @@ public class Match extends Observable {
     }
 
     public boolean playable() {
-        //quando ci sono tutti i giocatori posso iniziare
+        //Tested
+        //starts when there are all the players
         if (players.size() == numPlayers) return true;
 
-        //se un giocatore ha riempito la shelf ed il prossimo giocatore sarebbe colui che ha iniziato, non posso giocare
+        //if a player has filled his bookshelf and nextPlayer is first player i can not play
         if (ending && next.isFirst()) return false;
 
         return false;
@@ -165,18 +166,21 @@ public class Match extends Observable {
 
     public ItemTile takeItem() {
         //TO TEST
-        int rand = (int) (Math.random() * (bag.size() + 1));
+        int rand = (int) (Math.random() * bag.size());
         ItemTile tmp = bag.get(rand);
         bag.remove(rand);
         return tmp;
     }
 
     public void setPlayersOrder() {
-        ArrayList<Player> PLtemp = players;
+        ArrayList<Player> PLtemp = new ArrayList<Player>();
+        for(Player pl: players){
+            PLtemp.add(pl);
+        }
         int rand;
 
         for (int i = 0; i < players.size(); i++) {
-            rand = (int) (Math.random() * (PLtemp.size() + 1));
+            rand = (int) (Math.random() * PLtemp.size());
             players.set(i, PLtemp.get(rand));
             PLtemp.remove(rand);
             players.get(i).setPersonalGoal(personalGoals.get(0));
