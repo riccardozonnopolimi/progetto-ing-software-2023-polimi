@@ -15,7 +15,7 @@ public class G1_G3 implements Goal {
 
     @Override
     public boolean instanceGoal(Player p) {
-        //TO TEST
+        //Tested
         //setting false all ItemTile getChecked
         for(int i=0; i<=5; i++){
             for(int j=0; j<=4; j++){
