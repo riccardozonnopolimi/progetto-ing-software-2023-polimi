@@ -6,11 +6,6 @@ public class Player {
     private int CGScore;
     private int PGScore;
     private int ADJScore;
-
-    public void setFirstScore(int firstScore) {
-        this.firstScore = firstScore;
-    }
-
     private int firstScore;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
@@ -29,7 +24,9 @@ public class Player {
         this.bookshelf = new Bookshelf();
 
     }
-
+    public void setFirstScore(int firstScore) {
+        this.firstScore = firstScore;
+    }
     public int getPGScore() {
         return PGScore;
     }
