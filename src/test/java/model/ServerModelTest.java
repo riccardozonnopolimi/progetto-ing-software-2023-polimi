@@ -1,6 +1,6 @@
 package model;
 
-import it.polimi.ingsw23.gc40.server.model.ServerModel;
+import it.polimi.ingsw23.gc40.server.ServerModel;
 import junit.framework.TestCase;
 
 public class ServerModelTest extends TestCase {

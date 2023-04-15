@@ -1,8 +1,13 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server;
 
+import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.Player;
+import it.polimi.ingsw23.gc40.server.model.Score;
+
+import java.rmi.Remote;
 import java.util.ArrayList;
 
-public class ServerModel {
+public class ServerModel implements Remote {
 
     private ArrayList<Player> onlinePlayers;
     private ArrayList<Match> activeMatches;
@@ -50,17 +55,17 @@ public class ServerModel {
         }
         return false;
     }
-
+/*   da revisionare errore add(Integer)
     public void endMatch(Match match) {
         if(match.isEnding() && !match.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
             for(int i=0; i<match.getPlayers().size(); i++)
-                scores.add(new Integer(match.getPlayers().get(i).totScore()));//da revisionare
+               scores.add(new Integer(match.getPlayers().get(i).totScore()));
             Score s = new Score(match.getPlayers(), match.winner(), scores);
             SavedScores.add(s);
         }
 
-    }
+    }*/
 
 
     public boolean hasQueueMatch() {

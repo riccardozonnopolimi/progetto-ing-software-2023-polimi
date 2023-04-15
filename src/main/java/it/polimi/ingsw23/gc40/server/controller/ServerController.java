@@ -1,7 +1,7 @@
 package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.server.model.Player;
-import it.polimi.ingsw23.gc40.server.model.ServerModel;
+import it.polimi.ingsw23.gc40.server.ServerModel;
 
 public class ServerController {
     private ServerModel s;
