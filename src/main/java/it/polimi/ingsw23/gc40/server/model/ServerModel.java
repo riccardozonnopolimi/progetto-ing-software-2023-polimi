@@ -9,7 +9,9 @@ public class ServerModel {
     private Match queueMatch;
     private ArrayList<Score> SavedScores;
 
-    public ServerModel() {
+
+
+    public ServerModel () {
         onlinePlayers = new ArrayList<>();
         activeMatches = new ArrayList<>();
     }
@@ -53,7 +55,7 @@ public class ServerModel {
         if(match.isEnding() && !match.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
             for(int i=0; i<match.getPlayers().size(); i++)
-                scores.add(new Integer(match.getPlayers().get(i).totScore()));
+                scores.add(new Integer(match.getPlayers().get(i).totScore()));//da revisionare
             Score s = new Score(match.getPlayers(), match.winner(), scores);
             SavedScores.add(s);
         }
