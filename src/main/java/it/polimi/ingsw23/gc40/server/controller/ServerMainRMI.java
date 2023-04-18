@@ -75,17 +75,19 @@ public class ServerMainRMI implements Server {
         }
         return false;
     }
-/*   da revisionare errore add(Integer)
     public void endMatch(Match match) {
+        //TO TEST
         if(match.isEnding() && !match.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
-            for(int i=0; i<match.getPlayers().size(); i++)
-               scores.add(new Integer(match.getPlayers().get(i).totScore()));
+            for(int i=0; i<match.getPlayers().size(); i++) {
+                Integer integer = Integer.valueOf(match.getPlayers().get(i).totScore());
+                scores.add(integer);
+            }
             Score s = new Score(match.getPlayers(), match.winner(), scores);
             SavedScores.add(s);
         }
 
-    }*/
+    }
 
 @Override
     public boolean hasQueueMatch() {

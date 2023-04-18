@@ -19,5 +19,6 @@ public interface Server extends Remote {
     Boolean checkExistingNickName(String nickName)throws RemoteException;
     Match addToLastMatch(Player player) throws RemoteException;
     Match createNewMatch(int numPlayer) throws RemoteException;
+    void endMatch(Match match);
     void addPlayer(String name) throws  RemoteException;
 }

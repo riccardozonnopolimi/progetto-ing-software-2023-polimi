@@ -35,6 +35,7 @@ public class ClientMainRMI extends UnicastRemoteObject implements Client {
             stub.addPlayer(nickname);
             p = stub.getPlayer(nickname);
             if (stub.hasQueueMatch())
+                //cugola says this
                 stub.addToLastMatch(p);
             else {
                 int i;
