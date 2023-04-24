@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface Server extends Remote {
     ArrayList<Player> getOnlinePlayers() throws RemoteException;
 
-    ArrayList<MatchModel> getActiveMatches() throws RemoteException;
+    ArrayList<MatchRMI> getActiveMatches() throws RemoteException;
 
     MatchModel getQueueMatch() throws RemoteException;
     //lista di funzioni da implementare
@@ -19,7 +19,7 @@ public interface Server extends Remote {
     Boolean checkExistingNickName(String nickName)throws RemoteException;
     MatchRMI addToLastMatch(Player player) throws RemoteException;
     MatchRMI createNewMatch(int numPlayer) throws RemoteException;
-    void endMatch(MatchModel match) throws RemoteException;
+    void endMatch(MatchRMI match) throws RemoteException;
     void addPlayer(String name) throws  RemoteException;
     void print(String name) throws  RemoteException;
 }

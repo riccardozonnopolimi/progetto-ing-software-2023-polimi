@@ -1,7 +1,9 @@
 package model;
 
-import it.polimi.ingsw23.gc40.server.ServerModel;
+import it.polimi.ingsw23.gc40.server.controller.ServerMainRMI;
 import junit.framework.TestCase;
+
+import java.rmi.RemoteException;
 
 public class ServerModelTest extends TestCase {
 
@@ -15,8 +17,8 @@ public class ServerModelTest extends TestCase {
     public void testAddToLastMatch() {
     }
 
-    public void testCheckExistingNickName() {
-        var SM = new ServerModel();
+    public void testCheckExistingNickName() throws RemoteException {
+        var SM = new ServerMainRMI();
         SM.addPlayer("Giorgio");
         assertTrue(SM.checkExistingNickName("Giorgio"));
         SM.addPlayer("Filiberto");

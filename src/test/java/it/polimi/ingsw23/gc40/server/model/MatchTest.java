@@ -1,12 +1,13 @@
 package it.polimi.ingsw23.gc40.server.model;
 
+import it.polimi.ingsw23.gc40.server.controller.MatchRMI;
 import junit.framework.TestCase;
 
 public class MatchTest extends TestCase {
 
     //verify that the initially next is null
     public void testGetNext() {
-        MatchModel match = new MatchModel(3);
+        MatchRMI match = new MatchRMI(3);
         assertNull(match.getNext());
     }
 
@@ -16,7 +17,7 @@ public class MatchTest extends TestCase {
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
         Player Rick = new Player("Rick");
-        MatchModel match = new MatchModel(4);
+        MatchRMI match = new MatchRMI(4);
         //adding three player -> playable should return false
         match.addPlayer(Gioggio);
         match.addPlayer(Peppe);
@@ -32,7 +33,7 @@ public class MatchTest extends TestCase {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
-        MatchModel match = new MatchModel(3);
+        MatchRMI match = new MatchRMI(3);
         //adding two player -> playable should return false
         match.addPlayer(Gioggio);
         match.addPlayer(Peppe);
@@ -46,7 +47,7 @@ public class MatchTest extends TestCase {
     public void testPlayable2Player() {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
-        MatchModel match = new MatchModel(2);
+        MatchRMI match = new MatchRMI(2);
         //adding two player -> playable should return false
         match.addPlayer(Gioggio);
         assertFalse(match.playable());

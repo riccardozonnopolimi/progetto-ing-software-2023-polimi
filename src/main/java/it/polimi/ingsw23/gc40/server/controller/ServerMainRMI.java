@@ -1,6 +1,4 @@
 package it.polimi.ingsw23.gc40.server.controller;
-
-import it.polimi.ingsw23.gc40.server.ServerModel;
 import it.polimi.ingsw23.gc40.server.model.MatchModel;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
@@ -44,11 +42,8 @@ public class ServerMainRMI implements Server {
     }
 @Override
     public MatchRMI createNewMatch(int numPlayer) {
-        //TO TEST
         queueMatch = new MatchRMI(numPlayer);
-
         return queueMatch;
-
     }
 @Override
     public MatchRMI addToLastMatch(Player player) {
@@ -76,7 +71,7 @@ public class ServerMainRMI implements Server {
         }
         return false;
     }
-    public void endMatch(MatchModel match) {
+    public void endMatch(MatchRMI match) {
         //TO TEST
         if(match.isEnding() && !match.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
@@ -115,7 +110,7 @@ public class ServerMainRMI implements Server {
     }
 
     @Override
-    public ArrayList<MatchModel> getActiveMatches() throws RemoteException {
+    public ArrayList<MatchRMI> getActiveMatches() throws RemoteException {
         return null;
     }
 

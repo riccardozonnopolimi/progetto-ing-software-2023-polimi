@@ -50,6 +50,10 @@ public class Player implements Serializable {
         return first;
     }
 
+    public int getFirstScore() {
+        return firstScore;
+    }
+
     public int getCGScore() {
         return CGScore;
     }

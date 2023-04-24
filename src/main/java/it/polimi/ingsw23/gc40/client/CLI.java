@@ -9,24 +9,32 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
-public class ClientMainRMI extends UnicastRemoteObject implements Client {
+public class CLI extends UnicastRemoteObject implements Client, Observer {
     static int port;
     private static Player p;
 
-    protected ClientMainRMI(int port) throws RemoteException {
+    protected CLI(int port) throws RemoteException {
       //  super(port);
+
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void update(Observable o, Object arg) {
+        //aggiornamento view
+    }
+
+    public void rmi() {
 
         //DEBUGGING TEST
         System.out.println("### clirmi--ok");
 
 
         Scanner inp = new Scanner(System.in);
-        MatchRMI m;
+        MatchRMI m = null;
         String nickname;
         // creare player con nick tramite server
 
@@ -62,23 +70,31 @@ public class ClientMainRMI extends UnicastRemoteObject implements Client {
             else {
                 int i;
                 System.out.println("How many Players in this new Match?");
+
                 i = inp.nextInt();
+                while(i<2 || i>4){
+                    System.out.println("The match can have from 2 to 4 players, try again: ");
+                    i = inp.nextInt();
+
+                }
                 m = stub.createNewMatch(i);
-                System.out.println("arrivo qui");
                 System.out.println(p.getNickName());
                 stub.addToLastMatch(p);
-                System.out.println("arrivo qui");
-
-
             }
-        } catch (Exception e) {
-            System.out.println( "errore cli-rmi : "+e);
 
-        }
-        try {
-            Registry registry = LocateRegistry.getRegistry(port);
+        m.connnection();
+
+            System.out.println("1");
             Match stubMatch = (Match) registry.lookup("Match");
+            System.out.println("2");
+
+
+            //stubMatch.addObserver(this);
+
+
         } catch (Exception e) {
+            System.out.println("errore cli-rmi : "+e);
+            e.printStackTrace();
 
         }
     }
