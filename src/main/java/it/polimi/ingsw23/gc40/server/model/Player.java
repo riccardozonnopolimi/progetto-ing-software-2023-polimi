@@ -1,6 +1,8 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private boolean first;
     private String nickName;
     private int CGScore;

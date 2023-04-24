@@ -1,7 +1,7 @@
 package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.server.ServerModel;
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.MatchModel;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
 
@@ -13,30 +13,28 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class ServerMainRMI implements Server {
-    private ArrayList<Player> onlinePlayers;
-    private ArrayList<Match> activeMatches;
-    private Match queueMatch;
-    private ArrayList<Score> SavedScores;
-    static int port;
-    protected ServerMainRMI() throws RemoteException {
+    private ArrayList<Player> onlinePlayers = new ArrayList<>();
+    private ArrayList<MatchRMI> activeMatches= new ArrayList<>();
+    private MatchRMI queueMatch;
+    private ArrayList<Score> SavedScores= new ArrayList<>();
+    static int port  = 15001;
+    public ServerMainRMI() throws RemoteException {
     }
 
-    public static void main(String args) throws RemoteException {
-        Server stub = null;
-        ServerModel sMod = new ServerModel();
-        Registry registry = null;
-        try{
-                stub = (Server) UnicastRemoteObject.exportObject(sMod, port);
+    public static void main(String[] args) throws RemoteException {
+        try {
+        ServerMainRMI sMod = new ServerMainRMI();
 
-        }catch(RemoteException e){ e.printStackTrace();}
-         try{
-             registry = LocateRegistry.createRegistry(port);
-         }catch(RemoteException e){e.printStackTrace();}
-         try{
-             registry.bind("Server", stub);
-         }catch(RemoteException e){e.printStackTrace();} catch (AlreadyBoundException e) {
-             throw new RuntimeException(e);
-         }
+        Server stub = (Server) UnicastRemoteObject.exportObject(sMod, 0);
+
+           Registry registry = LocateRegistry.createRegistry(1099);
+
+            registry.bind("Server", stub);
+            System.out.println("server pronto");
+        } catch (Exception e) {
+            System.err.println(e.toString());
+            e.printStackTrace();
+        }
 
     }
     @Override
@@ -45,29 +43,32 @@ public class ServerMainRMI implements Server {
         onlinePlayers.add(p);
     }
 @Override
-    public Match createNewMatch(int numPlayer) {
+    public MatchRMI createNewMatch(int numPlayer) {
         //TO TEST
-        queueMatch = new Match(numPlayer);
+        queueMatch = new MatchRMI(numPlayer);
 
         return queueMatch;
 
     }
 @Override
-    public Match addToLastMatch(Player player) {
+    public MatchRMI addToLastMatch(Player player) {
         //TO TEST
         //if true it means that the match has all the players, so it can start
         if (queueMatch.addPlayer(player)) {
-            Match m = queueMatch;
+            MatchRMI m = queueMatch;
             activeMatches.add(m);
             queueMatch = null;
             return m;
         }
+
         return queueMatch;
     }
 
     @Override
     public Boolean checkExistingNickName(String nickName) {
         //TO TEST
+
+        if(onlinePlayers.isEmpty()) return false;
         for (int i = 0; i < onlinePlayers.size(); i++) {
             if (onlinePlayers.get(i).getNickName().equals(nickName)) {
                 return true;
@@ -75,7 +76,7 @@ public class ServerMainRMI implements Server {
         }
         return false;
     }
-    public void endMatch(Match match) {
+    public void endMatch(MatchModel match) {
         //TO TEST
         if(match.isEnding() && !match.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
@@ -88,6 +89,10 @@ public class ServerMainRMI implements Server {
         }
 
     }
+    public void print(String str){
+        System.out.println(str);
+    }
+
 
 @Override
     public boolean hasQueueMatch() {
@@ -110,12 +115,12 @@ public class ServerMainRMI implements Server {
     }
 
     @Override
-    public ArrayList<Match> getActiveMatches() throws RemoteException {
+    public ArrayList<MatchModel> getActiveMatches() throws RemoteException {
         return null;
     }
 
     @Override
-    public Match getQueueMatch() throws RemoteException {
+    public MatchModel getQueueMatch() throws RemoteException {
         return null;
     }
 }

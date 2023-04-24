@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40.server;
 
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.MatchModel;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
 
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class ServerModel implements Remote {
 
     private ArrayList<Player> onlinePlayers;
-    private ArrayList<Match> activeMatches;
-    private Match queueMatch;
+    private ArrayList<MatchModel> activeMatches;
+    private MatchModel queueMatch;
     private ArrayList<Score> SavedScores;
 
 
@@ -26,19 +26,19 @@ public class ServerModel implements Remote {
         onlinePlayers.add(p);
     }
 
-    public Match createNewMatch(int numPlayer, Player player) {
+    public MatchModel createNewMatch(int numPlayer, Player player) {
         //TO TEST
-        queueMatch = new Match(numPlayer);
+        queueMatch = new MatchModel(numPlayer);
 
         return queueMatch;
 
     }
 
-    public Match addToLastMatch(Player player) {
+    public MatchModel addToLastMatch(Player player) {
         //TO TEST
         //if true it means that the match has all the players, so it can start
         if (queueMatch.addPlayer(player)) {
-            Match m = queueMatch;
+            MatchModel m = queueMatch;
             activeMatches.add(m);
             queueMatch = null;
             return m;

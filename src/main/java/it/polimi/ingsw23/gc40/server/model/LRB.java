@@ -1,6 +1,8 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class LRB {
+import java.io.Serializable;
+
+public class LRB implements Serializable {
     private ItemTile[][] map;
 
     public LRB(int nump) {

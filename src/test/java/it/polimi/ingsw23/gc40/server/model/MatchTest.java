@@ -6,7 +6,7 @@ public class MatchTest extends TestCase {
 
     //verify that the initially next is null
     public void testGetNext() {
-        Match match = new Match(3);
+        MatchModel match = new MatchModel(3);
         assertNull(match.getNext());
     }
 
@@ -16,7 +16,7 @@ public class MatchTest extends TestCase {
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
         Player Rick = new Player("Rick");
-        Match match = new Match(4);
+        MatchModel match = new MatchModel(4);
         //adding three player -> playable should return false
         match.addPlayer(Gioggio);
         match.addPlayer(Peppe);
@@ -32,7 +32,7 @@ public class MatchTest extends TestCase {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
-        Match match = new Match(3);
+        MatchModel match = new MatchModel(3);
         //adding two player -> playable should return false
         match.addPlayer(Gioggio);
         match.addPlayer(Peppe);
@@ -46,7 +46,7 @@ public class MatchTest extends TestCase {
     public void testPlayable2Player() {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
-        Match match = new Match(2);
+        MatchModel match = new MatchModel(2);
         //adding two player -> playable should return false
         match.addPlayer(Gioggio);
         assertFalse(match.playable());

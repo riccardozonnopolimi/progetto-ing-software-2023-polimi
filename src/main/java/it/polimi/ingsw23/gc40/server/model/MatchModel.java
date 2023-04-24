@@ -6,14 +6,16 @@ import it.polimi.ingsw23.gc40.server.model.goals.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.Observable;
 
 
-public class Match extends Observable {
-    private int numPlayers = 0;
-    private ArrayList<ItemTile> bag = new ArrayList<ItemTile>();
+public class MatchModel extends Observable implements Remote, Serializable {
+    private int numPlayers;
+    private ArrayList<ItemTile> bag = new ArrayList<>();
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
     private ArrayList<Integer> CG2Scores = new ArrayList<>();
@@ -23,7 +25,7 @@ public class Match extends Observable {
         return players;
     }
 
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
     private LRB map;
 
     public boolean isEnding() {
@@ -34,7 +36,7 @@ public class Match extends Observable {
     private Player next;
 
 
-    public Match(int numPlayers) {
+    public MatchModel(int numPlayers) {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
@@ -173,10 +175,8 @@ public class Match extends Observable {
     }
 
     public void setPlayersOrder() {
-        ArrayList<Player> PLtemp = new ArrayList<Player>();
-        for(Player pl: players){
-            PLtemp.add(pl);
-        }
+        ArrayList<Player> PLtemp = new ArrayList<>();
+        PLtemp.addAll(players);
         int rand;
 
         for (int i = 0; i < players.size(); i++) {
@@ -216,24 +216,84 @@ public class Match extends Observable {
         }
     }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public ArrayList<ItemTile> getBag() {
+        return bag;
+    }
+
+    public void setBag(ArrayList<ItemTile> bag) {
+        this.bag = bag;
+    }
+
+    public ArrayList<CommonGoalCard> getCommonGoals() {
+        return commonGoals;
+    }
+
+    public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
+    public ArrayList<Integer> getCG1Scores() {
+        return CG1Scores;
+    }
+
+    public void setCG1Scores(ArrayList<Integer> CG1Scores) {
+        this.CG1Scores = CG1Scores;
+    }
+
+    public ArrayList<Integer> getCG2Scores() {
+        return CG2Scores;
+    }
+
+    public void setCG2Scores(ArrayList<Integer> CG2Scores) {
+        this.CG2Scores = CG2Scores;
+    }
+
+    public ArrayList<PersonalGoalCard> getPersonalGoals() {
+        return personalGoals;
+    }
+
+    public void setPersonalGoals(ArrayList<PersonalGoalCard> personalGoals) {
+        this.personalGoals = personalGoals;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public LRB getMap() {
+        return map;
+    }
+
+    public void setMap(LRB map) {
+        this.map = map;
+    }
+
+    public void setEnding(boolean ending) {
+        this.ending = ending;
+    }
+
+    public void setNext(Player next) {
+        this.next = next;
+    }
+
     public void round(Player p) {
         int placeables = p.getBookshelf().placeables();
-
-
         //utente sceglie tile
-
-
         //refresh scores
         p.setADJScore(p.getBookshelf().ADJScore());
-
         if (commonGoals.get(0).getGoal().instanceGoal(p))
             p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
         if (commonGoals.get(1).getGoal().instanceGoal(p))
             p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
-
         p.getPersonalGoal().checkScore(p);
-
-
         //check if there is space in the player bookshelf
         if (p.getBookshelf().placeables() == 0) {
             p.getBookshelf().setFull(true);

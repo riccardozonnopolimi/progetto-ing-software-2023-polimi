@@ -1,8 +1,9 @@
 package it.polimi.ingsw23.gc40.server.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Bookshelf {
+public class Bookshelf implements Serializable {
     private ItemTile[][] shelf;
     private boolean full = false;
 

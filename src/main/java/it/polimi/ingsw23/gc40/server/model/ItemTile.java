@@ -1,6 +1,8 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class ItemTile {
+import java.io.Serializable;
+
+public class ItemTile implements Serializable {
     private final Item type;
     private final int num;
     //x, y are ItemTile's coordinates when it is placed on LRB
