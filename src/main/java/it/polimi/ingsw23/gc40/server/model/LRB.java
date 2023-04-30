@@ -179,7 +179,9 @@ public class LRB implements Serializable {
     }
 
     public void print(){
+        System.out.println("#|0|1|2|3|4|5|6|7|8|");
         for (int i = 0; i < 9; i++) {
+            System.out.print(i+"|");
             for (int j = 0; j < 9; j++) {
                 System.out.print(map[i][j].toString()+"|");
             }
@@ -187,4 +189,18 @@ public class LRB implements Serializable {
 
         }
     }
+
+    public void print(ItemTile[][] map){
+        System.out.println("#|0|1|2|3|4|5|6|7|8|");
+        for (int i = 0; i < 9; i++) {
+            System.out.print(i+"|");
+            for (int j = 0; j < 9; j++) {
+                System.out.print(map[i][j].toString()+"|");
+            }
+            System.out.println();
+
+        }
+    }
+
+
 }

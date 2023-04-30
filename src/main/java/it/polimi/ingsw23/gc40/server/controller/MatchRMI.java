@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -17,6 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 public class MatchRMI extends Observable implements Match, Serializable {
     MatchModel model;
@@ -333,10 +333,52 @@ public void print(String s){
         this.next = next;
     }
 
+    public ItemTile[] chooseTiles(int x,int y,int quantity, char direction){
+        ItemTile[] chosen;
+        //to test
+        for(int i = 0; i < quantity;i++){
+            switch (){
+                case "U"
+            }
+        }
+        this.map.print(map.takeables());
+
+        if(map.isTakeable(x,y))
+
+            map.getTileInMap(x,y);
+        else{
+            System.out.println("Non prendibile.");
+            return null;
+        }
+    }
+
     public void round(Player p) {
         int placeables = p.getBookshelf().placeables();
+
         //utente sceglie tile
+
+        ItemTile[] chosen=null;
+        do {
+            System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("X: ");
+            int x = sc.nextInt();
+            System.out.println("Y: ");
+            sc.reset();
+            int y = sc.nextInt();
+            System.out.println("Quante tile vuoi prendere?");
+            sc.reset();
+            int quantity = sc.nextInt();
+            System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
+            sc.reset();
+            char direction = sc.nextLine().toCharArray()[0];
+            chosen = this.chooseTiles(x,y,quantity, direction);
+        }while(chosen==null);
+
+
         //refresh scores
+
+
         p.setADJScore(p.getBookshelf().ADJScore());
         if (commonGoals.get(0).getGoal().instanceGoal(p))
             p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
