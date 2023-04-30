@@ -3,6 +3,7 @@ import it.polimi.ingsw23.gc40.server.Item;
 import it.polimi.ingsw23.gc40.server.ItemTile;
 import it.polimi.ingsw23.gc40.server.Player;
 
+import java.io.Serializable;
 import java.util.HashMap;
 public class G6 implements Goal {
     @Override

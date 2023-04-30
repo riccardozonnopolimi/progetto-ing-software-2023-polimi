@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ItemTile implements Serializable {
     private final Item type;
     private final int num;
-
+    private static final long serialVersionUID = 34563234;
     private boolean checkedADJ = false;
 
 

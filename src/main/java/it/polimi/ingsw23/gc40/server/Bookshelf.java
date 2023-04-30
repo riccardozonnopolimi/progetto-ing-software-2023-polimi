@@ -1,13 +1,13 @@
 package it.polimi.ingsw23.gc40.server;
 
 import java.io.Serializable;
+import java.util.Observable;
 
-public class Bookshelf implements Serializable {
+public class Bookshelf extends Observable implements Serializable {
     private ItemTile[][] shelf;
-    private boolean full = false;
+    //private boolean full = false;
 
     private int ADJCounter;
-
 
     public Bookshelf() {
         shelf = new ItemTile[6][5];
@@ -21,10 +21,13 @@ public class Bookshelf implements Serializable {
         }
     }
 
-    public void setFull(boolean full) {
-        this.full = full;
+   // public void setFull(boolean full) {
+    //    this.full = full;
+    //}
+    public boolean getFull(){
+        return this.placeables() == 0;
+       // return this.full;
     }
-    public boolean getFull(){ return this.full;}
 
     public ItemTile[][] getShelf() {
         return shelf;
@@ -38,6 +41,7 @@ public class Bookshelf implements Serializable {
                 break;
             }
         }
+        this.notifyObservers(shelf);
     }
 
     public void print() {
@@ -153,10 +157,6 @@ public class Bookshelf implements Serializable {
     public void setADJCounter(int x) {
         ADJCounter = x;
     }
-
-
-
-
 }
 
 

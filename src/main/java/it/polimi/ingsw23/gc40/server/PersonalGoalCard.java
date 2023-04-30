@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.server;
 
 public class PersonalGoalCard extends Card {
     private ItemTile[][] goal;
+    private int id;
 
     public PersonalGoalCard() {
 

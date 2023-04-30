@@ -1,8 +1,13 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
 public class RMI implements Connection{
-    public RMI() {
+    ServerConn stub;
+    public RMI(ServerRMI stub) {
+
         //creo stub rmi con server
+
+        conn.addListener
+                con.callmethod()
     }
 
     @Override

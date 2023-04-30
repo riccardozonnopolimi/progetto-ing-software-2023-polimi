@@ -2,9 +2,12 @@ package it.polimi.ingsw23.gc40.server;
 
 import it.polimi.ingsw23.gc40.server.goals.Goal;
 
-public class CommonGoalCard extends Card {
+import java.io.Serializable;
+
+public class CommonGoalCard extends Card implements Serializable {
     private Goal goal;
     private String cardName;
+    private static final long serialVersionUID = 567789;
 
     public CommonGoalCard() {
 

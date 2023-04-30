@@ -10,8 +10,3 @@ public interface Connection {
 
 }
 
-class TileData {
-    String color;
-    int num;
-    int id;
-}

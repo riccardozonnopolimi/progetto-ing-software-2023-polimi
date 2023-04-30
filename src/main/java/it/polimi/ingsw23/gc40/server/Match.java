@@ -8,18 +8,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Scanner;
 
-public class Match {
-
-
+public class Match extends Observable {
     private int numPlayers;
     private ArrayList<ItemTile> bag = new ArrayList<>();
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
     private ArrayList<Integer> CG2Scores = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
-
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -150,7 +148,7 @@ public class Match {
             PGs.remove(rand);
         }
 
-
+        this.notifyObservers(this);
     }
 
     public Player getNext() {
@@ -417,8 +415,8 @@ public class Match {
         }
 
         //check if there is space in the player bookshelf
-        if (p.getBookshelf().placeables() == 0) {
-            p.getBookshelf().setFull(true);
+        if (p.getBookshelf().getFull()) {
+            //p.getBookshelf().setFull(true);
             p.setFirstScore(1);
             this.ending = true;
         }
