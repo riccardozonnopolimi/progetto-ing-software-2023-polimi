@@ -19,4 +19,7 @@ public class G11 implements Goal {
         }
         return false;
     }
+    public void print() {
+        System.out.println("G11");
+    }
 }

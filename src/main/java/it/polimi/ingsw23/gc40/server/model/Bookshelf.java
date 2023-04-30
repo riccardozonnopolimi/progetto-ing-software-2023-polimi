@@ -80,7 +80,8 @@ public class Bookshelf implements Serializable {
     public int getAvailableSlots(int n) {
         //TO TEST
         for (int i = 2; i >= 0; i--) {
-            if (shelf[i][n].getItem().equals(Item.EMPTY)) return i + 1;
+            if (shelf[i][n].getItem().equals(Item.EMPTY))
+                return i + 1;
         }
         return 0;
     }

@@ -11,16 +11,17 @@ public class CommonGoalCard extends Card {
     }
 
     public CommonGoalCard(Goal g) {
-
+        this.goal=g;
     }
 
     public Goal getGoal() {
-        return goal;
+        return this.goal;
     }
 
     @Override
     public void checkScore(Player p) {
         //check if goal.instanceGoal(Player p) is true or false
+        this.goal.instanceGoal(p);
     }
 
 

@@ -47,4 +47,7 @@ public class G1_G3 implements Goal {
         //goal not achieved
         return false;
     }
+    public void print(){
+        System.out.println("G1_G3");
+    }
 }

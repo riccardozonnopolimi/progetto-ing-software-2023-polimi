@@ -12,6 +12,7 @@ public class G6 implements Goal {
         //control all the shelf of player and
         // count how many item of same type are in shelf
         HashMap<Item, Integer> count = new HashMap<>();
+        count.put(Item.EMPTY, 0);
         count.put(Item.CAT, 0);
         count.put(Item.BOOK, 0);
         count.put(Item.GAME, 0);
@@ -25,5 +26,8 @@ public class G6 implements Goal {
         }
         //if once of item type is almost eight return true, else false
         return (count.get(Item.CAT) >= 8 || count.get(Item.BOOK) >= 8 || count.get(Item.GAME) >= 8 || count.get(Item.FRAME) >= 8 || count.get(Item.TROPHY) >= 8 || count.get(Item.PLANT) >= 8);
+    }
+    public void print() {
+        System.out.println("G6");
     }
 }

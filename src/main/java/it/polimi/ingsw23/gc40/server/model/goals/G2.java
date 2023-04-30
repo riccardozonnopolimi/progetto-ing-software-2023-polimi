@@ -15,4 +15,9 @@ public class G2 implements Goal {
                 && (s[5][0].equals(s[5][4]))
                 && (s[0][0].equals(s[5][0])));
     }
+
+    @Override
+    public void print() {
+        System.out.println("G2");
+    }
 }

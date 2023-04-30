@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -22,7 +23,6 @@ public class MatchRMI extends Observable implements Match, Serializable {
     MatchModel model;
     static int port;
     ArrayList<Observer> observers = new ArrayList<>();
-
 
 
     @Override
@@ -44,12 +44,14 @@ public class MatchRMI extends Observable implements Match, Serializable {
     public void removeObserver(Observer observer) throws RemoteException {
         observers.remove(observer);
     }
+
     private int numPlayers;
     private ArrayList<ItemTile> bag = new ArrayList<>();
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
     private ArrayList<Integer> CG2Scores = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
+
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -67,21 +69,23 @@ public class MatchRMI extends Observable implements Match, Serializable {
 
     Match stub;
 
-public void connnection(){
-    try {
-        stub = (Match) UnicastRemoteObject.exportObject(this, 0);
-        Registry registry = LocateRegistry.getRegistry(1099);
-        registry.bind("Match", stub);
-    } catch (Exception e) {
-        System.err.println(e.toString());
-        e.printStackTrace();
+    public void connnection() {
+        try {
+            stub = (Match) UnicastRemoteObject.exportObject(this, 0);
+            Registry registry = LocateRegistry.getRegistry(1099);
+            registry.bind("Match", stub);
+        } catch (Exception e) {
+            System.err.println(e.toString());
+            e.printStackTrace();
+        }
+
     }
 
-}
-public void print(String s){
-    System.out.println(s);
-}
-    public MatchRMI(int numPlayers)  {
+    public void print(String s) {
+        System.out.println(s);
+    }
+
+    public MatchRMI(int numPlayers) {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
@@ -137,28 +141,28 @@ public void print(String s){
 
         //initialize common goals scores arrays
         if (numPlayers == 4) {
-            CG1Scores.add(2);
-            CG1Scores.add(4);
-            CG1Scores.add(6);
-            CG1Scores.add(8);
-            CG2Scores.add(2);
-            CG2Scores.add(4);
-            CG2Scores.add(6);
-            CG2Scores.add(8);
+            CG1Scores.add(Integer.valueOf(2));
+            CG1Scores.add(Integer.valueOf(4));
+            CG1Scores.add(Integer.valueOf(6));
+            CG1Scores.add(Integer.valueOf(8));
+            CG2Scores.add(Integer.valueOf(2));
+            CG2Scores.add(Integer.valueOf(4));
+            CG2Scores.add(Integer.valueOf(6));
+            CG2Scores.add(Integer.valueOf(8));
         }
         if (numPlayers == 3) {
-            CG1Scores.add(4);
-            CG1Scores.add(6);
-            CG1Scores.add(8);
-            CG2Scores.add(4);
-            CG2Scores.add(6);
-            CG2Scores.add(8);
+            CG1Scores.add(Integer.valueOf(4));
+            CG1Scores.add(Integer.valueOf(6));
+            CG1Scores.add(Integer.valueOf(8));
+            CG2Scores.add(Integer.valueOf(4));
+            CG2Scores.add(Integer.valueOf(6));
+            CG2Scores.add(Integer.valueOf(8));
         }
         if (numPlayers == 2) {
-            CG1Scores.add(4);
-            CG1Scores.add(8);
-            CG2Scores.add(4);
-            CG2Scores.add(8);
+            CG1Scores.add(Integer.valueOf(4));
+            CG1Scores.add(Integer.valueOf(8));
+            CG2Scores.add(Integer.valueOf(4));
+            CG2Scores.add(Integer.valueOf(8));
         }
 
         //choosing 2 common goals randomly
@@ -187,10 +191,14 @@ public void print(String s){
             personalGoals.add(PGs.get(rand));
             PGs.remove(rand);
         }
+
+
     }
+
     public Player getNext() {
         return next;
     }
+
     public boolean playable() {
         //Tested
         // if a player has filled his bookshelf and nextPlayer is first player i can not play
@@ -252,7 +260,7 @@ public void print(String s){
     public void refill() {
         //TO TEST
         // manca il controllo di evereyTilesCompletelyFree di LRB
-        if(this.map.everyTileCompletelyFree()) {
+        if (this.map.everyTileCompletelyFree()) {
             ItemTile[][] map = this.map.getMap();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -333,68 +341,195 @@ public void print(String s){
         this.next = next;
     }
 
-    public ItemTile[] chooseTiles(int x,int y,int quantity, char direction){
-        ItemTile[] chosen;
+    public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
         //to test
-        for(int i = 0; i < quantity;i++){
-            switch (){
-                case "U"
-            }
-        }
-        this.map.print(map.takeables());
 
-        if(map.isTakeable(x,y))
+        ItemTile[] chosen = new ItemTile[quantity];
 
-            map.getTileInMap(x,y);
-        else{
-            System.out.println("Non prendibile.");
-            return null;
+
+        switch (direction) {
+            case 'U':
+                for (int i = 0; i < quantity; i++)
+                    if ((x - quantity) < 0)
+                        return null;
+                    else {
+                        if (this.map.isTakeable(x - i, y))
+                            chosen[i] = this.map.getTileInMap(x - i, y);
+                        else
+                            return null;
+                    }
+                for (int i = 0; i < quantity; i++) {
+                    map.setTileInMap(new ItemTile(Item.EMPTY), x - i, y);
+                }
+                return chosen;
+            case 'D':
+                //qui arriva
+                for (int i = 0; i < quantity; i++)
+                    if ((x + quantity) > 8) {
+                        return null;
+                    } else {
+                        if (this.map.isTakeable(x + i, y))
+                            chosen[i] = this.map.getTileInMap(x + i, y);
+                        else {
+                            return null;
+                        }
+
+                    }
+                for (int i = 0; i < quantity; i++) {
+                    map.setTileInMap(new ItemTile(Item.EMPTY), x + i, y);
+                }
+                return chosen;
+            case 'L':
+                for (int i = 0; i < quantity; i++)
+                    if ((y - quantity) < 0)
+                        return null;
+                    else {
+                        if (this.map.isTakeable(x, y - i))
+                            chosen[i] = this.map.getTileInMap(x, y - i);
+                        else
+                            return null;
+                    }
+                for (int i = 0; i < quantity; i++) {
+                    map.setTileInMap(new ItemTile(Item.EMPTY), x, y - i);
+                }
+                return chosen;
+            case 'R':
+                for (int i = 0; i < quantity; i++)
+                    if ((y + quantity) > 8)
+                        return null;
+                    else {
+                        if (this.map.isTakeable(x, y + i))
+                            chosen[i] = this.map.getTileInMap(x, y + i);
+                        else
+                            return null;
+                    }
+                for (int i = 0; i < quantity; i++) {
+                    map.setTileInMap(new ItemTile(Item.EMPTY), x, y + i);
+                }
+                return chosen;
+            default:
+                return null;
         }
+
     }
 
     public void round(Player p) {
+        if(map.everyTileCompletelyFree())
+            refill();
+
         int placeables = p.getBookshelf().placeables();
+        ItemTile[] handTiles;
 
         //utente sceglie tile
 
-        ItemTile[] chosen=null;
+        Scanner sc = new Scanner(System.in);
+        map.print();
+
+        int y, x, quantity;
+        char direction;
         do {
             System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("X: ");
-            int x = sc.nextInt();
-            System.out.println("Y: ");
+            System.out.print("X: ");
+            x = sc.nextInt();
+            System.out.print("Y: ");
             sc.reset();
-            int y = sc.nextInt();
-            System.out.println("Quante tile vuoi prendere?");
+            y = sc.nextInt();
+            System.out.print("Quante Tiles vuoi prendere? ");
             sc.reset();
-            int quantity = sc.nextInt();
+
+
+            do {
+                quantity = sc.nextInt();
+                if (quantity > placeables)
+                    System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
+            } while (quantity > placeables);
+            handTiles = new ItemTile[quantity];
+
             System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
             sc.reset();
-            char direction = sc.nextLine().toCharArray()[0];
-            chosen = this.chooseTiles(x,y,quantity, direction);
-        }while(chosen==null);
+
+            direction = sc.next().charAt(0);
+            handTiles = this.chooseTiles(x, y, quantity, direction);
+            if (handTiles == null) {
+                System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
+                map.print();
+            }
+
+        } while (handTiles == null);
+        for (int i = 0; i < quantity; i++) {
+
+        }
 
 
-        //refresh scores
+        //mostro la bookshelf e chiedo colonna in cui vuole inserire
+        int column;
+        p.getBookshelf().print();
+        boolean retry;
+        do {
+            retry=false;
+            System.out.println("In quale colonna vuoi inserire le tiles?");
+            sc.reset();
+            column = sc.nextInt();
+            if(column<0||column>4){
+                retry=true;
+                System.out.println("Hai scelto una colonna inesistente");}
+            if (p.getBookshelf().getAvailableSlots(column) < handTiles.length) {
+                System.out.println("La colonna non ha sufficiente spazio, riprova:");
+                retry=true;
+            }
+        } while (retry);
 
 
-        p.setADJScore(p.getBookshelf().ADJScore());
-        if (commonGoals.get(0).getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
-        if (commonGoals.get(1).getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
-        p.getPersonalGoal().checkScore(p);
+        //mostra tiles in mano
+        System.out.println("Hai selezionato i seguenti Tiles:");
+        for (int i = 0; i < handTiles.length; i++) {
+            System.out.print(i + ": " + handTiles[i].toString() + "|");
+        }
+
+        //inserisci le tiles che hai in mano
+        for (int i = 0; i < handTiles.length; i++) {
+            System.out.println("Scegli una tile da inserire:");
+            int selected;
+            do {
+                retry=false;
+                selected = sc.nextInt();
+                if (selected >= handTiles.length || selected < 0) {
+                    System.out.println("Riprova:");
+                    retry = true;
+                } else {
+                    if (handTiles[selected] == null) {
+                        System.out.println("Riprova:");
+                        retry = true;
+                    }
+                }
+            } while (retry);
+
+            p.getBookshelf().insertIT(handTiles[selected], column);
+            handTiles[selected] = null;
+            sc.reset();
+        }
+
         //check if there is space in the player bookshelf
         if (p.getBookshelf().placeables() == 0) {
             p.getBookshelf().setFull(true);
             p.setFirstScore(1);
             this.ending = true;
         }
+
+        //refresh scores
+        p.setADJScore(p.getBookshelf().ADJScore());
+        if (commonGoals.get(0).getGoal().instanceGoal(p))
+            p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
+        if (commonGoals.get(1).getGoal().instanceGoal(p))
+            p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
+        p.getPersonalGoal().checkScore(p);
+
         //set turn to next player
         int num;
-        if (players.indexOf(p) == players.size() - 1) num = 0;
-        else num = players.indexOf(p) + 1;
+        if (players.indexOf(p) == players.size() - 1)
+            num = 0;
+        else
+            num = players.indexOf(p) + 1;
         next = players.get(num);
     }
 

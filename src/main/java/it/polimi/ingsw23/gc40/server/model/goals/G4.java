@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class G4 implements Goal {
     @Override
     public boolean instanceGoal(Player p) {
-        //TESTED
+        //TESTING
         HashMap<Item, Integer> count = new HashMap<>();
         ItemTile[][] s = p.getBookshelf().getShelf();
         HashMap<Item, Integer> temp_j = new HashMap<>();
@@ -19,6 +19,7 @@ public class G4 implements Goal {
         count.put(Item.FRAME, 0);
         count.put(Item.TROPHY, 0);
         count.put(Item.PLANT, 0);
+        count.put(Item.EMPTY, 0);
 
         temp_i.put(Item.CAT, -1);
         temp_i.put(Item.BOOK, -1);
@@ -26,6 +27,8 @@ public class G4 implements Goal {
         temp_i.put(Item.FRAME, -1);
         temp_i.put(Item.TROPHY, -1);
         temp_i.put(Item.PLANT, -1);
+        temp_i.put(Item.EMPTY, -1);
+
 
         temp_j.put(Item.CAT, -1);
         temp_j.put(Item.BOOK, -1);
@@ -33,6 +36,7 @@ public class G4 implements Goal {
         temp_j.put(Item.FRAME, -1);
         temp_j.put(Item.TROPHY, -1);
         temp_j.put(Item.PLANT, -1);
+        temp_j.put(Item.EMPTY, -1);
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
@@ -41,22 +45,26 @@ public class G4 implements Goal {
                         && ((j == temp_j.get(s[i][j].getItem()) - 1)
                         || (j == temp_j.get(s[i][j].getItem()) - 2)
                         || (j == temp_j.get(s[i][j].getItem())))) {
-                    System.out.println("ciao belli");
+                    ;
                 }
                else {
                     if ((s[i][j].getItem() == s[i][j + 1].getItem())
                             && (s[i][j].getItem() == s[i + 1][j].getItem())
                             && (s[i][j].getItem() == s[i + 1][j + 1].getItem())
-                            && s[i][j].getItem() != Item.EMPTY) {
+                            && (s[i][j].getItem() != Item.EMPTY)) {
                         count.put(s[i][j].getItem(), count.get(s[i][j].getItem()) + 1);
                         temp_j.put(s[i][j].getItem(), j + 1);
                         temp_i.put(s[i][j].getItem(), i + 1);
                         j++;
                     }
                 }
-                if (count.get(s[i][j].getItem()) == 2) return true;
+                if (count.get(s[i][j].getItem()) == 2 && 
+                        (s[i][j].getItem() != Item.EMPTY)) return true;
             }
         }
         return false;
+    }
+    public void print() {
+        System.out.println("G4");
     }
 }

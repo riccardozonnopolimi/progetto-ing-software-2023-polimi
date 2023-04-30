@@ -48,6 +48,7 @@ public class G5_G8_G9_G10 implements Goal {
             count.put(Item.FRAME, false);
             count.put(Item.TROPHY, false);
             count.put(Item.PLANT, false);
+            count.put(Item.EMPTY, false);
             counterBool = 0;
             for (int i = 0; i < k; i++) {
                 //if need to check for column
@@ -72,5 +73,8 @@ public class G5_G8_G9_G10 implements Goal {
             if (countValid == numBlocks) return true;
         }
         return false;
+    }
+    public void print(){
+        System.out.println("G5_G8_G9_G10");
     }
 }

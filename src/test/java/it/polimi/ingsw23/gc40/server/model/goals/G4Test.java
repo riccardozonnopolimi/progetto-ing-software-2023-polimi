@@ -1,4 +1,5 @@
 package it.polimi.ingsw23.gc40.server.model.goals;
+import it.polimi.ingsw23.gc40.server.model.CommonGoalCard;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
@@ -45,8 +46,8 @@ public class G4Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
         p1.getBookshelf().print();
-        G4 goal = new G4();
-        assertTrue(goal.instanceGoal(p1));
+        CommonGoalCard a = new CommonGoalCard(new G4());
+        assertTrue(a.getGoal().instanceGoal(p1));
 
     }
     @Test
