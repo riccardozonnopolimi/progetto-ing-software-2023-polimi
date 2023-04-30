@@ -1,8 +1,8 @@
 package model;
 
-import it.polimi.ingsw23.gc40.server.model.Item;
-import it.polimi.ingsw23.gc40.server.model.ItemTile;
-import it.polimi.ingsw23.gc40.server.model.LRB;
+import it.polimi.ingsw23.gc40.server.Item;
+import it.polimi.ingsw23.gc40.server.ItemTile;
+import it.polimi.ingsw23.gc40.server.LRB;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 import org.junit.Test;

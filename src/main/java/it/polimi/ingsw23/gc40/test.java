@@ -1,11 +1,10 @@
 package it.polimi.ingsw23.gc40;
 
-import it.polimi.ingsw23.gc40.server.controller.MatchRMI;
-import it.polimi.ingsw23.gc40.server.model.CommonGoalCard;
-import it.polimi.ingsw23.gc40.server.model.Player;
-import it.polimi.ingsw23.gc40.server.model.goals.G4;
-import it.polimi.ingsw23.gc40.server.model.goals.G6;
-import it.polimi.ingsw23.gc40.server.model.goals.G7;
+import it.polimi.ingsw23.gc40.server.Match;
+import it.polimi.ingsw23.gc40.server.CommonGoalCard;
+import it.polimi.ingsw23.gc40.server.Player;
+import it.polimi.ingsw23.gc40.server.goals.G6;
+import it.polimi.ingsw23.gc40.server.goals.G7;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public class test{
     public static void main(String[] args) {
 
 
-        MatchRMI match = new MatchRMI(2);
+        Match match = new Match(2);
         match.addPlayer(new Player("Fil"));
         //match.addPlayer(new Player("Rick"));
         match.addPlayer(new Player("Gio"));
