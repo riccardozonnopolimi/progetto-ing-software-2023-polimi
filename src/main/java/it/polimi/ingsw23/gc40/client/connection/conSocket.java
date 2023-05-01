@@ -1,36 +1,32 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
 import it.polimi.ingsw23.gc40.netModel.TileData;
-import it.polimi.ingsw23.gc40.server.connection.ServerRMI;
 
-public class ClientRMI implements Connection{
-     ServerRMI stub;
-    public ClientRMI(ServerRMI stub) {
-        this.stub = stub;
+public class conSocket implements Connection{
+    public conSocket() {
+        //creo connessione socket con il server
     }
 
     @Override
     public void addPlayer(String name) {
-
-        stub.addPlayer(name);
+        //invio in socket il comando e il nome utente poi vediamo come
        // throw ExecutionControl.NotImplementedException;
     }
 
     @Override
     public TileData[] getTile(int x, int y, char direction, int qty) {
-        //return stub.getTile(x,y,dir,qty);
+
         return null;
     }
 
     @Override
     public void startInserction(int column) {
-        //stub.start....
 
     }
 
     @Override
     public void putTile(int id) {
-    //stub.put....
+
     }
 
 }
