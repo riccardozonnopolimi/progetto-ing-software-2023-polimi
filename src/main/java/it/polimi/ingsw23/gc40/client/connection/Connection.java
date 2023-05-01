@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
+import it.polimi.ingsw23.gc40.netModel.TileData;
+
 public interface Connection {
     public void addPlayer(String name);
 

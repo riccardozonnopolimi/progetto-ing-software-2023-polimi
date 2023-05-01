@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 public class dati {
     public static void main(String[] args) throws Exception{
-        PrivateModelObservable privateModel = new PrivateModelObservable();
+      //  PrivateModelObservable privateModel = new PrivateModelObservable();
 
 
 
@@ -23,7 +23,7 @@ public class dati {
         out.writeObject(a);
 
 
-        PrivateModelNetwork b = new PrivateModelNetwork(5,new ItemTile[]{new ItemTile(Item.FRAME ),new ItemTile(Item.CAT)},false,false);
-        out.writeObject(b);
+       // PrivateModelNetwork b = new PrivateModelNetwork(5,new ItemTile[]{new ItemTile(Item.FRAME ),new ItemTile(Item.CAT)},false,false);
+        //out.writeObject(b);
     }
 }

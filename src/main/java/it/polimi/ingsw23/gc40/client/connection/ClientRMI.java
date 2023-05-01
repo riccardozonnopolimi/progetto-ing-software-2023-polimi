@@ -1,19 +1,18 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
-public class RMI implements Connection{
-    ServerConn stub;
-    public RMI(ServerRMI stub) {
+import it.polimi.ingsw23.gc40.netModel.TileData;
+import it.polimi.ingsw23.gc40.server.connection.ServerRMI;
 
-        //creo stub rmi con server
-
-        conn.addListener
-                con.callmethod()
+public class ClientRMI implements Connection{
+     ServerRMI stub;
+    public ClientRMI(ServerRMI stub) {
+        this.stub = stub;
     }
 
     @Override
     public void addPlayer(String name) {
 
-        //stub.addPlayer()
+        stub.addPlayer(name);
        // throw ExecutionControl.NotImplementedException;
     }
 

@@ -1,10 +1,8 @@
 package it.polimi.ingsw23.gc40.client;
 
 import it.polimi.ingsw23.gc40.client.connection.Connection;
-import it.polimi.ingsw23.gc40.client.connection.RMI;
 import it.polimi.ingsw23.gc40.client.connection.Socket;
-import it.polimi.ingsw23.gc40.client.factory.Factory;
-import it.polimi.ingsw23.gc40.client.factory.RMIFactory;
+import it.polimi.ingsw23.gc40.client.connection.Factory;
 import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.client.view.GUI;
 import it.polimi.ingsw23.gc40.client.view.View;
@@ -37,19 +35,22 @@ public class Client {
         return n;
     }
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
         Connection con;
+        Factory fac;
         switch (getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:")) {
             case 0:
                 //rmi
-                Factory fac = new RMIFactory();
-                con = fac.con();
+                fac = new Factory();
+                con = fac.rmi("Server","localhost");
                 break;
             default:
                 //socket
-                con = new Socket();
+                fac = new Factory();
+                con = fac.socket();
                 break;
         }
+        con.addPlayer("fil");
         View view;
         switch (getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:")) {
             case 0:

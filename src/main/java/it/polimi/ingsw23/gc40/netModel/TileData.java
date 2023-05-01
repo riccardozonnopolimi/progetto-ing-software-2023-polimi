@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.client.connection;
+package it.polimi.ingsw23.gc40.netModel;
 
 public class TileData {
 

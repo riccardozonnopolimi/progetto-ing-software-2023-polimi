@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
+import it.polimi.ingsw23.gc40.netModel.TileData;
+
 public class Socket implements Connection{
     public Socket() {
         //creo connessione socket con il server

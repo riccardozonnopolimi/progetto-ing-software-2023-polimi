@@ -13,8 +13,12 @@ public abstract class Connection {
 
     ConnectionController controller;
 
-    public Connection(ConnectionController controller, Bookshelf bookshelf, Match match) {
+    public Connection(ConnectionController controller) {
         this.controller=controller;
+
+    }
+
+    public void bindModels(Bookshelf bookshelf, Match match){
         this.privateModel = new PrivateModelObservable(bookshelf, match);
     }
 }
