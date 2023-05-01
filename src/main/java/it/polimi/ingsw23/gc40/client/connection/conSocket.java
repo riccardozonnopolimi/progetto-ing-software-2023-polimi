@@ -3,7 +3,7 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.netModel.TileData;
 
 public class conSocket implements Connection{
-    public conSocket() {
+    public conSocket(conSocket stub) {
         //creo connessione socket con il server
     }
 

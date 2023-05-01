@@ -3,6 +3,7 @@ package it.polimi.ingsw23.gc40.client;
 import it.polimi.ingsw23.gc40.client.connection.Connection;
 import it.polimi.ingsw23.gc40.client.connection.ConnectionStarter;
 import it.polimi.ingsw23.gc40.client.connection.conRMI;
+import it.polimi.ingsw23.gc40.client.connection.conSocket;
 import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.client.view.GUI;
 import it.polimi.ingsw23.gc40.client.view.View;
@@ -37,18 +38,18 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
         Connection con;
-        ConnectionStarter fac;
+        ConnectionStarter starter;
 
         switch (getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:")) {
             case 0:
                 //rmi
-                fac = new ConnectionStarter();
-                con = new conRMI(fac.rmi("Server","localhost"));
+                starter = new ConnectionStarter();
+                con = new conRMI(starter.rmi("Server","localhost"));
                 break;
             default:
                 //socket
-                fac = new ConnectionStarter();
-                con = fac.socket();
+                starter = new ConnectionStarter();
+                con = new conSocket(starter.socket());
                 break;
         }
 con.addPlayer("fil");

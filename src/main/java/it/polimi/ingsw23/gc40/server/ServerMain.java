@@ -12,7 +12,7 @@ public class ServerMain {
     public static void main(String[] args) throws Exception {
        FactorySingleton a = new FactorySingleton();
        a.init();
-
+//accendi server socket e tutte le sue conseguenze
 /*
         try{
             ServerMain sMod = new ServerMain();
@@ -27,5 +27,5 @@ public class ServerMain {
 
     }
     */
-
-}}
+    }
+}
