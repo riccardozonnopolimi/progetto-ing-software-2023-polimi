@@ -1,35 +1,13 @@
 package it.polimi.ingsw23.gc40.server;
 
-import it.polimi.ingsw23.gc40.server.connection.ConnectionController;
-
-import it.polimi.ingsw23.gc40.server.connection.FactorySingleton;
-
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import it.polimi.ingsw23.gc40.server.connection.Controller;
+import it.polimi.ingsw23.gc40.server.connection.Host;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
-        FactorySingleton a = new FactorySingleton();
-        a.init();
-        //creating a FactorySingleton for socket connection
-        FactorySingleton b = new FactorySingleton();
-        b.socketInit();
-
-//accendi server socket e tutte le sue conseguenze
-/*
-        try{
-            ServerMain sMod = new ServerMain();
-            ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(sMod, 0);
-            Registry registry = LocateRegistry.createRegistry(1099);
-
-            registry.bind("ConnectionController", stub);
-        }catch (Exception e){
-            System.out.println("catch del main");
-            e.printStackTrace();
-        }
-
-    }
-    */
+        Controller controller = new Controller();
+        Host a = new Host(controller);
+        a.rmiInit();
+        a.socketInit();
     }
 }

@@ -10,9 +10,9 @@ public abstract class View {
         this.con = connection;
     }
 
-    public void addPlayer(String name) throws RemoteException{
+    public void addPlayer(String name) throws RemoteException, Exception{
         con.addPlayer(name);
     }
 
-    public abstract void start() throws RemoteException;
+    public abstract void start() throws RemoteException, Exception;
 }

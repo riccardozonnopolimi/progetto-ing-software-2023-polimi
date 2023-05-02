@@ -6,7 +6,6 @@ import it.polimi.ingsw23.gc40.server.connection.ConnectionController;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,27 +18,26 @@ public class ConnectionStarter {
 
     }
 
-    public conSocket socket() {
-
+    public Socket socketStart() {
+        Socket socket = null;
         try {
-            Socket personalSocket = new Socket(InetAddress.getLocalHost(), 6789);
-            System.out.println("socketConnected");
-            DataInputStream in = new DataInputStream(personalSocket.getInputStream());
-            DataOutputStream out = new DataOutputStream(personalSocket.getOutputStream());
-        }catch (UnknownHostException e){
+           socket  = new Socket("localhost", 6789);
+            System.out.println("Socket server agganciato ;)");
+        } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return null;
+        return socket;
     }
 
 
     public static ConnectionController rmi(String name, String host) throws Exception{
         Registry registry = LocateRegistry.getRegistry(host);
-        System.out.println("Connesso");
+        System.out.println("Trovato registro");
         ConnectionController fac = ((ConnectionController) registry.lookup(name));
+        System.out.println("Trovato stub server");
         return fac;
     }
 }

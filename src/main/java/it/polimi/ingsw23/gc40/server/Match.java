@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 public class Match extends Observable {
@@ -33,9 +34,20 @@ public class Match extends Observable {
     private boolean ending;
     private Player next;
 
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
 
+    @Override
+    public synchronized void deleteObservers() {
+        super.deleteObservers();
+    }
 
-
+    @Override
+    public void notifyObservers(Object arg) {
+        super.notifyObservers(arg);
+    }
 
     public void print(String s) {
         System.out.println(s);
@@ -148,7 +160,8 @@ public class Match extends Observable {
             PGs.remove(rand);
         }
 
-        this.notifyObservers(this);
+       // this.notifyObservers(this.players.get(0).getBookshelf());
+
     }
 
     public Player getNext() {
@@ -240,7 +253,6 @@ public class Match extends Observable {
     public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
         this.commonGoals = commonGoals;
     }
-
 
     public void setNext(Player next) {
         this.next = next;
@@ -437,7 +449,6 @@ public class Match extends Observable {
             num = players.indexOf(p) + 1;
         next = players.get(num);
     }
-
 
 }
 

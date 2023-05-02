@@ -49,7 +49,7 @@ public class Client {
             default:
                 //socket
                 starter = new ConnectionStarter();
-                con = new conSocket(starter.socket());
+                con = new conSocket(starter.socketStart());
                 break;
         }
     con.addPlayer("fil");
@@ -66,5 +66,7 @@ public class Client {
         }
 
         view.start();
+
+
     }
 }

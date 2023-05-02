@@ -35,4 +35,8 @@ public class conRMI implements Connection{
     //stub.put....
     }
 
+    @Override
+    public void close() throws RemoteException, Exception {
+        this.stub = null;
+    }
 }

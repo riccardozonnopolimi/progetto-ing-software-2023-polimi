@@ -10,10 +10,10 @@ public class CLI extends View{
     }
 
     @Override
-    public void start() throws RemoteException {
-        System.out.println("ciao sono partito");
+    public void start() throws RemoteException, Exception {
+        System.out.println("#metodo start della view CLI");
 
         con.addPlayer("Filiberto");
-
+        con.close();
     }
 }
