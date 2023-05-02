@@ -5,6 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.TileData;
 public class conSocket implements Connection{
     public conSocket(conSocket stub) {
         //creo connessione socket con il server
+
     }
 
     @Override

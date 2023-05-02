@@ -10,8 +10,12 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
-       FactorySingleton a = new FactorySingleton();
-       a.init();
+        FactorySingleton a = new FactorySingleton();
+        a.init();
+        //creating a FactorySingleton for socket connection
+        FactorySingleton b = new FactorySingleton();
+        b.socketInit();
+
 //accendi server socket e tutte le sue conseguenze
 /*
         try{

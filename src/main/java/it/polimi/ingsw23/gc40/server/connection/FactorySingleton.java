@@ -9,6 +9,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import java.io.*;
+import java.net.*;
+
 public final class FactorySingleton implements ConnectionController {
 
 
@@ -23,7 +26,7 @@ public final class FactorySingleton implements ConnectionController {
             ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(this, 0);
             System.out.println("2");
 
-            Registry registry = LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(1098);
             System.out.println("3");
 
             registry.bind("Server", stub);
@@ -36,6 +39,34 @@ public final class FactorySingleton implements ConnectionController {
         }
     }
     //imposti server socket e conseguenze
+    public void socketInit(){
+
+        try {
+            //creating serverSocket
+            ServerSocket serverSocket = new ServerSocket(6799);
+            System.out.println("serverSocket pronto");
+
+            //creating Socket for single Client
+            Socket socketClient = serverSocket.accept();
+
+
+            DataInputStream in = new DataInputStream(socketClient.getInputStream());
+            DataOutputStream out = new DataOutputStream(socketClient.getOutputStream());
+
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
+
+    }
+
 
 
     public void addPlayer(String name){
