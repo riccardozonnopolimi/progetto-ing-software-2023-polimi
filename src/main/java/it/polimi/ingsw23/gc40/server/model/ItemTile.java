@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.server;
+package it.polimi.ingsw23.gc40.server.model;
 
 import java.io.Serializable;
 

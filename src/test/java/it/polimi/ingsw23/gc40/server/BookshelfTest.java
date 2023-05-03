@@ -1,5 +1,8 @@
 package it.polimi.ingsw23.gc40.server;
 
+import it.polimi.ingsw23.gc40.server.model.Bookshelf;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import junit.framework.TestCase;
 
 public class BookshelfTest extends TestCase {

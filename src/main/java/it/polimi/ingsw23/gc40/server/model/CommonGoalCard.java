@@ -1,9 +1,8 @@
-package it.polimi.ingsw23.gc40.server;
+package it.polimi.ingsw23.gc40.server.model;
 
-import it.polimi.ingsw23.gc40.server.goals.Goal;
+import it.polimi.ingsw23.gc40.server.model.goals.Goal;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 public class CommonGoalCard implements Serializable {
     private Goal goal;

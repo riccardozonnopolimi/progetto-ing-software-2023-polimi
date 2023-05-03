@@ -52,7 +52,6 @@ public class Client {
                 con = new conSocket(starter.socketStart());
                 break;
         }
-    con.addPlayer("fil");
         View view;
         switch (getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:")) {
             case 0:

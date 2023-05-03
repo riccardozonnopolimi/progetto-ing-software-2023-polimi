@@ -1,7 +1,8 @@
 package it.polimi.ingsw23.gc40.server.goals;
-import it.polimi.ingsw23.gc40.server.Item;
-import it.polimi.ingsw23.gc40.server.ItemTile;
-import it.polimi.ingsw23.gc40.server.Player;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Player;
+import it.polimi.ingsw23.gc40.server.model.goals.G11;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
 public class G11Test {

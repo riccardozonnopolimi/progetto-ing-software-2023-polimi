@@ -1,10 +1,9 @@
-package it.polimi.ingsw23.gc40.server.connection;
+package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.netModel.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.server.Bookshelf;
-import it.polimi.ingsw23.gc40.server.ItemTile;
-import it.polimi.ingsw23.gc40.server.Match;
-import it.polimi.ingsw23.gc40.server.PersonalGoalCard;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.server.model.Bookshelf;
+import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.PersonalGoalCard;
 
 import java.util.Observable;
 import java.util.Observer;

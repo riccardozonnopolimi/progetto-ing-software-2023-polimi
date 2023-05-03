@@ -1,6 +1,4 @@
-package it.polimi.ingsw23.gc40.server;
-
-import java.util.Observable;
+package it.polimi.ingsw23.gc40.server.model;
 
 public class PersonalGoalCard  {
     private ItemTile[][] goal;

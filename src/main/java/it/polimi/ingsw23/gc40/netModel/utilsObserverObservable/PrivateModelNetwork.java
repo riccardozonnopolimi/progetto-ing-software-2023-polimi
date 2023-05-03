@@ -1,7 +1,7 @@
-package it.polimi.ingsw23.gc40.netModel;
+package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.server.ItemTile;
-import it.polimi.ingsw23.gc40.server.Match;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Match;
 
 import java.io.Serializable;
 

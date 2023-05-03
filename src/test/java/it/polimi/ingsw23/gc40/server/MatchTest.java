@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.server;
 
+import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.Player;
 import junit.framework.TestCase;
 
 public class MatchTest extends TestCase {

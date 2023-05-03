@@ -1,10 +1,8 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
 
-import it.polimi.ingsw23.gc40.server.connection.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;

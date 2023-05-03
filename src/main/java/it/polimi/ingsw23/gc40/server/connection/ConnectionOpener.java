@@ -1,6 +1,8 @@
 package it.polimi.ingsw23.gc40.server.connection;
 
 
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -11,10 +13,10 @@ import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public final class Host {
+public final class ConnectionOpener {
     Controller controller;
 
-    public Host(Controller controller) {
+    public ConnectionOpener(Controller controller) {
         this.controller = controller;
 
     }
@@ -35,29 +37,15 @@ public final class Host {
         }
     }
 
-    //imposti server socket e conseguenze
     public void socketInit() throws IOException {
         //creating threads for socket management
         ExecutorService executor = Executors.newCachedThreadPool();
         try {
             ServerSocket serverSocket = new ServerSocket(6789);
             System.out.println("#server Socket pronto");
-
-            /*
-            DataInputStream in = new DataInputStream(socketClient.getInputStream());
-            DataOutputStream out = new DataOutputStream(socketClient.getOutputStream());
-            String line;
-            */
-
             while (true) {
                 Socket socketClient = serverSocket.accept();
                 executor.submit(new SocketHandler(socketClient,controller));
-                    /*
-                    line = in.readUTF();
-                    System.out.println("line received: "+line);
-                    out.writeUTF("line received: "+line);
-                    out.flush();
-                     */
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

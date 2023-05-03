@@ -1,9 +1,8 @@
-package it.polimi.ingsw23.gc40.server.connection;
+package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.netModel.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.PublicModelNetwork;
-import it.polimi.ingsw23.gc40.server.Item;
-import it.polimi.ingsw23.gc40.server.ItemTile;;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;

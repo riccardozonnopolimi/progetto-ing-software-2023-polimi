@@ -1,14 +1,14 @@
 package it.polimi.ingsw23.gc40;
 
-import it.polimi.ingsw23.gc40.server.Match;
-import it.polimi.ingsw23.gc40.server.CommonGoalCard;
-import it.polimi.ingsw23.gc40.server.Player;
-import it.polimi.ingsw23.gc40.server.goals.G6;
-import it.polimi.ingsw23.gc40.server.goals.G7;
+import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.CommonGoalCard;
+import it.polimi.ingsw23.gc40.server.model.Player;
+import it.polimi.ingsw23.gc40.server.model.goals.G6;
+import it.polimi.ingsw23.gc40.server.model.goals.G7;
 
 import java.util.ArrayList;
 
-public class test{
+public class testCompleteMatch {
     public static void main(String[] args) {
 
 

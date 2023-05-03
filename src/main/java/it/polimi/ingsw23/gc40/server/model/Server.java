@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.server;
+package it.polimi.ingsw23.gc40.server.model;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Server {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
     private ArrayList<Match> activeMatches= new ArrayList<>();
-    private Match queueMatch;
+    public Match queueMatch; //todo private
     private ArrayList<Score> SavedScores= new ArrayList<>();
     public Server()  {
     }

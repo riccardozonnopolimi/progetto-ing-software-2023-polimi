@@ -1,11 +1,8 @@
-package it.polimi.ingsw23.gc40.netModel;
+package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.server.CommonGoalCard;
-import it.polimi.ingsw23.gc40.server.ItemTile;
-import it.polimi.ingsw23.gc40.server.LRB;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 public class PublicModelNetwork implements Serializable {
     private static final long serialVersionUID = 1345234;

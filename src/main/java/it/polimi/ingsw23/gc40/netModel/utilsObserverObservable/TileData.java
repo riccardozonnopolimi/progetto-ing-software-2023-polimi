@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.netModel;
+package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
 public class TileData {
 
