@@ -10,7 +10,7 @@ public interface Connection extends Remote {
     TileData[] getTile(int x, int y, char direction, int qty)throws RemoteException;
     void startInserction(int column)throws RemoteException;
     void putTile(int id)throws RemoteException;
-
+void serverPrint(String s) throws RemoteException;
     boolean newMatch(String string) throws RemoteException;
     boolean addToLastMatch(String name) throws RemoteException;
 

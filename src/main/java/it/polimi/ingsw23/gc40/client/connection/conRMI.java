@@ -7,8 +7,9 @@ import java.rmi.RemoteException;
 
 public class conRMI implements Connection{
     ConnectionController stub;
-    public conRMI(ConnectionController stub) {
+    public conRMI(ConnectionController stub) throws RemoteException {
         this.stub = stub;
+        serverPrint("#nuova connessione RMI");
     }
 
     @Override
@@ -50,6 +51,11 @@ public class conRMI implements Connection{
     @Override
     public void putTile(int id) {
         //stub.put....
+    }
+
+    @Override
+    public void serverPrint(String s) throws RemoteException {
+        stub.print(s);
     }
 
     @Override

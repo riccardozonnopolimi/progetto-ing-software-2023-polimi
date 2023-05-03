@@ -7,6 +7,7 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Server;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class Controller implements ConnectionController {
     private Server server;
@@ -36,15 +37,19 @@ public class Controller implements ConnectionController {
         switch (string){
             case "2":
                 match=server.createNewMatch(2);
+                System.out.println("Creato Match per 2");
                 return true;
             //notify match todo
             case "3":
                 match=server.createNewMatch(3);
+                System.out.println("Creato Match per 3");
                 return true;
             case "4":
                 match=server.createNewMatch(4);
+                System.out.println("Creato Match per 4");
                 return true;
             default:
+                System.out.println("Errore creazione Match: numero di giocatori richiesto: "+string);
                 return false;
         }
         //todo
@@ -55,6 +60,7 @@ public class Controller implements ConnectionController {
     public boolean addToLastMatch(String name){
         //have to obtain from onlinePlayer in server and return it
         Match match = server.addToLastMatch(server.getPlayer(name));
+        System.out.println("Aggiunto il giocarore "+name+" al match in attesa");
         if(match!=null)
         {
             return true;
@@ -64,9 +70,6 @@ public class Controller implements ConnectionController {
             return false;
     }
 
-    public void extAddPlayer(){
-        //todo
-    }
     public TileData[] getTile(int x, int y, char direction, int qty){
         return null; //todo
     }
@@ -78,9 +81,14 @@ public class Controller implements ConnectionController {
     }
     public boolean playable() throws RemoteException {
 
-        //todo test sul queue match
-        return server.queueMatch.playable();
+        //todo - per ora test su un solo match
+        return server.getActiveMatches().get(0).playable();
 
+    }
+
+    @Override
+    public void print(String s) throws RemoteException{
+        System.out.println(s);
     }
 
 

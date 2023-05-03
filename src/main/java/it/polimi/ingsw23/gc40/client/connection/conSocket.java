@@ -19,6 +19,7 @@ public class conSocket implements Connection{
         try {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
+            serverPrint("#nuova connessione Socket");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +28,7 @@ public class conSocket implements Connection{
     @Override
     public boolean addPlayer(String name) throws Exception{
         //out corrisponde al serversocket in ascolto
-        out.println("#addPlayer");
+        outprint("#addPlayer");
         return check(name);
     }
 
@@ -60,14 +61,20 @@ public class conSocket implements Connection{
     }
 
     @Override
+    public void serverPrint(String s) throws RemoteException {
+        outprint("#serverPrint");
+        outprint(s);
+    }
+
+    @Override
     public boolean newMatch(String string){
-        out.println("#newMatch");
+        outprint("#newMatch");
         return check(string);
     }
 
     @Override
     public boolean addToLastMatch(String name) throws RemoteException {
-        out.println("#addToLastMatch");
+        outprint("#addToLastMatch");
 
         return check(name);
     }
@@ -85,8 +92,7 @@ public class conSocket implements Connection{
 
     //send string to socket server; return true or false depending on server answer
     private boolean check(String string){
-        out.println(string);
-        out.flush();
+        outprint(string);
         try{
             String line = in.nextLine();
             if(line.equals("#false")) return false;
@@ -97,5 +103,10 @@ public class conSocket implements Connection{
         }
         System.out.println("##errore addPlayer conSocket");
         return false;
+    }
+
+    private void outprint(String s){
+        out.println(s);
+        out.flush();
     }
 }

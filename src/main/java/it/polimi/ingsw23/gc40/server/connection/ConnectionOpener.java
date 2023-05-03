@@ -22,13 +22,12 @@ public final class ConnectionOpener {
     }
 
     public void rmiInit() throws RemoteException {
-        System.out.println("#metodo rmiInit del server");
         try {
 
             ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(controller, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Server", stub);
-            System.out.println("#server rmi pronto");
+            System.out.println("#server RMI pronto");
 
         } catch (Exception e) {
             System.out.println("catch");

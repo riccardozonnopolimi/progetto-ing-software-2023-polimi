@@ -20,7 +20,7 @@ public class ConnectionStarter {
         Socket socket = null;
         try {
            socket  = new Socket("localhost", 6789);
-            System.out.println("Socket server agganciato ;)");
+            System.out.println("#Connessione Socket riuscita");
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
@@ -33,9 +33,8 @@ public class ConnectionStarter {
 
     public static ConnectionController rmi(String name, String host) throws Exception{
         Registry registry = LocateRegistry.getRegistry(host);
-        System.out.println("Trovato registro");
         ConnectionController fac = ((ConnectionController) registry.lookup(name));
-        System.out.println("Trovato stub server");
+        System.out.println("#Connessione RMI riuscita");
         return fac;
     }
 }

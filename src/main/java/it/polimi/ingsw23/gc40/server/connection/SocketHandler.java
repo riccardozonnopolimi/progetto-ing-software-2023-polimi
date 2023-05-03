@@ -52,6 +52,10 @@ public class SocketHandler implements Runnable {
                             line2 = in.nextLine();
                             bool(controller.addToLastMatch(line2));
                             break;
+                        case "#serverPrint":
+                            line2 = in.nextLine();
+                            controller.print(line2);
+                            break;
 
 
                         default:

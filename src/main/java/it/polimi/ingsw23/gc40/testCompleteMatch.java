@@ -33,6 +33,8 @@ public class testCompleteMatch {
             match.round(match.getNext());
         }
 
+        //server.endMatch(match);
+
         for (int i=0; i< match.getNumPlayers(); i++){
             System.out.println("Punteggio di "+match.getPlayers().get(i).getNickName()+": "+match.getPlayers().get(i).totScore());
         }
