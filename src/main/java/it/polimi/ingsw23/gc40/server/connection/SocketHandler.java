@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40.server.connection;
 
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.io.IOException;
@@ -10,14 +10,14 @@ import java.util.Scanner;
 
 public class SocketHandler implements Runnable {
 
-    private Controller controller;
+    private ProxyController proxyController;
     private Socket socket;
     private Scanner in;
     private PrintWriter out;
 
-    public SocketHandler(Socket socketClient, Controller controller) {
+    public SocketHandler(Socket socketClient, ProxyController proxyController) {
         this.socket = socketClient;
-        this.controller = controller;
+        this.proxyController = proxyController;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SocketHandler implements Runnable {
             while (true) {
                 String line = in.nextLine();
                 String line2;
-                Match match = null;
+                GameController gameController = null;
                 Player player = null;
                 if (line.equals("quit")) break;
                 else {
@@ -36,25 +36,25 @@ public class SocketHandler implements Runnable {
                     switch (line) {
                         case "#addPlayer":
                             line2 = in.nextLine();
-                            bool(controller.addPlayer(line2));
+                            bool(proxyController.addPlayer(line2));
                             break;
                         case "#hasQueueMatch":
-                            bool(controller.hasQueueMatch());
+                            bool(proxyController.hasQueueMatch());
                             break;
                         case "#newMatch":
                             line2 = in.nextLine();
-                            bool(controller.newMatch(line2));
+                            bool(proxyController.newMatch(line2));
                             break;
                         case "#playable":
-                            bool(controller.playable());
+                            bool(proxyController.playable());
                             break;
                         case "#addToLastMatch":
                             line2 = in.nextLine();
-                            bool(controller.addToLastMatch(line2));
+                            bool(proxyController.addToLastMatch(line2));
                             break;
                         case "#serverPrint":
                             line2 = in.nextLine();
-                            controller.print(line2);
+                            proxyController.print(line2);
                             break;
 
 

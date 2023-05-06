@@ -5,11 +5,11 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.rmi.RemoteException;
 
-public class conRMI implements Connection{
+public class conRMI implements ConnectionController{
     ConnectionController stub;
     public conRMI(ConnectionController stub) throws RemoteException {
         this.stub = stub;
-        serverPrint("#nuova connessione RMI");
+        print("#nuova connessione RMI");
     }
 
     @Override
@@ -21,11 +21,7 @@ public class conRMI implements Connection{
         return stub.newMatch(string);
     }
 
-    @Override
-    public TileData[] getTile(int x, int y, char direction, int qty)  {
-        //return stub.getTile(x,y,dir,qty);
-        return null;
-    }
+
 
 
     public boolean hasQueueMatch() throws RemoteException{
@@ -42,24 +38,21 @@ public class conRMI implements Connection{
         return stub.addToLastMatch(name);
     }
 
-    @Override
-    public void startInserction(int column) {
-        //stub.start....
 
-    }
 
-    @Override
-    public void putTile(int id) {
-        //stub.put....
-    }
 
-    @Override
+    /* /@Override
     public void serverPrint(String s) throws RemoteException {
         stub.print(s);
     }
-
+    */
     @Override
     public void close() throws RemoteException {
         this.stub = null;
+    }
+
+    @Override
+    public void print(String s) throws RemoteException {
+        stub.print(s);
     }
 }

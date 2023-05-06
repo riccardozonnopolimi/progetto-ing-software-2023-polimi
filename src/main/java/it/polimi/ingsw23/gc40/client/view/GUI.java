@@ -1,9 +1,9 @@
 package it.polimi.ingsw23.gc40.client.view;
 
-import it.polimi.ingsw23.gc40.client.connection.Connection;
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 public class GUI extends View{
-    public GUI(Connection con) {
+    public GUI(ConnectionController con) {
         super(con);
     }
 

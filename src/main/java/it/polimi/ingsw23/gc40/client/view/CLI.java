@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40.client.view;
 
-import it.polimi.ingsw23.gc40.client.connection.Connection;
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class CLI extends View {
     private Scanner sc;
 
-    public CLI(Connection con) {
+    public CLI(ConnectionController con) {
         super(con);
         sc = new Scanner(System.in);
     }

@@ -1,12 +1,12 @@
 package it.polimi.ingsw23.gc40.client.view;
 
-import it.polimi.ingsw23.gc40.client.connection.Connection;
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.rmi.RemoteException;
 
 public abstract class View {
-    Connection con;
-    public View(Connection connection) {
+    ConnectionController con;
+    public View(ConnectionController connection) {
         this.con = connection;
     }
 

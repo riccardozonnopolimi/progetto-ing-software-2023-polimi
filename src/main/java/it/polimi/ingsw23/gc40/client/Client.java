@@ -1,12 +1,12 @@
 package it.polimi.ingsw23.gc40.client;
 
-import it.polimi.ingsw23.gc40.client.connection.Connection;
 import it.polimi.ingsw23.gc40.client.connection.ConnectionStarter;
 import it.polimi.ingsw23.gc40.client.connection.conRMI;
 import it.polimi.ingsw23.gc40.client.connection.conSocket;
 import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.client.view.GUI;
 import it.polimi.ingsw23.gc40.client.view.View;
+import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -37,7 +37,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
-        Connection con;
+        ConnectionController con;
         ConnectionStarter starter;
 
         switch (getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:")) {

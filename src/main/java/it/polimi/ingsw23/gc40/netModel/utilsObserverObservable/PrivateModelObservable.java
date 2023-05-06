@@ -1,8 +1,7 @@
 package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.server.model.Bookshelf;
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.GameController;
 import it.polimi.ingsw23.gc40.server.model.PersonalGoalCard;
 
 import java.util.Observable;
@@ -11,7 +10,7 @@ import java.util.Observer;
 public class PrivateModelObservable extends Observable implements Observer {
     private PrivateModelNetwork data;
 
-    public PrivateModelObservable(Bookshelf bookshelf, PersonalGoalCard pgc, Match m){
+    public PrivateModelObservable(Bookshelf bookshelf, PersonalGoalCard pgc, GameController m){
         /*
         bookshelf.addObserver((o,  _arg) -> {
             ItemTile[][] arg = (ItemTile[][])_arg;

@@ -14,17 +14,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class ConnectionOpener {
-    Controller controller;
+    ProxyController proxyController;
 
-    public ConnectionOpener(Controller controller) {
-        this.controller = controller;
+    public ConnectionOpener(ProxyController proxyController) {
+        this.proxyController = proxyController;
 
     }
 
     public void rmiInit() throws RemoteException {
         try {
 
-            ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(controller, 0);
+            ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(proxyController, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Server", stub);
             System.out.println("#server RMI pronto");
@@ -44,7 +44,7 @@ public final class ConnectionOpener {
             System.out.println("#server Socket pronto");
             while (true) {
                 Socket socketClient = serverSocket.accept();
-                executor.submit(new SocketHandler(socketClient,controller));
+                executor.submit(new SocketHandler(socketClient, proxyController));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

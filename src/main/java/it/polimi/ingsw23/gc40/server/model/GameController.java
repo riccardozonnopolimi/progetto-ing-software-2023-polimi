@@ -12,7 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
-public class Match extends Observable {
+public class GameController extends Observable {
     private int numPlayers;
     private ArrayList<ItemTile> bag = new ArrayList<>();
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
@@ -53,7 +53,7 @@ public class Match extends Observable {
         System.out.println(s);
     }
 
-    public Match(int numPlayers) {
+    public GameController(int numPlayers) {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;

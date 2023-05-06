@@ -1,15 +1,15 @@
 package it.polimi.ingsw23.gc40.server;
 
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import junit.framework.TestCase;
 
-public class MatchTest extends TestCase {
+public class GameProxyControllerTest extends TestCase {
 
     //verify that the initially next is null
     public void testGetNext() {
-        Match match = new Match(3);
-        assertNull(match.getNext());
+        GameController gameController = new GameController(3);
+        assertNull(gameController.getNext());
     }
 
     //testing playable with four players
@@ -18,15 +18,15 @@ public class MatchTest extends TestCase {
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
         Player Rick = new Player("Rick");
-        Match match = new Match(4);
+        GameController gameController = new GameController(4);
         //adding three player -> playable should return false
-        match.addPlayer(Gioggio);
-        match.addPlayer(Peppe);
-        match.addPlayer(Fil);
-        assertFalse(match.playable());
+        gameController.addPlayer(Gioggio);
+        gameController.addPlayer(Peppe);
+        gameController.addPlayer(Fil);
+        assertFalse(gameController.playable());
         //adding last player playable should return true
-        match.addPlayer(Rick);
-        assertTrue(match.playable());
+        gameController.addPlayer(Rick);
+        assertTrue(gameController.playable());
     }
 
     //testing playable with 3 players
@@ -34,27 +34,27 @@ public class MatchTest extends TestCase {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
-        Match match = new Match(3);
+        GameController gameController = new GameController(3);
         //adding two player -> playable should return false
-        match.addPlayer(Gioggio);
-        match.addPlayer(Peppe);
-        assertFalse(match.playable());
+        gameController.addPlayer(Gioggio);
+        gameController.addPlayer(Peppe);
+        assertFalse(gameController.playable());
         //adding last player -> playable should return true
-        match.addPlayer(Fil);
-        assertTrue(match.playable());
+        gameController.addPlayer(Fil);
+        assertTrue(gameController.playable());
     }
 
     //testing playable with two people
     public void testPlayable2Player() {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
-        Match match = new Match(2);
+        GameController gameController = new GameController(2);
         //adding two player -> playable should return false
-        match.addPlayer(Gioggio);
-        assertFalse(match.playable());
+        gameController.addPlayer(Gioggio);
+        assertFalse(gameController.playable());
         //adding last player -> playable should return true
-        match.addPlayer(Peppe);
-        assertTrue(match.playable());
+        gameController.addPlayer(Peppe);
+        assertTrue(gameController.playable());
     }
 
 

@@ -1,14 +1,14 @@
 package it.polimi.ingsw23.gc40.server;
 
-import it.polimi.ingsw23.gc40.server.connection.Controller;
+import it.polimi.ingsw23.gc40.server.connection.ProxyController;
 import it.polimi.ingsw23.gc40.server.connection.ConnectionOpener;
-import it.polimi.ingsw23.gc40.server.model.Server;
+import it.polimi.ingsw23.gc40.server.model.LobbyController;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
-        Server server = new Server();
-        Controller controller = new Controller(server);
-        ConnectionOpener a = new ConnectionOpener(controller);
+        LobbyController lobbyController = new LobbyController();
+        ProxyController proxyController = new ProxyController(lobbyController);
+        ConnectionOpener a = new ConnectionOpener(proxyController);
         a.rmiInit();
         a.socketInit();
     }

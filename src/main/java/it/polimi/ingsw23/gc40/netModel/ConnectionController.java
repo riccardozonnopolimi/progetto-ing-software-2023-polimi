@@ -11,12 +11,12 @@ import java.rmi.RemoteException;
 public interface ConnectionController extends Remote {
 
     boolean addPlayer(String name) throws RemoteException;
-    TileData[] getTile(int x, int y, char direction, int qty) throws RemoteException;
-    void startInserction(int column) throws RemoteException;
-    void putTile(int id) throws RemoteException;
     boolean hasQueueMatch() throws RemoteException;
     boolean newMatch(String string) throws RemoteException;
     boolean addToLastMatch(String string) throws RemoteException;
     boolean playable() throws RemoteException;
+
+    void close() throws RemoteException;
+
     void print(String s) throws RemoteException;
 }

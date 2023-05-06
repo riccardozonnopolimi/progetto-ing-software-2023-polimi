@@ -3,28 +3,28 @@ package it.polimi.ingsw23.gc40.server.model;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Server {
+public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
-    private ArrayList<Match> activeMatches= new ArrayList<>();
-    public Match queueMatch; //todo private
+    private ArrayList<GameController> activeGameControllers = new ArrayList<>();
+    public GameController queueMatch; //todo private
     private ArrayList<Score> SavedScores= new ArrayList<>();
-    public Server()  {
+    public LobbyController()  {
     }
 
     public void addPlayer(String name) {
         Player p = new Player(name);
         onlinePlayers.add(p);
     }
-    public Match createNewMatch(int numPlayer) {
-        queueMatch = new Match(numPlayer);
+    public GameController createNewMatch(int numPlayer) {
+        queueMatch = new GameController(numPlayer);
         return queueMatch;
     }
-    public Match addToLastMatch(Player player) {
+    public GameController addToLastMatch(Player player) {
         //TO TEST
         //if true it means that the match has all the players, so it can start
         if (queueMatch.addPlayer(player)) {
-            Match m = queueMatch;
-            activeMatches.add(m);
+            GameController m = queueMatch;
+            activeGameControllers.add(m);
             queueMatch = null;
             return m;
         }
@@ -43,15 +43,15 @@ public class Server {
         }
         return false;
     }
-    public void endMatch(Match match) {
+    public void endMatch(GameController gameController) {
         //TO TEST
-        if(match.isEnding() && !match.playable()){
+        if(gameController.isEnding() && !gameController.playable()){
             ArrayList<Integer>  scores=new ArrayList<>();
-            for(int i=0; i<match.getPlayers().size(); i++) {
-                Integer integer = Integer.valueOf(match.getPlayers().get(i).totScore());
+            for(int i = 0; i< gameController.getPlayers().size(); i++) {
+                Integer integer = Integer.valueOf(gameController.getPlayers().get(i).totScore());
                 scores.add(integer);
             }
-            Score s = new Score(match.getPlayers(), match.winner(), scores);
+            Score s = new Score(gameController.getPlayers(), gameController.winner(), scores);
             SavedScores.add(s);
         }
 
@@ -78,7 +78,7 @@ public class Server {
         return null;
     }
 
-    public ArrayList<Match> getActiveMatches() throws RemoteException {
+    public ArrayList<GameController> getActiveMatches() throws RemoteException {
         return null;
     }
 

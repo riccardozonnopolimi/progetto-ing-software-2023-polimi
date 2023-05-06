@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40;
 
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.GameController;
 import it.polimi.ingsw23.gc40.server.model.CommonGoalCard;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.goals.G6;
@@ -12,34 +12,34 @@ public class testCompleteMatch {
     public static void main(String[] args) {
 
 
-        Match match = new Match(2);
-        match.addPlayer(new Player("Fil"));
+        GameController gameController = new GameController(2);
+        gameController.addPlayer(new Player("Fil"));
         //match.addPlayer(new Player("Rick"));
-        match.addPlayer(new Player("Gio"));
-        match.setNext(match.getPlayers().get(0));
+        gameController.addPlayer(new Player("Gio"));
+        gameController.setNext(gameController.getPlayers().get(0));
 
-        ArrayList<CommonGoalCard> cgs = match.getCommonGoals();
+        ArrayList<CommonGoalCard> cgs = gameController.getCommonGoals();
         cgs.remove(1);
         cgs.remove(0);
         cgs.add(new CommonGoalCard(new G6()));
         cgs.add(new CommonGoalCard(new G7()));
-        match.setCommonGoals(cgs);
+        gameController.setCommonGoals(cgs);
 
-        match.getCommonGoals().get(0).getGoal().print();
-        match.getCommonGoals().get(1).getGoal().print();
+        gameController.getCommonGoals().get(0).getGoal().print();
+        gameController.getCommonGoals().get(1).getGoal().print();
 
-        while(match.playable()){
-            System.out.println("E' il turno di "+match.getNext().getNickName());
-            match.round(match.getNext());
+        while(gameController.playable()){
+            System.out.println("E' il turno di "+ gameController.getNext().getNickName());
+            gameController.round(gameController.getNext());
         }
 
         //server.endMatch(match);
 
-        for (int i=0; i< match.getNumPlayers(); i++){
-            System.out.println("Punteggio di "+match.getPlayers().get(i).getNickName()+": "+match.getPlayers().get(i).totScore());
+        for (int i = 0; i< gameController.getNumPlayers(); i++){
+            System.out.println("Punteggio di "+ gameController.getPlayers().get(i).getNickName()+": "+ gameController.getPlayers().get(i).totScore());
         }
 
-        System.out.println("THE WINNER IS..... "+match.winner().getNickName());
+        System.out.println("THE WINNER IS..... "+ gameController.winner().getNickName());
     }
 
 }

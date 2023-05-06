@@ -1,7 +1,7 @@
 package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
-import it.polimi.ingsw23.gc40.server.model.Match;
+import it.polimi.ingsw23.gc40.server.model.GameController;
 
 import java.io.Serializable;
 
@@ -9,13 +9,13 @@ public class PrivateModelNetwork implements Serializable {
     private static final long serialVersionUID = 7823495;
     private int riferPersonalCard;
     private ItemTile[][] bookshelf;
-    private Match match;
-    public Match getMatch() {
-        return match;
+    private GameController gameController;
+    public GameController getMatch() {
+        return gameController;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setMatch(GameController gameController) {
+        this.gameController = gameController;
     }
 
 

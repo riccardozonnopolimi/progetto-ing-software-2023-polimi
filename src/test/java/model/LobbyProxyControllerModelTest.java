@@ -1,11 +1,11 @@
 package model;
 
-import it.polimi.ingsw23.gc40.server.model.Server;
+import it.polimi.ingsw23.gc40.server.model.LobbyController;
 import junit.framework.TestCase;
 
 import java.rmi.RemoteException;
 
-public class ServerModelTest extends TestCase {
+public class LobbyProxyControllerModelTest extends TestCase {
 
     public void testAddPlayer() {
 
@@ -18,7 +18,7 @@ public class ServerModelTest extends TestCase {
     }
 
     public void testCheckExistingNickName() throws RemoteException {
-        var SM = new Server();
+        var SM = new LobbyController();
         SM.addPlayer("Giorgio");
         assertTrue(SM.checkExistingNickName("Giorgio"));
         SM.addPlayer("Filiberto");
