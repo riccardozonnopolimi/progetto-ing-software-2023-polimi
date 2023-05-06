@@ -1,8 +1,8 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.io.Serializable;
+import java.util.Observable;
 
-public class LRB implements Serializable {
+public class LRB extends Observable {
     private ItemTile[][] map;
 
     public LRB(int nump) {
@@ -201,6 +201,9 @@ public class LRB implements Serializable {
 
         }
     }
-
+    private void setChangedAndNotifyObservers(Object arg) {
+        setChanged();
+        notifyObservers(arg);
+    }
 
 }

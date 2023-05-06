@@ -1,6 +1,5 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.io.Serializable;
 import java.util.Observable;
 
 public class Bookshelf extends Observable  {
@@ -41,7 +40,7 @@ public class Bookshelf extends Observable  {
                 break;
             }
         }
-        this.notifyObservers(shelf);
+        setChangedAndNotifyObservers(shelf);
     }
 
     public void print() {
@@ -156,6 +155,10 @@ public class Bookshelf extends Observable  {
     }
     public void setADJCounter(int x) {
         ADJCounter = x;
+    }
+    private void setChangedAndNotifyObservers(Object arg) {
+        setChanged();
+        notifyObservers(arg);
     }
 }
 

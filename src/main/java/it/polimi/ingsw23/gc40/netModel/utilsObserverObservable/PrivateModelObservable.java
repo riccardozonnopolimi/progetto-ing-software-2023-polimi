@@ -1,10 +1,6 @@
 package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
-import it.polimi.ingsw23.gc40.server.model.Bookshelf;
-import it.polimi.ingsw23.gc40.server.controller.GameController;
-import it.polimi.ingsw23.gc40.server.model.ItemTile;
-import it.polimi.ingsw23.gc40.server.model.PersonalGoalCard;
-import it.polimi.ingsw23.gc40.server.model.Player;
+import it.polimi.ingsw23.gc40.server.model.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
@@ -40,10 +36,9 @@ public class PrivateModelObservable extends Observable implements Observer {
         }
         if(o instanceof PersonalGoalCard){
             pgc = (int) arg;
+            data = new PrivateModelNetwork(pgc,shelf);
         }
-        if(o instanceof Bookshelf){
-            shelf = (ItemTile[][]) arg;
-        }
+
     }
 
     public void send(PrivateModelNetwork data) throws Exception{

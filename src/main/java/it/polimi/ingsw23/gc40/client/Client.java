@@ -7,6 +7,7 @@ import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.client.view.GUI;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -65,6 +66,21 @@ public class Client {
         }
 
         view.start();
+
+        ItemTile[][] prova = (ItemTile[][]) view.deserializza("bookshelf");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                System.out.print(prova[i][j].toString() + "|");
+            }
+            System.out.println();
+
+        }
+
+
+
+
+
+
 
 
     }
