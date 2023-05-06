@@ -1,6 +1,7 @@
 package it.polimi.ingsw23.gc40.server.connection;
 
-import it.polimi.ingsw23.gc40.server.model.GameController;
+import it.polimi.ingsw23.gc40.server.controller.ProxyController;
+import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.io.IOException;

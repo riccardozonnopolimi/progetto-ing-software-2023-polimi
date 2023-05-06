@@ -1,4 +1,8 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.controller;
+
+import it.polimi.ingsw23.gc40.server.controller.GameController;
+import it.polimi.ingsw23.gc40.server.model.Player;
+import it.polimi.ingsw23.gc40.server.model.Score;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

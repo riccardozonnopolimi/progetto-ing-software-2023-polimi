@@ -1,9 +1,7 @@
-package it.polimi.ingsw23.gc40.server.connection;
+package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
-import it.polimi.ingsw23.gc40.server.model.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
-import it.polimi.ingsw23.gc40.server.model.LobbyController;
 
 import java.rmi.RemoteException;
 

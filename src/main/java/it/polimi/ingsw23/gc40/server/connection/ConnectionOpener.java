@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.server.connection;
 
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.server.controller.ProxyController;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

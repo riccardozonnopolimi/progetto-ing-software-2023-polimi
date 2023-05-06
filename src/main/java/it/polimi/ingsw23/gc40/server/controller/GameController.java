@@ -1,7 +1,8 @@
-package it.polimi.ingsw23.gc40.server.model;
+package it.polimi.ingsw23.gc40.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw23.gc40.server.model.*;
 import it.polimi.ingsw23.gc40.server.model.goals.*;
 
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
 package model;
 
-import it.polimi.ingsw23.gc40.server.model.LobbyController;
+import it.polimi.ingsw23.gc40.server.controller.LobbyController;
 import junit.framework.TestCase;
 
 import java.rmi.RemoteException;
