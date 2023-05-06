@@ -3,7 +3,7 @@ package it.polimi.ingsw23.gc40.server.model;
 import java.io.Serializable;
 import java.util.Observable;
 
-public class Bookshelf extends Observable implements Serializable {
+public class Bookshelf extends Observable  {
     private ItemTile[][] shelf;
     //private boolean full = false;
 

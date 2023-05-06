@@ -58,18 +58,7 @@ public class GameController extends Observable {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
-       /* try {
-            stub = (Match) UnicastRemoteObject.exportObject(this, 0);
-            Registry registry = LocateRegistry.getRegistry(1099);
-            registry.bind("Match", stub);
-            System.out.println("match collegato");
-        } catch (Exception e) {
-            System.err.println(e.toString());
-            e.printStackTrace();
-        }
 
-        System.out.println("match");
-*/
         //create a map for n players
         this.map = new LRB(numPlayers);
 
@@ -228,8 +217,7 @@ public class GameController extends Observable {
     }
 
     public void refill() {
-        //TO TEST
-        // manca il controllo di evereyTilesCompletelyFree di LRB
+        //TESTED
         if (this.map.everyTileCompletelyFree()) {
             ItemTile[][] map = this.map.getMap();
             for (int i = 0; i < 9; i++) {
@@ -260,7 +248,7 @@ public class GameController extends Observable {
     }
 
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
-        //to test
+        //tested
 
         ItemTile[] chosen = new ItemTile[quantity];
 
@@ -281,7 +269,6 @@ public class GameController extends Observable {
                 }
                 return chosen;
             case 'D':
-                //qui arriva
                 for (int i = 0; i < quantity; i++)
                     if ((x + quantity) > 8) {
                         return null;

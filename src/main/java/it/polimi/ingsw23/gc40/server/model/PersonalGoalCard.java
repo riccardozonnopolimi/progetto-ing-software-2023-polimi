@@ -1,6 +1,8 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class PersonalGoalCard  {
+import java.util.Observable;
+
+public class PersonalGoalCard extends Observable {
     private ItemTile[][] goal;
     private int id;
 

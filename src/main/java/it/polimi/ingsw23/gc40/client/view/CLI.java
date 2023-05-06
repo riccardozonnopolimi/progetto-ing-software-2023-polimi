@@ -20,11 +20,17 @@ public class CLI extends View {
 
         //creazione player
         String player = inString("Inserisci nome giocatore: ");
+
         while (!con.addPlayer(player)) {
             System.out.println("Nome utente già in uso, riprova...");
             player = inString("Inserisci nome giocatore: ");
         }
 
+        /*
+        while(playerserialzable.players.get(0).nickname.equals(name))
+        {
+
+        }         */
 
         //entro nel match / creo il match
         if (con.hasQueueMatch()) {

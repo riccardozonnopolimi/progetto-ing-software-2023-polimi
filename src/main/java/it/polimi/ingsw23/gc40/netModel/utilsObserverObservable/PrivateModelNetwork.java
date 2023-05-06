@@ -14,25 +14,22 @@ public class PrivateModelNetwork implements Serializable {
         return gameController;
     }
 
-    public void setMatch(GameController gameController) {
-        this.gameController = gameController;
+
+
+    public PrivateModelNetwork(int riferPersonalCard, ItemTile[][] bookshelf) {
+        this.riferPersonalCard = riferPersonalCard;
+        this.bookshelf = bookshelf;
     }
-
-
 
     public ItemTile[][] getBookshelf() {
         return bookshelf;
     }
 
-    public void setBookshelf(ItemTile[][] bookshelf) {
-        this.bookshelf = bookshelf;
-    }
+
 
     public int getRiferPersonalCard() {
         return riferPersonalCard;
     }
 
-    public void setRiferPersonalCard(int riferPersonalCard) {
-        this.riferPersonalCard = riferPersonalCard;
-    }
+
 }

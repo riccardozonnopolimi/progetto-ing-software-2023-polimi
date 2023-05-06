@@ -1,10 +1,10 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.io.Serializable;
+import java.util.Observable;
 
-public class Player implements Serializable {
+public class Player extends Observable {
     private boolean first;
-    private String nickName;
+    private final String nickName;
     private int CGScore;
     private int PGScore;
     private int ADJScore;
@@ -37,8 +37,8 @@ public class Player implements Serializable {
         return ADJScore;
     }
 
-    public void setADJScore(int adJscore) {
-        this.ADJScore = adJscore;
+    public void setADJScore(int adjScore) {
+        this.ADJScore = adjScore;
 
     }
 
@@ -70,26 +70,6 @@ public class Player implements Serializable {
         return bookshelf;
     }
 
-    public void setBookshelf(Bookshelf bookshelf) {
-        this.bookshelf = bookshelf;
-    }
-
-    public boolean getCG1Reached() {
-        return CG1Reached;
-    }
-
-    public void setCG1Reached(boolean CG1Reached) {
-        this.CG1Reached = CG1Reached;
-    }
-
-    public boolean getCG2Reached() {
-        return CG2Reached;
-    }
-
-    public void setCG2Reached(boolean CG2Reached) {
-        this.CG2Reached = CG2Reached;
-    }
-
     public PersonalGoalCard getPersonalGoal() {
         return personalGoal;
     }
@@ -105,5 +85,9 @@ public class Player implements Serializable {
     public int totScore() {
 
         return CGScore+PGScore+ ADJScore+firstScore;
+    }
+    public void insertIT(ItemTile it, int column){
+        this.bookshelf.insertIT(it, column);
+        notifyObservers(this.getBookshelf());
     }
 }

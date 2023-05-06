@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
-    public GameController queueMatch; //todo private
+    private GameController queueMatch;
     private ArrayList<Score> SavedScores= new ArrayList<>();
     public LobbyController()  {
     }
