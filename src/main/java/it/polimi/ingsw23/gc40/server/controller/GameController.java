@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObservable;
 import it.polimi.ingsw23.gc40.server.model.*;
 import it.polimi.ingsw23.gc40.server.model.goals.*;
 
@@ -14,54 +15,28 @@ import java.util.Observer;
 import java.util.Scanner;
 
 public class GameController extends Observable {
-    private int numPlayers;
+    private final Integer id;
+    private final int numPlayers;
     private ArrayList<ItemTile> bag = new ArrayList<>();
-    private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
+    private CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
     private ArrayList<Integer> CG2Scores = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
     private ArrayList<Player> players = new ArrayList<>();
     private LRB map;
-
-    public boolean isEnding() {
-        return ending;
-    }
-
     private boolean ending;
     private Player next;
+    private final PublicModelObservable publicModelObservable = new PublicModelObservable(this);
 
-    @Override
-    public synchronized void addObserver(Observer o) {
-        super.addObserver(o);
-    }
-
-    @Override
-    public synchronized void deleteObservers() {
-        super.deleteObservers();
-    }
-
-    @Override
-    public void notifyObservers(Object arg) {
-        super.notifyObservers(arg);
-    }
-
-    public void print(String s) {
-        System.out.println(s);
-    }
-
-    public GameController(int numPlayers) {
+    public GameController(int numPlayers, int id) {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
-
+        this.id = id;
+        setChanged();
+        notifyObservers(this.getId());
         //create a map for n players
         this.map = new LRB(numPlayers);
-
         //add to the bag all the tiles
         for (int i = 0; i < 22; i++)
             bag.add(new ItemTile(Item.CAT, i));
@@ -75,64 +50,59 @@ public class GameController extends Observable {
             bag.add(new ItemTile(Item.TROPHY, i));
         for (int i = 0; i < 22; i++)
             bag.add(new ItemTile(Item.PLANT, i));
-
         //Creating all common goals
         ArrayList<Goal> CGs = new ArrayList<>();
         //create CG1
-        CGs.add(new G1_G3(2, 6));
+        CGs.add(new G1_G3(2, 6, 1));
         //create CG3
-        CGs.add(new G1_G3(4, 4));
-        CGs.add(new G2());
-        CGs.add(new G4());
+        CGs.add(new G1_G3(4, 4, 3));
+        CGs.add(new G2(2));
+        CGs.add(new G4(4));
         //create CG5
-        CGs.add(new G5_G8_G9_G10(3, 3, true));
+        CGs.add(new G5_G8_G9_G10(3, 3, true, 5));
         //create CG8
-        CGs.add(new G5_G8_G9_G10(3, 4, false));
+        CGs.add(new G5_G8_G9_G10(3, 4, false, 8));
         //create CG9
-        CGs.add(new G5_G8_G9_G10(6, 2, true));
+        CGs.add(new G5_G8_G9_G10(6, 2, true, 9));
         //create CG10
-        CGs.add(new G5_G8_G9_G10(5, 2, false));
-        CGs.add(new G6());
-        CGs.add(new G7());
-        CGs.add(new G11());
-        CGs.add(new G12());
-
+        CGs.add(new G5_G8_G9_G10(5, 2, false, 10));
+        CGs.add(new G6(6));
+        CGs.add(new G7(7));
+        CGs.add(new G11(11));
+        CGs.add(new G12(12));
         //initialize common goals scores arrays
         if (numPlayers == 4) {
-            CG1Scores.add(Integer.valueOf(2));
-            CG1Scores.add(Integer.valueOf(4));
-            CG1Scores.add(Integer.valueOf(6));
-            CG1Scores.add(Integer.valueOf(8));
-            CG2Scores.add(Integer.valueOf(2));
-            CG2Scores.add(Integer.valueOf(4));
-            CG2Scores.add(Integer.valueOf(6));
-            CG2Scores.add(Integer.valueOf(8));
+            CG1Scores.add(2);
+            CG1Scores.add(4);
+            CG1Scores.add(6);
+            CG1Scores.add(8);
+            CG2Scores.add(2);
+            CG2Scores.add(4);
+            CG2Scores.add(6);
+            CG2Scores.add(8);
         }
         if (numPlayers == 3) {
-            CG1Scores.add(Integer.valueOf(4));
-            CG1Scores.add(Integer.valueOf(6));
-            CG1Scores.add(Integer.valueOf(8));
-            CG2Scores.add(Integer.valueOf(4));
-            CG2Scores.add(Integer.valueOf(6));
-            CG2Scores.add(Integer.valueOf(8));
+            CG1Scores.add(4);
+            CG1Scores.add(6);
+            CG1Scores.add(8);
+            CG2Scores.add(4);
+            CG2Scores.add(6);
+            CG2Scores.add(8);
         }
         if (numPlayers == 2) {
-            CG1Scores.add(Integer.valueOf(4));
-            CG1Scores.add(Integer.valueOf(8));
-            CG2Scores.add(Integer.valueOf(4));
-            CG2Scores.add(Integer.valueOf(8));
+            CG1Scores.add(4);
+            CG1Scores.add(8);
+            CG2Scores.add(4);
+            CG2Scores.add(8);
         }
-
         //choosing 2 common goals randomly
-        int rand = (int) (Math.random() * CGs.size());
-        commonGoals.add(new CommonGoalCard(CGs.get(rand)));
+        int rand = (int) (Math.random() * CGs.size());        commonGoals[0] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
-
         rand = (int) (Math.random() * CGs.size());
-        commonGoals.add(new CommonGoalCard(CGs.get(rand)));
+        commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
-
-
+        setChanged();
+        notifyObservers(this.getCommonGoals());
         //import all existing personal goals from json
         Gson gson = new Gson();
         ArrayList<PersonalGoalCard> PGs;
@@ -149,36 +119,37 @@ public class GameController extends Observable {
             personalGoals.add(PGs.get(rand));
             PGs.remove(rand);
         }
-
-       // this.notifyObservers(this.players.get(0).getBookshelf());
-
     }
 
     public Player getNext() {
-        return next;
+        return this.next;
     }
 
     public boolean playable() {
         //Tested
-        // if a player has filled his bookshelf and nextPlayer is first player i can not play
-        if (ending && next.isFirst()) return false;
+        // if a player has filled his bookshelf and nextPlayer is first player I can not play
+        if (ending && next.isFirst()) {
+            winner();
+            return false;
+        }
         //starts when there are all the players
         if (players.size() == numPlayers) return true;
         return false;
     }
 
     public Player winner() {
-
         //TO TEST
         int[] scores = new int[players.size()];
         for (int i = 0; i < players.size(); i++) {
             scores[i] = players.get(i).getCGScore() + players.get(i).getPGScore() + players.get(i).getADJScore() + players.get(i).getFirstScore();
         }
-
         int max = 0;
         for (int i = 0; i < players.size(); i++)
-            if (scores[i] > scores[max]) max = i;
-
+            if (scores[i] >= scores[max]) max = i;
+        setChanged();
+        notifyObservers(players.get(max).getNickName());
+        setChanged();
+        notifyObservers(true);
         return players.get(max);
     }
 
@@ -203,6 +174,7 @@ public class GameController extends Observable {
             personalGoals.remove(0);
         }
         players.get(0).setFirst(true);
+        this.next = players.get(0);
     }
 
     //This method returns true to server if the match is ready to start (has all players)
@@ -218,29 +190,29 @@ public class GameController extends Observable {
 
     public void refill() {
         //TESTED
-        if (this.map.everyTileCompletelyFree()) {
-            ItemTile[][] map = this.map.getMap();
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if (map[i][j].getItem() != Item.NOTREACHABLE) {
-                        if (map[i][j].getItem() == Item.EMPTY) map[i][j] = takeItem();
-                    }
+        ItemTile[][] map = this.map.getMap();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (map[i][j].getItem() != Item.NOTREACHABLE) {
+                    if (map[i][j].getItem() == Item.EMPTY) map[i][j] = takeItem();
                 }
             }
-            this.map.setMap(map);
         }
+        this.map.setMap(map);
     }
 
     public int getNumPlayers() {
         return numPlayers;
     }
 
-    public ArrayList<CommonGoalCard> getCommonGoals() {
+    public CommonGoalCard[] getCommonGoals() {
         return commonGoals;
     }
 
-    public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
+    public void setCommonGoals(CommonGoalCard[] commonGoals) {
         this.commonGoals = commonGoals;
+        setChanged();
+        notifyObservers(this.getCommonGoals());
     }
 
     public void setNext(Player next) {
@@ -318,10 +290,16 @@ public class GameController extends Observable {
 
     }
 
-    public void round(Player p) {
-        if(map.everyTileCompletelyFree())
-            refill();
+    public LRB getMap() {
+        return map;
+    }
 
+    public void round(Player p) {
+        if (map.needRefill()) {
+            refill();
+            setChanged();
+            notifyObservers(this.getMap().getMap());
+        }
         int placeables = p.getBookshelf().placeables();
         ItemTile[] handTiles;
 
@@ -365,25 +343,24 @@ public class GameController extends Observable {
 
         }
 
-
         //mostro la bookshelf e chiedo colonna in cui vuole inserire
         int column;
         p.getBookshelf().print();
         boolean retry;
         do {
-            retry=false;
+            retry = false;
             System.out.println("In quale colonna vuoi inserire le tiles?");
             sc.reset();
             column = sc.nextInt();
-            if(column<0||column>4){
-                retry=true;
-                System.out.println("Hai scelto una colonna inesistente");}
+            if (column < 0 || column > 4) {
+                retry = true;
+                System.out.println("Hai scelto una colonna inesistente");
+            }
             if (p.getBookshelf().getAvailableSlots(column) < handTiles.length) {
                 System.out.println("La colonna non ha sufficiente spazio, riprova:");
-                retry=true;
+                retry = true;
             }
         } while (retry);
-
 
         //mostra tiles in mano
         System.out.println("Hai selezionato i seguenti Tiles:");
@@ -396,7 +373,7 @@ public class GameController extends Observable {
             System.out.println("Scegli una tile da inserire:");
             int selected;
             do {
-                retry=false;
+                retry = false;
                 selected = sc.nextInt();
                 if (selected >= handTiles.length || selected < 0) {
                     System.out.println("Riprova:");
@@ -408,7 +385,6 @@ public class GameController extends Observable {
                     }
                 }
             } while (retry);
-
             p.getBookshelf().insertIT(handTiles[selected], column);
             handTiles[selected] = null;
             sc.reset();
@@ -423,9 +399,9 @@ public class GameController extends Observable {
 
         //refresh scores
         p.setADJScore(p.getBookshelf().ADJScore());
-        if (commonGoals.get(0).getGoal().instanceGoal(p))
+        if (commonGoals[0].getGoal().instanceGoal(p))
             p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
-        if (commonGoals.get(1).getGoal().instanceGoal(p))
+        if (commonGoals[1].getGoal().instanceGoal(p))
             p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
         p.getPersonalGoal().checkScore(p);
 
@@ -438,6 +414,35 @@ public class GameController extends Observable {
         next = players.get(num);
     }
 
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
+
+    @Override
+    public synchronized void deleteObservers() {
+        super.deleteObservers();
+    }
+
+    @Override
+    public void notifyObservers(Object arg) {
+        super.notifyObservers(arg);
+    }
+
+    public void print(String s) {
+        System.out.println(s);
+    }
+
+    public boolean isEnding() {
+        return ending;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 }
 
 

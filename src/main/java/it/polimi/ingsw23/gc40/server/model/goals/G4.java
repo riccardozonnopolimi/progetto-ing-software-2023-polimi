@@ -5,6 +5,10 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.util.HashMap;
 public class G4 implements Goal {
+    private final int id;
+    public G4(int id){
+        this.id = id;
+    }
     @Override
     public boolean instanceGoal(Player p) {
         //TESTING
@@ -66,5 +70,9 @@ public class G4 implements Goal {
     }
     public void print() {
         System.out.println("G4");
+    }
+    @Override
+    public int getId() {
+        return this.id;
     }
 }

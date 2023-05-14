@@ -34,7 +34,7 @@ public class conRMI implements ConnectionController{
     }
 
     @Override
-    public boolean addToLastMatch(String name) throws RemoteException {
+    public int addToLastMatch(String name) throws RemoteException {
         return stub.addToLastMatch(name);
     }
 

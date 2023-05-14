@@ -55,17 +55,16 @@ public class ProxyController implements ConnectionController {
     public boolean hasQueueMatch(){
         return lobbyController.hasQueueMatch();
     }
-    public boolean addToLastMatch(String name){
+    public int addToLastMatch(String name){
         //have to obtain from onlinePlayer in server and return it
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
         System.out.println("Aggiunto il giocarore "+name+" al match in attesa");
         //notify match todo
-        return (gameController != null);
+        return gameController.getId();
     }
 
 
     public boolean playable() throws RemoteException {
-
         //todo - per ora test su un solo match
         return lobbyController.getActiveMatches().get(0).playable();
 
@@ -73,7 +72,7 @@ public class ProxyController implements ConnectionController {
 
     @Override
     public void close() throws RemoteException {
-
+        //todo
     }
 
     @Override

@@ -7,10 +7,13 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 public class G1_G3 implements Goal {
     private final int grandezzaBlocco;
     private final int numeroBlocchi;
+    private final int id;
 
-    public G1_G3(int grandezzaBlocco, int numeroBlocchi) {
+    public G1_G3(int grandezzaBlocco, int numeroBlocchi, int id) {
         this.grandezzaBlocco = grandezzaBlocco;
         this.numeroBlocchi = numeroBlocchi;
+        this.id = id;
+
     }
 
     @Override
@@ -47,6 +50,12 @@ public class G1_G3 implements Goal {
         //goal not achieved
         return false;
     }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
     public void print(){
         System.out.println("G1_G3");
     }

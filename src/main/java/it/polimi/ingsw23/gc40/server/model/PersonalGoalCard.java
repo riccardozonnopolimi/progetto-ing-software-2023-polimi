@@ -1,8 +1,6 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.util.Observable;
-
-public class PersonalGoalCard extends Observable {
+public class PersonalGoalCard  {
     private ItemTile[][] goal;
     private int id;
 
@@ -10,6 +8,9 @@ public class PersonalGoalCard extends Observable {
 
     }
 
+    public int getId() {
+        return id;
+    }
 
     public void checkScore(Player p) {
         //TO TEST

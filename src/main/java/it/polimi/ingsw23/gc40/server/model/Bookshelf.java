@@ -2,7 +2,7 @@ package it.polimi.ingsw23.gc40.server.model;
 
 import java.util.Observable;
 
-public class Bookshelf extends Observable  {
+public class Bookshelf   {
     private ItemTile[][] shelf;
     //private boolean full = false;
 
@@ -40,7 +40,11 @@ public class Bookshelf extends Observable  {
                 break;
             }
         }
-        setChangedAndNotifyObservers(shelf);
+
+    }
+
+    public void setShelf(ItemTile[][] shelf) {
+        this.shelf = shelf;
     }
 
     public void print() {
@@ -156,10 +160,7 @@ public class Bookshelf extends Observable  {
     public void setADJCounter(int x) {
         ADJCounter = x;
     }
-    private void setChangedAndNotifyObservers(Object arg) {
-        setChanged();
-        notifyObservers(arg);
-    }
+
 }
 
 

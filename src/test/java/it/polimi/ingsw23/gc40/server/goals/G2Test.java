@@ -47,7 +47,7 @@ public class G2Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.PLANT, 2), 4);
 
         p1.getBookshelf().print();
-        G2 goal = new G2();
+        G2 goal = new G2(2);
         assertTrue(goal.instanceGoal(p1));
     }
 @Test
@@ -89,7 +89,7 @@ public class G2Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.PLANT, 2), 4);
 
         p1.getBookshelf().print();
-        G2 goal = new G2();
+        G2 goal = new G2(2);
         assertFalse(goal.instanceGoal(p1));
     }
 }

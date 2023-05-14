@@ -44,7 +44,7 @@ public class G11Test {
         p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
         p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
 
-        G11 goal = new G11();
+        G11 goal = new G11(11);
         assertTrue(goal.instanceGoal(p1));
     }
     @Test
@@ -86,7 +86,7 @@ public class G11Test {
     p2.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2),4);
     p2.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2),4);
 
-    G11 goal = new G11();
+    G11 goal = new G11(11);
     assertFalse(goal.instanceGoal(p2));
     }
 }

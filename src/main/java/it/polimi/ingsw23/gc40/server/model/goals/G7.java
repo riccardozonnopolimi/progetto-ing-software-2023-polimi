@@ -4,6 +4,10 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
 public class G7 implements Goal{
+    private final int id;
+    public G7(int id){
+        this.id = id;
+    }
     @Override
     public boolean instanceGoal(Player p) {
         ItemTile[][] s = p.getBookshelf().getShelf();
@@ -31,5 +35,9 @@ public class G7 implements Goal{
     }
     public void print() {
         System.out.println("G7");
+    }
+    @Override
+    public int getId() {
+        return this.id;
     }
 }

@@ -7,11 +7,12 @@ import it.polimi.ingsw23.gc40.server.model.Score;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class LobbyController {
+public class LobbyController extends Thread {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
     private GameController queueMatch;
     private ArrayList<Score> SavedScores= new ArrayList<>();
+    private int numMatch = 0;
     public LobbyController()  {
     }
 
@@ -20,7 +21,7 @@ public class LobbyController {
         onlinePlayers.add(p);
     }
     public GameController createNewMatch(int numPlayer) {
-        queueMatch = new GameController(numPlayer);
+        queueMatch = new GameController(numPlayer,numMatch + 1);
         return queueMatch;
     }
     public GameController addToLastMatch(Player player) {
@@ -29,6 +30,7 @@ public class LobbyController {
         if (queueMatch.addPlayer(player)) {
             GameController m = queueMatch;
             activeGameControllers.add(m);
+            this.start();
             queueMatch = null;
             return m;
         }
@@ -84,6 +86,15 @@ public class LobbyController {
 
     public ArrayList<GameController> getActiveMatches() throws RemoteException {
         return null;
+    }
+    @Override
+    public void run(){
+        GameController match = this.activeGameControllers.get(this.activeGameControllers.size()-1);
+        while(match.playable()){
+            System.out.println("E' il turno di "+ match.getNext().getNickName());
+            match.round(match.getNext());
+        }
+
     }
 
 }

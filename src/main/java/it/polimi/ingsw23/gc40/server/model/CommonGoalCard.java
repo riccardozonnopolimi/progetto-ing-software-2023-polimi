@@ -9,9 +9,6 @@ public class CommonGoalCard implements Serializable {
     private String cardName;
     private static final long serialVersionUID = 567789;
 
-    public CommonGoalCard() {
-
-    }
 
     public CommonGoalCard(Goal g) {
         this.goal=g;

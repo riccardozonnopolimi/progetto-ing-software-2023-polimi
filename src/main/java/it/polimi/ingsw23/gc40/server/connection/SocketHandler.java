@@ -51,7 +51,8 @@ public class SocketHandler implements Runnable {
                             break;
                         case "#addToLastMatch":
                             line2 = in.nextLine();
-                            bool(proxyController.addToLastMatch(line2));
+                            restituisci(proxyController.addToLastMatch(line2)+"");
+                            //todo better but think works
                             break;
                         case "#serverPrint":
                             line2 = in.nextLine();
@@ -82,4 +83,11 @@ public class SocketHandler implements Runnable {
             out.flush();
         }
     }
+    private void restituisci(String st){
+            out.println(st);
+            out.flush();
+
+
+    }
+
 }

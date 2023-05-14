@@ -46,7 +46,7 @@ public class G6Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
         p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
 
-        G6 goal = new G6();
+        G6 goal = new G6(6);
         assertTrue(goal.instanceGoal(p1));
     }
     @Test
@@ -87,7 +87,7 @@ public class G6Test extends TestCase {
         p2.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2),4);
         p2.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2),4);
 
-        G6 goal = new G6();
+        G6 goal = new G6(6);
         assertFalse(goal.instanceGoal(p2));
     }
 }

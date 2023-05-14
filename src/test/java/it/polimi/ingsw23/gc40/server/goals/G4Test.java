@@ -47,7 +47,7 @@ public class G4Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
         p1.getBookshelf().print();
-        CommonGoalCard a = new CommonGoalCard(new G4());
+        CommonGoalCard a = new CommonGoalCard(new G4(4));
         assertTrue(a.getGoal().instanceGoal(p1));
 
     }
@@ -90,7 +90,7 @@ public class G4Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
         p1.getBookshelf().print();
-        G4 goal = new G4();
+        G4 goal = new G4(4);
         assertFalse(goal.instanceGoal(p1));
 
     }
@@ -133,7 +133,7 @@ public class G4Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
         p1.getBookshelf().print();
-        G4 goal = new G4();
+        G4 goal = new G4(4);
         assertFalse(goal.instanceGoal(p1));
 
     }

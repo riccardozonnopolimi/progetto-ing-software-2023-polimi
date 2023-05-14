@@ -3,6 +3,10 @@ import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 public class G11 implements Goal {
+    private final int id;
+    public G11(int id){
+        this.id = id;
+    }
     @Override
     public boolean instanceGoal(Player p) {
         //TESTED
@@ -21,5 +25,9 @@ public class G11 implements Goal {
     }
     public void print() {
         System.out.println("G11");
+    }
+    @Override
+    public int getId() {
+        return this.id;
     }
 }

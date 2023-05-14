@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.server.model;
 
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObservable;
+
 import java.util.Observable;
 
 public class Player extends Observable {
@@ -13,6 +15,7 @@ public class Player extends Observable {
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
     private Bookshelf bookshelf;
+    private final PrivateModelObservable privateModelObservable = new PrivateModelObservable(this);
 
     public Player(String nickName) {
         this.nickName = nickName;
@@ -24,6 +27,15 @@ public class Player extends Observable {
         this.PGScore = 0;
         this.ADJScore = 0;
         this.bookshelf = new Bookshelf();
+        setChanged();
+        notifyObservers(this.getNickName());
+        /*
+        o si fa cosi oppure si settano a null dentro private model network quando viene costruita la prima volta
+        setChanged();
+        notifyObservers(this.getBookshelf());
+        setChanged();
+        notifyObservers(this.getPersonalGoal().getId());
+         */
 
     }
     public void setFirstScore(int firstScore) {
@@ -76,6 +88,8 @@ public class Player extends Observable {
 
     public void setPersonalGoal(PersonalGoalCard personalGoal) {
         this.personalGoal = personalGoal;
+        setChanged();
+        notifyObservers(this.getPersonalGoal().getId());
     }
 
     public String getNickName() {

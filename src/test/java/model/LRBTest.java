@@ -46,7 +46,7 @@ public class LRBTest extends TestCase {
                 }
             }
         }
-        assertFalse(lrb.everyTileCompletelyFree());
+        assertFalse(lrb.needRefill());
         // assertEquals(mappa[0][0].getItem(), Item.CAT);
     }
 

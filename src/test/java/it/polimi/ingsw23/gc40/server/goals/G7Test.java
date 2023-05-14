@@ -47,7 +47,7 @@ public class G7Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
 
         p1.getBookshelf().print();
-        G7 goal = new G7();
+        G7 goal = new G7(7);
         assertTrue(goal.instanceGoal(p1));
     }
 
@@ -90,7 +90,7 @@ public class G7Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
 
         p1.getBookshelf().print();
-        G7 goal = new G7();
+        G7 goal = new G7(7);
         assertFalse(goal.instanceGoal(p1));
     }
 }

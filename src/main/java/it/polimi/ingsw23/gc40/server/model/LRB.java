@@ -1,8 +1,6 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.util.Observable;
-
-public class LRB extends Observable {
+public class LRB {
     private ItemTile[][] map;
 
     public LRB(int nump) {
@@ -148,7 +146,7 @@ public class LRB extends Observable {
         this.map = map;
     }
 
-    public boolean everyTileCompletelyFree() {
+    public boolean needRefill() {
         //TESTED
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -201,9 +199,4 @@ public class LRB extends Observable {
 
         }
     }
-    private void setChangedAndNotifyObservers(Object arg) {
-        setChanged();
-        notifyObservers(arg);
-    }
-
 }

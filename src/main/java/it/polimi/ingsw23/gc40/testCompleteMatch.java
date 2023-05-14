@@ -12,21 +12,19 @@ public class testCompleteMatch {
     public static void main(String[] args) {
 
 
-        GameController gameController = new GameController(2);
+        GameController gameController = new GameController(2,1);
         gameController.addPlayer(new Player("Fil"));
         //match.addPlayer(new Player("Rick"));
         gameController.addPlayer(new Player("Gio"));
         gameController.setNext(gameController.getPlayers().get(0));
 
-        ArrayList<CommonGoalCard> cgs = gameController.getCommonGoals();
-        cgs.remove(1);
-        cgs.remove(0);
-        cgs.add(new CommonGoalCard(new G6()));
-        cgs.add(new CommonGoalCard(new G7()));
+        CommonGoalCard[] cgs = gameController.getCommonGoals();
+        cgs[0] = new CommonGoalCard(new G6(6));
+        cgs[1] = new CommonGoalCard(new G7(7));
         gameController.setCommonGoals(cgs);
 
-        gameController.getCommonGoals().get(0).getGoal().print();
-        gameController.getCommonGoals().get(1).getGoal().print();
+        cgs[0].getGoal().print();
+        cgs[1].getGoal().print();
 
         while(gameController.playable()){
             System.out.println("E' il turno di "+ gameController.getNext().getNickName());

@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class conSocket extends Thread implements ConnectionController  {
+public class conSocket extends Thread implements ConnectionController {
     private Socket socket;
     private Scanner in;
     private PrintWriter out;
@@ -35,7 +35,6 @@ public class conSocket extends Thread implements ConnectionController  {
         return check(name);
     }
 
-
     @Override
     public void close() {
         in.close();
@@ -46,7 +45,6 @@ public class conSocket extends Thread implements ConnectionController  {
             throw new RuntimeException(e);
         }
     }
-
 
     //@Override
     public void serverPrint(String s) throws RemoteException {
@@ -61,10 +59,16 @@ public class conSocket extends Thread implements ConnectionController  {
     }
 
     @Override
-    public boolean addToLastMatch(String name) throws RemoteException {
+    public int addToLastMatch(String name) throws RemoteException {
         outprint("#addToLastMatch");
-
-        return check(name);
+        while (this.value.equals("#")) {
+            this.value = "#";
+            System.out.print("");
+        }
+        int number;
+        number = Integer.parseInt(this.value);
+        this.value = "#";
+        return number;
     }
 
     @Override
@@ -79,14 +83,13 @@ public class conSocket extends Thread implements ConnectionController  {
 
     @Override
     public void print(String s) throws RemoteException {
-        //todo
+        //todo implementation
     }
 
     //send string to socket server; return true or false depending on server answer
     private boolean check(String string) {
         outprint(string);
         try {
-
             while (this.value.equals("#")) {
                 this.value = "#";
                 System.out.print("");
@@ -115,16 +118,13 @@ public class conSocket extends Thread implements ConnectionController  {
 
     public void run() {
         try {
-            
             while (true) {
                 String line = in.nextLine();
-
                 if (line.equals("#quit")) break;
                 this.value = line;
             }
             in.close();
             socket.close();
-
         } catch (IOException e) {
             System.out.println("#runSocket class - run method - catch error:");
             e.printStackTrace();

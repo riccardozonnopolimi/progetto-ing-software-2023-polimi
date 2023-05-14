@@ -8,16 +8,18 @@ import java.util.HashMap;
 
 public class G5_G8_G9_G10 implements Goal {
     //number of different type
-    int differentType;
+    private final int differentType;
     //number of blocks need to reach the goal
-    int numBlocks;
+    private final int numBlocks;
     //boolean to chose if the goal search for column or not
-    boolean c;
+    private final boolean c;
+    private final int id;
 
-    public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c) {
+    public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c, int id) {
         this.differentType = DifferentType;
         this.numBlocks = numBlocks;
         this.c = c;
+        this.id = id;
     }
 
     @Override
@@ -76,5 +78,9 @@ public class G5_G8_G9_G10 implements Goal {
     }
     public void print(){
         System.out.println("G5_G8_G9_G10");
+    }
+    @Override
+    public int getId() {
+        return this.id;
     }
 }

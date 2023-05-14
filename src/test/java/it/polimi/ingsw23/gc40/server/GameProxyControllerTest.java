@@ -8,7 +8,7 @@ public class GameProxyControllerTest extends TestCase {
 
     //verify that the initially next is null
     public void testGetNext() {
-        GameController gameController = new GameController(3);
+        GameController gameController = new GameController(3,1);
         assertNull(gameController.getNext());
     }
 
@@ -18,7 +18,7 @@ public class GameProxyControllerTest extends TestCase {
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
         Player Rick = new Player("Rick");
-        GameController gameController = new GameController(4);
+        GameController gameController = new GameController(4,1);
         //adding three player -> playable should return false
         gameController.addPlayer(Gioggio);
         gameController.addPlayer(Peppe);
@@ -34,7 +34,7 @@ public class GameProxyControllerTest extends TestCase {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
-        GameController gameController = new GameController(3);
+        GameController gameController = new GameController(3,1);
         //adding two player -> playable should return false
         gameController.addPlayer(Gioggio);
         gameController.addPlayer(Peppe);
@@ -48,7 +48,7 @@ public class GameProxyControllerTest extends TestCase {
     public void testPlayable2Player() {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
-        GameController gameController = new GameController(2);
+        GameController gameController = new GameController(2,1);
         //adding two player -> playable should return false
         gameController.addPlayer(Gioggio);
         assertFalse(gameController.playable());

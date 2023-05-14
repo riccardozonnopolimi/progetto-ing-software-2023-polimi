@@ -10,39 +10,28 @@ import java.io.Serializable;
 
 public class PrivateModelNetwork implements Serializable {
     private static final long serialVersionUID = 7823495;
-    private int riferPersonalCard;
+    private int pgc;
     private ItemTile[][] bookshelf;
-    private GameController gameController;
-    public GameController getMatch() {
-        return gameController;
-    }
+    private String nickname;
 
 
 
-    public PrivateModelNetwork(int riferPersonalCard, ItemTile[][] bookshelf) {
-        this.riferPersonalCard = riferPersonalCard;
+
+    public PrivateModelNetwork( ItemTile[][] bookshelf, int pgc,String nickname) {
+       // this.riferPersonalCard = riferPersonalCard;
         this.bookshelf = bookshelf;
+        this.pgc = pgc;
+        this.nickname = nickname;
     }
 
     public ItemTile[][] getBookshelf() {
         return bookshelf;
     }
-
-
-
-    public int getRiferPersonalCard() {
-        return riferPersonalCard;
-    }
-    public void Serialize(String fileName,Object obj) throws IOException {
-        FileOutputStream fileOut = new FileOutputStream(fileName);
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(obj);
-        out.close();
-        fileOut.close();
-        if(obj instanceof ItemTile[][]){
-            System.out.println("abbiamo serializzato la bookshelf");
-        }
+    public int getPgc() {
+        return pgc;
     }
 
-
+    public String getNickname() {
+        return nickname;
+    }
 }

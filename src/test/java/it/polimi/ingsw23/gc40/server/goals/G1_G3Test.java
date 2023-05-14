@@ -46,7 +46,7 @@ public class G1_G3Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
         p1.getBookshelf().print();
-        G1_G3 goal = new G1_G3(2,6);
+        G1_G3 goal = new G1_G3(2,6,1);
         assertTrue(goal.instanceGoal(p1));
     }
 
@@ -88,7 +88,7 @@ public class G1_G3Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.FRAME, 2), 4);
         p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
 
-        G1_G3 goal = new G1_G3(2,6);
+        G1_G3 goal = new G1_G3(2,6,1);
         assertFalse(goal.instanceGoal(p1));
     }
 
@@ -129,7 +129,7 @@ public class G1_G3Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.FRAME, 2), 4);
         p1.getBookshelf().insertIT(new ItemTile(Item.FRAME, 2), 4);
 
-        G1_G3 goal = new G1_G3(4,4);
+        G1_G3 goal = new G1_G3(4,4,3);
         assertTrue(goal.instanceGoal(p1));
     }
 
@@ -170,7 +170,7 @@ public class G1_G3Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.FRAME, 2), 4);
         p1.getBookshelf().insertIT(new ItemTile(Item.FRAME, 2), 4);
 
-        G1_G3 goal = new G1_G3(4,4);
+        G1_G3 goal = new G1_G3(4,4,3);
         assertFalse(goal.instanceGoal(p1));
     }
 
