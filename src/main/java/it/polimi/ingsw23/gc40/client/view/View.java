@@ -2,31 +2,41 @@ package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObservable;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObservable;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Observable;
-import java.util.Observer;
+
 
 public abstract class View extends Thread {
     ConnectionController con;
-    PrivateModelObservable privateModelObservable; //todo capire come aavere lo stesso pmo del player dell servermodel
-    PublicModelObservable publicModelObservable; //todo capire come aavere lo stesso pmo del player dell servermodel
     public int matchId;
     public String player;
     private ItemTile[][] bookshelf = null;
     private int pgc;
     public ItemTile[][] lrb;
     public int[] cgs;
+    Socket privateModel;
+    Socket publicModel;
+
+
     public View(ConnectionController connection) {
         this.con = connection;
+        try {
+            privateModel = new Socket("localhost",9000);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            publicModel = new Socket("localhost",9001);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public void addPlayer(String name) throws RemoteException, Exception {
         con.addPlayer(name);
@@ -35,11 +45,9 @@ public abstract class View extends Thread {
     public abstract void init() throws RemoteException, Exception;
 
     public PrivateModelNetwork deserializePrivateModel() throws ClassNotFoundException, IOException {
-       // System.out.println("entro");
-        FileInputStream fileInPrivate;
-        ObjectInputStream inPrivate;
-        fileInPrivate = new FileInputStream("PrivateModelNetwork");
-        inPrivate = new ObjectInputStream(fileInPrivate);
+       //todo Substitute fileinput/outputstream with socketinput/outputstream
+        // System.out.println("entro");
+
         Object obj = inPrivate.readObject();
       //  System.out.println("obj letto");
 
@@ -58,6 +66,7 @@ public abstract class View extends Thread {
         Object obj = inPublic.readObject();
        // System.out.println("obj letto");
         return (PublicModelNetwork) obj;
+
     }
     @Override
     public void run() {

@@ -4,7 +4,9 @@ import it.polimi.ingsw23.gc40.server.controller.ProxyController;
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -24,10 +26,15 @@ public class SocketHandler implements Runnable {
     @Override
     public void run() {
         try {
-            in = new Scanner(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream());
+            //in = new Scanner(socket.getInputStream());
+            //we can try with a bufferReader
+            BufferedReader in2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            //in printWriter constructor we can pass true to autoFlush, we couldn't use flush every time after sending message
+            out = new PrintWriter(socket.getOutputStream(), true);
             while (true) {
-                String line = in.nextLine();
+                //String line = in.nextLine();
+                String line = in2.readLine();
                 String line2;
                 GameController gameController = null;
                 Player player = null;

@@ -1,13 +1,10 @@
 package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
 import it.polimi.ingsw23.gc40.server.controller.GameController;
-import it.polimi.ingsw23.gc40.server.model.Bookshelf;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
-
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,9 +17,19 @@ public class PublicModelObservable extends Observable implements Observer {
     public String winner;
     public String current;
 
+    private PrintWriter printer;
+
     public PublicModelObservable(GameController gameController){
         gameController.addObserver(this);
         // todo implement remove listener or destructor
+        Socket s = null;
+        try {
+            s = new Socket("localhost", 9001);
+            printer = new PrintWriter(s.getOutputStream(), true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -62,15 +69,8 @@ public class PublicModelObservable extends Observable implements Observer {
     }
     public void serialize(Object obj) throws IOException {
         System.out.println("entro");
-        FileOutputStream fileOut = new FileOutputStream("PublicModelNetwork");
-        System.out.println("file ok");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        System.out.println("obj ok");
-        out.writeObject(obj);
-        out.flush();
+        //todo trying to use socket and not file
+        printer.print(obj);
         System.out.println("obj inviato");
-        out.close();
-        fileOut.close();
-
     }
 }

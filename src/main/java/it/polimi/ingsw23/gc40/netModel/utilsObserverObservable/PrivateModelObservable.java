@@ -2,10 +2,8 @@ package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
 import it.polimi.ingsw23.gc40.server.model.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,9 +12,18 @@ public class PrivateModelObservable extends Observable implements Observer {
     public ItemTile[][] shelf;
     public int pgc;
     public String nickname;
+    public PrintWriter printer;
+
       public PrivateModelObservable(Player p) {
         p.addObserver(this);
-        // todo implement remove listener or destructor
+          Socket s;
+          try {
+              s = new Socket("localhost", 9000);
+              printer = new PrintWriter(s.getOutputStream(), true);
+          } catch (IOException e) {
+              throw new RuntimeException(e);
+          }
+          // todo implement remove listener or destructor
     }
 
     @Override
@@ -45,17 +52,11 @@ public class PrivateModelObservable extends Observable implements Observer {
         // e non serve che questa sia observable
     }
 
-    public void serialize(Object obj) throws IOException {
+    public void serialize(Object obj) {
         System.out.println("entro");
-        FileOutputStream fileOut = new FileOutputStream("PrivateModelNetwork");
-        System.out.println("file ok");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        System.out.println("obj ok");
-        out.writeObject(obj);
-        out.flush();
+        //todo trying to use socket and not file
+        printer.print(obj);
         System.out.println("obj inviato");
-        out.close();
-        fileOut.close();
 
     }
 }
