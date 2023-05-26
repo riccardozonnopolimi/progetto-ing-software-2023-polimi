@@ -8,7 +8,10 @@ import it.polimi.ingsw23.gc40.server.model.goals.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,7 +29,15 @@ public class GameController extends Observable {
     private LRB map;
     private boolean ending;
     private Player next;
+
+    private Socket socket;
     private final PublicModelObservable publicModelObservable = new PublicModelObservable(this);
+
+    public void setPublicOut(PrintWriter publicOut) {
+        this.publicOut = publicOut;
+    }
+
+    private PrintWriter publicOut;
 
     public GameController(int numPlayers, int id) {
         this.numPlayers = numPlayers;
@@ -101,8 +112,7 @@ public class GameController extends Observable {
         rand = (int) (Math.random() * CGs.size());
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
-        setChanged();
-        notifyObservers(this.getCommonGoals());
+
         //import all existing personal goals from json
         Gson gson = new Gson();
         ArrayList<PersonalGoalCard> PGs;
@@ -442,6 +452,22 @@ public class GameController extends Observable {
     }
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public PrintWriter getPublicOut() {
+        return this.publicOut;
+    }
+
+    public void setSocket(Socket socket){
+        this.socket = socket;
+        try {
+            this.publicOut= new PrintWriter(socket.getOutputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setChanged();
+        notifyObservers(this.getCommonGoals());
     }
 }
 

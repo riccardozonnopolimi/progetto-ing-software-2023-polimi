@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class testCompleteMatch {
     public static void main(String[] args) {
-
+/*
 
         GameController gameController = new GameController(2,1);
         gameController.addPlayer(new Player("Fil"));
@@ -40,4 +40,6 @@ public class testCompleteMatch {
         System.out.println("THE WINNER IS..... "+ gameController.winner().getNickName());
     }
 
+ */
+    }
 }

@@ -1,14 +1,13 @@
 package it.polimi.ingsw23.gc40.server;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObservable;
 import it.polimi.ingsw23.gc40.server.connection.ConnectionOpener;
 import it.polimi.ingsw23.gc40.server.controller.LobbyController;
 import it.polimi.ingsw23.gc40.server.controller.ProxyController;
-import it.polimi.ingsw23.gc40.server.model.Bookshelf;
-import it.polimi.ingsw23.gc40.server.model.Item;
-import it.polimi.ingsw23.gc40.server.model.ItemTile;
-import it.polimi.ingsw23.gc40.server.model.Player;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
@@ -16,7 +15,35 @@ public class ServerMain {
         ProxyController proxyController = new ProxyController(lobbyController);
         ConnectionOpener a = new ConnectionOpener(proxyController);
         a.rmiInit();
-        a.socketInit();
+        a.start();
+/*
+        privateSocketListener p = new privateSocketListener(lobbyController);
+        p.start();
 
+
+
+
+        Thread publicSocketListener = new Thread(() -> {
+            try {
+                ServerSocket publicSocket = new ServerSocket(6791);
+                System.out.println("#Connessione PublicSocket riuscita");
+                PrintWriter publicOut = new PrintWriter(publicSocket.accept().getOutputStream(), true);
+
+                lobbyController.setPublicSocket(publicOut);
+
+            } catch (
+                    UnknownHostException e) {
+                System.err.println("Unknown host");
+            } catch (
+                    IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        publicSocketListener.start();
+        */
+
+
+
+        System.out.println("ciao");
     }
 }

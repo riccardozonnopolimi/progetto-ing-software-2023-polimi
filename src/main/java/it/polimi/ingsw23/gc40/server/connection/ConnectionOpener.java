@@ -14,7 +14,7 @@ import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public final class ConnectionOpener {
+public final class ConnectionOpener extends Thread {
     ProxyController proxyController;
 
     public ConnectionOpener(ProxyController proxyController) {
@@ -35,20 +35,27 @@ public final class ConnectionOpener {
             System.err.println(e.toString());
             e.printStackTrace();
         }
+
+        //
     }
 
-    public void socketInit() throws IOException {
-        //creating threads for socket management
+    @Override
+    public void run() {
+
+        System.out.println("main");
         ExecutorService executor = Executors.newCachedThreadPool();
         try {
             ServerSocket serverSocket = new ServerSocket(6789);
+
+
+
             System.out.println("#server Socket pronto");
             while (true) {
-                Socket socketClient = serverSocket.accept();
-                executor.submit(new SocketHandler(socketClient, proxyController));
+                executor.submit(new SocketHandler(serverSocket.accept(), proxyController));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

@@ -4,6 +4,8 @@ import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
 
+import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -13,7 +15,12 @@ public class LobbyController extends Thread {
     private GameController queueMatch;
     private ArrayList<Score> SavedScores= new ArrayList<>();
     private int numMatch = 0;
+    private PrintWriter publicSocket;
+    private PrintWriter privateSocket;
     public LobbyController()  {
+    }
+    public GameController getQueueMatch(){
+        return this.queueMatch;
     }
 
     public void addPlayer(String name) {
@@ -22,6 +29,7 @@ public class LobbyController extends Thread {
     }
     public GameController createNewMatch(int numPlayer) {
         queueMatch = new GameController(numPlayer,numMatch + 1);
+        queueMatch.setPublicOut(publicSocket);
         return queueMatch;
     }
     public GameController addToLastMatch(Player player) {
@@ -97,5 +105,13 @@ public class LobbyController extends Thread {
 
     }
 
+    public void setPrivateSocket(PrintWriter socket) {
+        this.privateSocket = socket;
+        System.out.println("privatesocket settata");
+    }
+
+    public void setPublicSocket(PrintWriter socket) {
+        this.publicSocket = socket;
+    }
 }
 

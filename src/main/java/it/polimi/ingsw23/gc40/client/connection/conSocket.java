@@ -3,29 +3,40 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.sql.SQLOutput;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class conSocket extends Thread implements ConnectionController {
     private Socket socket;
-    private Scanner in;
     private PrintWriter out;
     public String value;
+    private ObjectInputStream ois;
+
 
     public conSocket(Socket socket) {
+        System.out.println("inizio costruttore consocket");
         this.socket = socket;
         try {
-            in = new Scanner(socket.getInputStream());
+            System.out.println("ok");
+            ois = new ObjectInputStream(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             serverPrint("#nuova connessione Socket");
         } catch (IOException e) {
+            System.out.println("catch: "+e);
             throw new RuntimeException(e);
         }
         this.value = "#";
+
+        System.out.println("prima di entrare in run consocket");
+
         this.start();
+
+        System.out.println("fine costruttore consocket");
     }
 
     @Override
@@ -37,7 +48,6 @@ public class conSocket extends Thread implements ConnectionController {
 
     @Override
     public void close() {
-        in.close();
         out.close();
         try {
             socket.close();
@@ -86,6 +96,12 @@ public class conSocket extends Thread implements ConnectionController {
         //todo implementation
     }
 
+
+    @Override
+    public ObjectInputStream getOIS() throws RemoteException {
+        return ois;
+    }
+
     //send string to socket server; return true or false depending on server answer
     private boolean check(String string) {
         outprint(string);
@@ -93,6 +109,8 @@ public class conSocket extends Thread implements ConnectionController {
             while (this.value.equals("#")) {
                 this.value = "#";
                 System.out.print("");
+                System.out.println("while dentro check\n");
+
             }
             System.out.println("");
             if (this.value.equals("#false")) {
@@ -112,22 +130,32 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     private void outprint(String s) {
+        System.out.println("entro in outprint consocket");
         out.println(s);
         out.flush();
     }
 
+    @Override
     public void run() {
+        System.out.println("entro nella run conSocket");
+
         try {
             while (true) {
-                String line = in.nextLine();
+                System.out.println("entro nel while run consocket");
+                String line = ois.readLine();
+
                 if (line.equals("#quit")) break;
+
+
                 this.value = line;
+
+
             }
-            in.close();
             socket.close();
         } catch (IOException e) {
             System.out.println("#runSocket class - run method - catch error:");
             e.printStackTrace();
         }
     }
+
 }

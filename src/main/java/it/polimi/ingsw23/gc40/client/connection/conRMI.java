@@ -1,9 +1,11 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.TileData;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 public class conRMI implements ConnectionController{
     ConnectionController stub;
@@ -54,5 +56,11 @@ public class conRMI implements ConnectionController{
     @Override
     public void print(String s) throws RemoteException {
         stub.print(s);
+    }
+
+
+    @Override
+    public ObjectInputStream getOIS() throws RemoteException {
+        return null;
     }
 }

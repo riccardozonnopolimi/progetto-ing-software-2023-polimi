@@ -22,14 +22,7 @@ public class PublicModelObservable extends Observable implements Observer {
     public PublicModelObservable(GameController gameController){
         gameController.addObserver(this);
         // todo implement remove listener or destructor
-        Socket s = null;
-        try {
-            s = new Socket("localhost", 9001);
-            printer = new PrintWriter(s.getOutputStream(), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        printer = gameController.getPublicOut();
     }
 
     @Override
@@ -61,9 +54,7 @@ public class PublicModelObservable extends Observable implements Observer {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //todo capire se servono o usare un thread
-        // che deserializza di continuo sul client
-        // e non serve che questa sia observable
+
         setChanged();
         notifyObservers(data);
     }
@@ -72,5 +63,6 @@ public class PublicModelObservable extends Observable implements Observer {
         //todo trying to use socket and not file
         printer.print(obj);
         System.out.println("obj inviato");
+        printer.flush();;
     }
 }

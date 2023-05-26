@@ -2,10 +2,20 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 public class ProxyController implements ConnectionController {
+    public LobbyController getLobbyController() {
+        return lobbyController;
+    }
+
     private LobbyController lobbyController;
+
 
     public ProxyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
@@ -59,6 +69,10 @@ public class ProxyController implements ConnectionController {
         //have to obtain from onlinePlayer in server and return it
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
         System.out.println("Aggiunto il giocarore "+name+" al match in attesa");
+
+        //partire nuovo thread socket public model in ascolto di connessioni su porta che restituisco al client che ha chiamato questo metodo
+
+
         //notify match todo
         return gameController.getId();
     }
@@ -80,6 +94,11 @@ public class ProxyController implements ConnectionController {
         System.out.println(s);
     }
 
+
+    @Override
+    public ObjectInputStream getOIS() throws RemoteException {
+        return null;
+    }
 
 
 }

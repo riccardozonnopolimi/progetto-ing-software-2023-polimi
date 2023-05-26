@@ -4,11 +4,14 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import java.net.*;
+import java.util.Scanner;
+
 public class ConnectionStarter {
 
     public ConnectionStarter() {
@@ -16,17 +19,18 @@ public class ConnectionStarter {
 
     }
 
-    public Socket socketStart() {
+    public Socket socketStart(int port) {
         Socket socket = null;
         try {
-           socket  = new Socket("localhost", 6789);
-            System.out.println("#Connessione Socket riuscita");
+           socket  = new Socket("localhost", port);
+            System.out.println("#Connessione Socket riuscita - porta: "+port);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        System.out.println("arrivo qui");
         return socket;
     }
 

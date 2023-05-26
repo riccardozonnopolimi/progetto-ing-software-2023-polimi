@@ -1,7 +1,6 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
-import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -21,21 +20,17 @@ public class CLI extends View implements Runnable {
         //
         //creazione player
         this.player = inString("Inserisci nome giocatore: ");
+        System.out.println("qui siiiiiiiiium");
         while (!con.addPlayer(player)) {
             System.out.println("Nome utente già in uso, riprova...");
             this.player = inString("Inserisci nome giocatore: ");
+
         }
-        //ItemTile[][] prova = (ItemTile[][]) this.deserializePrivateModel();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-              //  System.out.print(prova[i][j].toString() + "|");
-            }
-            System.out.println();
-        }
-        /*
-        while(playerserialzable.players.get(0).nickname.equals(name))
-        {
-        }         */
+
+
+        System.out.println("ciao fil sono qui");
+
+
         //entro nel match / creo il match
 
         if (con.hasQueueMatch()) {
@@ -46,6 +41,7 @@ public class CLI extends View implements Runnable {
             this.matchId = con.addToLastMatch(this.player);
         }
         this.start();
+        System.out.printf("ciao");
 
         //System.out.println("test");
         /*

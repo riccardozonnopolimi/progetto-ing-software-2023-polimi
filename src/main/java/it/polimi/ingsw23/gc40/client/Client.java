@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
+
     public static int getChoice(String[] choices, String question) {
         Scanner sc = new Scanner(System.in);
         int n;
@@ -36,17 +37,18 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
         ConnectionController con;
-        ConnectionStarter starter;
+        ConnectionStarter starter =new ConnectionStarter();
         View view;
         if (getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:") == 0) {
             //rmi
-            starter = new ConnectionStarter();
             con = new conRMI(starter.rmi("Server", "localhost"));
         } else {
             //socket
-            starter = new ConnectionStarter();
-            con = new conSocket(starter.socketStart());
+            con = new conSocket(starter.socketStart(6789));
         }
+
+        System.out.println("fine scelta connessione client");
+
 
         if (getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
             //CLI

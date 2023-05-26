@@ -5,11 +5,10 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwo
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 
 public abstract class View extends Thread {
@@ -20,81 +19,88 @@ public abstract class View extends Thread {
     private int pgc;
     public ItemTile[][] lrb;
     public int[] cgs;
-    Socket privateModel;
-    Socket publicModel;
+    public Socket privateModel_socket;
+    public Socket publicModel_socket;
 
 
-    public View(ConnectionController connection) {
+
+    public View(ConnectionController connection){
         this.con = connection;
-        try {
-            privateModel = new Socket("localhost",9000);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            publicModel = new Socket("localhost",9001);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
     }
+
     public void addPlayer(String name) throws RemoteException, Exception {
         con.addPlayer(name);
     }
 
     public abstract void init() throws RemoteException, Exception;
 
-    public PrivateModelNetwork deserializePrivateModel() throws ClassNotFoundException, IOException {
-       //todo Substitute fileinput/outputstream with socketinput/outputstream
-        // System.out.println("entro");
 
-        Object obj = inPrivate.readObject();
-      //  System.out.println("obj letto");
 
-        if (obj instanceof ItemTile[][]) {
-       //     System.out.println("abbiamo deserializzato la bookshelf");
-        }
-        return (PrivateModelNetwork) obj;
-    }
 
-    public PublicModelNetwork deserializePublicModel() throws ClassNotFoundException, IOException {
-       // System.out.println("entro");
-        FileInputStream fileInPublic;
-        ObjectInputStream inPublic;
-        fileInPublic = new FileInputStream("PublicModelNetwork");
-        inPublic = new ObjectInputStream(fileInPublic);
-        Object obj = inPublic.readObject();
-       // System.out.println("obj letto");
-        return (PublicModelNetwork) obj;
 
-    }
+
     @Override
     public void run() {
-        PrivateModelNetwork privateData  = new PrivateModelNetwork(null,-1,null);
-        PublicModelNetwork publicData = new PublicModelNetwork(null, null, -1,null);
 
-        while (true) {
-            //thread (privateModelNetwork)
-            //oldOggetto = privateModelNetwork
-            //all'interno fa un while(oldOggetto = getOggetto)
-            //esce e fa le cose che deve fare per la desearilazzazione
+        PrivateModelNetwork privateData = new PrivateModelNetwork(null,-1,null);
+        PublicModelNetwork publicData = new PublicModelNetwork(false, null);
+        boolean ended = false;
+
+        ObjectInputStream ois = null;
+        try {
+            ois = con.getOIS();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        while(true){
+            Object public_obj = null;
+            Object private_obj = null;
+
             try {
-                if ( !(privateData.equals(deserializePrivateModel()))) {
-                    privateData = deserializePrivateModel();
-                    updatePrivateData(privateData);
+                if(ois.readLine().equals("#deserializePrivate")) {
+                    try {
+                        private_obj = ois.readObject();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                if ( !(publicData.equals(deserializePublicModel()))) {
-                        publicData = deserializePublicModel();
-                        updatePublicData(publicData);
-                }
-                //aggiorna dati publici solo se il match è giusto
-                //todo: printare aggiornamenti commonGoalCard
-
-                if(publicData.ended)
-                    break;
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            try {
+                if(ois.readLine().equals("#deserializePublic")) {
+                    try {
+                        public_obj = ois.readObject();
+                    } catch (IOException e) {
+
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(!(privateData.equals(private_obj))) {
+                privateData = (PrivateModelNetwork) private_obj;
+                updatePrivateData(privateData);
+            }
+            if(!(publicData.equals(public_obj))){
+                publicData = (PublicModelNetwork) public_obj;
+                updatePublicData(publicData);
+                ended = publicData.ended;
+            }
+
+
+            //aggiorna dati publici solo se il match è giusto
+            //todo: printare aggiornamenti commonGoalCard
+
+            if(ended)  break;
         }
     }
     public void updatePrivateData(PrivateModelNetwork privateData){
@@ -129,7 +135,6 @@ public abstract class View extends Thread {
                 }
                 System.out.println();
             }
-
         }
         if (this.cgs != publicData.getCgs()) {
             this.cgs = publicData.getCgs();
