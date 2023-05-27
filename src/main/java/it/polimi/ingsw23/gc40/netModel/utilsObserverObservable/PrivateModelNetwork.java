@@ -3,16 +3,14 @@ package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 public class PrivateModelNetwork implements Serializable {
+    @Serial
     private static final long serialVersionUID = 7823495;
-    private int pgc;
-    private ItemTile[][] bookshelf;
-    private String nickname;
+    private final int pgc;
+    private final ItemTile[][] bookshelf;
+    private final String nickname;
 
 
 

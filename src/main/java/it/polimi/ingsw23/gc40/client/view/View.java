@@ -11,12 +11,12 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 
-public abstract class View extends Thread {
+public abstract class View  {
     ConnectionController con;
-    public int matchId;
-    public String player;
-    private ItemTile[][] bookshelf = null;
-    private int pgc;
+    public int matchId = -1;
+    public String player = "temp";
+    public ItemTile[][] bookshelf = null;
+    public int pgc;
     public ItemTile[][] lrb;
     public int[] cgs;
     public Socket privateModel_socket;
@@ -39,71 +39,7 @@ public abstract class View extends Thread {
 
 
 
-
-    @Override
-    public void run() {
-
-        PrivateModelNetwork privateData = new PrivateModelNetwork(null,-1,null);
-        PublicModelNetwork publicData = new PublicModelNetwork(false, null);
-        boolean ended = false;
-
-        ObjectInputStream ois = null;
-        try {
-            ois = con.getOIS();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        while(true){
-            Object public_obj = null;
-            Object private_obj = null;
-
-            try {
-                if(ois.readLine().equals("#deserializePrivate")) {
-                    try {
-                        private_obj = ois.readObject();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                if(ois.readLine().equals("#deserializePublic")) {
-                    try {
-                        public_obj = ois.readObject();
-                    } catch (IOException e) {
-
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            if(!(privateData.equals(private_obj))) {
-                privateData = (PrivateModelNetwork) private_obj;
-                updatePrivateData(privateData);
-            }
-            if(!(publicData.equals(public_obj))){
-                publicData = (PublicModelNetwork) public_obj;
-                updatePublicData(publicData);
-                ended = publicData.ended;
-            }
-
-
-            //aggiorna dati publici solo se il match è giusto
-            //todo: printare aggiornamenti commonGoalCard
-
-            if(ended)  break;
-        }
-    }
-    public void updatePrivateData(PrivateModelNetwork privateData){
+    public void updatePrivateData(PrivateModelNetwork privateData) {
         if (!this.player.equals(privateData.getNickname())) {
             return;
         }
@@ -122,8 +58,10 @@ public abstract class View extends Thread {
             this.pgc = privateData.getPgc();
         }
     }
+
     public void updatePublicData(PublicModelNetwork publicData) {
         if (this.matchId != publicData.getIdMatch())
+
             return;
         if (this.lrb != publicData.getLrb()) {
             this.lrb = publicData.getLrb();
@@ -140,4 +78,6 @@ public abstract class View extends Thread {
             this.cgs = publicData.getCgs();
         }
     }
+
+
 }

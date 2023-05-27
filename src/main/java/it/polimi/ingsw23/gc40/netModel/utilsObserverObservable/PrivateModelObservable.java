@@ -1,5 +1,6 @@
 package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
+import it.polimi.ingsw23.gc40.server.connection.SocketHandler;
 import it.polimi.ingsw23.gc40.server.model.*;
 
 import java.io.*;
@@ -12,14 +13,19 @@ public class PrivateModelObservable extends Observable implements Observer {
     public ItemTile[][] shelf;
     public int pgc;
     public String nickname;
-    public PrintWriter printer;
+    public ObjectOutputStream out;
+    private SocketHandler sh;
+
+    public SocketHandler getSH(){
+        return sh;
+    }
 
     public PrivateModelObservable(Player p) {
         p.addObserver(this);
+    }
 
-        PrintWriter printer = p.getPrivateOut();
-
-        // todo implement remove listener or destructor
+    public void setSh(SocketHandler sh) {
+        this.sh = sh;
     }
 
     @Override
@@ -37,22 +43,19 @@ public class PrivateModelObservable extends Observable implements Observer {
             data = new PrivateModelNetwork(shelf, pgc, nickname);
         }
         try {
-            serialize(data);
+            if (sh != null)
+                sh.sendObj("#private_object",data);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        setChanged();
-        notifyObservers(data);
+
+        //non so se funziona cosi
+        //setChanged();
+        //notifyObservers(data);
 
     }
 
-    public void serialize(Object obj) {
-        System.out.println("entro");
-        //todo trying to use socket and not file
-        printer.print(obj);
-
-        System.out.println("obj inviato");
-        printer.flush();
-
+    public PrivateModelNetwork getData() {
+        return data;
     }
 }

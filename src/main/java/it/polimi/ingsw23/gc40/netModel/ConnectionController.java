@@ -1,5 +1,7 @@
 package it.polimi.ingsw23.gc40.netModel;
 
+import it.polimi.ingsw23.gc40.client.view.View;
+
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.rmi.Remote;
@@ -25,5 +27,8 @@ public interface ConnectionController extends Remote {
 
     void print(String s) throws RemoteException;
 
-    ObjectInputStream getOIS() throws RemoteException;
+    void setView(View view) throws RemoteException;
+
+
+    Object getObj(String s, int n) throws RemoteException;
 }

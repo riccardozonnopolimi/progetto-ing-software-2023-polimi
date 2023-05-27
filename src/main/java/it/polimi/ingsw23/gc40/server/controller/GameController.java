@@ -6,10 +6,7 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserv
 import it.polimi.ingsw23.gc40.server.model.*;
 import it.polimi.ingsw23.gc40.server.model.goals.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -33,19 +30,18 @@ public class GameController extends Observable {
     private Socket socket;
     private final PublicModelObservable publicModelObservable = new PublicModelObservable(this);
 
-    public void setPublicOut(PrintWriter publicOut) {
+    public void setPublicOut(ObjectOutputStream publicOut) {
         this.publicOut = publicOut;
     }
 
-    private PrintWriter publicOut;
+    private ObjectOutputStream publicOut;
 
     public GameController(int numPlayers, int id) {
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
         this.id = id;
-        setChanged();
-        notifyObservers(this.getId());
+
         //create a map for n players
         this.map = new LRB(numPlayers);
         //add to the bag all the tiles
@@ -107,7 +103,8 @@ public class GameController extends Observable {
             CG2Scores.add(8);
         }
         //choosing 2 common goals randomly
-        int rand = (int) (Math.random() * CGs.size());        commonGoals[0] = new CommonGoalCard(CGs.get(rand));
+        int rand = (int) (Math.random() * CGs.size());
+        commonGoals[0] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
         rand = (int) (Math.random() * CGs.size());
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
@@ -193,6 +190,8 @@ public class GameController extends Observable {
 
         if (players.size() == numPlayers) {
             setPlayersOrder();
+            setChanged();
+            notifyObservers(this.getId());
             return true;
         }
         return false;
@@ -454,20 +453,19 @@ public class GameController extends Observable {
         return players;
     }
 
-    public PrintWriter getPublicOut() {
+    public ObjectOutputStream getPublicOut() {
         return this.publicOut;
     }
 
-    public void setSocket(Socket socket){
-        this.socket = socket;
-        try {
-            this.publicOut= new PrintWriter(socket.getOutputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void setOut(ObjectOutputStream out){
+        this.publicOut = out;
 
         setChanged();
         notifyObservers(this.getCommonGoals());
+    }
+
+    public PublicModelObservable getPublicModelObservable() {
+        return publicModelObservable;
     }
 }
 

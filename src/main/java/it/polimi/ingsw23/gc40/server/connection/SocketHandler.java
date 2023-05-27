@@ -21,23 +21,31 @@ public class SocketHandler implements Runnable {
     }
 
 
+    public void sendObj(String st, Object obj) throws Exception{
+        out.writeUTF(st);
+        out.flush();
+        out.writeObject(obj);
+        out.flush();
+    }
+
     @Override
     public void run() {
         try {
-            //in = new Scanner(socket.getInputStream());
+            in = new Scanner(socket.getInputStream());
             //we can try with a bufferReader
-            BufferedReader in2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+           // BufferedReader in2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             //in printWriter constructor we can pass true to autoFlush, we couldn't use flush every time after sending message
-            //out = new PrintWriter(socket.getOutputStream(), true);
+           // out = new PrintWriter(socket.getOutputStream(), true);
             //out.println("connesso");
             out = new ObjectOutputStream(socket.getOutputStream());
 
             String target;
 
+
             while (true) {
-                //String line = in.nextLine();
-                target = in2.readLine();
+                target = in.nextLine();
+                //target = in2.readLine();
                 String line2;
                 GameController gameController = null;
                 Player player = null;
@@ -49,7 +57,7 @@ public class SocketHandler implements Runnable {
                             line2 = in.nextLine();
                             String name = line2;
                             bool(proxyController.addPlayer(name));
-                            proxyController.getLobbyController().getPlayer(name).setSocket(socket);
+                            proxyController.getLobbyController().getPlayer(name).getPrivateModelObservable().setSh(this);
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
@@ -63,27 +71,22 @@ public class SocketHandler implements Runnable {
                             break;
                         case "#addToLastMatch":
                             line2 = in.nextLine();
-                            proxyController.getLobbyController().getQueueMatch().setSocket(socket);
-                            restituisci(proxyController.addToLastMatch(line2) + "");
-                            //todo better but think works
+                            writeInt(proxyController.addToLastMatch(line2));
 
+                            //todo better but think works
                             break;
                         case "#serverPrint":
                             line2 = in.nextLine();
                             proxyController.print(line2);
                             break;
-
-
                         default:
                             System.out.println("#comando non riconosciuto");
                             break;
                     }
                 }
             }
-
             in.close();
             socket.close();
-
         } catch (IOException e) {
             System.out.println("#SocketHandler class - run method - catch error:");
             e.printStackTrace();
@@ -92,17 +95,29 @@ public class SocketHandler implements Runnable {
 
     private void bool(boolean bool) throws IOException {
         if (bool) {
-            out.writeChars("#true");
+            out.writeUTF("#true");
+            out.flush();
+            System.out.println("@SH: Ho inviato: true");
 
         } else {
-            out.writeChars("#false");
+            out.writeUTF("#false");
             out.flush();
+            System.out.println("@SH: Ho inviato: false");
         }
     }
 
-    private void restituisci(String st) throws IOException {
-        out.writeChars(st);
+    private void writeUTF(String st) throws IOException {
+        out.writeUTF(st);
         out.flush();
+        System.out.println("@SH: Ho inviato: "+st);
+
+
+    }
+    private void writeInt(int intero) throws IOException {
+        out.writeUTF("#int");
+        out.writeInt(intero);
+        out.flush();
+        System.out.println("@SH: Ho inviato: "+intero);
 
 
     }

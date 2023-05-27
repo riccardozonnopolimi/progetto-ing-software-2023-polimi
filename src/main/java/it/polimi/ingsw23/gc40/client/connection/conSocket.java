@@ -1,6 +1,9 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
+import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,10 +19,18 @@ public class conSocket extends Thread implements ConnectionController {
     private PrintWriter out;
     public String value;
     private ObjectInputStream ois;
+    private Object obj;
+    private View view;
 
+
+
+    @Override
+    public Object getObj(String s, int n){
+        return null;
+    }
 
     public conSocket(Socket socket) {
-        System.out.println("inizio costruttore consocket");
+        //System.out.println("inizio costruttore consocket");
         this.socket = socket;
         try {
             System.out.println("ok");
@@ -27,16 +38,16 @@ public class conSocket extends Thread implements ConnectionController {
             out = new PrintWriter(socket.getOutputStream());
             serverPrint("#nuova connessione Socket");
         } catch (IOException e) {
-            System.out.println("catch: "+e);
+            System.out.println("catch: " + e);
             throw new RuntimeException(e);
         }
         this.value = "#";
 
-        System.out.println("prima di entrare in run consocket");
+        //System.out.println("prima di entrare in run consocket");
 
-        this.start();
+        start();
 
-        System.out.println("fine costruttore consocket");
+        //System.out.println("fine costruttore consocket");
     }
 
     @Override
@@ -71,12 +82,14 @@ public class conSocket extends Thread implements ConnectionController {
     @Override
     public int addToLastMatch(String name) throws RemoteException {
         outprint("#addToLastMatch");
+        outprint(name);
         while (this.value.equals("#")) {
-            this.value = "#";
             System.out.print("");
+            //System.out.print("broh");
+
         }
         int number;
-        number = Integer.parseInt(this.value);
+        number = (int) obj;
         this.value = "#";
         return number;
     }
@@ -98,8 +111,8 @@ public class conSocket extends Thread implements ConnectionController {
 
 
     @Override
-    public ObjectInputStream getOIS() throws RemoteException {
-        return ois;
+    public void setView(View view) throws RemoteException {
+        this.view = view;
     }
 
     //send string to socket server; return true or false depending on server answer
@@ -107,11 +120,10 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(string);
         try {
             while (this.value.equals("#")) {
-                this.value = "#";
                 System.out.print("");
-                System.out.println("while dentro check\n");
-
+                //System.out.println("while dentro check");
             }
+
             System.out.println("");
             if (this.value.equals("#false")) {
                 this.value = "#";
@@ -121,6 +133,7 @@ public class conSocket extends Thread implements ConnectionController {
                 this.value = "#";
                 return true;
             }
+            this.value = "#";
         } catch (NoSuchElementException e) {
             System.out.println("#catch del while-true socket lato client");
             e.printStackTrace();
@@ -130,32 +143,64 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     private void outprint(String s) {
-        System.out.println("entro in outprint consocket");
+        //System.out.println("entro in outprint consocket");
         out.println(s);
         out.flush();
+        System.out.println("@consocket: Ho inviato: "+s);
+
     }
 
     @Override
     public void run() {
-        System.out.println("entro nella run conSocket");
+        //System.out.println("entro nella run conSocket");
 
         try {
             while (true) {
-                System.out.println("entro nel while run consocket");
-                String line = ois.readLine();
 
-                if (line.equals("#quit")) break;
+                //System.out.println("entro nel while run consocket");
+                String line = ois.readUTF();
+                System.out.println("@@consocket: ricevo: "+line);
+                switch (line) {
+                    case "#private_object":
+                        System.out.println("ho letto private object");
+                        obj = ois.readObject();
+                        System.out.println("ho letto oggetto");
+                        view.updatePrivateData((PrivateModelNetwork) obj);
+                        break;
+                    case "#public_object":
+                        obj = ois.readObject();
+                        view.updatePublicData((PublicModelNetwork) obj);
+                        break;
+                    case "#int":
+                        obj = ois.readInt();
+                        this.value = "#int";
+                        break;
+                    default:
+                        if (line.equals("#quit")) {
+                            obj = ois.readObject();
+                            view.updatePublicData((PublicModelNetwork) obj);
+                            socket.close();
+                            break;
+                        }
+                        this.value = line;
+                        break;
+                }
 
-
-                this.value = line;
+                //aggiorna dati publici solo se il match è giusto
+                //todo: printare aggiornamenti commonGoalCard
 
 
             }
-            socket.close();
-        } catch (IOException e) {
-            System.out.println("#runSocket class - run method - catch error:");
-            e.printStackTrace();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
         }
-    }
 
+
+
+
+    }
 }
+
+

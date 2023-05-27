@@ -31,7 +31,6 @@ public class Bookshelf   {
     public ItemTile[][] getShelf() {
         return shelf;
     }
-
     public void insertIT(ItemTile it, int column) {
         //TO TEST
         for (int i = 5; i >= 0; i--) {
@@ -60,7 +59,6 @@ public class Bookshelf   {
     public ItemTile getItemTile(int x, int y) {
         return shelf[x][y];
     }
-
     //return the max number of ItemTiles that we can take from the LRB checking empty slots in bookshelf
     public int placeables() {
         //TO TEST

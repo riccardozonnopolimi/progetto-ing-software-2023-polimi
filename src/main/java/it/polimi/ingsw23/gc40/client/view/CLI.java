@@ -5,7 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class CLI extends View implements Runnable {
+public class CLI extends View  {
     private Scanner sc;
 
     public CLI(ConnectionController con) {
@@ -14,34 +14,47 @@ public class CLI extends View implements Runnable {
     }
 
     public void init() throws RemoteException, Exception {
+
+        String name;
+
         System.out.println("#metodo start della view CLI");
         //i metodi chiamati su con vengono implementati dalla classe conSocket
         // o conRMI a seconda di come viene istanziata la view
         //
         //creazione player
-        this.player = inString("Inserisci nome giocatore: ");
-        System.out.println("qui siiiiiiiiium");
-        while (!con.addPlayer(player)) {
+        name = inString("Inserisci nome giocatore: ");
+        //System.out.println("qui siiiiiiiiium");
+        while (!con.addPlayer(name)) {
             System.out.println("Nome utente già in uso, riprova...");
-            this.player = inString("Inserisci nome giocatore: ");
+            name = inString("Inserisci nome giocatore: ");
 
         }
 
 
-        System.out.println("ciao fil sono qui");
+       // System.out.println("ciao fil sono qui");
 
-
+        int mId;
         //entro nel match / creo il match
 
         if (con.hasQueueMatch()) {
-            this.matchId = con.addToLastMatch(this.player);
+            System.out.println("Sei stato aggiunto ad un match pre-esistente in attesa di giocatori.");
+
+            mId = con.addToLastMatch(name);
         } else {
             while (!con.newMatch(inString("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
                 System.out.println("Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)");
-            this.matchId = con.addToLastMatch(this.player);
+
+            mId = con.addToLastMatch(name);
+
+
         }
-        this.start();
-        System.out.printf("ciao");
+
+        System.out.println("---------");
+
+
+        System.out.println("Match ID: "+this.matchId);
+        System.out.println("Nickname: "+this.player);
+        System.out.println("PGC: "+super.pgc);
 
         //System.out.println("test");
         /*

@@ -1,5 +1,6 @@
 package it.polimi.ingsw23.gc40.server.controller;
 
+import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.io.IOException;
@@ -94,11 +95,18 @@ public class ProxyController implements ConnectionController {
         System.out.println(s);
     }
 
-
     @Override
-    public ObjectInputStream getOIS() throws RemoteException {
-        return null;
+    public void setView(View view) throws RemoteException {
     }
 
+
+    @Override
+    public Object getObj(String str, int n) throws RemoteException {
+        if (n == -1) {
+            return lobbyController.getPlayer(str).getPrivateModelObservable().getData();
+        } else {
+            return lobbyController.getActiveMatches().get(n).getPublicModelObservable().getData();
+        }
+    }
 
 }

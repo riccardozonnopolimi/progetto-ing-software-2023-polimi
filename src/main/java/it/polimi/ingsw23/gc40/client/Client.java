@@ -53,6 +53,7 @@ public class Client {
         if (getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
             //CLI
             view = new CLI(con);
+            con.setView(view);
         } else {
             //GUI
             view = new GUI(con);
