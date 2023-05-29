@@ -9,8 +9,6 @@ public class GUI extends View {
     public GUI(ConnectionController con) {
         super(con);
     }
-
-
     public void init() {
 
     }

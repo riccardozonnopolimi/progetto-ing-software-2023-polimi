@@ -41,11 +41,11 @@ public class GameController extends Observable {
         this.next = null;
         this.ending = false;
         this.id = id;
-        setChanged();
-        notifyObservers(id);
+
 
         //create a map for n players
         this.map = new LRB(numPlayers);
+
         //add to the bag all the tiles
         for (int i = 0; i < 22; i++)
             bag.add(new ItemTile(Item.CAT, i));
@@ -112,21 +112,40 @@ public class GameController extends Observable {
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
 
+        int[] cgsids = new int[]{commonGoals[0].getGoal().getId() ,        commonGoals[1].getGoal().getId()};
+
+
+        setChanged();
+        notifyObservers(id);
+
+        setChanged();
+        notifyObservers(cgsids);
+
+        setChanged();
+        notifyObservers(map.getMap());
+
+
         //import all existing personal goals from json
         Gson gson = new Gson();
-        ArrayList<PersonalGoalCard> PGs;
-        Type PersonalGoalCardType = new TypeToken<ArrayList<PersonalGoalCard>>() {
+
+        ArrayList<ItemTile[][]> goalsFromFile = new ArrayList<>();
+
+        Type personalGoalsType = new TypeToken<ArrayList<ItemTile[][]>>() {
         }.getType();
         try {
-            PGs = gson.fromJson(new FileReader("personalGoalCards.json"), PersonalGoalCardType);
+            goalsFromFile = gson.fromJson(new FileReader("personalGoals.json"), personalGoalsType);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
         //choosing n personal goal randomly
         for (int i = 0; i < numPlayers; i++) {
-            rand = (int) (Math.random() * PGs.size());
-            personalGoals.add(PGs.get(rand));
-            PGs.remove(rand);
+
+            rand = (int) (Math.random() * goalsFromFile.size());
+
+            personalGoals.add(new PersonalGoalCard(goalsFromFile.get(rand), rand + 1));
+            goalsFromFile.remove(rand);
         }
     }
 
@@ -137,10 +156,11 @@ public class GameController extends Observable {
     public boolean playable() {
         //Tested
         // if a player has filled his bookshelf and nextPlayer is first player I can not play
-        if (ending && next.isFirst()) {
-            winner();
-            return false;
-        }
+        if (next != null)
+            if (ending && next.isFirst()) {
+                winner();
+                return false;
+            }
         //starts when there are all the players
         if (players.size() == numPlayers) return true;
         return false;
@@ -183,7 +203,9 @@ public class GameController extends Observable {
             personalGoals.remove(0);
         }
         players.get(0).setFirst(true);
-        this.next = players.get(0);
+        setNext(players.get(0));
+
+
     }
 
     //This method returns true to server if the match is ready to start (has all players)
@@ -222,12 +244,12 @@ public class GameController extends Observable {
 
     public void setCommonGoals(CommonGoalCard[] commonGoals) {
         this.commonGoals = commonGoals;
-        setChanged();
-        notifyObservers(this.getCommonGoals());
     }
 
     public void setNext(Player next) {
         this.next = next;
+        setChanged();
+        notifyObservers(next.getNickName());
     }
 
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
@@ -451,6 +473,7 @@ public class GameController extends Observable {
     public int getId() {
         return id;
     }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -459,7 +482,7 @@ public class GameController extends Observable {
         return this.publicOut;
     }
 
-    public void setOut(ObjectOutputStream out){
+    public void setOut(ObjectOutputStream out) {
         this.publicOut = out;
 
         setChanged();

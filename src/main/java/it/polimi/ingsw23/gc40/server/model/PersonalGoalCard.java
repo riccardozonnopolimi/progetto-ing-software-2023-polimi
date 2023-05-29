@@ -2,14 +2,19 @@ package it.polimi.ingsw23.gc40.server.model;
 
 public class PersonalGoalCard  {
     private ItemTile[][] goal;
-    private int id;
+    public int id;
 
-    public PersonalGoalCard() {
-
+    public PersonalGoalCard(ItemTile[][] goal, int id) {
+        this.goal = goal;
+        this.id = id;
     }
 
     public int getId() {
         return id;
+    }
+
+    public ItemTile[][] getGoal() {
+        return goal;
     }
 
     public void checkScore(Player p) {

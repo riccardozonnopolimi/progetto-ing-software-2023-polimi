@@ -7,25 +7,23 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwor
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.sql.SQLOutput;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
+
 
 public class conSocket extends Thread implements ConnectionController {
     private Socket socket;
-    private PrintWriter out;
+    private ObjectOutputStream out;
     public String value;
     private ObjectInputStream ois;
     private Object obj;
     private View view;
 
-
-
     @Override
-    public Object getObj(String s, int n){
+    public Object getObj(String s, int n) {
         return null;
     }
 
@@ -33,9 +31,10 @@ public class conSocket extends Thread implements ConnectionController {
         //System.out.println("inizio costruttore consocket");
         this.socket = socket;
         try {
-            System.out.println("ok");
             ois = new ObjectInputStream(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream());
+
+            out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
             serverPrint("#nuova connessione Socket");
         } catch (IOException e) {
             System.out.println("catch: " + e);
@@ -59,18 +58,11 @@ public class conSocket extends Thread implements ConnectionController {
 
     @Override
     public void close() {
-        out.close();
         try {
             socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    //@Override
-    public void serverPrint(String s) throws RemoteException {
-        outprint("#serverPrint");
-        outprint(s);
     }
 
     @Override
@@ -86,7 +78,6 @@ public class conSocket extends Thread implements ConnectionController {
         while (this.value.equals("#")) {
             System.out.print("");
             //System.out.print("broh");
-
         }
         int number;
         number = (int) obj;
@@ -100,15 +91,15 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public boolean playable() throws RemoteException {
-        return check("#playable");
+    public boolean playable(int n) throws RemoteException {
+        outprint("#playable");
+        return check(n);
     }
 
     @Override
     public void print(String s) throws RemoteException {
         //todo implementation
     }
-
 
     @Override
     public void setView(View view) throws RemoteException {
@@ -123,7 +114,6 @@ public class conSocket extends Thread implements ConnectionController {
                 System.out.print("");
                 //System.out.println("while dentro check");
             }
-
             System.out.println("");
             if (this.value.equals("#false")) {
                 this.value = "#";
@@ -141,14 +131,14 @@ public class conSocket extends Thread implements ConnectionController {
         System.out.println("##errore addPlayer conSocket");
         return false;
     }
-    private boolean check(int string) {
-        outprint(string);
+
+    private boolean check(int n) {
+        outprint(n);
         try {
             while (this.value.equals("#")) {
                 System.out.print("");
                 //System.out.println("while dentro check");
             }
-
             System.out.println("");
             if (this.value.equals("#false")) {
                 this.value = "#";
@@ -160,52 +150,77 @@ public class conSocket extends Thread implements ConnectionController {
             }
             this.value = "#";
         } catch (NoSuchElementException e) {
-            System.out.println("#catch del while-true socket lato client");
+            System.out.println("#catch di un while-true socket lato client - metodo check");
             e.printStackTrace();
         }
-        System.out.println("##errore addPlayer conSocket");
+        System.out.println("##errore check conSocket");
         return false;
     }
+
     private void outprint(String s) {
         //System.out.println("entro in outprint consocket");
-        out.println(s);
-        out.flush();
-        System.out.println("@consocket: Ho inviato: "+s);
+        try {
+            out.writeUTF(s);
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+
+            throw new RuntimeException(e);
+        }
+        try {
+            out.flush();
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+            throw new RuntimeException(e);
+        }
+        //System.out.println("@consocket: Ho inviato: "+s);
 
     }
+
     private void outprint(int s) {
         //System.out.println("entro in outprint consocket");
-        out.println(s);
-        out.flush();
-        System.out.println("@consocket: Ho inviato: "+s);
+        try {
+            out.writeInt(s);
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+            throw new RuntimeException(e);
+        }
+        try {
+            out.flush();
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+            throw new RuntimeException(e);
+        }
+        //System.out.println("@consocket: Ho inviato: "+s);
+    }
 
+    public void serverPrint(String s) throws RemoteException {
+        outprint("#serverPrint");
+        outprint(s);
     }
 
     @Override
     public void run() {
         //System.out.println("entro nella run conSocket");
-
         try {
             while (true) {
-
                 //System.out.println("entro nel while run consocket");
                 String line = ois.readUTF();
-                System.out.println("@@consocket: ricevo: "+line);
+                //System.out.println("@@consocket: ricevo: "+line);
                 switch (line) {
                     case "#private_object":
-                        System.out.println("ho letto private object");
+                        //System.out.println("ho letto private object");
                         obj = ois.readObject();
-                        System.out.println("ho letto oggetto");
+                        //System.out.println("ho letto oggetto");
                         view.updatePrivateData((PrivateModelNetwork) obj);
-                        System.out.println("####### nickname : "+((PrivateModelNetwork) obj).getNickname());
+                        //System.out.println("####### nickname : "+((PrivateModelNetwork) obj).getNickname());
                         break;
                     case "#public_object":
-                        System.out.println("ho letto public object");
+                        //System.out.println("ho letto public object");
                         obj = ois.readObject();
-                        System.out.println("ho letto oggetto");
+                        //System.out.println("ho letto oggetto");
                         view.updatePublicData((PublicModelNetwork) obj);
-                        PublicModelNetwork p = (PublicModelNetwork) obj;
-                        System.out.println("####### id match : "+p.idMatch);
+                        //PublicModelNetwork p = (PublicModelNetwork) obj;
+                        //System.out.println("####### id match : "+p.idMatch);
                         break;
                     case "#int":
                         obj = ois.readInt();
@@ -221,22 +236,13 @@ public class conSocket extends Thread implements ConnectionController {
                         this.value = line;
                         break;
                 }
-
                 //aggiorna dati publici solo se il match è giusto
                 //todo: printare aggiornamenti commonGoalCard
-
-
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-
-
-
-
     }
 }
-
-

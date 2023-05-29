@@ -11,15 +11,15 @@ public class conRMI extends Thread implements ConnectionController {
     ConnectionController stub;
     private View view;
 
+    public conRMI(ConnectionController stub) throws RemoteException {
+        this.stub = stub;
+        print("#nuova connessione RMI");
+    }
+
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
         start();
-    }
-
-    public conRMI(ConnectionController stub) throws RemoteException {
-        this.stub = stub;
-        print("#nuova connessione RMI");
     }
 
     @Override
@@ -31,21 +31,19 @@ public class conRMI extends Thread implements ConnectionController {
         return stub.newMatch(n);
     }
 
-
     public boolean hasQueueMatch() throws RemoteException {
         return stub.hasQueueMatch();
     }
 
     @Override
-    public boolean playable() throws RemoteException {
-        return stub.playable();
+    public boolean playable(int n) throws RemoteException {
+        return stub.playable(n);
     }
 
     @Override
     public int addToLastMatch(String name) throws RemoteException {
         return stub.addToLastMatch(name);
     }
-
 
     /* /@Override
     public void serverPrint(String s) throws RemoteException {
@@ -62,45 +60,22 @@ public class conRMI extends Thread implements ConnectionController {
         stub.print(s);
     }
 
-
     @Override
     public void run() {
-
         System.out.println("parte thread conrmi");
         while (true) {
             try {
                 //System.out.println("##conrmi run view diverso da null nn: "+view.nickname+" mid: "+view.matchId);
                 Object obj;
-                while (!view.isOk()) {
+                while (view.matchId == -1) {
                     System.out.print("");
                 }
-                if (view.isOk()) {
 
+                obj = getObj(view.nickname, -1);
+                view.updatePrivateData((PrivateModelNetwork) obj);
 
-                    //System.out.println("nickname diverso da null");
-
-
-                    obj = getObj(view.nickname, -1);
-
-                    /*
-                    System.out.println("nick client: "+view.nickname);
-                    if(obj==null)
-                       System.out.println("obj null");
-                    else
-                       System.out.println("nick server: "+((PrivateModelNetwork) obj).getNickname());*/
-
-
-                    view.updatePrivateData((PrivateModelNetwork) obj);
-                    //System.out.println("### conRmi run - ricevo privatedata nickname: "+((PrivateModelNetwork) obj).getNickname());
-                }
-
-                if (view.isOk()) {
-                    //System.out.println("matchid diverso da menouno");
-                    obj = getObj("", view.matchId);
-                    view.updatePublicData((PublicModelNetwork) obj);
-                    //System.out.println("### conRmi run - ricevo publicdata match id: "+((PublicModelNetwork) obj).idMatch);
-                }
-
+                obj = getObj("", view.matchId);
+                view.updatePublicData((PublicModelNetwork) obj);
 
             } catch (RemoteException e) {
                 System.out.println("catch conrmi run errore: " + e);
@@ -113,6 +88,4 @@ public class conRMI extends Thread implements ConnectionController {
     public Object getObj(String s, int n) throws RemoteException {
         return stub.getObj(s, n);
     }
-
-
 }

@@ -19,11 +19,11 @@ public class PublicModelNetwork implements Serializable {
         this.idMatch = idMatch;
         this.current = current;
     }
-    public PublicModelNetwork(boolean ended, String winner){
+    public PublicModelNetwork(boolean ended, String winner, int idMatch){
         this.ended = ended;
         this.winner = winner;
+        this.idMatch = idMatch;
     }
-
     public ItemTile[][] getLrb() {
         return lrb;
     }

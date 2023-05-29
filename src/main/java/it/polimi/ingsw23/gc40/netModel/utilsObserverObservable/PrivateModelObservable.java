@@ -7,26 +7,13 @@ import java.io.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PrivateModelObservable extends Observable implements Observer {
+public class PrivateModelObservable implements Observer {
     private PrivateModelNetwork data;
     public ItemTile[][] shelf;
-    public int pgc;
+    public int pgc = -1;
     public String nickname;
     public ObjectOutputStream out;
     private SocketHandler sh;
-
-    public SocketHandler getSH(){
-        return sh;
-    }
-
-    public PrivateModelObservable(Player p) {
-        p.addObserver(this);
-        this.sh=null;
-    }
-
-    public void setSh(SocketHandler sh) {
-        this.sh = sh;
-    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -34,7 +21,7 @@ public class PrivateModelObservable extends Observable implements Observer {
             shelf = (ItemTile[][]) arg;
             data = new PrivateModelNetwork(shelf, pgc, nickname);
         }
-        if (arg instanceof PersonalGoalCard) {
+        if (arg instanceof Integer) {
             pgc = (int) arg;
             data = new PrivateModelNetwork(shelf, pgc, nickname);
         }
@@ -48,13 +35,17 @@ public class PrivateModelObservable extends Observable implements Observer {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        //non so se funziona cosi
-        //setChanged();
-        //notifyObservers(data);
-
     }
-
+    public SocketHandler getSH(){
+        return sh;
+    }
+    public PrivateModelObservable(Player p) {
+        p.addObserver(this);
+        this.sh=null;
+    }
+    public void setSh(SocketHandler sh) {
+        this.sh = sh;
+    }
     public PrivateModelNetwork getData() {
         return data;
     }

@@ -19,7 +19,7 @@ public interface ConnectionController extends Remote  {
 
     int addToLastMatch(String string) throws RemoteException;
 
-    boolean playable() throws RemoteException;
+    boolean playable(int n) throws RemoteException;
 
     void close() throws RemoteException;
 

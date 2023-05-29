@@ -23,6 +23,7 @@ public class Player extends Observable {
 
 
 
+
     public Player(String nickName) {
         this.nickName = nickName;
         this.CGScore = 0;
@@ -35,6 +36,8 @@ public class Player extends Observable {
         this.bookshelf = new Bookshelf();
         setChanged();
         notifyObservers(nickName);
+        setChanged();
+        notifyObservers(this.getBookshelf().getShelf());
 
     }
 
@@ -91,7 +94,6 @@ public class Player extends Observable {
 
     public void setPersonalGoal(PersonalGoalCard personalGoal) {
         this.personalGoal = personalGoal;
-
         setChanged();
         notifyObservers(this.getPersonalGoal().getId());
     }
@@ -105,6 +107,6 @@ public class Player extends Observable {
     }
     public void insertIT(ItemTile it, int column){
         this.bookshelf.insertIT(it, column);
-        notifyObservers(this.getBookshelf());
+        notifyObservers(this.getBookshelf().getShelf());
     }
 }

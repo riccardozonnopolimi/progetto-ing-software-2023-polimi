@@ -68,9 +68,8 @@ public class ProxyController implements ConnectionController {
     }
 
 
-    public boolean playable() throws RemoteException {
-        //todo - per ora test su un solo match
-        return lobbyController.getActiveMatches().get(0).playable();
+    public boolean playable(int n) throws RemoteException {
+        return lobbyController.getMatchById(n).playable();
 
     }
 

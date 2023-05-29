@@ -45,7 +45,7 @@ public class PublicModelObservable implements Observer {
         }
         if (arg instanceof Boolean) {
             ended = (Boolean) arg;
-            data = new PublicModelNetwork(ended, winner);
+            data = new PublicModelNetwork(ended, winner, idMatch);
         }
 
         try {

@@ -12,7 +12,7 @@ public class SocketHandler implements Runnable {
 
     private ProxyController proxyController;
     private Socket socket;
-    private Scanner in;
+    private ObjectInputStream in;
     private ObjectOutputStream out;
 
     public SocketHandler(Socket socketClient, ProxyController proxyController) {
@@ -31,57 +31,62 @@ public class SocketHandler implements Runnable {
     @Override
     public void run() {
         try {
-            in = new Scanner(socket.getInputStream());
-            //we can try with a bufferReader
-           // BufferedReader in2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            //in printWriter constructor we can pass true to autoFlush, we couldn't use flush every time after sending message
-           // out = new PrintWriter(socket.getOutputStream(), true);
-            //out.println("connesso");
             out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
 
-            String target;
+            in = new ObjectInputStream(socket.getInputStream());
+
+
+            String line;
+            String line2;
             String nickname="";
-            int matchid;
+            int matchid, n;
 
 
             while (true) {
-                target = in.nextLine();
-                //target = in2.readLine();
-                String line2;
+                line = in.readUTF();
+
                 GameController gameController = null;
                 Player player = null;
-                if (target.equals("quit")) break;
+
+
+                if (line.equals("quit")) break;
                 else {
                     //System.out.println("#socketHandler class - run method - ricevo da client: " + line);
-                    switch (target) {
+                    switch (line) {
                         case "#addPlayer":
-                            nickname = in.nextLine();
+                            nickname = in.readUTF();
                             bool(proxyController.addPlayer(nickname));
                             proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().setSh(this);
+                            sendObj("#private_object",proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().getData());
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
                             break;
                         case "#newMatch":
-                            int n = in.nextInt();
+                            n = in.readInt();
                             bool(proxyController.newMatch(n));
                             break;
                         case "#playable":
-                            bool(proxyController.playable());
+                            n = in.readInt();
+                            bool(proxyController.playable(n));
                             break;
                         case "#addToLastMatch":
-                            line2 = in.nextLine();
+                            line2 = in.readUTF();
                             matchid = proxyController.addToLastMatch(line2);
                             writeInt(matchid);
-                            sendObj("#private_object",proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().getData());
                             sendObj("#public_object", proxyController.getLobbyController().getMatchById(matchid).getPublicModelObservable().getData());
                             break;
                         case "#serverPrint":
-                            line2 = in.nextLine();
+                            line2 = in.readUTF();
                             proxyController.print(line2);
                             break;
                         default:
+                            System.out.println("##################### BROOOO \n ho ricevuto: ");
+                            System.out.println("");
+                            System.out.println(line);
+                            System.out.println("");
                             System.out.println("#comando non riconosciuto");
                             break;
                     }
