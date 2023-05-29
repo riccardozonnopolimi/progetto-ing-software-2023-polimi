@@ -42,7 +42,7 @@ public class LobbyController extends Thread {
         //if true it means that the match has all the players, so it can start
         System.out.println("@@lobbycontroller->addtolastmatch");
         if (queueMatch.addPlayer(player)) {
-            System.out.println("@@if");
+            //System.out.println("@@if");
 
             GameController m = queueMatch;
             activeGameControllers.add(m);
@@ -119,8 +119,9 @@ public class LobbyController extends Thread {
 
 
     public GameController getMatchById(int n) {
-        if(queueMatch.getId()==n)
-            return queueMatch;
+        if(queueMatch!=null)
+            if(queueMatch.getId()==n)
+                return queueMatch;
 
         for (int i=0; i<activeGameControllers.size(); i++)
             if(activeGameControllers.get(i).getId()==n)

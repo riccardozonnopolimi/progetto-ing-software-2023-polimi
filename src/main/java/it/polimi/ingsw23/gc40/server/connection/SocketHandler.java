@@ -41,6 +41,8 @@ public class SocketHandler implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
 
             String target;
+            String nickname="";
+            int matchid;
 
 
             while (true) {
@@ -54,10 +56,9 @@ public class SocketHandler implements Runnable {
                     //System.out.println("#socketHandler class - run method - ricevo da client: " + line);
                     switch (target) {
                         case "#addPlayer":
-                            line2 = in.nextLine();
-                            String name = line2;
-                            bool(proxyController.addPlayer(name));
-                            proxyController.getLobbyController().getPlayer(name).getPrivateModelObservable().setSh(this);
+                            nickname = in.nextLine();
+                            bool(proxyController.addPlayer(nickname));
+                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().setSh(this);
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
@@ -71,9 +72,10 @@ public class SocketHandler implements Runnable {
                             break;
                         case "#addToLastMatch":
                             line2 = in.nextLine();
-                            writeInt(proxyController.addToLastMatch(line2));
-
-                            //todo better but think works
+                            matchid = proxyController.addToLastMatch(line2);
+                            writeInt(matchid);
+                            sendObj("#private_object",proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().getData());
+                            sendObj("#public_object", proxyController.getLobbyController().getMatchById(matchid).getPublicModelObservable().getData());
                             break;
                         case "#serverPrint":
                             line2 = in.nextLine();
@@ -90,6 +92,8 @@ public class SocketHandler implements Runnable {
         } catch (IOException e) {
             System.out.println("#SocketHandler class - run method - catch error:");
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
