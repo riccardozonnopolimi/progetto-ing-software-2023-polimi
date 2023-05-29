@@ -1,6 +1,7 @@
 package it.polimi.ingsw23.gc40.server.model;
 
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObservable;
+import it.polimi.ingsw23.gc40.server.connection.SocketHandler;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -32,6 +33,9 @@ public class Player extends Observable {
         this.PGScore = 0;
         this.ADJScore = 0;
         this.bookshelf = new Bookshelf();
+        setChanged();
+        notifyObservers(nickName);
+
     }
 
     public PrivateModelObservable getPrivateModelObservable() {
@@ -87,8 +91,7 @@ public class Player extends Observable {
 
     public void setPersonalGoal(PersonalGoalCard personalGoal) {
         this.personalGoal = personalGoal;
-        setChanged();
-        notifyObservers(this.getNickName());
+
         setChanged();
         notifyObservers(this.getPersonalGoal().getId());
     }
@@ -104,7 +107,4 @@ public class Player extends Observable {
         this.bookshelf.insertIT(it, column);
         notifyObservers(this.getBookshelf());
     }
-
-
-
 }

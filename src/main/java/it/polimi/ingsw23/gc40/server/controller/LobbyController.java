@@ -119,6 +119,9 @@ public class LobbyController extends Thread {
 
 
     public GameController getMatchById(int n) {
+        if(queueMatch.getId()==n)
+            return queueMatch;
+
         for (int i=0; i<activeGameControllers.size(); i++)
             if(activeGameControllers.get(i).getId()==n)
                 return activeGameControllers.get(i);

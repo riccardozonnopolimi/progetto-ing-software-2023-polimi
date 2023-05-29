@@ -41,6 +41,8 @@ public class GameController extends Observable {
         this.next = null;
         this.ending = false;
         this.id = id;
+        setChanged();
+        notifyObservers(id);
 
         //create a map for n players
         this.map = new LRB(numPlayers);

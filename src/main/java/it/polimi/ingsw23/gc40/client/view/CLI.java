@@ -37,6 +37,7 @@ public class CLI extends View {
                 System.out.println("Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)");
         }
         super.matchId = con.addToLastMatch(super.nickname);
+
         ok = true;
 
         System.out.println("---------");

@@ -7,7 +7,7 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PublicModelObservable extends Observable implements Observer {
+public class PublicModelObservable implements Observer {
     private PublicModelNetwork data;
     public ItemTile[][] lrb;
     public int[] cgs;
@@ -60,8 +60,7 @@ public class PublicModelObservable extends Observable implements Observer {
             throw new RuntimeException(e);
         }
 
-        setChanged();
-        notifyObservers(data);
+
     }
 
     public PublicModelNetwork getData() {
