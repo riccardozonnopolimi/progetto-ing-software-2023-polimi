@@ -74,9 +74,9 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public boolean newMatch(String string) {
+    public boolean newMatch(int n) {
         outprint("#newMatch");
-        return check(string);
+        return check(n);
     }
 
     @Override
@@ -141,8 +141,39 @@ public class conSocket extends Thread implements ConnectionController {
         System.out.println("##errore addPlayer conSocket");
         return false;
     }
+    private boolean check(int string) {
+        outprint(string);
+        try {
+            while (this.value.equals("#")) {
+                System.out.print("");
+                //System.out.println("while dentro check");
+            }
 
+            System.out.println("");
+            if (this.value.equals("#false")) {
+                this.value = "#";
+                return false;
+            }
+            if (this.value.equals("#true")) {
+                this.value = "#";
+                return true;
+            }
+            this.value = "#";
+        } catch (NoSuchElementException e) {
+            System.out.println("#catch del while-true socket lato client");
+            e.printStackTrace();
+        }
+        System.out.println("##errore addPlayer conSocket");
+        return false;
+    }
     private void outprint(String s) {
+        //System.out.println("entro in outprint consocket");
+        out.println(s);
+        out.flush();
+        System.out.println("@consocket: Ho inviato: "+s);
+
+    }
+    private void outprint(int s) {
         //System.out.println("entro in outprint consocket");
         out.println(s);
         out.flush();
@@ -166,10 +197,15 @@ public class conSocket extends Thread implements ConnectionController {
                         obj = ois.readObject();
                         System.out.println("ho letto oggetto");
                         view.updatePrivateData((PrivateModelNetwork) obj);
+                        System.out.println("####### nickname : "+((PrivateModelNetwork) obj).getNickname());
                         break;
                     case "#public_object":
+                        System.out.println("ho letto public object");
                         obj = ois.readObject();
+                        System.out.println("ho letto oggetto");
                         view.updatePublicData((PublicModelNetwork) obj);
+                        PublicModelNetwork p = (PublicModelNetwork) obj;
+                        System.out.println("####### id match : "+p.idMatch);
                         break;
                     case "#int":
                         obj = ois.readInt();

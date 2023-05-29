@@ -4,7 +4,6 @@ import it.polimi.ingsw23.gc40.server.connection.SocketHandler;
 import it.polimi.ingsw23.gc40.server.model.*;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,6 +21,7 @@ public class PrivateModelObservable extends Observable implements Observer {
 
     public PrivateModelObservable(Player p) {
         p.addObserver(this);
+        this.sh=null;
     }
 
     public void setSh(SocketHandler sh) {

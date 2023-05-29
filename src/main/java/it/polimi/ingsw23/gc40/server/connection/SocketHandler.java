@@ -63,8 +63,8 @@ public class SocketHandler implements Runnable {
                             bool(proxyController.hasQueueMatch());
                             break;
                         case "#newMatch":
-                            line2 = in.nextLine();
-                            bool(proxyController.newMatch(line2));
+                            int n = in.nextInt();
+                            bool(proxyController.newMatch(n));
                             break;
                         case "#playable":
                             bool(proxyController.playable());

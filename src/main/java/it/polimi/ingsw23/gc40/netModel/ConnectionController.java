@@ -10,14 +10,12 @@ import java.util.Scanner;
 
 
 //copia dei metodi dell'interfaccia nel client
-public interface ConnectionController extends Remote {
-
-
+public interface ConnectionController extends Remote  {
     boolean addPlayer(String name) throws RemoteException;
 
     boolean hasQueueMatch() throws RemoteException;
 
-    boolean newMatch(String string) throws RemoteException;
+    boolean newMatch(int n) throws RemoteException;
 
     int addToLastMatch(String string) throws RemoteException;
 

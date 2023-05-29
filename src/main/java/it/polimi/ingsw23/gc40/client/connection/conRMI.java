@@ -5,10 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
-import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 public class conRMI extends Thread implements ConnectionController {
     ConnectionController stub;
@@ -30,8 +27,8 @@ public class conRMI extends Thread implements ConnectionController {
         return stub.addPlayer(name);
     }
 
-    public boolean newMatch(String string) throws RemoteException {
-        return stub.newMatch(string);
+    public boolean newMatch(int n) throws RemoteException {
+        return stub.newMatch(n);
     }
 
 
@@ -69,19 +66,27 @@ public class conRMI extends Thread implements ConnectionController {
     @Override
     public void run() {
 
-
         System.out.println("parte thread conrmi");
         while (true) {
             try {
-                if(view!=null){
-                    if (view.matchId != -1)
-                        view.updatePublicData((PublicModelNetwork) getObj("", view.matchId));
-                    if (view.player != "temp")
-                        view.updatePublicData((PublicModelNetwork) getObj(view.player, -1));
-                }
+                    //System.out.println("##conrmi run view diverso da null nn: "+view.nickname+" mid: "+view.matchId);
+                    Object obj;
+                    if (view.isOk()) {
+                        System.out.println("nickname diverso da null");
+                        obj = getObj(view.nickname, -1);
+                        view.updatePrivateData((PrivateModelNetwork) obj);
+                        System.out.println("### conRmi run - ricevo privatedata nickname: "+((PrivateModelNetwork) obj).getNickname());
+                    }
+                    if (view.isOk()) {
+                        System.out.println("matchid diverso da menouno");
+                        obj = getObj("", view.matchId);
+                        view.updatePublicData((PublicModelNetwork) obj);
+                        System.out.println("### conRmi run - ricevo publicdata match id: "+((PublicModelNetwork) obj).idMatch);
+                    }
 
 
             } catch (RemoteException e) {
+                System.out.println("catch conrmi run errore: "+e);
                 throw new RuntimeException(e);
             }
         }

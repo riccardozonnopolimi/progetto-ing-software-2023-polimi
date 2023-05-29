@@ -22,54 +22,43 @@ public class ProxyController implements ConnectionController {
         this.lobbyController = lobbyController;
     }
 
-    public boolean addPlayer(String name){
+    public boolean addPlayer(String name) {
         // System.out.println(name);
         // System.out.println("#classe controller del server - metodo addplayer");
         // to test
-        if(lobbyController.checkExistingNickName(name)){
-            System.out.println("utente già esistente: "+name);
+        if (lobbyController.checkExistingNickName(name)) {
+            System.out.println("utente già esistente: " + name);
             return false;
-        }
-        else{
-            System.out.println("creo utente: "+name);
+        } else {
+            System.out.println("creo utente: " + name);
             lobbyController.addPlayer(name);
         }
         //notify player todo
         return true;
     }
-    public boolean newMatch(String string){
+
+    public boolean newMatch(int n) {
         GameController gameController;
-        switch (string) {
-            case "2" -> {
-                gameController = lobbyController.createNewMatch(2);
-                System.out.println("Creato Match per 2");
-                return true;
-            }
-            //notify match todo
-            case "3" -> {
-                gameController = lobbyController.createNewMatch(3);
-                System.out.println("Creato Match per 3");
-                return true;
-            }
-            case "4" -> {
-                gameController = lobbyController.createNewMatch(4);
-                System.out.println("Creato Match per 4");
-                return true;
-            }
-            default -> {
-                System.out.println("Errore creazione Match: numero di giocatori richiesto: " + string);
-                return false;
-            }
+
+        if (n > 4) {
+            System.out.println("Errore creazione Match: numero di giocatori richiesto: " + n);
+            return false;
         }
-        //todo
+
+        gameController = lobbyController.createNewMatch(n);
+        System.out.println("Creato Match per " + n);
+        return true;
+
     }
-    public boolean hasQueueMatch(){
+
+    public boolean hasQueueMatch() {
         return lobbyController.hasQueueMatch();
     }
-    public int addToLastMatch(String name){
+
+    public int addToLastMatch(String name) {
         //have to obtain from onlinePlayer in server and return it
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
-        System.out.println("Aggiunto il giocarore "+name+" al match in attesa");
+        System.out.println("Aggiunto il giocarore " + name + " al match in attesa");
 
         //partire nuovo thread socket public model in ascolto di connessioni su porta che restituisco al client che ha chiamato questo metodo
 
@@ -91,7 +80,7 @@ public class ProxyController implements ConnectionController {
     }
 
     @Override
-    public void print(String s) throws RemoteException{
+    public void print(String s) throws RemoteException {
         System.out.println(s);
     }
 
@@ -105,7 +94,7 @@ public class ProxyController implements ConnectionController {
         if (n == -1) {
             return lobbyController.getPlayer(str).getPrivateModelObservable().getData();
         } else {
-            return lobbyController.getActiveMatches().get(n).getPublicModelObservable().getData();
+            return lobbyController.getMatchById(n).getPublicModelObservable().getData();
         }
     }
 

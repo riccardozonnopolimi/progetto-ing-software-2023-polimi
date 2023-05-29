@@ -5,7 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class CLI extends View  {
+public class CLI extends View {
     private Scanner sc;
 
     public CLI(ConnectionController con) {
@@ -15,46 +15,41 @@ public class CLI extends View  {
 
     public void init() throws RemoteException, Exception {
 
-        String name;
-
         System.out.println("#metodo start della view CLI");
-        //i metodi chiamati su con vengono implementati dalla classe conSocket
-        // o conRMI a seconda di come viene istanziata la view
-        //
-        //creazione player
-        name = inString("Inserisci nome giocatore: ");
+
+        super.nickname = inString("Inserisci nome giocatore: ");
         //System.out.println("qui siiiiiiiiium");
-        while (!con.addPlayer(name)) {
+        while (!con.addPlayer(super.nickname)) {
             System.out.println("Nome utente già in uso, riprova...");
-            name = inString("Inserisci nome giocatore: ");
+            super.nickname = inString("Inserisci nome giocatore: ");
 
         }
 
+        // System.out.println("ciao fil sono qui");
 
-       // System.out.println("ciao fil sono qui");
 
-        int mId;
         //entro nel match / creo il match
 
         if (con.hasQueueMatch()) {
             System.out.println("Sei stato aggiunto ad un match pre-esistente in attesa di giocatori.");
-
-            mId = con.addToLastMatch(name);
         } else {
-            while (!con.newMatch(inString("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
+            while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
                 System.out.println("Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)");
-
-            mId = con.addToLastMatch(name);
-
-
         }
+        super.matchId = con.addToLastMatch(super.nickname);
+        ok = true;
 
         System.out.println("---------");
 
 
-        System.out.println("Match ID: "+this.matchId);
-        System.out.println("Nickname: "+this.player);
-        System.out.println("PGC: "+super.pgc);
+
+        while (inInt("Digita 0 per uscire - 1 per visualizzare i dettagli") == 1) {
+            System.out.println("Match ID: " + super.match_data.idMatch);
+            System.out.println("Nickname: " + super.player_data.getNickname());
+            System.out.println("PGC: " + super.player_data.getPgc());
+        }
+        System.out.println("sei uscito");
+
 
         //System.out.println("test");
         /*
@@ -83,5 +78,12 @@ public class CLI extends View  {
         String line = sc.nextLine();
         sc.reset();
         return line;
+    }
+
+    public int inInt(String question) {
+        System.out.println(question);
+        int n = sc.nextInt();
+        sc.reset();
+        return n;
     }
 }
