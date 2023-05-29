@@ -7,13 +7,14 @@ import java.io.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PrivateModelObservable implements Observer {
+public class PrivateModelObserver implements Observer {
     private PrivateModelNetwork data;
     public ItemTile[][] shelf;
     public int pgc = -1;
     public String nickname;
     public ObjectOutputStream out;
     private SocketHandler sh;
+    private boolean hasNewData;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -32,6 +33,8 @@ public class PrivateModelObservable implements Observer {
         try {
             if (sh != null)
                 sh.sendObj("#private_object",data);
+            else
+                setNewData(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +42,7 @@ public class PrivateModelObservable implements Observer {
     public SocketHandler getSH(){
         return sh;
     }
-    public PrivateModelObservable(Player p) {
+    public PrivateModelObserver(Player p) {
         p.addObserver(this);
         this.sh=null;
     }
@@ -48,5 +51,11 @@ public class PrivateModelObservable implements Observer {
     }
     public PrivateModelNetwork getData() {
         return data;
+    }
+    public void setNewData(boolean hasNewData) {
+        this.hasNewData = hasNewData;
+    }
+    public boolean getNewData(){
+        return hasNewData;
     }
 }

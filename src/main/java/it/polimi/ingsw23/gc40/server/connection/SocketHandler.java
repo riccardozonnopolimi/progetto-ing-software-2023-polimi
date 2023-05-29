@@ -6,7 +6,6 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SocketHandler implements Runnable {
 
@@ -21,10 +20,10 @@ public class SocketHandler implements Runnable {
     }
 
 
-    public void sendObj(String st, Object obj) throws Exception{
+    public void sendObj(String st, Object obj) throws Exception {
         out.writeUTF(st);
         out.flush();
-        out.writeObject(obj);
+        out.writeUnshared(obj);
         out.flush();
     }
 
@@ -40,8 +39,8 @@ public class SocketHandler implements Runnable {
 
             String line;
             String line2;
-            String nickname="";
-            int matchid, n;
+            String nickname = "";
+            int matchid = -1, n;
 
 
             while (true) {
@@ -58,8 +57,11 @@ public class SocketHandler implements Runnable {
                         case "#addPlayer":
                             nickname = in.readUTF();
                             bool(proxyController.addPlayer(nickname));
-                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().setSh(this);
-                            sendObj("#private_object",proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObservable().getData());
+                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().setSh(this);
+                            sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
+                            break;
+                        case "#chooseTiles":
+                            sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
@@ -76,11 +78,15 @@ public class SocketHandler implements Runnable {
                             line2 = in.readUTF();
                             matchid = proxyController.addToLastMatch(line2);
                             writeInt(matchid);
-                            sendObj("#public_object", proxyController.getLobbyController().getMatchById(matchid).getPublicModelObservable().getData());
                             break;
                         case "#serverPrint":
                             line2 = in.readUTF();
                             proxyController.print(line2);
+                            break;
+                        case "#startRound":
+                            line2 = in.readUTF();
+                            n = proxyController.startRound(line2, in.readInt());
+                            writeInt(n);
                             break;
                         default:
                             System.out.println("##################### BROOOO \n ho ricevuto: ");
@@ -118,15 +124,16 @@ public class SocketHandler implements Runnable {
     private void writeUTF(String st) throws IOException {
         out.writeUTF(st);
         out.flush();
-        System.out.println("@SH: Ho inviato: "+st);
+        System.out.println("@SH: Ho inviato: " + st);
 
 
     }
+
     private void writeInt(int intero) throws IOException {
         out.writeUTF("#int");
         out.writeInt(intero);
         out.flush();
-        System.out.println("@SH: Ho inviato: "+intero);
+        System.out.println("@SH: Ho inviato: " + intero);
 
 
     }

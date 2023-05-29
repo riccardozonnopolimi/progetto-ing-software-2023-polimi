@@ -1,20 +1,26 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import java.io.Serializable;
+import java.io.*;
 
 public class ItemTile implements Serializable {
-    private final Item type;
-    private final int num;
-    private static final long serialVersionUID = 34563234;
+    private Item type;
+    private int num;
+
+    private static final long serialVersionUID = 7829136421241571165L;
+
     private boolean checkedADJ = false;
 
 
     public ItemTile(Item t) {
+        //TO TEST
+        super();
         type = t;
         num = 0;
     }
 
     public ItemTile(Item t, int n) {
+        //TO TEST
+        super();
         type = t;
         num = n % 3;
     }
@@ -26,8 +32,8 @@ public class ItemTile implements Serializable {
     }
 
     @Override
-    public String toString(){
-        switch(this.type){
+    public String toString() {
+        switch (this.type) {
             case CAT -> {
                 return "C";
             }
@@ -67,11 +73,68 @@ public class ItemTile implements Serializable {
         return (this.type == it.type);
     }
 
-    public int equalsToN(int n, ItemTile[] i) {
-        int equals = 0;
-        for (int j = 0; j < n - 2; j++) {
-            if (i[j].equals(i[j + 1])) equals++;
+
+    //TO TEST
+    private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
+        switch (aInputStream.readUTF()) {
+//TO TEST
+            case "C":
+                type = Item.CAT;
+                break;
+            case "B":
+                type = Item.BOOK;
+                break;
+            case "G":
+                type = Item.GAME;
+                break;
+            case "F":
+                type = Item.FRAME;
+                break;
+            case "T":
+                type = Item.TROPHY;
+                break;
+            case "P":
+                type = Item.PLANT;
+                break;
+            case "E":
+                type = Item.EMPTY;
+                break;
+            default:
+                break;
         }
-        return equals;
+        num = aInputStream.readInt();
     }
+    //TO TEST
+    private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
+        switch (type) {
+            case CAT:
+                aOutputStream.writeUTF("C");
+                break;
+            case BOOK:
+                aOutputStream.writeUTF("B");
+                break;
+            case PLANT:
+                aOutputStream.writeUTF("P");
+                break;
+            case TROPHY:
+                aOutputStream.writeUTF("T");
+                break;
+            case FRAME:
+                aOutputStream.writeUTF("F");
+                break;
+            case GAME:
+                aOutputStream.writeUTF("G");
+                break;
+            case EMPTY:
+                aOutputStream.writeUTF("E");
+                break;
+            default:
+                aOutputStream.writeUTF("*");
+                break;
+
+
+        }
+        aOutputStream.writeInt(num);
+    }
+
 }

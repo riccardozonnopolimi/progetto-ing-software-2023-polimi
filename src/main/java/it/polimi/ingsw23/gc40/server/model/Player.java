@@ -1,10 +1,7 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObservable;
-import it.polimi.ingsw23.gc40.server.connection.SocketHandler;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.Observable;
 
 public class Player extends Observable {
@@ -18,7 +15,7 @@ public class Player extends Observable {
     private Boolean CG2Reached;
     private PersonalGoalCard personalGoal;
     private Bookshelf bookshelf;
-    private PrivateModelObservable privateModelObservable = new PrivateModelObservable(this);
+    private PrivateModelObserver observer = new PrivateModelObserver(this);
 
 
 
@@ -41,8 +38,8 @@ public class Player extends Observable {
 
     }
 
-    public PrivateModelObservable getPrivateModelObservable() {
-        return privateModelObservable;
+    public PrivateModelObserver getPrivateModelObserver() {
+        return observer;
     }
 
     public void setFirstScore(int firstScore) {

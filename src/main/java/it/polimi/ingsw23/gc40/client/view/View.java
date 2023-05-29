@@ -23,7 +23,6 @@ public abstract class View {
     public String[] cgDescriptions;
     public ArrayList<ItemTile[][]> pgCards = new ArrayList<>();
 
-
     public abstract void init() throws RemoteException, Exception;
 
     public View(ConnectionController connection) {
@@ -66,10 +65,12 @@ public abstract class View {
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
         this.player_data = privateData;
+        System.out.println("@@@@@@@@@@@@@@ deserializzazione private completata @@@@@@@@@@@@@@@@@@");
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
         this.match_data = publicData;
+        System.out.println("###############   deserializzazione public completata #################");
     }
 
     public static int getChoice(String[] choices, String question) {

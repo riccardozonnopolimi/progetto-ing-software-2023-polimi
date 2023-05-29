@@ -4,6 +4,7 @@ import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
 
@@ -20,6 +21,16 @@ public class conRMI extends Thread implements ConnectionController {
     public void setView(View view) throws RemoteException {
         this.view = view;
         start();
+    }
+
+    @Override
+    public int startRound(String name, int m) throws RemoteException {
+        return stub.startRound(name, m);
+    }
+
+    @Override
+    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+        return stub.chooseTiles(mid, x, y, quantity, direction);
     }
 
     @Override
@@ -72,10 +83,14 @@ public class conRMI extends Thread implements ConnectionController {
                 }
 
                 obj = getObj(view.nickname, -1);
-                view.updatePrivateData((PrivateModelNetwork) obj);
-
-                obj = getObj("", view.matchId);
-                view.updatePublicData((PublicModelNetwork) obj);
+                if (obj != null){
+                    System.out.println("deserializzo oggetto player: "+((PrivateModelNetwork) obj).getNickname());
+                    view.updatePrivateData((PrivateModelNetwork) obj);
+                }
+                obj = getObj(view.nickname, view.matchId);
+                if (obj != null){
+                    System.out.println("deserializzo obj match id: "+((PublicModelNetwork) obj).idMatch);
+                    view.updatePublicData((PublicModelNetwork) obj);}
 
             } catch (RemoteException e) {
                 System.out.println("catch conrmi run errore: " + e);

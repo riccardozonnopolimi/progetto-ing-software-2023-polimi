@@ -1,9 +1,13 @@
 package it.polimi.ingsw23.gc40.server.model;
 
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
+
 public class LRB {
+
     private ItemTile[][] map;
 
-    public LRB(int nump) {
+    public LRB(int nump)  {
+
         this.map = new ItemTile[9][9];
         if (nump == 2) {
             //initialize all the ItemTile to EMPTY except notReachable items
@@ -173,6 +177,7 @@ public class LRB {
                 }
             }
         }
+
         return matrixTakeables;
     }
 

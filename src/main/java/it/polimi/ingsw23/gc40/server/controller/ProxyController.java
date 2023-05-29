@@ -2,13 +2,9 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 public class ProxyController implements ConnectionController {
     public LobbyController getLobbyController() {
@@ -35,6 +31,19 @@ public class ProxyController implements ConnectionController {
         }
         //notify player todo
         return true;
+    }
+
+
+    public int startRound(String player, int matchId) {
+        if (lobbyController.getMatchById(matchId).getMap().needRefill()) {
+            lobbyController.getMatchById(matchId).refill();
+        }
+        return lobbyController.getPlayer(player).getBookshelf().placeables();
+    }
+
+    @Override
+    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+        return lobbyController.getMatchById(mid).chooseTiles(x, y, quantity, direction);
     }
 
     public boolean newMatch(int n) {
@@ -91,9 +100,16 @@ public class ProxyController implements ConnectionController {
     @Override
     public Object getObj(String str, int n) throws RemoteException {
         if (n == -1) {
-            return lobbyController.getPlayer(str).getPrivateModelObservable().getData();
+            if (lobbyController.getPlayer(str).getPrivateModelObserver().getNewData()) {
+                lobbyController.getPlayer(str).getPrivateModelObserver().setNewData(false);
+                return lobbyController.getPlayer(str).getPrivateModelObserver().getData();
+            } else return null;
         } else {
-            return lobbyController.getMatchById(n).getPublicModelObservable().getData();
+
+            if (lobbyController.getMatchById(n).getPublicModelObserver().getDownloaded().remove(str))
+                return lobbyController.getMatchById(n).getPublicModelObserver().getData();
+            else return null;
+
         }
     }
 

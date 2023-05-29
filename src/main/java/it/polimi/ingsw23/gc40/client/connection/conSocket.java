@@ -4,6 +4,8 @@ import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
+import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +22,40 @@ public class conSocket extends Thread implements ConnectionController {
     public String value;
     private ObjectInputStream ois;
     private Object obj;
+    private Object temp_obj;
     private View view;
+
+
+    @Override
+    public int startRound(String name, int mID) {
+        outprint("#startRound");
+        outprint(name);
+        outprint(mID);
+        while (this.value.equals("#")) {
+            System.out.print("");
+        }
+        int number;
+        number = (int) temp_obj;
+        temp_obj = null;
+        this.value = "#";
+        return number;
+    }
+
+    @Override
+    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+        outprint("#chooseTiles");
+        outprint(x);
+        outprint(y);
+        outprint(quantity);
+        outprint(direction);
+        while(temp_obj==null)
+        {
+            System.out.println("while true choosetiles");
+        }
+        ItemTile[] ht = (ItemTile[]) temp_obj;
+        temp_obj = null;
+        return ht;
+    }
 
     @Override
     public Object getObj(String s, int n) {
@@ -28,7 +63,6 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     public conSocket(Socket socket) {
-        //System.out.println("inizio costruttore consocket");
         this.socket = socket;
         try {
             ois = new ObjectInputStream(socket.getInputStream());
@@ -41,17 +75,15 @@ public class conSocket extends Thread implements ConnectionController {
             throw new RuntimeException(e);
         }
         this.value = "#";
+        this.temp_obj=null;
 
-        //System.out.println("prima di entrare in run consocket");
 
         start();
 
-        //System.out.println("fine costruttore consocket");
     }
 
     @Override
     public boolean addPlayer(String name) {
-        //out corrisponde al serversocket in ascolto
         outprint("#addPlayer");
         return check(name);
     }
@@ -77,10 +109,10 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(name);
         while (this.value.equals("#")) {
             System.out.print("");
-            //System.out.print("broh");
         }
         int number;
-        number = (int) obj;
+        number = (int) temp_obj;
+        temp_obj=null;
         this.value = "#";
         return number;
     }
@@ -209,26 +241,31 @@ public class conSocket extends Thread implements ConnectionController {
                 switch (line) {
                     case "#private_object":
                         //System.out.println("ho letto private object");
-                        obj = ois.readObject();
+                        obj = ois.readUnshared();
                         //System.out.println("ho letto oggetto");
                         view.updatePrivateData((PrivateModelNetwork) obj);
                         //System.out.println("####### nickname : "+((PrivateModelNetwork) obj).getNickname());
                         break;
+                    case "#handTiles":
+                        System.out.println("ricevo handtiles");
+                        temp_obj = ois.readUnshared();
+                        System.out.println("ricevo l'oggetto");
+                        break;
                     case "#public_object":
                         //System.out.println("ho letto public object");
-                        obj = ois.readObject();
+                        obj = ois.readUnshared();
                         //System.out.println("ho letto oggetto");
                         view.updatePublicData((PublicModelNetwork) obj);
                         //PublicModelNetwork p = (PublicModelNetwork) obj;
                         //System.out.println("####### id match : "+p.idMatch);
                         break;
                     case "#int":
-                        obj = ois.readInt();
+                        temp_obj = ois.readInt();
                         this.value = "#int";
                         break;
                     default:
                         if (line.equals("#quit")) {
-                            obj = ois.readObject();
+                            obj = ois.readUnshared();
                             view.updatePublicData((PublicModelNetwork) obj);
                             socket.close();
                             break;

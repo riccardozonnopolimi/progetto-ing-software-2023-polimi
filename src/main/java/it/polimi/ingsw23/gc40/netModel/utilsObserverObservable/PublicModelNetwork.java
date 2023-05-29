@@ -13,6 +13,7 @@ public class PublicModelNetwork implements Serializable {
     public String winner;
     public String current;
 
+
     public PublicModelNetwork(ItemTile[][] lrb,int[] cgs, int idMatch, String current){
         this.cgs = cgs;
         this.lrb = lrb;

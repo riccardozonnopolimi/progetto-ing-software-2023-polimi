@@ -2,13 +2,12 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObservable;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.*;
 import it.polimi.ingsw23.gc40.server.model.goals.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,14 +26,8 @@ public class GameController extends Observable {
     private boolean ending;
     private Player next;
 
-    private Socket socket;
-    private final PublicModelObservable publicModelObservable = new PublicModelObservable(this);
+    private final PublicModelObserver observer = new PublicModelObserver(this);
 
-    public void setPublicOut(ObjectOutputStream publicOut) {
-        this.publicOut = publicOut;
-    }
-
-    private ObjectOutputStream publicOut;
 
     public GameController(int numPlayers, int id) {
         this.numPlayers = numPlayers;
@@ -216,6 +209,7 @@ public class GameController extends Observable {
             setPlayersOrder();
             setChanged();
             notifyObservers(this.getId());
+            refill();
             return true;
         }
         return false;
@@ -223,15 +217,17 @@ public class GameController extends Observable {
 
     public void refill() {
         //TESTED
-        ItemTile[][] map = this.map.getMap();
+        ItemTile[][] temp_map = this.map.getMap();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (map[i][j].getItem() != Item.NOTREACHABLE) {
-                    if (map[i][j].getItem() == Item.EMPTY) map[i][j] = takeItem();
+                if (temp_map[i][j].getItem() != Item.NOTREACHABLE) {
+                    if (temp_map[i][j].getItem() == Item.EMPTY) temp_map[i][j] = takeItem();
                 }
             }
         }
-        this.map.setMap(map);
+        this.map.setMap(temp_map);
+        setChanged();
+        notifyObservers(temp_map);
     }
 
     public int getNumPlayers() {
@@ -478,19 +474,8 @@ public class GameController extends Observable {
         return players;
     }
 
-    public ObjectOutputStream getPublicOut() {
-        return this.publicOut;
-    }
-
-    public void setOut(ObjectOutputStream out) {
-        this.publicOut = out;
-
-        setChanged();
-        notifyObservers(this.getCommonGoals());
-    }
-
-    public PublicModelObservable getPublicModelObservable() {
-        return publicModelObservable;
+    public PublicModelObserver getPublicModelObserver() {
+        return observer;
     }
 }
 
