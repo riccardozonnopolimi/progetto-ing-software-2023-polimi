@@ -35,28 +35,28 @@ public class ItemTile implements Serializable {
     public String toString() {
         switch (this.type) {
             case CAT -> {
-                return "C";
+                return "\u001b[42m\u001b[30mC\u001b[0m";
             }
             case BOOK -> {
-                return "B";
+                return "\u001b[47m\u001b[30mB\u001b[0m";
             }
             case GAME -> {
-                return "G";
+                return "\u001b[43m\u001b[30mG\u001b[0m";
             }
             case FRAME -> {
-                return "F";
+                return "\u001b[44m\u001b[30mF\u001b[0m";
             }
             case TROPHY -> {
-                return "T";
+                return "\u001b[46m\u001b[30mT\u001b[0m";
             }
             case PLANT -> {
-                return "P";
+                return "\u001b[45m\u001b[30mP\u001b[0m";
             }
             case EMPTY -> {
                 return " ";
             }
             default -> {
-                return "#";
+                return "\u001b[41m\u001b[30m \u001b[0m";
             }
         }
     }
@@ -71,71 +71,6 @@ public class ItemTile implements Serializable {
 
     public boolean equals(ItemTile it) {
         return (this.type == it.type);
-    }
-
-
-    //TO TEST
-    private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
-        switch (aInputStream.readUTF()) {
-//TO TEST
-            case "C":
-                type = Item.CAT;
-                break;
-            case "B":
-                type = Item.BOOK;
-                break;
-            case "G":
-                type = Item.GAME;
-                break;
-            case "F":
-                type = Item.FRAME;
-                break;
-            case "T":
-                type = Item.TROPHY;
-                break;
-            case "P":
-                type = Item.PLANT;
-                break;
-            case " ":
-                type = Item.EMPTY;
-                break;
-            default:
-                type = Item.NOTREACHABLE;
-                break;
-        }
-        num = aInputStream.readInt();
-    }
-    //TO TEST
-    private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
-        switch (type) {
-            case CAT:
-                aOutputStream.writeUTF("C");
-                break;
-            case BOOK:
-                aOutputStream.writeUTF("B");
-                break;
-            case PLANT:
-                aOutputStream.writeUTF("P");
-                break;
-            case TROPHY:
-                aOutputStream.writeUTF("T");
-                break;
-            case FRAME:
-                aOutputStream.writeUTF("F");
-                break;
-            case GAME:
-                aOutputStream.writeUTF("G");
-                break;
-            case EMPTY:
-                aOutputStream.writeUTF(" ");
-                break;
-            default:
-                aOutputStream.writeUTF("#");
-                break;
-
-
-        }
-        aOutputStream.writeInt(num);
     }
 
 }

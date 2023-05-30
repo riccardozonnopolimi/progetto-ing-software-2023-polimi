@@ -12,17 +12,20 @@ public class PrivateModelNetwork implements Serializable {
     private final ItemTile[][] bookshelf;
     private final String nickname;
 
-    public PrivateModelNetwork( ItemTile[][] bookshelf, int pgc,String nickname) {
+    public PrivateModelNetwork(ItemTile[][] bookshelf, int pgc, String nickname) {
         this.bookshelf = bookshelf;
         this.pgc = pgc;
         this.nickname = nickname;
     }
+
     public ItemTile[][] getBookshelf() {
         return bookshelf;
     }
+
     public int getPgc() {
         return pgc;
     }
+
     public String getNickname() {
         return nickname;
     }

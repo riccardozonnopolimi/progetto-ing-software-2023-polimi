@@ -31,31 +31,35 @@ public class PrivateModelObserver implements Observer {
             data = new PrivateModelNetwork(shelf, pgc, nickname);
         }
         try {
-            if (sh != null)
-                sh.sendObj("#private_object",data);
-            else
-                setNewData(true);
+            if (sh != null) sh.sendObj("#private_object", data);
+            else setNewData(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public SocketHandler getSH(){
+
+    public SocketHandler getSH() {
         return sh;
     }
+
     public PrivateModelObserver(Player p) {
         p.addObserver(this);
-        this.sh=null;
+        this.sh = null;
     }
+
     public void setSh(SocketHandler sh) {
         this.sh = sh;
     }
+
     public PrivateModelNetwork getData() {
         return data;
     }
+
     public void setNewData(boolean hasNewData) {
         this.hasNewData = hasNewData;
     }
-    public boolean getNewData(){
+
+    public boolean getNewData() {
         return hasNewData;
     }
 }

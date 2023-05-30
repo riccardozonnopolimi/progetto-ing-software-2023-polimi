@@ -42,8 +42,7 @@ public class CLI extends View {
 
         }
 
-        if (con.playable(matchId))
-            System.out.println("##############puoi iniziare a giocare###################");
+        if (con.playable(matchId)) System.out.println("##############puoi iniziare a giocare###################");
 
         while (inInt("Digita 0 per giocare") != 0) {
             System.out.println("ok");
@@ -145,7 +144,7 @@ public class CLI extends View {
                         System.out.print(i + ": " + handTiles[i].toString() + "|");
                     }
 
-/*
+
                     //inserisci le tiles che hai in mano
                     for (int i = 0; i < handTiles.length; i++) {
                         System.out.println("Scegli una tile da inserire:");
@@ -163,61 +162,15 @@ public class CLI extends View {
                                 }
                             }
                         } while (retry);
-                        p.getBookshelf().insertIT(handTiles[selected], column);
+                        con.insertTile(nickname,(handTiles[selected]), column);
                         handTiles[selected] = null;
                         sc.reset();
                     }
+                    con.nextRound(nickname,matchId);
 
 
 
 
-
-
-
-                    System.out.println("olee!");
-
-
-
-
-
-
-
-
-                        /*
-
-
-
-
-
-
-
-
-
-                            //check if there is space in the player bookshelf
-                            if (p.getBookshelf().getFull()) {
-                                //p.getBookshelf().setFull(true);
-                                p.setFirstScore(1);
-                                this.ending = true;
-                            }
-
-                            //refresh scores
-                            p.setADJScore(p.getBookshelf().ADJScore());
-                            if (commonGoals[0].getGoal().instanceGoal(p))
-                                p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
-                            if (commonGoals[1].getGoal().instanceGoal(p))
-                                p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
-                            p.getPersonalGoal().checkScore(p);
-
-                            //set turn to next player
-                            int num;
-                            if (players.indexOf(p) == players.size() - 1)
-                                num = 0;
-                            else
-                                num = players.indexOf(p) + 1;
-                            next = players.get(num);
-
-
-                        */
 
 
                     break;
@@ -258,8 +211,7 @@ public class CLI extends View {
             n = 0;
             sc.reset();
             n = sc.nextInt();
-            if (n < 0 || n >= choices.length)
-                System.out.println("Scelta errata, riprova.");
+            if (n < 0 || n >= choices.length) System.out.println("Scelta errata, riprova.");
         } while (n < 0 || n >= choices.length);
         return n;
     }

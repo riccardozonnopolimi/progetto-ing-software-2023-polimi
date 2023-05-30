@@ -18,14 +18,19 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
         ConnectionController con;
-        ConnectionStarter starter =new ConnectionStarter();
+
+        //CHANGE HERE HOST WITH SERVER IP
+        String host = "localhost";
+
+
+        ConnectionStarter starter = new ConnectionStarter();
         View view;
         if (CLI.getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:") == 0) {
             //rmi
-            con = new conRMI(ConnectionStarter.rmi("Server", "localhost"));
+            con = new conRMI(starter.rmi("Server", host));
         } else {
             //socket
-            con = new conSocket(starter.socketStart(6789));
+            con = new conSocket(starter.socketStart(6789, host));
         }
         System.out.println("fine scelta connessione client");
         if (CLI.getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
@@ -36,6 +41,7 @@ public class Client {
             //GUI
             view = new GUI(con);
         }
+
         view.init();
-        }
     }
+}

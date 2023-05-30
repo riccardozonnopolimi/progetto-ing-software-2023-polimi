@@ -16,13 +16,16 @@ import java.util.concurrent.Executors;
 
 public final class ConnectionOpener extends Thread {
     ProxyController proxyController;
+    String host;
 
-    public ConnectionOpener(ProxyController proxyController) {
+    public ConnectionOpener(ProxyController proxyController, String host) {
         this.proxyController = proxyController;
+        this.host = host;
 
     }
 
     public void rmiInit() throws RemoteException {
+        System.setProperty("java.rmi.server.hostname", host);
         try {
 
             ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(proxyController, 0);
@@ -36,17 +39,14 @@ public final class ConnectionOpener extends Thread {
             e.printStackTrace();
         }
 
-        //
     }
 
     @Override
     public void run() {
 
-        System.out.println("main");
         ExecutorService executor = Executors.newCachedThreadPool();
         try {
             ServerSocket serverSocket = new ServerSocket(6789);
-
 
 
             System.out.println("#server Socket pronto");

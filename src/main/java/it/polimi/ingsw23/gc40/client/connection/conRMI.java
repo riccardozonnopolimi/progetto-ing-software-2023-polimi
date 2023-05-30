@@ -39,6 +39,11 @@ public class conRMI extends Thread implements ConnectionController {
     }
 
     @Override
+    public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+        stub.insertTile(nickname,handTile,column);
+    }
+
+    @Override
     public boolean addPlayer(String name) throws RemoteException {
         return stub.addPlayer(name);
     }
@@ -61,11 +66,7 @@ public class conRMI extends Thread implements ConnectionController {
         return stub.addToLastMatch(name);
     }
 
-    /* /@Override
-    public void serverPrint(String s) throws RemoteException {
-        stub.print(s);
-    }
-    */
+
     @Override
     public void close() throws RemoteException {
         this.stub = null;
@@ -88,14 +89,15 @@ public class conRMI extends Thread implements ConnectionController {
                 }
 
                 obj = getObj(view.nickname, -1);
-                if (obj != null){
-                    System.out.println("deserializzo oggetto player: "+((PrivateModelNetwork) obj).getNickname());
+                if (obj != null) {
+                    System.out.println("deserializzo oggetto player: " + ((PrivateModelNetwork) obj).getNickname());
                     view.updatePrivateData((PrivateModelNetwork) obj);
                 }
                 obj = getObj(view.nickname, view.matchId);
-                if (obj != null){
-                    System.out.println("deserializzo obj match id: "+((PublicModelNetwork) obj).getIdMatch());
-                    view.updatePublicData((PublicModelNetwork) obj);}
+                if (obj != null) {
+                    System.out.println("deserializzo obj match id: " + ((PublicModelNetwork) obj).getIdMatch());
+                    view.updatePublicData((PublicModelNetwork) obj);
+                }
 
             } catch (RemoteException e) {
                 System.out.println("catch conrmi run errore: " + e);
@@ -108,4 +110,9 @@ public class conRMI extends Thread implements ConnectionController {
     public Object getObj(String s, int n) throws RemoteException {
         return stub.getObj(s, n);
     }
+    @Override
+    public void nextRound(String nickname,int matchId) throws RemoteException{
+        stub.nextRound(nickname, matchId);
+    }
+
 }

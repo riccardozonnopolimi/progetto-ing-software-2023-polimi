@@ -31,20 +31,7 @@ public abstract class View {
         this.player_data = null;
         this.matchId = -1;
         this.nickname = "";
-        this.cgDescriptions = new String[]{
-                "Sei gruppi separati formati ciascuno da due tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.",
-                "Quattro tessere dello stesso tipo ai quattro angoli della Libreria.",
-                "Quattro gruppi separati formati ciascuno da quattro tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.",
-                "Due gruppi separati di 4 tessere dello stesso tipo che formano un quadrato 2x2. Le tessere dei due gruppi devono essere dello stesso tipo.",
-                "Tre colonne formate ciascuna da 6 tessere di uno, due o tre tipi differenti. Colonne diverse possono avere combinazioni diverse di tipi di tessere.",
-                "Otto tessere dello stesso tipo. Non ci sono restrizioni sulla posizione di queste tessere.",
-                "Cinque tessere dello stesso tipo che formano una diagonale.",
-                "Quattro righe formate ciascuna da 5 tessere di uno, due o tre tipi differenti. Righe diverse possono avere combinazioni diverse di tipi di tessere.",
-                "Due colonne formate ciascuna da 6 diversi tipi di tessere.",
-                "Due righe formate ciascuna da 5 diversi tipi di tessere.",
-                "Cinque tessere dello stesso tipo che formano una X.",
-                "Cinque colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, ogni colonna successiva deve essere formata da una tessera in più. Le tessere possono essere di qualsiasi tipo."
-        };
+        this.cgDescriptions = new String[]{"Sei gruppi separati formati ciascuno da due tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.", "Quattro tessere dello stesso tipo ai quattro angoli della Libreria.", "Quattro gruppi separati formati ciascuno da quattro tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.", "Due gruppi separati di 4 tessere dello stesso tipo che formano un quadrato 2x2. Le tessere dei due gruppi devono essere dello stesso tipo.", "Tre colonne formate ciascuna da 6 tessere di uno, due o tre tipi differenti. Colonne diverse possono avere combinazioni diverse di tipi di tessere.", "Otto tessere dello stesso tipo. Non ci sono restrizioni sulla posizione di queste tessere.", "Cinque tessere dello stesso tipo che formano una diagonale.", "Quattro righe formate ciascuna da 5 tessere di uno, due o tre tipi differenti. Righe diverse possono avere combinazioni diverse di tipi di tessere.", "Due colonne formate ciascuna da 6 diversi tipi di tessere.", "Due righe formate ciascuna da 5 diversi tipi di tessere.", "Cinque tessere dello stesso tipo che formano una X.", "Cinque colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, ogni colonna successiva deve essere formata da una tessera in più. Le tessere possono essere di qualsiasi tipo."};
 
         //import all existing personal goals from json
         Gson gson = new Gson();
@@ -65,14 +52,16 @@ public abstract class View {
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
         this.player_data = privateData;
-        System.out.println("@@@@@@@@@@@@@@ deserializzazione private completata @@@@@@@@@@@@@@@@@@");
+        //System.out.println("@@@@@@@@@@@@@@ deserializzazione private completata @@@@@@@@@@@@@@@@@@");
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
         this.match_data = null;
+        String temp = match_data.getCurrent();
         this.match_data = publicData;
-        System.out.println("###############   deserializzazione public completata #################");
-        System.out.println("primo oggetto non vuoto: "+this.match_data.getLrb()[2][3].toString());
+        //System.out.println("###############   deserializzazione public completata #################");
+        //System.out.println("primo oggetto non vuoto: " + this.match_data.getLrb()[2][3].toString());
+        if((match_data.getCurrent().equals(this.nickname))&&!temp.equals(nickname)) System.out.println("### E' IL TUO TURNO, CLICCA 0 ###");
     }
 
     public static int getChoice(String[] choices, String question) {
@@ -87,8 +76,7 @@ public abstract class View {
             n = 0;
             sc.reset();
             n = sc.nextInt();
-            if (n < 0 || n >= choices.length)
-                System.out.println("Scelta errata, riprova.");
+            if (n < 0 || n >= choices.length) System.out.println("Scelta errata, riprova.");
         } while (n < 0 || n >= choices.length);
         return n;
     }

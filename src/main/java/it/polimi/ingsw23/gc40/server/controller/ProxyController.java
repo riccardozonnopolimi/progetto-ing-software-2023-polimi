@@ -3,6 +3,7 @@ package it.polimi.ingsw23.gc40.server.controller;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
+import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.rmi.RemoteException;
 
@@ -51,6 +52,40 @@ public class ProxyController implements ConnectionController {
         return lobbyController.getPlayer(nickname).getBookshelf().getAvailableSlots(column);
     }
 
+    @Override
+    public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+        lobbyController.getPlayer(nickname).insertIT(handTile, column);
+    }
+
+    @Override
+    public void nextRound(String nickname, int match) throws RemoteException {
+//check if there is space in the player bookshelf
+        if (lobbyController.getPlayer(nickname).getBookshelf().getFull()) {
+            //p.getBookshelf().setFull(true);
+            lobbyController.getPlayer(nickname).setFirstScore(1);
+            lobbyController.getMatchById(match).setEnding(true);
+        }
+        Player p = lobbyController.getPlayer(nickname);
+        GameController m = lobbyController.getMatchById(match);
+
+        //refresh scores
+        p.setADJScore(p.getBookshelf().ADJScore());
+        if (m.getCommonGoals()[0].getGoal().instanceGoal(p))
+            p.setCGScore(p.getCGScore() + m.getCG1Scores().get(m.getCG1Scores().size()) - 1);
+        if (m.getCommonGoals()[1].getGoal().instanceGoal(p))
+            p.setCGScore(p.getCGScore() + m.getCG2Scores().get(m.getCG2Scores().size()) - 1);
+        p.getPersonalGoal().checkScore(p);
+
+        //set turn to next player
+        int num;
+        if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
+            num = 0;
+        else
+            num = m.getPlayers().indexOf(p) + 1;
+        m.setNext(m.getPlayers().get(num));
+
+    }
+
     public boolean newMatch(int n) {
         GameController gameController;
 
@@ -70,14 +105,9 @@ public class ProxyController implements ConnectionController {
     }
 
     public int addToLastMatch(String name) {
-        //have to obtain from onlinePlayer in server and return it
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
         System.out.println("Aggiunto il giocarore " + name + " al match in attesa");
 
-        //partire nuovo thread socket public model in ascolto di connessioni su porta che restituisco al client che ha chiamato questo metodo
-
-
-        //notify match todo
         return gameController.getId();
     }
 

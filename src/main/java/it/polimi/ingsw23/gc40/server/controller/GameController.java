@@ -26,6 +26,50 @@ public class GameController extends Observable {
     private boolean ending;
     private Player next;
 
+    public ArrayList<ItemTile> getBag() {
+        return bag;
+    }
+
+    public void setBag(ArrayList<ItemTile> bag) {
+        this.bag = bag;
+    }
+
+    public ArrayList<Integer> getCG1Scores() {
+        return CG1Scores;
+    }
+
+    public void setCG1Scores(ArrayList<Integer> CG1Scores) {
+        this.CG1Scores = CG1Scores;
+    }
+
+    public ArrayList<Integer> getCG2Scores() {
+        return CG2Scores;
+    }
+
+    public void setCG2Scores(ArrayList<Integer> CG2Scores) {
+        this.CG2Scores = CG2Scores;
+    }
+
+    public ArrayList<PersonalGoalCard> getPersonalGoals() {
+        return personalGoals;
+    }
+
+    public void setPersonalGoals(ArrayList<PersonalGoalCard> personalGoals) {
+        this.personalGoals = personalGoals;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setMap(LRB map) {
+        this.map = map;
+    }
+
+    public PublicModelObserver getObserver() {
+        return observer;
+    }
+
     private final PublicModelObserver observer = new PublicModelObserver(this);
 
 
@@ -105,7 +149,7 @@ public class GameController extends Observable {
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
 
-        int[] cgsids = new int[]{commonGoals[0].getGoal().getId() ,        commonGoals[1].getGoal().getId()};
+        int[] cgsids = new int[]{commonGoals[0].getGoal().getId(), commonGoals[1].getGoal().getId()};
 
 
         setChanged();
@@ -149,11 +193,10 @@ public class GameController extends Observable {
     public boolean playable() {
         //Tested
         // if a player has filled his bookshelf and nextPlayer is first player I can not play
-        if (next != null)
-            if (ending && next.isFirst()) {
-                winner();
-                return false;
-            }
+        if (next != null) if (ending && next.isFirst()) {
+            winner();
+            return false;
+        }
         //starts when there are all the players
         if (players.size() == numPlayers) return true;
         return false;
@@ -258,13 +301,10 @@ public class GameController extends Observable {
         switch (direction) {
             case 'U':
                 for (int i = 0; i < quantity; i++)
-                    if ((x - quantity) < 0)
-                        return null;
+                    if ((x - quantity) < 0) return null;
                     else {
-                        if (this.map.isTakeable(x - i, y))
-                            chosen[i] = this.map.getTileInMap(x - i, y);
-                        else
-                            return null;
+                        if (this.map.isTakeable(x - i, y)) chosen[i] = this.map.getTileInMap(x - i, y);
+                        else return null;
                     }
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x - i, y);
@@ -275,8 +315,7 @@ public class GameController extends Observable {
                     if ((x + quantity) > 8) {
                         return null;
                     } else {
-                        if (this.map.isTakeable(x + i, y))
-                            chosen[i] = this.map.getTileInMap(x + i, y);
+                        if (this.map.isTakeable(x + i, y)) chosen[i] = this.map.getTileInMap(x + i, y);
                         else {
                             return null;
                         }
@@ -288,13 +327,10 @@ public class GameController extends Observable {
                 return chosen;
             case 'L':
                 for (int i = 0; i < quantity; i++)
-                    if ((y - quantity) < 0)
-                        return null;
+                    if ((y - quantity) < 0) return null;
                     else {
-                        if (this.map.isTakeable(x, y - i))
-                            chosen[i] = this.map.getTileInMap(x, y - i);
-                        else
-                            return null;
+                        if (this.map.isTakeable(x, y - i)) chosen[i] = this.map.getTileInMap(x, y - i);
+                        else return null;
                     }
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x, y - i);
@@ -302,13 +338,10 @@ public class GameController extends Observable {
                 return chosen;
             case 'R':
                 for (int i = 0; i < quantity; i++)
-                    if ((y + quantity) > 8)
-                        return null;
+                    if ((y + quantity) > 8) return null;
                     else {
-                        if (this.map.isTakeable(x, y + i))
-                            chosen[i] = this.map.getTileInMap(x, y + i);
-                        else
-                            return null;
+                        if (this.map.isTakeable(x, y + i)) chosen[i] = this.map.getTileInMap(x, y + i);
+                        else return null;
                     }
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x, y + i);
@@ -437,10 +470,8 @@ public class GameController extends Observable {
 
         //set turn to next player
         int num;
-        if (players.indexOf(p) == players.size() - 1)
-            num = 0;
-        else
-            num = players.indexOf(p) + 1;
+        if (players.indexOf(p) == players.size() - 1) num = 0;
+        else num = players.indexOf(p) + 1;
         next = players.get(num);
     }
 
@@ -477,6 +508,10 @@ public class GameController extends Observable {
 
     public PublicModelObserver getPublicModelObserver() {
         return observer;
+    }
+
+    public void setEnding(boolean b) {
+        this.ending=b;
     }
 }
 

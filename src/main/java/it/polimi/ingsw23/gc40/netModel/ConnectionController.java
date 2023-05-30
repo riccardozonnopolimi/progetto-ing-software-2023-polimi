@@ -35,5 +35,9 @@ public interface ConnectionController extends Remote {
 
     ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException;
 
-    int getAvailableSlots(String nickname, int column)throws RemoteException;
+    int getAvailableSlots(String nickname, int column) throws RemoteException;
+
+    void insertTile(String nickname, ItemTile handTile, int column)throws RemoteException;
+
+    void nextRound(String nickname, int matchId) throws RemoteException;
 }

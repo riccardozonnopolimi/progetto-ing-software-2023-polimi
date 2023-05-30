@@ -57,12 +57,12 @@ public class PublicModelObserver implements Observer {
 
             System.out.println("public update");
             for (int i = 0; i < match.getPlayers().size(); i++) {
-                if (match.getPlayers().get(i).getPrivateModelObserver().getSH() != null){
-                    System.out.println("public update in socket: "+match.getPlayers().get(i).getNickName());
+                if (match.getPlayers().get(i).getPrivateModelObserver().getSH() != null) {
+                    System.out.println("public update in socket: " + match.getPlayers().get(i).getNickName());
                     match.getPlayers().get(i).getPrivateModelObserver().getSH().sendObj("#public_object", data);
-                }else {
+                } else {
                     downloaded.add(match.getPlayers().get(i).getNickName());
-                    System.out.println("public update in rmi: "+match.getPlayers().get(i).getNickName());
+                    System.out.println("public update in rmi: " + match.getPlayers().get(i).getNickName());
                 }
             }
 

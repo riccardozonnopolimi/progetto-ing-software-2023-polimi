@@ -16,7 +16,7 @@ public class LobbyController extends Thread {
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
     private GameController queueMatch;
     private ArrayList<Score> SavedScores = new ArrayList<>();
-    private int numMatch ;
+    private int numMatch;
 
     public LobbyController() {
         this.numMatch = 0;
@@ -38,15 +38,11 @@ public class LobbyController extends Thread {
     }
 
     public GameController addToLastMatch(Player player) {
-        //TO TEST
-        //if true it means that the match has all the players, so it can start
         System.out.println("@@lobbycontroller->addtolastmatch");
         if (queueMatch.addPlayer(player)) {
-            //System.out.println("@@if");
 
             GameController m = queueMatch;
             activeGameControllers.add(m);
-           // this.start();
             queueMatch = null;
             return m;
         }
@@ -119,13 +115,10 @@ public class LobbyController extends Thread {
 
 
     public GameController getMatchById(int n) {
-        if(queueMatch!=null)
-            if(queueMatch.getId()==n)
-                return queueMatch;
+        if (queueMatch != null) if (queueMatch.getId() == n) return queueMatch;
 
-        for (int i=0; i<activeGameControllers.size(); i++)
-            if(activeGameControllers.get(i).getId()==n)
-                return activeGameControllers.get(i);
+        for (int i = 0; i < activeGameControllers.size(); i++)
+            if (activeGameControllers.get(i).getId() == n) return activeGameControllers.get(i);
         return null;
     }
 }

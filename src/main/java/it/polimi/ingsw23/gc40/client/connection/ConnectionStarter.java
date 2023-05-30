@@ -12,11 +12,12 @@ import java.net.*;
 public class ConnectionStarter {
     public ConnectionStarter() {
     }
-    public Socket socketStart(int port) {
+
+    public Socket socketStart(int port, String host) {
         Socket socket = null;
         try {
-           socket  = new Socket("localhost", port);
-            System.out.println("#Connessione Socket riuscita - porta: "+port);
+            socket = new Socket(host, port);
+            System.out.println("#Connessione Socket riuscita - porta: " + port);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
@@ -25,7 +26,9 @@ public class ConnectionStarter {
         System.out.println("arrivo qui");
         return socket;
     }
-    public static ConnectionController rmi(String name, String host) throws Exception{
+
+    public static ConnectionController rmi(String name, String host) throws Exception {
+        System.out.println(host);
         Registry registry = LocateRegistry.getRegistry(host);
         ConnectionController fac = ((ConnectionController) registry.lookup(name));
         System.out.println("#Connessione RMI riuscita");

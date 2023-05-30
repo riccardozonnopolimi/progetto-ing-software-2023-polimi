@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.server.connection;
 
 import it.polimi.ingsw23.gc40.server.controller.ProxyController;
 import it.polimi.ingsw23.gc40.server.controller.GameController;
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.io.*;
@@ -25,6 +26,7 @@ public class SocketHandler implements Runnable {
         out.flush();
         out.writeObject(obj);
         out.flush();
+        out.reset();
     }
 
     @Override
@@ -50,9 +52,9 @@ public class SocketHandler implements Runnable {
                 Player player = null;
 
 
+                System.out.println("@SH: RICEVO da" + nickname + ":  " + line + "");
                 if (line.equals("quit")) break;
                 else {
-                    //System.out.println("#socketHandler class - run method - ricevo da client: " + line);
                     switch (line) {
                         case "#addPlayer":
                             nickname = in.readUTF();
@@ -61,7 +63,7 @@ public class SocketHandler implements Runnable {
                             sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
                             break;
                         case "#chooseTiles":
-                            sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(),  in.readChar()));
+                            sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
@@ -89,8 +91,14 @@ public class SocketHandler implements Runnable {
                         case "#startRound":
                             writeInt(proxyController.startRound(in.readUTF(), in.readInt()));
                             break;
+                        case "#insertTile":
+                            proxyController.insertTile(in.readUTF(),(ItemTile) in.readObject(),in.readInt());
+                            break;
+                        case "#nextRound":
+                            proxyController.nextRound(in.readUTF(), in.readInt());
+                            break;
                         default:
-                            System.out.println("##################### BROOOO \n ho ricevuto: ");
+                            System.out.println("###### Ho ricevuto: ");
                             System.out.println("");
                             System.out.println(line);
                             System.out.println("");

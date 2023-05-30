@@ -11,39 +11,15 @@ import java.net.UnknownHostException;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
+
+        //CHANGE HERE HOST WHITH SERVER IP
+        String host = "localhost";
+
         LobbyController lobbyController = new LobbyController();
         ProxyController proxyController = new ProxyController(lobbyController);
-        ConnectionOpener a = new ConnectionOpener(proxyController);
+        ConnectionOpener a = new ConnectionOpener(proxyController, host);
         a.rmiInit();
         a.start();
-/*
-        privateSocketListener p = new privateSocketListener(lobbyController);
-        p.start();
 
-
-
-
-        Thread publicSocketListener = new Thread(() -> {
-            try {
-                ServerSocket publicSocket = new ServerSocket(6791);
-                System.out.println("#Connessione PublicSocket riuscita");
-                PrintWriter publicOut = new PrintWriter(publicSocket.accept().getOutputStream(), true);
-
-                lobbyController.setPublicSocket(publicOut);
-
-            } catch (
-                    UnknownHostException e) {
-                System.err.println("Unknown host");
-            } catch (
-                    IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        publicSocketListener.start();
-        */
-
-
-
-        System.out.println("ciao");
     }
 }

@@ -26,15 +26,16 @@ public class PublicModelNetwork implements Serializable {
         return current;
     }
 
-    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current){
+    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current) {
         this.cgs = cgs;
         this.lrb = lrb;
         this.idMatch = idMatch;
         this.current = current;
-        this.ended=false;
-        this.winner=null;
+        this.ended = false;
+        this.winner = null;
     }
-    public PublicModelNetwork(boolean ended, String winner, int idMatch){
+
+    public PublicModelNetwork(boolean ended, String winner, int idMatch) {
         this.ended = ended;
         this.winner = winner;
         this.idMatch = idMatch;
@@ -43,12 +44,15 @@ public class PublicModelNetwork implements Serializable {
         this.cgs = null;
 
     }
+
     public ItemTile[][] getLrb() {
         return lrb;
     }
+
     public int[] getCgs() {
         return cgs;
     }
+
     public int getIdMatch() {
         return idMatch;
     }

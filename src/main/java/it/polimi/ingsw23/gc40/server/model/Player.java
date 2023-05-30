@@ -102,8 +102,10 @@ public class Player extends Observable {
     public int totScore() {
         return CGScore+PGScore+ ADJScore+firstScore;
     }
+
     public void insertIT(ItemTile it, int column){
         this.bookshelf.insertIT(it, column);
+        setChanged();
         notifyObservers(this.getBookshelf().getShelf());
     }
 }
