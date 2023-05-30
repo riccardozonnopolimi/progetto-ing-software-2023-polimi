@@ -3,8 +3,8 @@ package it.polimi.ingsw23.gc40.server.model;
 import java.io.*;
 
 public class ItemTile implements Serializable {
-    private Item type;
-    private int num;
+    private final Item type;
+    private final int num;
 
     private static final long serialVersionUID = 7829136421241571165L;
 
@@ -96,10 +96,11 @@ public class ItemTile implements Serializable {
             case "P":
                 type = Item.PLANT;
                 break;
-            case "E":
+            case " ":
                 type = Item.EMPTY;
                 break;
             default:
+                type = Item.NOTREACHABLE;
                 break;
         }
         num = aInputStream.readInt();
@@ -126,10 +127,10 @@ public class ItemTile implements Serializable {
                 aOutputStream.writeUTF("G");
                 break;
             case EMPTY:
-                aOutputStream.writeUTF("E");
+                aOutputStream.writeUTF(" ");
                 break;
             default:
-                aOutputStream.writeUTF("*");
+                aOutputStream.writeUTF("#");
                 break;
 
 

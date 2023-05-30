@@ -34,6 +34,11 @@ public class conRMI extends Thread implements ConnectionController {
     }
 
     @Override
+    public int getAvailableSlots(String nickname, int column) throws RemoteException {
+        return stub.getAvailableSlots(nickname, column);
+    }
+
+    @Override
     public boolean addPlayer(String name) throws RemoteException {
         return stub.addPlayer(name);
     }
@@ -89,7 +94,7 @@ public class conRMI extends Thread implements ConnectionController {
                 }
                 obj = getObj(view.nickname, view.matchId);
                 if (obj != null){
-                    System.out.println("deserializzo obj match id: "+((PublicModelNetwork) obj).idMatch);
+                    System.out.println("deserializzo obj match id: "+((PublicModelNetwork) obj).getIdMatch());
                     view.updatePublicData((PublicModelNetwork) obj);}
 
             } catch (RemoteException e) {

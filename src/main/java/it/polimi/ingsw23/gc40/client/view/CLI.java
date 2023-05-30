@@ -35,7 +35,7 @@ public class CLI extends View {
 
         while (!con.playable(matchId)) {
             while (inInt("Digita 0 per uscire - 1 per visualizzare i dettagli") == 1) {
-                System.out.println("Match ID: " + super.match_data.idMatch);
+                System.out.println("Match ID: " + super.match_data.getIdMatch());
                 System.out.println("Nickname: " + super.player_data.getNickname());
                 System.out.println("PGC: " + super.player_data.getPgc());
             }
@@ -52,8 +52,8 @@ public class CLI extends View {
 
         while (con.playable(matchId)) {
             int choice;
-            if (!match_data.current.equals(nickname)) {
-                System.out.println("E' il turno di " + match_data.current);
+            if (!match_data.getCurrent().equals(nickname)) {
+                System.out.println("E' il turno di " + match_data.getCurrent());
                 choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:");
             } else {
                 System.out.println("Ora tocca a te!");
@@ -61,7 +61,7 @@ public class CLI extends View {
             }
             switch (choice) {
                 case 0:
-                    printLRB(match_data.lrb);
+                    printLRB(match_data.getLrb());
                     break;
                 case 1:
                     printPGC(player_data.getPgc());
@@ -70,7 +70,7 @@ public class CLI extends View {
                     printBS(player_data.getBookshelf());
                     break;
                 case 3:
-                    printCGS(match_data.cgs);
+                    printCGS(match_data.getCgs());
                     break;
                 case 4:
 
@@ -78,7 +78,7 @@ public class CLI extends View {
                     int placeables = con.startRound(nickname, matchId);
                     System.out.println("Puoi pescare " + placeables + " tiles...");
                     ItemTile[] handTiles;
-                    printLRB(match_data.lrb);
+                    printLRB(match_data.getLrb());
 
 
                     int y, x, quantity;
@@ -108,10 +108,71 @@ public class CLI extends View {
                         handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
                         if (handTiles == null) {
                             System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
-                            printLRB(match_data.lrb);
+                            printLRB(match_data.getLrb());
                         }
 
                     } while (handTiles == null);
+
+                    for (int i = 0; i < quantity; i++) {
+
+                    }
+
+                    //mostro la bookshelf e chiedo colonna in cui vuole inserire
+                    int column;
+
+                    printBS(player_data.getBookshelf());
+
+                    boolean retry;
+                    do {
+                        retry = false;
+                        System.out.println("In quale colonna vuoi inserire le tiles?");
+                        sc.reset();
+                        column = sc.nextInt();
+                        if (column < 0 || column > 4) {
+                            retry = true;
+                            System.out.println("Hai scelto una colonna inesistente");
+                        } else {
+                            if (con.getAvailableSlots(nickname, column) < handTiles.length) {
+                                System.out.println("La colonna non ha sufficiente spazio, riprova:");
+                                retry = true;
+                            }
+                        }
+                    } while (retry);
+
+                    //mostra tiles in mano
+                    System.out.println("Hai selezionato i seguenti Tiles:");
+                    for (int i = 0; i < handTiles.length; i++) {
+                        System.out.print(i + ": " + handTiles[i].toString() + "|");
+                    }
+
+/*
+                    //inserisci le tiles che hai in mano
+                    for (int i = 0; i < handTiles.length; i++) {
+                        System.out.println("Scegli una tile da inserire:");
+                        int selected;
+                        do {
+                            retry = false;
+                            selected = sc.nextInt();
+                            if (selected >= handTiles.length || selected < 0) {
+                                System.out.println("Riprova:");
+                                retry = true;
+                            } else {
+                                if (handTiles[selected] == null) {
+                                    System.out.println("Riprova:");
+                                    retry = true;
+                                }
+                            }
+                        } while (retry);
+                        p.getBookshelf().insertIT(handTiles[selected], column);
+                        handTiles[selected] = null;
+                        sc.reset();
+                    }
+
+
+
+
+
+
 
                     System.out.println("olee!");
 
@@ -128,56 +189,9 @@ public class CLI extends View {
 
 
 
-                            for (int i = 0; i < quantity; i++) {
 
-                            }
 
-                            //mostro la bookshelf e chiedo colonna in cui vuole inserire
-                            int column;
-                            p.getBookshelf().print();
-                            boolean retry;
-                            do {
-                                retry = false;
-                                System.out.println("In quale colonna vuoi inserire le tiles?");
-                                sc.reset();
-                                column = sc.nextInt();
-                                if (column < 0 || column > 4) {
-                                    retry = true;
-                                    System.out.println("Hai scelto una colonna inesistente");
-                                }
-                                if (p.getBookshelf().getAvailableSlots(column) < handTiles.length) {
-                                    System.out.println("La colonna non ha sufficiente spazio, riprova:");
-                                    retry = true;
-                                }
-                            } while (retry);
 
-                            //mostra tiles in mano
-                            System.out.println("Hai selezionato i seguenti Tiles:");
-                            for (int i = 0; i < handTiles.length; i++) {
-                                System.out.print(i + ": " + handTiles[i].toString() + "|");
-                            }
-
-                            //inserisci le tiles che hai in mano
-                            for (int i = 0; i < handTiles.length; i++) {
-                                System.out.println("Scegli una tile da inserire:");
-                                int selected;
-                                do {
-                                    retry = false;
-                                    selected = sc.nextInt();
-                                    if (selected >= handTiles.length || selected < 0) {
-                                        System.out.println("Riprova:");
-                                        retry = true;
-                                    } else {
-                                        if (handTiles[selected] == null) {
-                                            System.out.println("Riprova:");
-                                            retry = true;
-                                        }
-                                    }
-                                } while (retry);
-                                p.getBookshelf().insertIT(handTiles[selected], column);
-                                handTiles[selected] = null;
-                                sc.reset();
-                            }
 
                             //check if there is space in the player bookshelf
                             if (p.getBookshelf().getFull()) {

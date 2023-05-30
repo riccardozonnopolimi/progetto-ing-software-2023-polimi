@@ -46,6 +46,11 @@ public class ProxyController implements ConnectionController {
         return lobbyController.getMatchById(mid).chooseTiles(x, y, quantity, direction);
     }
 
+    @Override
+    public int getAvailableSlots(String nickname, int column) throws RemoteException {
+        return lobbyController.getPlayer(nickname).getBookshelf().getAvailableSlots(column);
+    }
+
     public boolean newMatch(int n) {
         GameController gameController;
 

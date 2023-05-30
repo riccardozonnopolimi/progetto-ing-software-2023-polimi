@@ -226,8 +226,9 @@ public class GameController extends Observable {
             }
         }
         this.map.setMap(temp_map);
+        map.print();
         setChanged();
-        notifyObservers(temp_map);
+        notifyObservers(this.map.getMap());
     }
 
     public int getNumPlayers() {

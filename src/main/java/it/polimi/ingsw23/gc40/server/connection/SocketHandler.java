@@ -23,7 +23,7 @@ public class SocketHandler implements Runnable {
     public void sendObj(String st, Object obj) throws Exception {
         out.writeUTF(st);
         out.flush();
-        out.writeUnshared(obj);
+        out.writeObject(obj);
         out.flush();
     }
 
@@ -61,7 +61,7 @@ public class SocketHandler implements Runnable {
                             sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
                             break;
                         case "#chooseTiles":
-                            sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
+                            sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(),  in.readChar()));
                             break;
                         case "#hasQueueMatch":
                             bool(proxyController.hasQueueMatch());
@@ -74,6 +74,9 @@ public class SocketHandler implements Runnable {
                             n = in.readInt();
                             bool(proxyController.playable(n));
                             break;
+                        case "#getAvailableSlots":
+                            writeInt(proxyController.getAvailableSlots(in.readUTF(), in.readInt()));
+                            break;
                         case "#addToLastMatch":
                             line2 = in.readUTF();
                             matchid = proxyController.addToLastMatch(line2);
@@ -84,9 +87,7 @@ public class SocketHandler implements Runnable {
                             proxyController.print(line2);
                             break;
                         case "#startRound":
-                            line2 = in.readUTF();
-                            n = proxyController.startRound(line2, in.readInt());
-                            writeInt(n);
+                            writeInt(proxyController.startRound(in.readUTF(), in.readInt()));
                             break;
                         default:
                             System.out.println("##################### BROOOO \n ho ricevuto: ");

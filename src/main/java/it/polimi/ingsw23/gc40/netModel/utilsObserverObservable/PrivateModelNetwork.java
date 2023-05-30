@@ -7,13 +7,12 @@ import java.io.*;
 
 public class PrivateModelNetwork implements Serializable {
     @Serial
-    private static final long serialVersionUID = 7823495;
+    private static final long serialVersionUID = 7829136429001571165L;
     private final int pgc;
     private final ItemTile[][] bookshelf;
     private final String nickname;
 
     public PrivateModelNetwork( ItemTile[][] bookshelf, int pgc,String nickname) {
-       // this.riferPersonalCard = riferPersonalCard;
         this.bookshelf = bookshelf;
         this.pgc = pgc;
         this.nickname = nickname;

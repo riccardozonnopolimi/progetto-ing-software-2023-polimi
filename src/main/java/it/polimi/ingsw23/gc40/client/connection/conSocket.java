@@ -50,11 +50,26 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(direction);
         while(temp_obj==null)
         {
-            System.out.println("while true choosetiles");
+            System.out.print("");
         }
         ItemTile[] ht = (ItemTile[]) temp_obj;
         temp_obj = null;
         return ht;
+    }
+
+    @Override
+    public int getAvailableSlots(String nickname, int column) throws RemoteException {
+        outprint("#getAvailableSlots");
+        outprint(nickname);
+        outprint(column);
+        while (this.value.equals("#")) {
+            System.out.print("");
+        }
+        int number;
+        number = (int) temp_obj;
+        temp_obj = null;
+        this.value = "#";
+        return number;
     }
 
     @Override
@@ -224,6 +239,22 @@ public class conSocket extends Thread implements ConnectionController {
         }
         //System.out.println("@consocket: Ho inviato: "+s);
     }
+    private void outprint(char c) {
+        //System.out.println("entro in outprint consocket");
+        try {
+            out.writeChar(c);
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+            throw new RuntimeException(e);
+        }
+        try {
+            out.flush();
+        } catch (IOException e) {
+            System.out.println("Catch in conSocket outprint");
+            throw new RuntimeException(e);
+        }
+        //System.out.println("@consocket: Ho inviato: "+s);
+    }
 
     public void serverPrint(String s) throws RemoteException {
         outprint("#serverPrint");
@@ -241,21 +272,23 @@ public class conSocket extends Thread implements ConnectionController {
                 switch (line) {
                     case "#private_object":
                         //System.out.println("ho letto private object");
-                        obj = ois.readUnshared();
+                        obj = ois.readObject();
                         //System.out.println("ho letto oggetto");
                         view.updatePrivateData((PrivateModelNetwork) obj);
+                        obj = null;
                         //System.out.println("####### nickname : "+((PrivateModelNetwork) obj).getNickname());
                         break;
                     case "#handTiles":
                         System.out.println("ricevo handtiles");
-                        temp_obj = ois.readUnshared();
+                        temp_obj = ois.readObject();
                         System.out.println("ricevo l'oggetto");
                         break;
                     case "#public_object":
-                        //System.out.println("ho letto public object");
-                        obj = ois.readUnshared();
-                        //System.out.println("ho letto oggetto");
+                        System.out.println("ho letto public object");
+                        obj = ois.readObject();
+                        System.out.println("ho letto oggetto");
                         view.updatePublicData((PublicModelNetwork) obj);
+                        obj = null;
                         //PublicModelNetwork p = (PublicModelNetwork) obj;
                         //System.out.println("####### id match : "+p.idMatch);
                         break;
@@ -265,7 +298,7 @@ public class conSocket extends Thread implements ConnectionController {
                         break;
                     default:
                         if (line.equals("#quit")) {
-                            obj = ois.readUnshared();
+                            obj = ois.readObject();
                             view.updatePublicData((PublicModelNetwork) obj);
                             socket.close();
                             break;

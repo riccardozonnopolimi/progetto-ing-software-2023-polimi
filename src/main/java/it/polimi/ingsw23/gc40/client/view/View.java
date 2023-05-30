@@ -69,8 +69,10 @@ public abstract class View {
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
+        this.match_data = null;
         this.match_data = publicData;
         System.out.println("###############   deserializzazione public completata #################");
+        System.out.println("primo oggetto non vuoto: "+this.match_data.getLrb()[2][3].toString());
     }
 
     public static int getChoice(String[] choices, String question) {
