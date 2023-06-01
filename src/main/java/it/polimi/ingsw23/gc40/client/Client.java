@@ -11,7 +11,6 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 public class Client {
 
@@ -32,7 +31,8 @@ public class Client {
             //socket
             con = new conSocket(starter.socketStart(6789, host));
         }
-        System.out.println("fine scelta connessione client");
+        System.out.println("");
+        //System.out.println("fine scelta connessione client");
         if (CLI.getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
             //CLI
             view = new CLI(con);

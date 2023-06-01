@@ -1,14 +1,21 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI extends View {
     private Scanner sc;
+    static public String verde = "\u001b[42m\u001b[30m";
+    static String rosso = "\u001B[41m\u001B[30m";
+    static String giallo = "\u001b[43m\u001b[30m";
+    static public String reset = "\u001b[0m";
+    static public String grigio = "\u001b[47m\u001b[30m";
 
     public CLI(ConnectionController con) {
         super(con);
@@ -16,186 +23,227 @@ public class CLI extends View {
     }
 
     public void init() throws RemoteException, Exception {
-        System.out.println("#metodo start della view CLI");
+        System.out.println(verde + "Interfaccia di gioco testuale avviata!" + reset);
+        System.out.println("");
         super.nickname = inString("Inserisci nome giocatore: ");
         while (!con.addPlayer(super.nickname)) {
-            System.out.println("Nome utente già in uso, riprova...");
+            System.out.println(giallo + "Nome utente già in uso, riprova..." + reset);
             super.nickname = inString("Inserisci nome giocatore: ");
         }
+        System.out.println(verde + "Giocatore creato!" + reset);
+        System.out.println("");
 
         if (con.hasQueueMatch()) {
-            System.out.println("Sei stato aggiunto ad un match pre-esistente in attesa di giocatori.");
+            System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
         } else {
             while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
-                System.out.println("Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)");
+                System.out.println(rosso + "Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)" + reset);
         }
+        System.out.println(verde + "Match creato" + reset);
         super.matchId = con.addToLastMatch(super.nickname);
 
-        System.out.println("---------");
+        /*System.out.println("---------");
 
         while (!con.playable(matchId)) {
             while (inInt("Digita 0 per uscire - 1 per visualizzare i dettagli") == 1) {
-                System.out.println("Match ID: " + super.match_data.getIdMatch());
-                System.out.println("Nickname: " + super.player_data.getNickname());
-                System.out.println("PGC: " + super.player_data.getPgc());
+
+                if (super.match_data!=null)
+                    System.out.println("Match ID: " + super.match_data.getIdMatch());
+
+
+                if (super.player_data != null) {
+                    System.out.println("Nickname: " + super.player_data.getNickname());
+                    System.out.println("PGC: " + super.player_data.getPgc());
+                }
             }
 
+        }*/
+        System.out.println("");
+        System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGERANNO GLI ALTRI GIOCATORI" + reset);
+
+        while (!con.playable(matchId)) {
+            System.out.print("");
         }
 
-        if (con.playable(matchId)) System.out.println("##############puoi iniziare a giocare###################");
+        System.out.println("");
+        System.out.println(verde + "MATCH PRONTO" + reset);
 
-        while (inInt("Digita 0 per giocare") != 0) {
-            System.out.println("ok");
+        PublicModelNetwork data=null;
+        while (this.match_data.isEmpty()){
+            System.out.print("");
         }
+        data = this.match_data.pop();
 
 
         while (con.playable(matchId)) {
             int choice;
-            if (!match_data.getCurrent().equals(nickname)) {
-                System.out.println("E' il turno di " + match_data.getCurrent());
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:");
-            } else {
-                System.out.println("Ora tocca a te!");
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
-            }
-            switch (choice) {
-                case 0:
-                    printLRB(match_data.getLrb());
-                    break;
-                case 1:
-                    printPGC(player_data.getPgc());
-                    break;
-                case 2:
-                    printBS(player_data.getBookshelf());
-                    break;
-                case 3:
-                    printCGS(match_data.getCgs());
-                    break;
-                case 4:
 
-                    System.out.println("Fai la tua mossa!");
-                    int placeables = con.startRound(nickname, matchId);
-                    System.out.println("Puoi pescare " + placeables + " tiles...");
-                    ItemTile[] handTiles;
-                    printLRB(match_data.getLrb());
+            if (!data.getCurrent().equals(nickname)) {
+                System.out.println("E' il turno di " + data.getCurrent());
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:", 1);
+                if (!data.getCurrent().equals(nickname)) {
+                    if (choice == 4) {
+                        System.out.println("Scelta errata");
+                        choice = 0;
+                    }
+                } else {
+                    System.out.println("Ora tocca a te!");
+                    choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
+                }
 
+                switch (choice) {
+                    case 0:
+                        printLRB(data.getLrb());
+                        break;
+                    case 1:
+                        printPGC(player_data.getPgc());
+                        break;
+                    case 2:
+                        printBS(player_data.getBookshelf());
+                        break;
+                    case 3:
+                        printCGS(data.getCgs());
+                        break;
+                    case 4:
 
-                    int y, x, quantity;
-                    char direction;
-                    do {
-                        System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
-                        System.out.print("X: ");
-                        x = sc.nextInt();
-                        System.out.print("Y: ");
-                        sc.reset();
-                        y = sc.nextInt();
-                        System.out.print("Quante Tiles vuoi prendere? ");
-                        sc.reset();
+                        System.out.println("Fai la tua mossa!");
+                        int placeables = con.startRound(nickname, matchId);
+                        System.out.println("Puoi pescare " + placeables + " tiles...");
+                        ItemTile[] handTiles;
+                        printLRB(data.getLrb());
 
 
+                        int y, x, quantity;
+                        char direction;
                         do {
-                            quantity = sc.nextInt();
-                            if (quantity > placeables)
-                                System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
-                        } while (quantity > placeables);
-                        handTiles = new ItemTile[quantity];
+                            System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
+                            System.out.print("X: ");
+                            x = sc.nextInt();
+                            System.out.print("Y: ");
+                            sc.reset();
+                            y = sc.nextInt();
+                            System.out.print("Quante Tiles vuoi prendere? ");
+                            sc.reset();
 
-                        System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
-                        sc.reset();
 
-                        direction = sc.next().charAt(0);
-                        handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
-                        if (handTiles == null) {
-                            System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
-                            printLRB(match_data.getLrb());
-                        }
+                            do {
+                                quantity = sc.nextInt();
+                                if (quantity > placeables)
+                                    System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
+                            } while (quantity > placeables);
+                            handTiles = new ItemTile[quantity];
 
-                    } while (handTiles == null);
+                            do {
+                                System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
 
-                    for (int i = 0; i < quantity; i++) {
+                                sc.reset();
 
-                    }
+                                direction = sc.next().charAt(0);
+                                if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
+                                    System.out.println("Scelta errata.");
+                            } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
 
-                    //mostro la bookshelf e chiedo colonna in cui vuole inserire
-                    int column;
-
-                    printBS(player_data.getBookshelf());
-
-                    boolean retry;
-                    do {
-                        retry = false;
-                        System.out.println("In quale colonna vuoi inserire le tiles?");
-                        sc.reset();
-                        column = sc.nextInt();
-                        if (column < 0 || column > 4) {
-                            retry = true;
-                            System.out.println("Hai scelto una colonna inesistente");
-                        } else {
-                            if (con.getAvailableSlots(nickname, column) < handTiles.length) {
-                                System.out.println("La colonna non ha sufficiente spazio, riprova:");
-                                retry = true;
+                            handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
+                            if (handTiles == null) {
+                                System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
+                                printLRB(data.getLrb());
                             }
+                        } while (handTiles == null);
+
+                        for (int i = 0; i < quantity; i++) {
+
                         }
-                    } while (retry);
 
-                    //mostra tiles in mano
-                    System.out.println("Hai selezionato i seguenti Tiles:");
-                    for (int i = 0; i < handTiles.length; i++) {
-                        System.out.print(i + ": " + handTiles[i].toString() + "|");
-                    }
+                        //mostro la bookshelf e chiedo colonna in cui vuole inserire
+                        int column;
 
+                        printBS(player_data.getBookshelf());
 
-                    //inserisci le tiles che hai in mano
-                    for (int i = 0; i < handTiles.length; i++) {
-                        System.out.println("Scegli una tile da inserire:");
-                        int selected;
+                        boolean retry;
                         do {
                             retry = false;
-                            selected = sc.nextInt();
-                            if (selected >= handTiles.length || selected < 0) {
-                                System.out.println("Riprova:");
+                            System.out.println("In quale colonna vuoi inserire le tiles?");
+                            sc.reset();
+                            column = sc.nextInt();
+                            if (column < 0 || column > 4) {
                                 retry = true;
+                                System.out.println("Hai scelto una colonna inesistente");
                             } else {
-                                if (handTiles[selected] == null) {
-                                    System.out.println("Riprova:");
+                                if (con.getAvailableSlots(nickname, column) < handTiles.length) {
+                                    System.out.println("La colonna non ha sufficiente spazio, riprova:");
                                     retry = true;
                                 }
                             }
                         } while (retry);
-                        con.insertTile(nickname,(handTiles[selected]), column);
-                        handTiles[selected] = null;
-                        sc.reset();
-                    }
-                    con.nextRound(nickname,matchId);
+
+                        //mostra tiles in mano
+
+                        System.out.println("Inserisci le tiles nell'ordine che preferisci.");
 
 
+                        //inserisci le tiles che hai in mano
+                        for (int i = 0; i < handTiles.length; i++) {
+                            for (int j = 0; j < handTiles.length; j++) {
+                                if (handTiles[j] != null) System.out.println(j + ") " + handTiles[j].toString());
+                            }
+                            int selected;
+                            do {
+                                retry = false;
+                                selected = inInt("Digita il numero della Tile da inserire:");
+                                if (selected >= handTiles.length || selected < 0) {
+                                    System.out.println("Riprova:");
+                                    retry = true;
+                                } else {
+                                    if (handTiles[selected] == null) {
+                                        System.out.println("Riprova:");
+                                        retry = true;
+                                    }
+                                }
+                            } while (retry);
+                            con.insertTile(nickname, (handTiles[selected]), column);
+                            handTiles[selected] = null;
+                            sc.reset();
+                        }
+                        con.nextRound(nickname, matchId);
 
+                        while (!this.match_data.isEmpty())
+                            data = match_data.pop();
 
+                        break;
+                    default:
+                        System.out.println(rosso + "Scelta errata!" + reset);
+                        break;
+                }
 
-
-                    break;
-                default:
-                    System.out.println("Scelta errata!");
-                    break;
             }
 
+
         }
-
-
     }
 
 
     public String inString(String question) {
-        System.out.println(question);
+        System.out.println(grigio + question + reset);
         String line = sc.nextLine();
         sc.reset();
         return line;
     }
 
     public int inInt(String question) {
-        System.out.println(question);
-        int n = sc.nextInt();
-        sc.reset();
+        System.out.println(grigio + question + reset);
+        boolean retry = false;
+        int n = -1;
+        do {
+            try {
+                n = sc.nextInt();
+                sc.reset();
+                retry = false;
+            } catch (InputMismatchException e) {
+                System.out.println(rosso + "Hai inserito un carattere, riprova inserendo un numero intero!" + reset);
+                sc.next();
+                retry = true;
+            }
+        } while (retry);
         return n;
     }
 
@@ -204,15 +252,55 @@ public class CLI extends View {
         int n;
 
         do {
-            System.out.println(question);
+            System.out.println(grigio + question + reset);
             for (int i = 0; i < choices.length; i++)
-                System.out.println(i + ": " + choices[i]);
+                System.out.println(grigio + i + ")" + reset + " " + choices[i]);
             System.out.println("Digitare un numero per effettuare la scelta: ");
             n = 0;
-            sc.reset();
-            n = sc.nextInt();
-            if (n < 0 || n >= choices.length) System.out.println("Scelta errata, riprova.");
+            boolean retry = false;
+            do {
+                try {
+                    n = sc.nextInt();
+                    sc.reset();
+                    retry = false;
+                } catch (InputMismatchException e) {
+                    System.out.println(rosso + "Hai inserito un carattere, riprova inserendo un numero intero!" + reset);
+                    sc.next();
+                    retry = true;
+                }
+            } while (retry);
+
+            if (n < 0 || n >= choices.length) System.out.println(rosso + "Scelta errata, riprova." + reset);
         } while (n < 0 || n >= choices.length);
+        return n;
+    }
+
+    //used for k hidden answers ;)
+    public static int getChoice(String[] choices, String question, int k) {
+        Scanner sc = new Scanner(System.in);
+        int n;
+
+        do {
+            System.out.println(grigio + question + reset);
+            for (int i = 0; i < choices.length; i++)
+                System.out.println(grigio + i + ")" + reset + " " + choices[i]);
+            System.out.println("Digitare un numero per effettuare la scelta: ");
+            n = 0;
+            boolean retry = false;
+            do {
+                try {
+                    n = sc.nextInt();
+                    sc.reset();
+                    retry = false;
+                } catch (InputMismatchException e) {
+                    System.out.println(rosso + "Hai inserito un carattere, riprova inserendo un numero intero!" + reset);
+                    sc.next();
+                    retry = true;
+                }
+            } while (retry);
+
+            if (n < 0 || n >= choices.length + k) System.out.println(rosso + "Scelta errata, riprova." + reset);
+        } while (n < 0 || n >= choices.length + k);
         return n;
     }
 
@@ -235,7 +323,7 @@ public class CLI extends View {
 
     public void printCGS(int[] cgs) {
         for (int i = 0; i < cgs.length; i++) {
-            System.out.println((i + 1) + ") Common Goal Card n." + cgs[i] + ":");
+            System.out.println(grigio + (i + 1) + ")" + reset + " Common Goal Card n." + cgs[i] + ":");
             System.out.println(cgDescriptions[cgs[i] - 1]);
             System.out.println("");
         }

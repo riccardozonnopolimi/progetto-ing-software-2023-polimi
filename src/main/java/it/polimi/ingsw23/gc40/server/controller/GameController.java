@@ -74,6 +74,7 @@ public class GameController extends Observable {
 
 
     public GameController(int numPlayers, int id) {
+        if (numPlayers>4||numPlayers<2) numPlayers=2;
         this.numPlayers = numPlayers;
         this.next = null;
         this.ending = false;
@@ -512,6 +513,18 @@ public class GameController extends Observable {
 
     public void setEnding(boolean b) {
         this.ending=b;
+    }
+
+    public void checkScores(Player p) {
+
+        int cgscore = p.getCGScore();
+        p.setADJScore(p.getBookshelf().ADJScore());
+        if (this.commonGoals[0].getGoal().instanceGoal(p))
+            cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size()-1);
+        if (this.getCommonGoals()[1].getGoal().instanceGoal(p))
+            cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG1Scores.size()-1);
+        p.setCGScore(cgscore);
+        p.getPersonalGoal().checkScore(p);
     }
 }
 

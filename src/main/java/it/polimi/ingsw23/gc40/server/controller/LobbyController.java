@@ -32,9 +32,12 @@ public class LobbyController extends Thread {
     }
 
     public GameController createNewMatch(int numPlayer) {
-        queueMatch = new GameController(numPlayer, numMatch + 1);
-        numMatch++;
-        return queueMatch;
+        if (numPlayer > 4 || numPlayer < 2) return null;
+        else {
+            queueMatch = new GameController(numPlayer, numMatch + 1);
+            numMatch++;
+            return queueMatch;
+        }
     }
 
     public GameController addToLastMatch(Player player) {

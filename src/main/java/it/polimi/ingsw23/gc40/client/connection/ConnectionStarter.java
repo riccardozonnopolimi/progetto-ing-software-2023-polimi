@@ -1,6 +1,7 @@
 package it.polimi.ingsw23.gc40.client.connection;
 
 
+import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
 import java.io.IOException;
@@ -17,21 +18,21 @@ public class ConnectionStarter {
         Socket socket = null;
         try {
             socket = new Socket(host, port);
-            System.out.println("#Connessione Socket riuscita - porta: " + port);
+            System.out.println(CLI.verde+"#Connessione Socket riuscita - porta: " + port+CLI.reset);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("arrivo qui");
+        //System.out.println("arrivo qui");
         return socket;
     }
 
     public static ConnectionController rmi(String name, String host) throws Exception {
-        System.out.println(host);
+        //System.out.println(host);
         Registry registry = LocateRegistry.getRegistry(host);
         ConnectionController fac = ((ConnectionController) registry.lookup(name));
-        System.out.println("#Connessione RMI riuscita");
+        System.out.println(CLI.verde+"#Connessione RMI riuscita"+CLI.reset);
         return fac;
     }
 }

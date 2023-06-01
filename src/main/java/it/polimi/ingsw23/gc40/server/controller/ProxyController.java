@@ -69,12 +69,7 @@ public class ProxyController implements ConnectionController {
         GameController m = lobbyController.getMatchById(match);
 
         //refresh scores
-        p.setADJScore(p.getBookshelf().ADJScore());
-        if (m.getCommonGoals()[0].getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + m.getCG1Scores().get(m.getCG1Scores().size()) - 1);
-        if (m.getCommonGoals()[1].getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + m.getCG2Scores().get(m.getCG2Scores().size()) - 1);
-        p.getPersonalGoal().checkScore(p);
+        m.checkScores(p);
 
         //set turn to next player
         int num;
@@ -89,14 +84,17 @@ public class ProxyController implements ConnectionController {
     public boolean newMatch(int n) {
         GameController gameController;
 
-        if (n > 4) {
+        if (n > 4 || n< 2) {
             System.out.println("Errore creazione Match: numero di giocatori richiesto: " + n);
             return false;
         }
 
         gameController = lobbyController.createNewMatch(n);
-        System.out.println("Creato Match per " + n);
-        return true;
+        if (gameController == null) return false;
+        else {
+            System.out.println("Creato Match per " + n);
+            return true;
+        }
 
     }
 
