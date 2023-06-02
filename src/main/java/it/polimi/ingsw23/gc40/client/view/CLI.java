@@ -68,157 +68,156 @@ public class CLI extends View {
         System.out.println("");
         System.out.println(verde + "MATCH PRONTO" + reset);
 
-        PublicModelNetwork data=null;
-        while (this.match_data.isEmpty()){
+        while (this.match_data == null) {
             System.out.print("");
         }
-        data = this.match_data.pop();
 
 
         while (con.playable(matchId)) {
             int choice;
 
-            if (!data.getCurrent().equals(nickname)) {
-                System.out.println("E' il turno di " + data.getCurrent());
+            if (!match_data.getCurrent().equals(nickname)) {
+                System.out.println("E' il turno di " + match_data.getCurrent());
                 choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:", 1);
-                if (!data.getCurrent().equals(nickname)) {
+                if (!match_data.getCurrent().equals(nickname)) {
                     if (choice == 4) {
                         System.out.println("Scelta errata");
                         choice = 0;
                     }
-                } else {
-                    System.out.println("Ora tocca a te!");
-                    choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
                 }
+            } else {
+                System.out.println("Ora tocca a te!");
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
 
-                switch (choice) {
-                    case 0:
-                        printLRB(data.getLrb());
-                        break;
-                    case 1:
-                        printPGC(player_data.getPgc());
-                        break;
-                    case 2:
-                        printBS(player_data.getBookshelf());
-                        break;
-                    case 3:
-                        printCGS(data.getCgs());
-                        break;
-                    case 4:
+            }
 
-                        System.out.println("Fai la tua mossa!");
-                        int placeables = con.startRound(nickname, matchId);
-                        System.out.println("Puoi pescare " + placeables + " tiles...");
-                        ItemTile[] handTiles;
-                        printLRB(data.getLrb());
+            switch (choice) {
+                case 0:
+                    printLRB(match_data.getLrb());
+                    break;
+                case 1:
+                    printPGC(player_data.getPgc());
+                    break;
+                case 2:
+                    printBS(player_data.getBookshelf());
+                    break;
+                case 3:
+                    printCGS(match_data.getCgs());
+                    break;
+                case 4:
+
+                    System.out.println("Fai la tua mossa!");
+                    int placeables = con.startRound(nickname, matchId);
+                    System.out.println("Puoi pescare " + placeables + " tiles...");
+                    ItemTile[] handTiles;
+                    printLRB(match_data.getLrb());
 
 
-                        int y, x, quantity;
-                        char direction;
+                    int y, x, quantity;
+                    char direction;
+                    do {
+                        System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
+                        System.out.print("X: ");
+                        x = sc.nextInt();
+                        System.out.print("Y: ");
+                        sc.reset();
+                        y = sc.nextInt();
+                        System.out.print("Quante Tiles vuoi prendere? ");
+                        sc.reset();
+
+
                         do {
-                            System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
-                            System.out.print("X: ");
-                            x = sc.nextInt();
-                            System.out.print("Y: ");
+                            quantity = sc.nextInt();
+                            if (quantity > placeables)
+                                System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
+                        } while (quantity > placeables);
+                        handTiles = new ItemTile[quantity];
+
+                        do {
+                            System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
+
                             sc.reset();
-                            y = sc.nextInt();
-                            System.out.print("Quante Tiles vuoi prendere? ");
-                            sc.reset();
 
+                            direction = sc.next().charAt(0);
+                            if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
+                                System.out.println("Scelta errata.");
+                        } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
 
-                            do {
-                                quantity = sc.nextInt();
-                                if (quantity > placeables)
-                                    System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
-                            } while (quantity > placeables);
-                            handTiles = new ItemTile[quantity];
-
-                            do {
-                                System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
-
-                                sc.reset();
-
-                                direction = sc.next().charAt(0);
-                                if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
-                                    System.out.println("Scelta errata.");
-                            } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
-
-                            handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
-                            if (handTiles == null) {
-                                System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
-                                printLRB(data.getLrb());
-                            }
-                        } while (handTiles == null);
-
-                        for (int i = 0; i < quantity; i++) {
-
+                        handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
+                        if (handTiles == null) {
+                            System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
+                            printLRB(match_data.getLrb());
                         }
+                    } while (handTiles == null);
 
-                        //mostro la bookshelf e chiedo colonna in cui vuole inserire
-                        int column;
+                    for (int i = 0; i < quantity; i++) {
 
-                        printBS(player_data.getBookshelf());
+                    }
 
-                        boolean retry;
+                    //mostro la bookshelf e chiedo colonna in cui vuole inserire
+                    int column;
+
+                    printBS(player_data.getBookshelf());
+
+                    boolean retry;
+                    do {
+                        retry = false;
+                        System.out.println("In quale colonna vuoi inserire le tiles?");
+                        sc.reset();
+                        column = sc.nextInt();
+                        if (column < 0 || column > 4) {
+                            retry = true;
+                            System.out.println("Hai scelto una colonna inesistente");
+                        } else {
+                            if (con.getAvailableSlots(nickname, column) < handTiles.length) {
+                                System.out.println("La colonna non ha sufficiente spazio, riprova:");
+                                retry = true;
+                            }
+                        }
+                    } while (retry);
+
+                    //mostra tiles in mano
+
+                    System.out.println("Inserisci le tiles nell'ordine che preferisci.");
+
+
+                    //inserisci le tiles che hai in mano
+                    for (int i = 0; i < handTiles.length; i++) {
+                        for (int j = 0; j < handTiles.length; j++) {
+                            if (handTiles[j] != null) System.out.println(j + ") " + handTiles[j].toString());
+                        }
+                        int selected;
                         do {
                             retry = false;
-                            System.out.println("In quale colonna vuoi inserire le tiles?");
-                            sc.reset();
-                            column = sc.nextInt();
-                            if (column < 0 || column > 4) {
+                            selected = inInt("Digita il numero della Tile da inserire:");
+                            if (selected >= handTiles.length || selected < 0) {
+                                System.out.println("Riprova:");
                                 retry = true;
-                                System.out.println("Hai scelto una colonna inesistente");
                             } else {
-                                if (con.getAvailableSlots(nickname, column) < handTiles.length) {
-                                    System.out.println("La colonna non ha sufficiente spazio, riprova:");
+                                if (handTiles[selected] == null) {
+                                    System.out.println("Riprova:");
                                     retry = true;
                                 }
                             }
                         } while (retry);
+                        con.insertTile(nickname, (handTiles[selected]), column);
+                        handTiles[selected] = null;
+                        sc.reset();
+                    }
+                    con.nextRound(nickname, matchId);
 
-                        //mostra tiles in mano
+                    while (match_data.getCurrent().equals(nickname))
+                        System.out.print("");
 
-                        System.out.println("Inserisci le tiles nell'ordine che preferisci.");
-
-
-                        //inserisci le tiles che hai in mano
-                        for (int i = 0; i < handTiles.length; i++) {
-                            for (int j = 0; j < handTiles.length; j++) {
-                                if (handTiles[j] != null) System.out.println(j + ") " + handTiles[j].toString());
-                            }
-                            int selected;
-                            do {
-                                retry = false;
-                                selected = inInt("Digita il numero della Tile da inserire:");
-                                if (selected >= handTiles.length || selected < 0) {
-                                    System.out.println("Riprova:");
-                                    retry = true;
-                                } else {
-                                    if (handTiles[selected] == null) {
-                                        System.out.println("Riprova:");
-                                        retry = true;
-                                    }
-                                }
-                            } while (retry);
-                            con.insertTile(nickname, (handTiles[selected]), column);
-                            handTiles[selected] = null;
-                            sc.reset();
-                        }
-                        con.nextRound(nickname, matchId);
-
-                        while (!this.match_data.isEmpty())
-                            data = match_data.pop();
-
-                        break;
-                    default:
-                        System.out.println(rosso + "Scelta errata!" + reset);
-                        break;
-                }
-
+                    break;
+                default:
+                    System.out.println(rosso + "Scelta errata!" + reset);
+                    break;
             }
 
-
         }
+
+
     }
 
 

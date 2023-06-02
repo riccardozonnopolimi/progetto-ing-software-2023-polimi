@@ -56,12 +56,17 @@ public abstract class View {
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
-        this.match_data = null;
-        String temp = match_data.getCurrent();
+        String temp = null;
+        if (match_data != null) temp = match_data.getCurrent();
+
         this.match_data = publicData;
         //System.out.println("###############   deserializzazione public completata #################");
         //System.out.println("primo oggetto non vuoto: " + this.match_data.getLrb()[2][3].toString());
-        if((match_data.getCurrent().equals(this.nickname))&&!temp.equals(nickname)) System.out.println("### E' IL TUO TURNO, CLICCA 0 ###");
+        if (temp != null && match_data != null && this.nickname != null)
+            if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                System.out.println("### E' IL TUO TURNO ###");
+                System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
+            }
     }
 
     public static int getChoice(String[] choices, String question) {

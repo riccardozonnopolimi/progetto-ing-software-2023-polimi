@@ -24,7 +24,6 @@ public class SocketHandler implements Runnable {
     public void sendObj(String st, Object obj) throws Exception {
         out.writeUTF(st);
         out.flush();
-        out.reset();
         out.writeObject(obj);
         out.flush();
         out.reset();
@@ -36,7 +35,7 @@ public class SocketHandler implements Runnable {
 
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            out.reset();
+
 
             in = new ObjectInputStream(socket.getInputStream());
 
@@ -123,13 +122,11 @@ public class SocketHandler implements Runnable {
         if (bool) {
             out.writeUTF("#true");
             out.flush();
-            out.reset();
             System.out.println("@SH: Ho inviato: true");
 
         } else {
             out.writeUTF("#false");
             out.flush();
-            out.reset();
             System.out.println("@SH: Ho inviato: false");
         }
     }
@@ -137,7 +134,6 @@ public class SocketHandler implements Runnable {
     private void writeUTF(String st) throws IOException {
         out.writeUTF(st);
         out.flush();
-        out.reset();
         System.out.println("@SH: Ho inviato: " + st);
 
 
@@ -146,10 +142,8 @@ public class SocketHandler implements Runnable {
     private void writeInt(int intero) throws IOException {
         out.writeUTF("#int");
         out.flush();
-        out.reset();
         out.writeInt(intero);
         out.flush();
-        out.reset();
         System.out.println("@SH: Ho inviato: " + intero);
 
 

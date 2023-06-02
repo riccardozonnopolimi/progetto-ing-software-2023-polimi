@@ -194,7 +194,7 @@ public class conSocket extends Thread implements ConnectionController {
                 System.out.print("");
                 //System.out.println("while dentro check");
             }
-            System.out.println("");
+            System.out.print("");
             if (this.value.equals("#false")) {
                 this.value = "#";
                 return false;
@@ -220,7 +220,7 @@ public class conSocket extends Thread implements ConnectionController {
                 System.out.print("");
                 //System.out.println("while dentro check");
             }
-            System.out.println("");
+            System.out.print("");
             if (this.value.equals("#false")) {
                 this.value = "#";
                 return false;
