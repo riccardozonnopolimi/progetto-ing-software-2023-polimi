@@ -27,7 +27,7 @@ public abstract class View {
 
     public View(ConnectionController connection) {
         this.con = connection;
-        this.match_data = null;
+        this.match_data = new PublicModelNetwork(null,null,-1,null,false,null);
         this.player_data = null;
         this.matchId = -1;
         this.nickname = "";

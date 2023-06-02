@@ -2,7 +2,6 @@ package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
-import it.polimi.ingsw23.gc40.server.model.LRB;
 
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class PublicModelObserver implements Observer {
     public ItemTile[][] lrb;
     public int[] cgs;
     public int idMatch;
-    public Boolean ended;
+    public Boolean playable;
     public String winner;
     public String current;
     private GameController match;
@@ -25,6 +24,7 @@ public class PublicModelObserver implements Observer {
         gameController.addObserver(this);
         // todo implement remove listener or destructor
         match = gameController;
+        playable=false;
     }
 
 
@@ -32,25 +32,29 @@ public class PublicModelObserver implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof ItemTile[][]) {
             lrb = (ItemTile[][]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable, null);
         }
 
         if (arg instanceof int[]) {
             cgs = (int[]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable, null);
         }
         if (arg instanceof Integer) {
             idMatch = (int) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
         }
         if (arg instanceof String) {
             winner = (String) arg;
             current = (String) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
         }
         if (arg instanceof Boolean) {
-            ended = (Boolean) arg;
-            data = new PublicModelNetwork(ended, winner, idMatch);
+            playable = (Boolean) arg;
+            if (playable)
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
+            else
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,winner);
+
         }
 
         try {

@@ -61,7 +61,7 @@ public class CLI extends View {
         System.out.println("");
         System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGERANNO GLI ALTRI GIOCATORI" + reset);
 
-        while (!con.playable(matchId)) {
+        while (!match_data.isPlayable()) {
             System.out.print("");
         }
 
@@ -73,7 +73,7 @@ public class CLI extends View {
         }
 
 
-        while (con.playable(matchId)) {
+        while (match_data.isPlayable()) {
             int choice;
 
             if (!match_data.getCurrent().equals(nickname)) {

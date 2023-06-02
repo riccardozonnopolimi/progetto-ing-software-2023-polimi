@@ -24,6 +24,18 @@ public class GameController extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
     private LRB map;
     private boolean ending;
+    private boolean playable;
+
+    public boolean isPlayable() {
+        return playable;
+    }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
+        setChanged();
+        notifyObservers(playable);
+    }
+
     private Player next;
 
     public ArrayList<ItemTile> getBag() {
@@ -254,6 +266,8 @@ public class GameController extends Observable {
             setChanged();
             notifyObservers(this.getId());
             refill();
+            setPlayable(true);
+
             return true;
         }
         return false;
