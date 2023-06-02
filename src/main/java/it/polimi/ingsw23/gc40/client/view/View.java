@@ -64,7 +64,7 @@ public abstract class View {
         //System.out.println("primo oggetto non vuoto: " + this.match_data.getLrb()[2][3].toString());
         if (temp != null && match_data != null && this.nickname != null)
             if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                System.out.println("### E' IL TUO TURNO ###");
+                System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);
                 System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
             }
     }

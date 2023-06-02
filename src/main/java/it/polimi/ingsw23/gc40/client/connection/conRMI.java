@@ -79,7 +79,7 @@ public class conRMI extends Thread implements ConnectionController {
 
     @Override
     public void run() {
-        System.out.println("parte thread conrmi");
+        //System.out.println("parte thread conrmi");
         while (true) {
             try {
                 //System.out.println("##conrmi run view diverso da null nn: "+view.nickname+" mid: "+view.matchId);
@@ -90,12 +90,12 @@ public class conRMI extends Thread implements ConnectionController {
 
                 obj = getObj(view.nickname, -1);
                 if (obj != null) {
-                    System.out.println("deserializzo oggetto player: " + ((PrivateModelNetwork) obj).getNickname());
+                    //System.out.println("deserializzo oggetto player: " + ((PrivateModelNetwork) obj).getNickname());
                     view.updatePrivateData((PrivateModelNetwork) obj);
                 }
                 obj = getObj(view.nickname, view.matchId);
                 if (obj != null) {
-                    System.out.println("deserializzo obj match id: " + ((PublicModelNetwork) obj).getIdMatch());
+                    //System.out.println("deserializzo obj match id: " + ((PublicModelNetwork) obj).getIdMatch());
                     view.updatePublicData((PublicModelNetwork) obj);
                 }
 
