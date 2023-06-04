@@ -3,7 +3,9 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
@@ -104,9 +106,39 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
+    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
+        outprint("#getPrivateObserver");
+        outprint(player);
+        PrivateModelObserver pmo;
+        try {
+             pmo = (PrivateModelObserver) ois.readObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return pmo;
+    }
+
+    @Override
+    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
+        outprint("#getPrivateObserver");
+        outprint(matchId);
+        PublicModelObserver pmo;
+        try {
+            pmo = (PublicModelObserver) ois.readObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return pmo;
+    }
+
+/*    @Override
     public Object getObj(String s, int n) {
         return null;
-    }
+    }*/
 
     public conSocket(Socket socket) {
         this.socket = socket;

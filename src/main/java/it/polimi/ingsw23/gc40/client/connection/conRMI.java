@@ -3,7 +3,9 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
@@ -20,7 +22,7 @@ public class conRMI extends Thread implements ConnectionController {
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
-        start();
+        //start();
     }
 
     @Override
@@ -77,7 +79,7 @@ public class conRMI extends Thread implements ConnectionController {
         stub.print(s);
     }
 
-    @Override
+   /* @Override
     public void run() {
         //System.out.println("parte thread conrmi");
         while (true) {
@@ -105,14 +107,24 @@ public class conRMI extends Thread implements ConnectionController {
             }
         }
     }
-
-    @Override
+*/
+  /*  @Override
     public Object getObj(String s, int n) throws RemoteException {
         return stub.getObj(s, n);
-    }
+    }*/
     @Override
     public void nextRound(String nickname,int matchId) throws RemoteException{
         stub.nextRound(nickname, matchId);
+    }
+
+    @Override
+    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
+        return stub.getPrivateObserver(player);
+    }
+
+    @Override
+    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
+        return stub.getPublicObserver(matchId);
     }
 
 }

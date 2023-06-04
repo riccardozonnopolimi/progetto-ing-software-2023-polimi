@@ -28,6 +28,11 @@ public class SocketHandler implements Runnable {
         out.flush();
         out.reset();
     }
+    public void sendObj( Object obj) throws Exception {
+        out.writeObject(obj);
+        out.flush();
+        out.reset();
+    }
 
     @Override
     public void run() {
@@ -60,8 +65,9 @@ public class SocketHandler implements Runnable {
                         case "#addPlayer":
                             nickname = in.readUTF();
                             bool(proxyController.addPlayer(nickname));
-                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().setSh(this);
-                            sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
+//                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().setSh(this);
+//                            sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
+
                             break;
                         case "#chooseTiles":
                             sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
@@ -98,6 +104,12 @@ public class SocketHandler implements Runnable {
                         case "#nextRound":
                             proxyController.nextRound(in.readUTF(), in.readInt());
                             break;
+                        case "#getPrivateObserver":
+                            line2 = in.readUTF();
+                            sendObj(proxyController.getPrivateObserver(line2));
+                        case "#getPublicObserver":
+                            matchid = in.readInt();
+                            sendObj(proxyController.getPublicObserver(matchid));
                         default:
                             System.out.println("###### Ho ricevuto: ");
                             System.out.println("");

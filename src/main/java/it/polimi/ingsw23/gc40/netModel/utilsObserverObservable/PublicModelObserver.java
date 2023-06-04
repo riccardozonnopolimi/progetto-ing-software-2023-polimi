@@ -4,11 +4,14 @@ import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PublicModelObserver implements Observer {
+public class PublicModelObserver extends Observable implements Observer, Serializable, Remote {
+    private static final long serialVersionUID = 7829136881241571165L;
     private PublicModelNetwork data;
     public ItemTile[][] lrb;
     public int[] cgs;
@@ -16,8 +19,8 @@ public class PublicModelObserver implements Observer {
     public Boolean playable;
     public String winner;
     public String current;
-    private GameController match;
-    private ArrayList<String> downloaded = new ArrayList<>();
+    private transient GameController match;
+    private transient ArrayList<String> downloaded = new ArrayList<>();
 
 
     public PublicModelObserver(GameController gameController) {
@@ -56,8 +59,10 @@ public class PublicModelObserver implements Observer {
                 data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,winner);
 
         }
-
-        try {
+        setChanged();
+        notifyObservers(data);
+        System.out.println("server modifica dati correttamente");
+       /* try {
 
             System.out.println("public update");
             for (int i = 0; i < match.getPlayers().size(); i++) {
@@ -72,11 +77,12 @@ public class PublicModelObserver implements Observer {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
 
     }
 
+/*
     public ArrayList<String> getDownloaded() {
         return downloaded;
     }
@@ -84,6 +90,7 @@ public class PublicModelObserver implements Observer {
     public void setDownloaded(ArrayList<String> downloaded) {
         this.downloaded = downloaded;
     }
+*/
 
     public Object getData() {
         return data;

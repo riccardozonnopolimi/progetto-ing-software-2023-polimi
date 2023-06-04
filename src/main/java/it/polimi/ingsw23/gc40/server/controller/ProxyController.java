@@ -2,6 +2,8 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
@@ -81,6 +83,16 @@ public class ProxyController implements ConnectionController {
 
     }
 
+    @Override
+    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
+        return lobbyController.getPlayer(player).getObserver();
+    }
+
+    @Override
+    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
+        return lobbyController.getMatchById(matchId).getObserver();
+    }
+
     public boolean newMatch(int n) {
         GameController gameController;
 
@@ -130,7 +142,7 @@ public class ProxyController implements ConnectionController {
     }
 
 
-    @Override
+   /* @Override
     public Object getObj(String str, int n) throws RemoteException {
         if (n == -1) {
             if (lobbyController.getPlayer(str).getPrivateModelObserver().getNewData()) {
@@ -144,6 +156,6 @@ public class ProxyController implements ConnectionController {
             else return null;
 
         }
-    }
+    }*/
 
 }

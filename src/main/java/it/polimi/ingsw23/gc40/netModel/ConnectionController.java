@@ -1,13 +1,12 @@
 package it.polimi.ingsw23.gc40.netModel;
 
 import it.polimi.ingsw23.gc40.client.view.View;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 
 //copia dei metodi dell'interfaccia nel client
@@ -29,7 +28,7 @@ public interface ConnectionController extends Remote {
     void setView(View view) throws RemoteException;
 
 
-    Object getObj(String s, int n) throws RemoteException;
+    /*Object getObj(String s, int n) throws RemoteException;*/
 
     int startRound(String nickname, int matchID) throws RemoteException;
 
@@ -40,4 +39,6 @@ public interface ConnectionController extends Remote {
     void insertTile(String nickname, ItemTile handTile, int column)throws RemoteException;
 
     void nextRound(String nickname, int matchId) throws RemoteException;
+    PrivateModelObserver getPrivateObserver(String player) throws RemoteException;
+    PublicModelObserver getPublicObserver(int matchId) throws RemoteException;
 }

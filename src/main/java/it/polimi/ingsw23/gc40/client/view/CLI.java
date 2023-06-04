@@ -1,12 +1,15 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
-import it.polimi.ingsw23.gc40.server.model.Item;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
+import java.util.Observable;
 import java.util.Scanner;
 
 public class CLI extends View {
@@ -16,7 +19,8 @@ public class CLI extends View {
     static String giallo = "\u001b[43m\u001b[30m";
     static public String reset = "\u001b[0m";
     static public String grigio = "\u001b[47m\u001b[30m";
-
+    private PublicModelObserver publicObserver;
+    private PrivateModelObserver privateObserver;
     public CLI(ConnectionController con) {
         super(con);
         sc = new Scanner(System.in);
@@ -32,6 +36,8 @@ public class CLI extends View {
         }
         System.out.println(verde + "Giocatore creato!" + reset);
         System.out.println("");
+        privateObserver = con.getPrivateObserver(nickname);
+        privateObserver.addObserver(this);
 
         if (con.hasQueueMatch()) {
             System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
@@ -41,6 +47,10 @@ public class CLI extends View {
         }
         System.out.println(verde + "Match creato" + reset);
         super.matchId = con.addToLastMatch(super.nickname);
+
+
+        publicObserver = con.getPublicObserver(matchId);
+        publicObserver.addObserver(this);
 
         /*System.out.println("---------");
 
@@ -68,9 +78,9 @@ public class CLI extends View {
         System.out.println("");
         System.out.println(verde + "MATCH PRONTO" + reset);
 
-        while (this.match_data == null) {
+/*        while (this.match_data == null) {
             System.out.print("");
-        }
+        }*/
 
 
         while (match_data.isPlayable()) {
@@ -338,4 +348,15 @@ public class CLI extends View {
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof PrivateModelNetwork) {
+            player_data = (PrivateModelNetwork) arg;
+            System.out.println("updated private");
+        }
+        if (arg instanceof PublicModelNetwork) {
+            match_data = (PublicModelNetwork) arg;
+            System.out.println("updated public");
+        }
+    }
 }

@@ -12,9 +12,10 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Observer;
 import java.util.Scanner;
 
-public abstract class View {
+public abstract class View implements Observer {
     ConnectionController con;
     public int matchId;
     public String nickname;

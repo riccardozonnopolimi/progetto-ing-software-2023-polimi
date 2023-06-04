@@ -117,4 +117,8 @@ public class Player extends Observable {
         setChanged();
         notifyObservers(this.getBookshelf().getShelf());
     }
+
+    public PrivateModelObserver getObserver() {
+        return observer;
+    }
 }

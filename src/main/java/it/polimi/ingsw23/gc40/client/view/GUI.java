@@ -1,11 +1,14 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.Observable;
 
 public class GUI extends View {
     private JButton okBTN;
@@ -79,4 +82,11 @@ public class GUI extends View {
         insNumGiocPanel.setVisible(false);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof PrivateModelNetwork)
+            player_data = (PrivateModelNetwork) arg;
+        if (arg instanceof PublicModelNetwork)
+            match_data = (PublicModelNetwork) arg;
+    }
 }

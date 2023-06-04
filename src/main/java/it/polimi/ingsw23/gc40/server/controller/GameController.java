@@ -205,13 +205,18 @@ public class GameController extends Observable {
 
     public boolean playable() {
         //Tested
+        //starts when there are all the players
+        if (players.size() == numPlayers){
+            setPlayable(true);
+            return true;
+        }
+
+
         // if a player has filled his bookshelf and nextPlayer is first player I can not play
         if (next != null) if (ending && next.isFirst()) {
             winner();
             return false;
         }
-        //starts when there are all the players
-        if (players.size() == numPlayers) return true;
         return false;
     }
 
