@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
+import java.util.Observable;
 
 
 public class conSocket extends Thread implements ConnectionController {
@@ -106,6 +107,13 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
+    public void setObservers(String nickname, int matchId) throws RemoteException {
+        outprint("#setObservers");
+        outprint(nickname);
+        outprint(matchId);
+    }
+
+    /*@Override
     public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
         outprint("#getPrivateObserver");
         outprint(player);
@@ -133,7 +141,7 @@ public class conSocket extends Thread implements ConnectionController {
             throw new RuntimeException(e);
         }
         return pmo;
-    }
+    }*/
 
 /*    @Override
     public Object getObj(String s, int n) {
@@ -200,12 +208,12 @@ public class conSocket extends Thread implements ConnectionController {
     public boolean hasQueueMatch() {
         return check("#hasQueueMatch");
     }
-
+/*
     @Override
     public boolean playable(int n) throws RemoteException {
         outprint("#playable");
         return check(n);
-    }
+    }*/
 
     @Override
     public void print(String s) throws RemoteException {
@@ -328,19 +336,31 @@ public class conSocket extends Thread implements ConnectionController {
             while (true) {
                 String line = ois.readUTF();
                 switch (line) {
-                    case "#private_object":
+
+                    case "#handTiles":
+                        temp_obj = ois.readObject();
+                        System.out.println("ricevo handtiles da socket");
+                        break;
+                    case "#update":
+                        obj = ois.readObject();
+                        //System.out.println("leggo #update e chiamo view.update");
+                        if (obj instanceof PublicModelNetwork) {
+                            view.updatePublicData((PublicModelNetwork) obj);
+                        }
+                        if (obj instanceof PrivateModelNetwork)
+                            view.updatePrivateData((PrivateModelNetwork) obj);
+                        obj = null;
+                        break;
+                    /*case "#private_object":
                         obj = ois.readObject();
                         view.updatePrivateData((PrivateModelNetwork) obj);
                         obj = null;
-                        break;
-                    case "#handTiles":
-                        temp_obj = ois.readObject();
                         break;
                     case "#public_object":
                         obj = ois.readObject();
                         view.updatePublicData((PublicModelNetwork) obj);
                         obj = null;
-                        break;
+                        break;*/
                     case "#int":
                         temp_obj = ois.readInt();
                         this.value = "#int";

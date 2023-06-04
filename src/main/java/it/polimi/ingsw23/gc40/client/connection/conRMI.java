@@ -6,11 +6,13 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwo
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
+import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
+import java.util.Observable;
 
-public class conRMI extends Thread implements ConnectionController {
+public class conRMI extends Observable implements ConnectionController {
     ConnectionController stub;
     private View view;
 
@@ -32,7 +34,9 @@ public class conRMI extends Thread implements ConnectionController {
 
     @Override
     public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
-        return stub.chooseTiles(mid, x, y, quantity, direction);
+
+        ItemTile[] ht = stub.chooseTiles(mid, x, y, quantity, direction);
+        return ht;
     }
 
     @Override
@@ -58,10 +62,10 @@ public class conRMI extends Thread implements ConnectionController {
         return stub.hasQueueMatch();
     }
 
-    @Override
+/*    @Override
     public boolean playable(int n) throws RemoteException {
         return stub.playable(n);
-    }
+    }*/
 
     @Override
     public int addToLastMatch(String name) throws RemoteException {
@@ -118,6 +122,11 @@ public class conRMI extends Thread implements ConnectionController {
     }
 
     @Override
+    public void setObservers(String nickname, int matchId) throws RemoteException {
+
+    }
+
+   /* @Override
     public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
         return stub.getPrivateObserver(player);
     }
@@ -126,5 +135,5 @@ public class conRMI extends Thread implements ConnectionController {
     public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
         return stub.getPublicObserver(matchId);
     }
-
+*/
 }

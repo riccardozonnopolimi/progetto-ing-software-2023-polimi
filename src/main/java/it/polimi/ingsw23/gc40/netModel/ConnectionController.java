@@ -19,7 +19,9 @@ public interface ConnectionController extends Remote {
 
     int addToLastMatch(String string) throws RemoteException;
 
+/*
     boolean playable(int n) throws RemoteException;
+*/
 
     void close() throws RemoteException;
 
@@ -36,9 +38,13 @@ public interface ConnectionController extends Remote {
 
     int getAvailableSlots(String nickname, int column) throws RemoteException;
 
-    void insertTile(String nickname, ItemTile handTile, int column)throws RemoteException;
+    void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException;
 
     void nextRound(String nickname, int matchId) throws RemoteException;
-    PrivateModelObserver getPrivateObserver(String player) throws RemoteException;
-    PublicModelObserver getPublicObserver(int matchId) throws RemoteException;
+
+   //PrivateModelObserver getPrivateObserver(String player) throws RemoteException;
+
+    //PublicModelObserver getPublicObserver(int matchId) throws RemoteException;
+
+    void setObservers(String nickname, int matchId) throws RemoteException;
 }

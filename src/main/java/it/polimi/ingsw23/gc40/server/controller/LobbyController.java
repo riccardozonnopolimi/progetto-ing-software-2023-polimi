@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class LobbyController extends Thread {
+public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
     private GameController queueMatch;
@@ -41,7 +41,7 @@ public class LobbyController extends Thread {
     }
 
     public GameController addToLastMatch(Player player) {
-        System.out.println("@@lobbycontroller->addtolastmatch");
+        //System.out.println("@@lobbycontroller->addtolastmatch");
         if (queueMatch.addPlayer(player)) {
 
             GameController m = queueMatch;
@@ -65,6 +65,7 @@ public class LobbyController extends Thread {
         return false;
     }
 
+    /*
     public void endMatch(GameController gameController) {
         //TO TEST
         if (gameController.isEnding() && !gameController.playable()) {
@@ -77,7 +78,7 @@ public class LobbyController extends Thread {
             SavedScores.add(s);
         }
 
-    }
+    }*/
 
     public void print(String str) {
         System.out.println(str);
@@ -106,7 +107,7 @@ public class LobbyController extends Thread {
         return null;
     }
 
-    @Override
+   /* @Override
     public void run() {
         GameController match = this.activeGameControllers.get(this.activeGameControllers.size() - 1);
         while (match.playable()) {
@@ -114,7 +115,7 @@ public class LobbyController extends Thread {
             match.round(match.getNext());
         }
 
-    }
+    }*/
 
 
     public GameController getMatchById(int n) {

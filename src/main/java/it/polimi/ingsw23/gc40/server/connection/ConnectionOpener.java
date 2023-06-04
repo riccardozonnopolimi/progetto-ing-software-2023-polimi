@@ -31,11 +31,10 @@ public final class ConnectionOpener extends Thread {
             ConnectionController stub = (ConnectionController) UnicastRemoteObject.exportObject(proxyController, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Server", stub);
-            System.out.println("#server RMI pronto");
+            System.out.println("@CO: #server RMI pronto");
 
         } catch (Exception e) {
-            System.out.println("catch");
-            System.err.println(e.toString());
+            System.out.println("@CO: Catch rmiInit: "+e);
             e.printStackTrace();
         }
 
@@ -49,11 +48,12 @@ public final class ConnectionOpener extends Thread {
             ServerSocket serverSocket = new ServerSocket(6789);
 
 
-            System.out.println("#server Socket pronto");
+            System.out.println("@CO: #server Socket pronto");
             while (true) {
                 executor.submit(new SocketHandler(serverSocket.accept(), proxyController));
             }
         } catch (IOException e) {
+            System.out.println("@CO: Catch run: "+e);
             throw new RuntimeException(e);
         }
 

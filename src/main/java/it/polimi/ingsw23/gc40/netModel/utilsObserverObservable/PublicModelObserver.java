@@ -61,7 +61,7 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
         }
         setChanged();
         notifyObservers(data);
-        System.out.println("server modifica dati correttamente");
+        //System.out.println("server notifica public dati correttamente");
        /* try {
 
             System.out.println("public update");
@@ -94,6 +94,11 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
 
     public Object getData() {
         return data;
+    }
+    public void newObserver(Observer o){
+        addObserver(o);
+        setChanged();
+        notifyObservers(data);
     }
 
 }

@@ -25,11 +25,13 @@ public class testCompleteMatch {
 
         cgs[0].getGoal().print();
         cgs[1].getGoal().print();
+/*
 
         while (gameController.playable()) {
             System.out.println("E' il turno di " + gameController.getNext().getNickName());
             gameController.round(gameController.getNext());
         }
+*/
 
         //server.endMatch(match);
 

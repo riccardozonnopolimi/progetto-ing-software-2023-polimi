@@ -26,10 +26,10 @@ public class ProxyController implements ConnectionController {
         // System.out.println("#classe controller del server - metodo addplayer");
         // to test
         if (lobbyController.checkExistingNickName(name)) {
-            System.out.println("utente già esistente: " + name);
+            System.out.println("@PC: utente già esistente: " + name);
             return false;
         } else {
-            System.out.println("creo utente: " + name);
+            System.out.println("@PC: creo utente: " + name);
             lobbyController.addPlayer(name);
         }
         //notify player todo
@@ -84,6 +84,11 @@ public class ProxyController implements ConnectionController {
     }
 
     @Override
+    public void setObservers(String nickname, int matchId) throws RemoteException {
+
+    }
+
+    /*@Override
     public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
         return lobbyController.getPlayer(player).getObserver();
     }
@@ -91,7 +96,7 @@ public class ProxyController implements ConnectionController {
     @Override
     public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
         return lobbyController.getMatchById(matchId).getObserver();
-    }
+    }*/
 
     public boolean newMatch(int n) {
         GameController gameController;
@@ -104,7 +109,7 @@ public class ProxyController implements ConnectionController {
         gameController = lobbyController.createNewMatch(n);
         if (gameController == null) return false;
         else {
-            System.out.println("Creato Match per " + n);
+            System.out.println("@PC: Creato Match per " + n);
             return true;
         }
 
@@ -116,16 +121,16 @@ public class ProxyController implements ConnectionController {
 
     public int addToLastMatch(String name) {
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
-        System.out.println("Aggiunto il giocarore " + name + " al match in attesa");
+        System.out.println("@PC: Aggiunto il giocarore " + name + " al match in attesa");
 
         return gameController.getId();
     }
 
 
-    public boolean playable(int n) throws RemoteException {
+    /*public boolean playable(int n) throws RemoteException {
         return lobbyController.getMatchById(n).playable();
 
-    }
+    }*/
 
     @Override
     public void close() throws RemoteException {

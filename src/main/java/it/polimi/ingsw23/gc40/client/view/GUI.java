@@ -82,11 +82,11 @@ public class GUI extends View {
         insNumGiocPanel.setVisible(false);
     }
 
-    @Override
+  /*  @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof PrivateModelNetwork)
             player_data = (PrivateModelNetwork) arg;
         if (arg instanceof PublicModelNetwork)
             match_data = (PublicModelNetwork) arg;
-    }
+    }*/
 }

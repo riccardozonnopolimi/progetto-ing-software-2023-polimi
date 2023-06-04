@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.Scanner;
 
-public abstract class View implements Observer {
+public abstract class View {
     ConnectionController con;
     public int matchId;
     public String nickname;
@@ -58,11 +58,12 @@ public abstract class View implements Observer {
 
     public void updatePublicData(PublicModelNetwork publicData) {
         String temp = null;
-        if (match_data != null) temp = match_data.getCurrent();
+        if (match_data != null)
+            temp = match_data.getCurrent();
 
         this.match_data = publicData;
         //System.out.println("###############   deserializzazione public completata #################");
-        //System.out.println("primo oggetto non vuoto: " + this.match_data.getLrb()[2][3].toString());
+
         if (temp != null && match_data != null && this.nickname != null)
             if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
                 System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);

@@ -5,6 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwo
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
+import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
@@ -21,6 +22,7 @@ public class CLI extends View {
     static public String grigio = "\u001b[47m\u001b[30m";
     private PublicModelObserver publicObserver;
     private PrivateModelObserver privateObserver;
+
     public CLI(ConnectionController con) {
         super(con);
         sc = new Scanner(System.in);
@@ -36,8 +38,7 @@ public class CLI extends View {
         }
         System.out.println(verde + "Giocatore creato!" + reset);
         System.out.println("");
-        privateObserver = con.getPrivateObserver(nickname);
-        privateObserver.addObserver(this);
+
 
         if (con.hasQueueMatch()) {
             System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
@@ -45,12 +46,16 @@ public class CLI extends View {
             while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
                 System.out.println(rosso + "Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)" + reset);
         }
+
         System.out.println(verde + "Match creato" + reset);
         super.matchId = con.addToLastMatch(super.nickname);
+        con.setObservers(nickname, matchId);
 
 
-        publicObserver = con.getPublicObserver(matchId);
+       /* publicObserver = con.getPublicObserver(matchId);
         publicObserver.addObserver(this);
+        privateObserver = con.getPrivateObserver(nickname);
+        privateObserver.addObserver(this);*/
 
         /*System.out.println("---------");
 
@@ -141,7 +146,6 @@ public class CLI extends View {
                             if (quantity > placeables)
                                 System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
                         } while (quantity > placeables);
-                        handTiles = new ItemTile[quantity];
 
                         do {
                             System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
@@ -150,19 +154,21 @@ public class CLI extends View {
 
                             direction = sc.next().charAt(0);
                             if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
-                                System.out.println("Scelta errata.");
+                                System.out.println(rosso + "Scelta errata, puoi inserire solo le direzioni U D L R" + reset);
                         } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
 
                         handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
+                        for (int i = 0; i < quantity; i++)
+                            if (handTiles[i].getItem() == Item.EMPTY){
+                                handTiles = null;
+                                i=quantity;
+                            }
                         if (handTiles == null) {
                             System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
                             printLRB(match_data.getLrb());
                         }
                     } while (handTiles == null);
 
-                    for (int i = 0; i < quantity; i++) {
-
-                    }
 
                     //mostro la bookshelf e chiedo colonna in cui vuole inserire
                     int column;
@@ -348,7 +354,7 @@ public class CLI extends View {
         }
     }
 
-    @Override
+  /*  @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof PrivateModelNetwork) {
             player_data = (PrivateModelNetwork) arg;
@@ -358,5 +364,5 @@ public class CLI extends View {
             match_data = (PublicModelNetwork) arg;
             System.out.println("updated public");
         }
-    }
+    }*/
 }

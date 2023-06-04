@@ -34,7 +34,7 @@ public class PrivateModelObserver extends Observable implements Observer, Serial
         }
         setChanged();
         notifyObservers(data);
-        System.out.println("server modifica dati correttamente");
+        //System.out.println("server notifica private dati correttamente");
        /* try {
             if (sh != null) sh.sendObj("#private_object", data);
             else setNewData(true);
@@ -67,4 +67,9 @@ public class PrivateModelObserver extends Observable implements Observer, Serial
     public boolean getNewData() {
         return hasNewData;
     }*/
+   public void newObserver(Observer o){
+       addObserver(o);
+       setChanged();
+       notifyObservers(data);
+   }
 }
