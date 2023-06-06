@@ -31,7 +31,7 @@ public abstract class View {
         this.match_data = new PublicModelNetwork(null,null,-1,null,false,null);
         this.player_data = null;
         this.matchId = -1;
-        this.nickname = "";
+        this.nickname = "###notdefined###";
         this.cgDescriptions = new String[]{"Sei gruppi separati formati ciascuno da due tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.", "Quattro tessere dello stesso tipo ai quattro angoli della Libreria.", "Quattro gruppi separati formati ciascuno da quattro tessere adiacenti dello stesso tipo (non necessariamente come mostrato in figura). Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.", "Due gruppi separati di 4 tessere dello stesso tipo che formano un quadrato 2x2. Le tessere dei due gruppi devono essere dello stesso tipo.", "Tre colonne formate ciascuna da 6 tessere di uno, due o tre tipi differenti. Colonne diverse possono avere combinazioni diverse di tipi di tessere.", "Otto tessere dello stesso tipo. Non ci sono restrizioni sulla posizione di queste tessere.", "Cinque tessere dello stesso tipo che formano una diagonale.", "Quattro righe formate ciascuna da 5 tessere di uno, due o tre tipi differenti. Righe diverse possono avere combinazioni diverse di tipi di tessere.", "Due colonne formate ciascuna da 6 diversi tipi di tessere.", "Due righe formate ciascuna da 5 diversi tipi di tessere.", "Cinque tessere dello stesso tipo che formano una X.", "Cinque colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, ogni colonna successiva deve essere formata da una tessera in più. Le tessere possono essere di qualsiasi tipo."};
 
         //import all existing personal goals from json
@@ -52,23 +52,28 @@ public abstract class View {
     }
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
-        this.player_data = privateData;
+        if (privateData.getNickname().equals(nickname)||nickname.equals("###notdefined###"))
+            this.player_data = privateData;
+
         //System.out.println("@@@@@@@@@@@@@@ deserializzazione private completata @@@@@@@@@@@@@@@@@@");
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
-        String temp = null;
-        if (match_data != null)
-            temp = match_data.getCurrent();
+        if (publicData.getIdMatch()==matchId ||matchId==-1)
+        {
+            String temp = null;
+            if (match_data != null)
+                temp = match_data.getCurrent();
 
-        this.match_data = publicData;
-        //System.out.println("###############   deserializzazione public completata #################");
+            this.match_data = publicData;
+            //System.out.println("###############   deserializzazione public completata #################");
 
-        if (temp != null && match_data != null && this.nickname != null)
-            if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);
-                System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
-            }
+            if (temp != null && match_data != null && this.nickname != null)
+                if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                    System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);
+                    System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
+                }
+        }
     }
 
     public static int getChoice(String[] choices, String question) {

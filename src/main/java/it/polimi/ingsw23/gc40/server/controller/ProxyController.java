@@ -2,14 +2,18 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.updateRMI;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ProxyController implements ConnectionController {
+public class ProxyController extends Observable implements ConnectionController, Observer {
     public LobbyController getLobbyController() {
         return lobbyController;
     }
@@ -31,6 +35,7 @@ public class ProxyController implements ConnectionController {
         } else {
             System.out.println("@PC: creo utente: " + name);
             lobbyController.addPlayer(name);
+            lobbyController.getPlayer(name).getObserver().addObserver(this);
         }
         //notify player todo
         return true;
@@ -38,9 +43,7 @@ public class ProxyController implements ConnectionController {
 
 
     public int startRound(String player, int matchId) {
-        if (lobbyController.getMatchById(matchId).getMap().needRefill()) {
-            lobbyController.getMatchById(matchId).refill();
-        }
+
         return lobbyController.getPlayer(player).getBookshelf().placeables();
     }
 
@@ -61,7 +64,8 @@ public class ProxyController implements ConnectionController {
 
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
-//check if there is space in the player bookshelf
+
+        //check if there is space in the player bookshelf
         if (lobbyController.getPlayer(nickname).getBookshelf().getFull()) {
             //p.getBookshelf().setFull(true);
             lobbyController.getPlayer(nickname).setFirstScore(1);
@@ -72,6 +76,11 @@ public class ProxyController implements ConnectionController {
 
         //refresh scores
         m.checkScores(p);
+
+        //refill map if needed
+        if (lobbyController.getMatchById(match).getMap().needRefill()) {
+            lobbyController.getMatchById(match).refill();
+        }
 
         //set turn to next player
         int num;
@@ -84,19 +93,23 @@ public class ProxyController implements ConnectionController {
     }
 
     @Override
-    public void setObservers(String nickname, int matchId) throws RemoteException {
+    public void addObserver(Remote aRemoteObj) throws RemoteException {
+
+        super.addObserver(new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
+                try {
+                    ((updateRMI) aRemoteObj).update(arg);
+                } catch (RemoteException e) {
+                    System.err.println(e);
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
 
     }
 
-    /*@Override
-    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
-        return lobbyController.getPlayer(player).getObserver();
-    }
-
-    @Override
-    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
-        return lobbyController.getMatchById(matchId).getObserver();
-    }*/
 
     public boolean newMatch(int n) {
         GameController gameController;
@@ -110,6 +123,7 @@ public class ProxyController implements ConnectionController {
         if (gameController == null) return false;
         else {
             System.out.println("@PC: Creato Match per " + n);
+            gameController.getObserver().addObserver(this);
             return true;
         }
 
@@ -127,10 +141,7 @@ public class ProxyController implements ConnectionController {
     }
 
 
-    /*public boolean playable(int n) throws RemoteException {
-        return lobbyController.getMatchById(n).playable();
 
-    }*/
 
     @Override
     public void close() throws RemoteException {
@@ -147,20 +158,9 @@ public class ProxyController implements ConnectionController {
     }
 
 
-   /* @Override
-    public Object getObj(String str, int n) throws RemoteException {
-        if (n == -1) {
-            if (lobbyController.getPlayer(str).getPrivateModelObserver().getNewData()) {
-                lobbyController.getPlayer(str).getPrivateModelObserver().setNewData(false);
-                return lobbyController.getPlayer(str).getPrivateModelObserver().getData();
-            } else return null;
-        } else {
-
-            if (lobbyController.getMatchById(n).getPublicModelObserver().getDownloaded().remove(str))
-                return lobbyController.getMatchById(n).getPublicModelObserver().getData();
-            else return null;
-
-        }
-    }*/
-
+    @Override
+    public void update(Observable o, Object arg) {
+        setChanged();
+        notifyObservers(arg);
+    }
 }

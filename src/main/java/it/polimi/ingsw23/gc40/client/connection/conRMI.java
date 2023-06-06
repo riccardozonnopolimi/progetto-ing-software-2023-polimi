@@ -9,22 +9,26 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserv
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Observable;
 
-public class conRMI extends Observable implements ConnectionController {
+public class conRMI implements ConnectionController {
     ConnectionController stub;
     private View view;
 
     public conRMI(ConnectionController stub) throws RemoteException {
         this.stub = stub;
         print("#nuova connessione RMI");
+
+
     }
 
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
-        //start();
+        stub.addObserver(new conUpdateRMI(view));
     }
 
     @Override
@@ -46,7 +50,7 @@ public class conRMI extends Observable implements ConnectionController {
 
     @Override
     public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
-        stub.insertTile(nickname,handTile,column);
+        stub.insertTile(nickname, handTile, column);
     }
 
     @Override
@@ -62,10 +66,6 @@ public class conRMI extends Observable implements ConnectionController {
         return stub.hasQueueMatch();
     }
 
-/*    @Override
-    public boolean playable(int n) throws RemoteException {
-        return stub.playable(n);
-    }*/
 
     @Override
     public int addToLastMatch(String name) throws RemoteException {
@@ -83,57 +83,15 @@ public class conRMI extends Observable implements ConnectionController {
         stub.print(s);
     }
 
-   /* @Override
-    public void run() {
-        //System.out.println("parte thread conrmi");
-        while (true) {
-            try {
-                //System.out.println("##conrmi run view diverso da null nn: "+view.nickname+" mid: "+view.matchId);
-                Object obj;
-                while (view.matchId == -1) {
-                    System.out.print("");
-                }
 
-                obj = getObj(view.nickname, -1);
-                if (obj != null) {
-                    //System.out.println("deserializzo oggetto player: " + ((PrivateModelNetwork) obj).getNickname());
-                    view.updatePrivateData((PrivateModelNetwork) obj);
-                }
-                obj = getObj(view.nickname, view.matchId);
-                if (obj != null) {
-                    //System.out.println("deserializzo obj match id: " + ((PublicModelNetwork) obj).getIdMatch());
-                    view.updatePublicData((PublicModelNetwork) obj);
-                }
-
-            } catch (RemoteException e) {
-                System.out.println("catch conrmi run errore: " + e);
-                throw new RuntimeException(e);
-            }
-        }
-    }
-*/
-  /*  @Override
-    public Object getObj(String s, int n) throws RemoteException {
-        return stub.getObj(s, n);
-    }*/
     @Override
-    public void nextRound(String nickname,int matchId) throws RemoteException{
+    public void nextRound(String nickname, int matchId) throws RemoteException {
         stub.nextRound(nickname, matchId);
     }
 
     @Override
-    public void setObservers(String nickname, int matchId) throws RemoteException {
+    public void addObserver(Remote aRemoteObj) throws RemoteException {
 
     }
 
-   /* @Override
-    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
-        return stub.getPrivateObserver(player);
-    }
-
-    @Override
-    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
-        return stub.getPublicObserver(matchId);
-    }
-*/
 }

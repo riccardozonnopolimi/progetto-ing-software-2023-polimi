@@ -42,9 +42,6 @@ public interface ConnectionController extends Remote {
 
     void nextRound(String nickname, int matchId) throws RemoteException;
 
-   //PrivateModelObserver getPrivateObserver(String player) throws RemoteException;
 
-    //PublicModelObserver getPublicObserver(int matchId) throws RemoteException;
-
-    void setObservers(String nickname, int matchId) throws RemoteException;
+    void addObserver(Remote aRemoteObj) throws RemoteException;
 }

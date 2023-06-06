@@ -49,7 +49,6 @@ public class CLI extends View {
 
         System.out.println(verde + "Match creato" + reset);
         super.matchId = con.addToLastMatch(super.nickname);
-        con.setObservers(nickname, matchId);
 
 
        /* publicObserver = con.getPublicObserver(matchId);
@@ -83,16 +82,12 @@ public class CLI extends View {
         System.out.println("");
         System.out.println(verde + "MATCH PRONTO" + reset);
 
-/*        while (this.match_data == null) {
-            System.out.print("");
-        }*/
-
 
         while (match_data.isPlayable()) {
             int choice;
 
             if (!match_data.getCurrent().equals(nickname)) {
-                System.out.println("E' il turno di " + match_data.getCurrent());
+                System.out.println(giallo + "E' il turno di " + match_data.getCurrent() + reset);
                 choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:", 1);
                 if (!match_data.getCurrent().equals(nickname)) {
                     if (choice == 4) {
@@ -101,7 +96,7 @@ public class CLI extends View {
                     }
                 }
             } else {
-                System.out.println("Ora tocca a te!");
+                System.out.println(verde + "Ora tocca a te!" + reset);
                 choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
 
             }
@@ -132,36 +127,34 @@ public class CLI extends View {
                     char direction;
                     do {
                         System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
-                        System.out.print("X: ");
-                        x = sc.nextInt();
-                        System.out.print("Y: ");
-                        sc.reset();
-                        y = sc.nextInt();
-                        System.out.print("Quante Tiles vuoi prendere? ");
-                        sc.reset();
+
+                        x = inInt("X: ");
+
+                        y = inInt("Y: ");
 
 
                         do {
-                            quantity = sc.nextInt();
+                            quantity = inInt("Quante tiles vuoi prendere?");
                             if (quantity > placeables)
                                 System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
                         } while (quantity > placeables);
 
                         do {
-                            System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
-
-                            sc.reset();
-
-                            direction = sc.next().charAt(0);
+                            if (quantity == 1) direction = 'R';
+                            else {
+                                System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
+                                sc.reset();
+                                direction = sc.next().charAt(0);
+                            }
                             if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
                                 System.out.println(rosso + "Scelta errata, puoi inserire solo le direzioni U D L R" + reset);
                         } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
 
                         handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
                         for (int i = 0; i < quantity; i++)
-                            if (handTiles[i].getItem() == Item.EMPTY){
+                            if (handTiles[i].getItem() == Item.EMPTY) {
                                 handTiles = null;
-                                i=quantity;
+                                i = quantity;
                             }
                         if (handTiles == null) {
                             System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
@@ -178,9 +171,8 @@ public class CLI extends View {
                     boolean retry;
                     do {
                         retry = false;
-                        System.out.println("In quale colonna vuoi inserire le tiles?");
-                        sc.reset();
-                        column = sc.nextInt();
+
+                        column = inInt("In quale colonna vuoi inserire le tiles?");
                         if (column < 0 || column > 4) {
                             retry = true;
                             System.out.println("Hai scelto una colonna inesistente");
@@ -222,8 +214,7 @@ public class CLI extends View {
                     }
                     con.nextRound(nickname, matchId);
 
-                    while (match_data.getCurrent().equals(nickname))
-                        System.out.print("");
+                    while (match_data.getCurrent().equals(nickname)) System.out.print("");
 
                     break;
                 default:
@@ -320,9 +311,9 @@ public class CLI extends View {
     }
 
     public void printLRB(ItemTile[][] map) {
-        System.out.println("#|0|1|2|3|4|5|6|7|8|");
+        System.out.println(grigio + "#|0|1|2|3|4|5|6|7|8" + reset + "|");
         for (int i = 0; i < 9; i++) {
-            System.out.print(i + "|");
+            System.out.print(grigio + i + "|" + reset);
             for (int j = 0; j < 9; j++) {
                 System.out.print(map[i][j].toString() + "|");
             }
@@ -348,21 +339,13 @@ public class CLI extends View {
     public void printBS(ItemTile[][] shelf) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
+
                 System.out.print(shelf[i][j].toString() + "|");
+
             }
             System.out.println();
         }
+        System.out.println(grigio + "0|1|2|3|4|" + reset);
     }
 
-  /*  @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof PrivateModelNetwork) {
-            player_data = (PrivateModelNetwork) arg;
-            System.out.println("updated private");
-        }
-        if (arg instanceof PublicModelNetwork) {
-            match_data = (PublicModelNetwork) arg;
-            System.out.println("updated public");
-        }
-    }*/
 }

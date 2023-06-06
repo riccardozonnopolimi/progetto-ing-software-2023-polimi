@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Observable;
@@ -80,7 +81,7 @@ public class conSocket extends Thread implements ConnectionController {
         return number;
     }
 
-    public void outobject(Object obj){
+    public void outobject(Object obj) {
         try {
             out.writeObject(obj);
             out.flush();
@@ -107,46 +108,10 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public void setObservers(String nickname, int matchId) throws RemoteException {
-        outprint("#setObservers");
-        outprint(nickname);
-        outprint(matchId);
+    public void addObserver(Remote aRemoteObj) throws RemoteException {
+
     }
 
-    /*@Override
-    public PrivateModelObserver getPrivateObserver(String player) throws RemoteException {
-        outprint("#getPrivateObserver");
-        outprint(player);
-        PrivateModelObserver pmo;
-        try {
-             pmo = (PrivateModelObserver) ois.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return pmo;
-    }
-
-    @Override
-    public PublicModelObserver getPublicObserver(int matchId) throws RemoteException {
-        outprint("#getPrivateObserver");
-        outprint(matchId);
-        PublicModelObserver pmo;
-        try {
-            pmo = (PublicModelObserver) ois.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return pmo;
-    }*/
-
-/*    @Override
-    public Object getObj(String s, int n) {
-        return null;
-    }*/
 
     public conSocket(Socket socket) {
         this.socket = socket;
@@ -186,7 +151,8 @@ public class conSocket extends Thread implements ConnectionController {
     @Override
     public boolean newMatch(int n) {
         outprint("#newMatch");
-        return check(n);
+       return check(n);
+
     }
 
     @Override
@@ -201,6 +167,7 @@ public class conSocket extends Thread implements ConnectionController {
         number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";
+        //outprint("#setObservers");
         return number;
     }
 
@@ -339,7 +306,7 @@ public class conSocket extends Thread implements ConnectionController {
 
                     case "#handTiles":
                         temp_obj = ois.readObject();
-                        System.out.println("ricevo handtiles da socket");
+                        //System.out.println("ricevo handtiles da socket");
                         break;
                     case "#update":
                         obj = ois.readObject();

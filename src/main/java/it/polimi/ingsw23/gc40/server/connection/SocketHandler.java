@@ -23,6 +23,7 @@ public class SocketHandler implements Runnable, Observer {
     public SocketHandler(Socket socketClient, ProxyController proxyController) {
         this.socket = socketClient;
         this.proxyController = proxyController;
+        this.proxyController.addObserver(this);
     }
 
 
@@ -105,13 +106,13 @@ public class SocketHandler implements Runnable, Observer {
                         case "#nextRound":
                             proxyController.nextRound(in.readUTF(), in.readInt());
                             break;
-                        case "#setObservers":
-                            proxyController.getLobbyController().getPlayer(in.readUTF()).getObserver().newObserver(this);
-                            proxyController.getLobbyController().getMatchById(in.readInt()).getObserver().newObserver(this);
+                        /*case "#setObservers":
+                            proxyController.getLobbyController().getPlayer(nickname).getObserver().newObserver(this);
+                            proxyController.getLobbyController().getMatchById(matchid).getObserver().newObserver(this);
                             System.out.println("mi aggiungo come observer SH");
 
                             break;
-                        /*case "#getPrivateObserver":
+                        case "#getPrivateObserver":
                             line2 = in.readUTF();
                             sendObj(proxyController.getPrivateObserver(line2));
                         case "#getPublicObserver":
@@ -171,12 +172,6 @@ public class SocketHandler implements Runnable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //System.out.println("ricevo notify");
-
-        if (arg instanceof PublicModelNetwork)
-            //System.out.println("public");
-        if (arg instanceof PrivateModelNetwork)
-            //System.out.println("private");
         try {
             sendObj("#update",arg);
         } catch (Exception e) {
