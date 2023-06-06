@@ -55,7 +55,6 @@ public abstract class View {
         if (privateData.getNickname().equals(nickname)||nickname.equals("###notdefined###"))
             this.player_data = privateData;
 
-        //System.out.println("@@@@@@@@@@@@@@ deserializzazione private completata @@@@@@@@@@@@@@@@@@");
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
@@ -66,14 +65,13 @@ public abstract class View {
                 temp = match_data.getCurrent();
 
             this.match_data = publicData;
-            //System.out.println("###############   deserializzazione public completata #################");
 
             if (temp != null && match_data != null && this.nickname != null)
                 if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
                     System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);
                     System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
                 }
-        }
+        }else System.out.println("public update fallita");
     }
 
     public static int getChoice(String[] choices, String question) {

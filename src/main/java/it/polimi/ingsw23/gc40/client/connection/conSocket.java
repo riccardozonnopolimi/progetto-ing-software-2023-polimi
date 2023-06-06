@@ -167,7 +167,6 @@ public class conSocket extends Thread implements ConnectionController {
         number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";
-        //outprint("#setObservers");
         return number;
     }
 
@@ -175,12 +174,7 @@ public class conSocket extends Thread implements ConnectionController {
     public boolean hasQueueMatch() {
         return check("#hasQueueMatch");
     }
-/*
-    @Override
-    public boolean playable(int n) throws RemoteException {
-        outprint("#playable");
-        return check(n);
-    }*/
+
 
     @Override
     public void print(String s) throws RemoteException {
@@ -196,10 +190,8 @@ public class conSocket extends Thread implements ConnectionController {
     private boolean check(String string) {
         outprint(string);
         try {
-            //sostituire con wait todo
             while (this.value.equals("#")) {
                 System.out.print("");
-                //System.out.println("while dentro check");
             }
             System.out.print("");
             if (this.value.equals("#false")) {
@@ -222,10 +214,8 @@ public class conSocket extends Thread implements ConnectionController {
     private boolean check(int n) {
         outprint(n);
         try {
-            //sostituire con wait todo
             while (this.value.equals("#")) {
                 System.out.print("");
-                //System.out.println("while dentro check");
             }
             System.out.print("");
             if (this.value.equals("#false")) {
@@ -306,11 +296,9 @@ public class conSocket extends Thread implements ConnectionController {
 
                     case "#handTiles":
                         temp_obj = ois.readObject();
-                        //System.out.println("ricevo handtiles da socket");
                         break;
                     case "#update":
                         obj = ois.readObject();
-                        //System.out.println("leggo #update e chiamo view.update");
                         if (obj instanceof PublicModelNetwork) {
                             view.updatePublicData((PublicModelNetwork) obj);
                         }
@@ -318,16 +306,6 @@ public class conSocket extends Thread implements ConnectionController {
                             view.updatePrivateData((PrivateModelNetwork) obj);
                         obj = null;
                         break;
-                    /*case "#private_object":
-                        obj = ois.readObject();
-                        view.updatePrivateData((PrivateModelNetwork) obj);
-                        obj = null;
-                        break;
-                    case "#public_object":
-                        obj = ois.readObject();
-                        view.updatePublicData((PublicModelNetwork) obj);
-                        obj = null;
-                        break;*/
                     case "#int":
                         temp_obj = ois.readInt();
                         this.value = "#int";
@@ -342,8 +320,7 @@ public class conSocket extends Thread implements ConnectionController {
                         this.value = line;
                         break;
                 }
-                //aggiorna dati publici solo se il match è giusto
-                //todo: printare aggiornamenti commonGoalCard
+
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);

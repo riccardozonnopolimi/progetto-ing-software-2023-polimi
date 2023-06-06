@@ -19,6 +19,8 @@ public class SocketHandler implements Runnable, Observer {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private int matchid = -1;
+    private String nickname = "###notdefined###";
 
     public SocketHandler(Socket socketClient, ProxyController proxyController) {
         this.socket = socketClient;
@@ -49,8 +51,8 @@ public class SocketHandler implements Runnable, Observer {
 
             String line;
             String line2;
-            String nickname = "";
-            int matchid = -1, n;
+
+            int n;
 
 
             while (true) {
@@ -60,15 +62,12 @@ public class SocketHandler implements Runnable, Observer {
                 Player player = null;
 
 
-                //System.out.println("@SH: RICEVO da" + nickname + ":  " + line + "");
                 if (line.equals("quit")) break;
                 else {
                     switch (line) {
                         case "#addPlayer":
                             nickname = in.readUTF();
                             bool(proxyController.addPlayer(nickname));
-//                            proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().setSh(this);
-//                            sendObj("#private_object", proxyController.getLobbyController().getPlayer(nickname).getPrivateModelObserver().getData());
 
                             break;
                         case "#chooseTiles":
@@ -81,10 +80,7 @@ public class SocketHandler implements Runnable, Observer {
                             n = in.readInt();
                             bool(proxyController.newMatch(n));
                             break;
-                        /*case "#playable":
-                            n = in.readInt();
-                            bool(proxyController.playable(n));
-                            break;*/
+
                         case "#getAvailableSlots":
                             writeInt(proxyController.getAvailableSlots(in.readUTF(), in.readInt()));
                             break;
@@ -92,6 +88,7 @@ public class SocketHandler implements Runnable, Observer {
                             line2 = in.readUTF();
                             matchid = proxyController.addToLastMatch(line2);
                             writeInt(matchid);
+                            sendObj("#update", proxyController.getLobbyController().getMatchById(matchid).getObserver().getData());
                             break;
                         case "#serverPrint":
                             line2 = in.readUTF();
@@ -101,24 +98,12 @@ public class SocketHandler implements Runnable, Observer {
                             writeInt(proxyController.startRound(in.readUTF(), in.readInt()));
                             break;
                         case "#insertTile":
-                            proxyController.insertTile(in.readUTF(),(ItemTile) in.readObject(),in.readInt());
+                            proxyController.insertTile(in.readUTF(), (ItemTile) in.readObject(), in.readInt());
                             break;
                         case "#nextRound":
                             proxyController.nextRound(in.readUTF(), in.readInt());
                             break;
-                        /*case "#setObservers":
-                            proxyController.getLobbyController().getPlayer(nickname).getObserver().newObserver(this);
-                            proxyController.getLobbyController().getMatchById(matchid).getObserver().newObserver(this);
-                            System.out.println("mi aggiungo come observer SH");
 
-                            break;
-                        case "#getPrivateObserver":
-                            line2 = in.readUTF();
-                            sendObj(proxyController.getPrivateObserver(line2));
-                        case "#getPublicObserver":
-                            matchid = in.readInt();
-                            sendObj(proxyController.getPublicObserver(matchid));
-                            */
                         default:
                             System.out.println("###### Ho ricevuto: ");
                             System.out.println("");
@@ -143,19 +128,16 @@ public class SocketHandler implements Runnable, Observer {
         if (bool) {
             out.writeUTF("#true");
             out.flush();
-            //System.out.println("@SH: Ho inviato: true");
 
         } else {
             out.writeUTF("#false");
             out.flush();
-            //System.out.println("@SH: Ho inviato: false");
         }
     }
 
     private void writeUTF(String st) throws IOException {
         out.writeUTF(st);
         out.flush();
-        //System.out.println("@SH: Ho inviato: " + st);
 
 
     }
@@ -165,18 +147,34 @@ public class SocketHandler implements Runnable, Observer {
         out.flush();
         out.writeInt(intero);
         out.flush();
-        //System.out.println("@SH: Ho inviato: " + intero);
 
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            sendObj("#update",arg);
-        } catch (Exception e) {
-            System.out.println("Errore SG-Update: "+e);
-            throw new RuntimeException(e);
+
+        if (arg instanceof PublicModelNetwork) {
+            if (((PublicModelNetwork) arg).getIdMatch() == matchid) {
+                try {
+                    sendObj("#update", arg);
+                } catch (Exception e) {
+                    System.out.println("Errore SG-Update: " + e);
+                    throw new RuntimeException(e);
+                }
+            }
         }
+        if (arg instanceof PrivateModelNetwork) {
+            if (((PrivateModelNetwork) arg).getNickname().equals(nickname)) {
+                try {
+                    sendObj("#update", arg);
+                } catch (Exception e) {
+                    System.out.println("Errore SG-Update: " + e);
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+
     }
 }

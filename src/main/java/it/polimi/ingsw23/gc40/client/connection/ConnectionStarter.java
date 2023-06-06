@@ -24,12 +24,10 @@ public class ConnectionStarter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println("arrivo qui");
         return socket;
     }
 
     public static ConnectionController rmi(String name, String host) throws Exception {
-        //System.out.println(host);
         Registry registry = LocateRegistry.getRegistry(host);
         ConnectionController fac = ((ConnectionController) registry.lookup(name));
         System.out.println(CLI.verde+"#Connessione RMI riuscita"+CLI.reset);

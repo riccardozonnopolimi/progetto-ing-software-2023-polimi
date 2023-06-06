@@ -19,18 +19,11 @@ public interface ConnectionController extends Remote {
 
     int addToLastMatch(String string) throws RemoteException;
 
-/*
-    boolean playable(int n) throws RemoteException;
-*/
-
     void close() throws RemoteException;
 
     void print(String s) throws RemoteException;
 
     void setView(View view) throws RemoteException;
-
-
-    /*Object getObj(String s, int n) throws RemoteException;*/
 
     int startRound(String nickname, int matchID) throws RemoteException;
 
@@ -41,7 +34,6 @@ public interface ConnectionController extends Remote {
     void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException;
 
     void nextRound(String nickname, int matchId) throws RemoteException;
-
 
     void addObserver(Remote aRemoteObj) throws RemoteException;
 }

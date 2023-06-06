@@ -9,7 +9,6 @@ public class G11 implements Goal {
     }
     @Override
     public boolean instanceGoal(Player p) {
-        //TESTED
         ItemTile it;
         int count = 0;
         ItemTile[][] s = p.getBookshelf().getShelf();

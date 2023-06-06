@@ -12,21 +12,19 @@ public class ItemTile implements Serializable {
 
 
     public ItemTile(Item t) {
-        //TO TEST
         super();
         type = t;
         num = 0;
     }
 
     public ItemTile(Item t, int n) {
-        //TO TEST
+        //todo
         super();
         type = t;
         num = n % 3;
     }
 
-    // public boolean controlSides(LRB map){};
-    //TO DO
+
     public Item getItem() {
         return type;
     }

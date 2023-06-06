@@ -3,8 +3,6 @@ package it.polimi.ingsw23.gc40.server.controller;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.updateRMI;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
@@ -26,9 +24,6 @@ public class ProxyController extends Observable implements ConnectionController,
     }
 
     public boolean addPlayer(String name) {
-        // System.out.println(name);
-        // System.out.println("#classe controller del server - metodo addplayer");
-        // to test
         if (lobbyController.checkExistingNickName(name)) {
             System.out.println("@PC: utente già esistente: " + name);
             return false;
@@ -37,7 +32,6 @@ public class ProxyController extends Observable implements ConnectionController,
             lobbyController.addPlayer(name);
             lobbyController.getPlayer(name).getObserver().addObserver(this);
         }
-        //notify player todo
         return true;
     }
 
@@ -66,8 +60,7 @@ public class ProxyController extends Observable implements ConnectionController,
     public void nextRound(String nickname, int match) throws RemoteException {
 
         //check if there is space in the player bookshelf
-        if (lobbyController.getPlayer(nickname).getBookshelf().getFull()) {
-            //p.getBookshelf().setFull(true);
+        if (lobbyController.getPlayer(nickname).getBookshelf().isFull()) {
             lobbyController.getPlayer(nickname).setFirstScore(1);
             lobbyController.getMatchById(match).setEnding(true);
         }

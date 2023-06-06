@@ -95,7 +95,6 @@ public class LRB {
     }
 
     public boolean isTakeable(int coordX, int coordY) {
-        //TESTED
     if((this.map[coordX][coordY].getItem().equals(Item.NOTREACHABLE)) || (this.map[coordX][coordY].getItem().equals(Item.EMPTY))){
         return false;
     }
@@ -151,7 +150,6 @@ public class LRB {
     }
 
     public boolean needRefill() {
-        //TESTED
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (((map[i][j].getItem() != Item.EMPTY) &&
@@ -166,7 +164,6 @@ public class LRB {
     }
 
     public ItemTile[][] takeables() {
-        //TESTED
         ItemTile[][] matrixTakeables = new ItemTile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

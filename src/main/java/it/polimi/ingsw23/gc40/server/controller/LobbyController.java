@@ -41,7 +41,6 @@ public class LobbyController {
     }
 
     public GameController addToLastMatch(Player player) {
-        //System.out.println("@@lobbycontroller->addtolastmatch");
         if (queueMatch.addPlayer(player)) {
 
             GameController m = queueMatch;
@@ -54,8 +53,6 @@ public class LobbyController {
     }
 
     public Boolean checkExistingNickName(String nickName) {
-        //TO TEST
-
         if (onlinePlayers.isEmpty()) return false;
         for (int i = 0; i < onlinePlayers.size(); i++) {
             if (onlinePlayers.get(i).getNickName().equals(nickName)) {
@@ -65,10 +62,10 @@ public class LobbyController {
         return false;
     }
 
-    /*
+
     public void endMatch(GameController gameController) {
-        //TO TEST
-        if (gameController.isEnding() && !gameController.playable()) {
+        //TO TEST TODO
+        if (gameController.isEnding() && !gameController.isPlayable()) {
             ArrayList<Integer> scores = new ArrayList<>();
             for (int i = 0; i < gameController.getPlayers().size(); i++) {
                 Integer integer = Integer.valueOf(gameController.getPlayers().get(i).totScore());
@@ -78,7 +75,7 @@ public class LobbyController {
             SavedScores.add(s);
         }
 
-    }*/
+    }
 
     public void print(String str) {
         System.out.println(str);

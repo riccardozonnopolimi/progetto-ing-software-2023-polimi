@@ -32,7 +32,6 @@ public class Client {
             con = new conSocket(starter.socketStart(6789, host));
         }
         System.out.println("");
-        //System.out.println("fine scelta connessione client");
         if (CLI.getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
             //CLI
             view = new CLI(con);

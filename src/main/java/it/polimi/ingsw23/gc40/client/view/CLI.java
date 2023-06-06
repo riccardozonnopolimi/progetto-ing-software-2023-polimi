@@ -51,27 +51,6 @@ public class CLI extends View {
         super.matchId = con.addToLastMatch(super.nickname);
 
 
-       /* publicObserver = con.getPublicObserver(matchId);
-        publicObserver.addObserver(this);
-        privateObserver = con.getPrivateObserver(nickname);
-        privateObserver.addObserver(this);*/
-
-        /*System.out.println("---------");
-
-        while (!con.playable(matchId)) {
-            while (inInt("Digita 0 per uscire - 1 per visualizzare i dettagli") == 1) {
-
-                if (super.match_data!=null)
-                    System.out.println("Match ID: " + super.match_data.getIdMatch());
-
-
-                if (super.player_data != null) {
-                    System.out.println("Nickname: " + super.player_data.getNickname());
-                    System.out.println("PGC: " + super.player_data.getPgc());
-                }
-            }
-
-        }*/
         System.out.println("");
         System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGERANNO GLI ALTRI GIOCATORI" + reset);
 

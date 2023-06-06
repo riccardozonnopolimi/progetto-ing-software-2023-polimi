@@ -484,7 +484,7 @@ public class GameController extends Observable {
         }
 
         //check if there is space in the player bookshelf
-        if (p.getBookshelf().getFull()) {
+        if (p.getBookshelf().isFull()) {
             //p.getBookshelf().setFull(true);
             p.setFirstScore(1);
             this.ending = true;

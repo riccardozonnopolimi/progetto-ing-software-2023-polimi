@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 public class ServerMain {
     public static void main(String[] args) throws Exception {
 
-        //CHANGE HERE HOST WHITH SERVER IP
+        //CHANGE HERE HOST WITH SERVER IP
         String host = "localhost";
 
         LobbyController lobbyController = new LobbyController();

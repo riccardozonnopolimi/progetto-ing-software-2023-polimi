@@ -11,7 +11,7 @@ public class G4 implements Goal {
     }
     @Override
     public boolean instanceGoal(Player p) {
-        //TESTING
+        //TO TEST
         HashMap<Item, Integer> count = new HashMap<>();
         ItemTile[][] s = p.getBookshelf().getShelf();
         HashMap<Item, Integer> temp_j = new HashMap<>();
