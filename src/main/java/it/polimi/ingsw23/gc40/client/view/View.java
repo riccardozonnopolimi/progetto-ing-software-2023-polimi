@@ -65,15 +65,15 @@ public abstract class View {
 
             this.match_data = publicData;
 
-            if (temp != null && match_data != null && this.nickname != null)
-                if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                    System.out.println(CLI.verde + "### E' IL TUO TURNO ###" + CLI.reset);
-                    System.out.println(CLI.grigio + "5)" + CLI.reset + " Fai la tua mossa");
-                }
-            else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname))
-                    System.out.println(CLI.giallo + "### E' il Turno di ###" + match_data.getCurrent() + CLI.reset);
+           if(publicData.isPlayable())
+               if (temp != null && match_data != null && this.nickname != null)
+                   if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                       System.out.println(CLI.verde + "### E' IL TUO TURNO " + nickname + " ###" + CLI.reset);
+                       System.out.println(CLI.grigio + "5)" + CLI.reset + " Fai la tua mossa");
+                   } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
+                       System.out.println(CLI.giallo + "### E' IL TURNO DI " + match_data.getCurrent() + " ###" + CLI.reset);
 
-        } else System.out.println("public update fallita");
+        }
     }
 
     public static int getChoice(String[] choices, String question) {

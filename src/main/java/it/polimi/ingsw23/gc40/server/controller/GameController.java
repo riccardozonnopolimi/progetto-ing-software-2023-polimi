@@ -162,6 +162,9 @@ public class GameController extends Observable {
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
 
+        //setting CG n.8 to debug
+        //commonGoals[0] = new CommonGoalCard(new G5_G8_G9_G10(3, 4, false, 8));
+
         int[] cgsids = new int[]{commonGoals[0].getGoal().getId(), commonGoals[1].getGoal().getId()};
 
 
@@ -559,11 +562,13 @@ public class GameController extends Observable {
         System.out.println("cgscore attuale: "+cgscore);
         if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)){
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
+            this.CG1Scores.remove(this.CG1Scores.size() - 1);
             System.out.println("CG1 reached by "+p.getNickName());
             p.setCG1Reached(true);
         }
         if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
             cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
+            this.CG2Scores.remove(this.CG2Scores.size() - 1);
             System.out.println("CG2 reached by "+p.getNickName());
             p.setCG2Reached(true);
         }

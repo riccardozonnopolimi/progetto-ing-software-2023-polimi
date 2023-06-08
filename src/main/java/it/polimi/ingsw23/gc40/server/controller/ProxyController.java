@@ -75,12 +75,18 @@ public class ProxyController extends Observable implements ConnectionController,
             lobbyController.getMatchById(match).refill();
         }
 
+
         //set turn to next player
         int num;
         if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
             num = 0;
         else
             num = m.getPlayers().indexOf(p) + 1;
+
+        //check if match is completed
+        if(lobbyController.getMatchById(match).isEnding() && m.getPlayers().get(num).isStartedFirst())
+            lobbyController.getMatchById(match).setPlayable(false);
+
         m.setNext(m.getPlayers().get(num));
 
     }
