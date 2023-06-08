@@ -32,7 +32,7 @@ public class LobbyController {
     }
 
     public GameController createNewMatch(int numPlayer) {
-        if (numPlayer > 4 || numPlayer < 2) return null;
+        if (numPlayer > 4 || numPlayer < 2 || hasQueueMatch()) return null;
         else {
             queueMatch = new GameController(numPlayer, numMatch + 1);
             numMatch++;
@@ -40,7 +40,7 @@ public class LobbyController {
         }
     }
 
-    public GameController addToLastMatch(Player player) {
+    public  GameController addToLastMatch(Player player) {
         if (queueMatch.addPlayer(player)) {
 
             GameController m = queueMatch;

@@ -28,7 +28,7 @@ public abstract class View {
 
     public View(ConnectionController connection) {
         this.con = connection;
-        this.match_data = new PublicModelNetwork(null,null,-1,null,false,null);
+        this.match_data = new PublicModelNetwork(null, null, -1, null, false, null);
         this.player_data = null;
         this.matchId = -1;
         this.nickname = "###notdefined###";
@@ -52,14 +52,13 @@ public abstract class View {
     }
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
-        if (privateData.getNickname().equals(nickname)||nickname.equals("###notdefined###"))
+        if (privateData.getNickname().equals(nickname) || nickname.equals("###notdefined###"))
             this.player_data = privateData;
 
     }
 
     public void updatePublicData(PublicModelNetwork publicData) {
-        if (publicData.getIdMatch()==matchId ||matchId==-1)
-        {
+        if (publicData.getIdMatch() == matchId || matchId == -1) {
             String temp = null;
             if (match_data != null)
                 temp = match_data.getCurrent();
@@ -68,10 +67,13 @@ public abstract class View {
 
             if (temp != null && match_data != null && this.nickname != null)
                 if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                    System.out.println(CLI.verde+"### E' IL TUO TURNO ###"+CLI.reset);
-                    System.out.println(CLI.grigio + "4)" + CLI.reset + " Fai la tua mossa");
+                    System.out.println(CLI.verde + "### E' IL TUO TURNO ###" + CLI.reset);
+                    System.out.println(CLI.grigio + "5)" + CLI.reset + " Fai la tua mossa");
                 }
-        }else System.out.println("public update fallita");
+            else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname))
+                    System.out.println(CLI.giallo + "### E' il Turno di ###" + match_data.getCurrent() + CLI.reset);
+
+        } else System.out.println("public update fallita");
     }
 
     public static int getChoice(String[] choices, String question) {

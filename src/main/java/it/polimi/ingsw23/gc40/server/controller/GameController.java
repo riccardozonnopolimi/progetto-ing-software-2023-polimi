@@ -256,7 +256,7 @@ public class GameController extends Observable {
             players.get(i).setPersonalGoal(personalGoals.get(0));
             personalGoals.remove(0);
         }
-        players.get(0).setFirst(true);
+        players.get(0).setStartedFirst(true);
         setNext(players.get(0));
 
 
@@ -315,7 +315,15 @@ public class GameController extends Observable {
 
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
         //tested
+        try{
+            if(quantity<1 || quantity>3)
+            {
+                throw new RuntimeException();
+            }
+        }catch(RuntimeException e){
+            return null;
 
+        }
         ItemTile[] chosen = new ItemTile[quantity];
         for (int i = 0; i< quantity; i++){
             chosen[i] = new ItemTile(Item.EMPTY);
@@ -545,17 +553,20 @@ public class GameController extends Observable {
     }
 
     public void checkScores(Player p) {
+       p.setADJScore(p.getBookshelf().ADJScore());
 
         int cgscore = p.getCGScore();
-        p.setADJScore(p.getBookshelf().ADJScore());
-        if (this.commonGoals[0].getGoal().instanceGoal(p))
+        if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)){
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
-        if (this.getCommonGoals()[1].getGoal().instanceGoal(p))
-            cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG1Scores.size() - 1);
+            p.setCG1Reached(true);
+        }
+        if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
+            cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
+            p.setCG2Reached(true);
+        }
         p.setCGScore(cgscore);
         p.getPersonalGoal().checkScore(p);
     }
-
 }
 
 

@@ -42,9 +42,13 @@ public class CLI extends View {
 
         if (con.hasQueueMatch()) {
             System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
-        } else {
-            while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? ")))
+        }
+        else {
+            while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? "))) {
                 System.out.println(rosso + "Match non creato, riprova...  (Ricorda che le partite possono avere da 2 a 4 giocatori)" + reset);
+                if (con.hasQueueMatch())
+                    break;
+            }
         }
 
         System.out.println(verde + "Match creato" + reset);
@@ -66,17 +70,16 @@ public class CLI extends View {
             int choice;
 
             if (!match_data.getCurrent().equals(nickname)) {
-                System.out.println(giallo + "E' il turno di " + match_data.getCurrent() + reset);
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals"}, "Scegli una delle seguenti azioni:", 1);
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals","Visualizza i tuoi punteggi"}, "Scegli una delle seguenti azioni:", 1);
                 if (!match_data.getCurrent().equals(nickname)) {
-                    if (choice == 4) {
+                    if (choice == 5) {
                         System.out.println("Scelta errata");
                         choice = 0;
                     }
                 }
             } else {
                 System.out.println(verde + "Ora tocca a te!" + reset);
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi","Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
 
             }
 
@@ -94,6 +97,9 @@ public class CLI extends View {
                     printCGS(match_data.getCgs());
                     break;
                 case 4:
+                    printScores(player_data.getScores());
+                    break;
+                case 5:
 
                     System.out.println("Fai la tua mossa!");
                     int placeables = con.startRound(nickname, matchId);
@@ -116,7 +122,8 @@ public class CLI extends View {
                             quantity = inInt("Quante tiles vuoi prendere?");
                             if (quantity > placeables)
                                 System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
-                        } while (quantity > placeables);
+                        } while (quantity > placeables || quantity == 0);
+
 
                         do {
                             if (quantity == 1) direction = 'R';
@@ -312,6 +319,14 @@ public class CLI extends View {
             System.out.println(cgDescriptions[cgs[i] - 1]);
             System.out.println("");
         }
+    }
+    public void printScores(int[] scores){
+        System.out.println("1: PGscore "+  scores[0]);
+        System.out.println("2: CGscore "+  scores[1]);
+        System.out.println("3: ADJscore "+  scores[2]);
+        System.out.println("4: First Score "+  scores[3]);
+        System.out.println("");
+        // scores[0] PGscore, scores[1] CGscores, scores[2] ADJscores, scores[3] firstScores
     }
 
 
