@@ -554,16 +554,20 @@ public class GameController extends Observable {
 
     public void checkScores(Player p) {
        p.setADJScore(p.getBookshelf().ADJScore());
-
+        System.out.println("punteggio adiacenze: " +p.getADJScore()+" user: "+p.getNickName());
         int cgscore = p.getCGScore();
+        System.out.println("cgscore attuale: "+cgscore);
         if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)){
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
+            System.out.println("CG1 reached by "+p.getNickName());
             p.setCG1Reached(true);
         }
         if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
             cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
+            System.out.println("CG2 reached by "+p.getNickName());
             p.setCG2Reached(true);
         }
+
         p.setCGScore(cgscore);
         p.getPersonalGoal().checkScore(p);
     }

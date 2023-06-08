@@ -1,16 +1,13 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
-import java.util.Observable;
 import java.util.Scanner;
 
 public class CLI extends View {
@@ -56,7 +53,7 @@ public class CLI extends View {
 
 
         System.out.println("");
-        System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGERANNO GLI ALTRI GIOCATORI" + reset);
+        System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGHERANNO GLI ALTRI GIOCATORI" + reset);
 
         while (!match_data.isPlayable()) {
             System.out.print("");

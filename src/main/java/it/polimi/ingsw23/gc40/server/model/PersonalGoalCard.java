@@ -29,18 +29,25 @@ public class PersonalGoalCard  {
         switch (count) {
             case 1:
                 p.setPGScore(1);
+                break;
             case 2:
                 p.setPGScore(2);
+                break;
             case 3:
                 p.setPGScore(4);
+                break;
             case 4:
                 p.setPGScore(6);
+                break;
             case 5:
                 p.setPGScore(9);
+                break;
             case 6:
                 p.setPGScore(12);
+                break;
             default:
                 p.setPGScore(0);
+                break;
         }
 
     }

@@ -77,11 +77,9 @@ public class Player extends Observable {
     public void setFirstScore(int firstScore) {
         this.firstScore = firstScore;
         setScores(3,firstScore);
-        //todo notify
     }
     public int getPGScore() {
         return PGScore;
-        //todo notify
     }
 
     public int getADJScore() {
@@ -91,11 +89,10 @@ public class Player extends Observable {
     public void setADJScore(int adjScore) {
         this.ADJScore = adjScore;
         setScores(2,adjScore);
-        //todo notify
+
     }
 
     public void setPGScore(int PGScore) {
-         //todo notify
         this.PGScore = PGScore;
         setScores(0,PGScore);
     }
@@ -115,7 +112,6 @@ public class Player extends Observable {
     public void setCGScore(int CGScore) {
         this.CGScore = CGScore;
         setScores(1,CGScore);
-        //todo notify
     }
 
     public void setStartedFirst(boolean startedFirst) {
