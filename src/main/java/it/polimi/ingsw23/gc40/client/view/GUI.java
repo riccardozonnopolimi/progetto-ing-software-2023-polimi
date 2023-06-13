@@ -40,7 +40,7 @@ public class GUI extends View {
 
                     else {
                         insNicknamePanel.setVisible(false);
-                        nickname=nicknameField.getText();
+                        nickname = nicknameField.getText();
                         if (con.hasQueueMatch()) {
                             popup("Sei stato aggiunto ad un match pre-esistente in attesa di giocatori.");
                         } else {
@@ -60,7 +60,7 @@ public class GUI extends View {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    if(!con.newMatch((int) numPlayerSpinner.getValue()))
+                    if (!con.newMatch((int) numPlayerSpinner.getValue()))
                         popup("Inserisci un numero tra 2 e 4 giocatori.");
                     else
                         popup("Match creato!");
@@ -80,6 +80,26 @@ public class GUI extends View {
         jframe.pack();
         jframe.setVisible(true);
         insNumGiocPanel.setVisible(false);
+    }
+
+    @Override
+    public void updatePublicData(PublicModelNetwork publicData) {
+        if (publicData.getIdMatch() == matchId || matchId == -1) {
+            String temp = null;
+            if (match_data != null)
+                temp = match_data.getCurrent();
+
+            super.updatePublicData(publicData);
+
+            if (publicData.isPlayable())
+                if (temp != null && match_data != null && this.nickname != null)
+                    if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                        popup("tocca a te");
+                    } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
+                        popup("tocca a " + match_data.getCurrent());
+
+        }
+
     }
 
   /*  @Override

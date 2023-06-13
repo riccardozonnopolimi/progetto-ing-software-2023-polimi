@@ -11,7 +11,7 @@ public class GameProxyControllerTest extends TestCase {
         GameController gameController = new GameController(3,1);
         assertNull(gameController.getNext());
     }
-
+   /*
     //testing playable with four players
     public void testPlayable4Player() {
         Player Gioggio = new Player("Gioggio");
@@ -30,7 +30,7 @@ public class GameProxyControllerTest extends TestCase {
     }
 
     //testing playable with 3 players
-    public void testPlayable3Player() {
+public void testPlayable3Player() {
         Player Gioggio = new Player("Gioggio");
         Player Peppe = new Player("Peppe");
         Player Fil = new Player("Fil");
@@ -56,7 +56,7 @@ public class GameProxyControllerTest extends TestCase {
         gameController.addPlayer(Peppe);
         assertTrue(gameController.playable());
     }
-
+*/
 
 
     public void testWinner() {

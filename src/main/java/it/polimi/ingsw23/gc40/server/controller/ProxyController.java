@@ -100,6 +100,7 @@ public class ProxyController extends Observable implements ConnectionController,
                 try {
                     ((updateRMI) aRemoteObj).update(arg);
                 } catch (RemoteException e) {
+                    System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
                     System.err.println(e);
                     throw new RuntimeException(e);
                 }

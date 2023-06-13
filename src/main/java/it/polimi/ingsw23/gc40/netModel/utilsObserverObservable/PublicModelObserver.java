@@ -27,7 +27,7 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
         gameController.addObserver(this);
         // todo implement remove listener or destructor
         match = gameController;
-        playable=false;
+        playable = false;
     }
 
 
@@ -35,28 +35,28 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
     public void update(Observable o, Object arg) {
         if (arg instanceof ItemTile[][]) {
             lrb = (ItemTile[][]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable, null);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null);
         }
 
         if (arg instanceof int[]) {
             cgs = (int[]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable, null);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null);
         }
         if (arg instanceof Integer) {
             idMatch = (int) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null);
         }
         if (arg instanceof String) {
             winner = (String) arg;
             current = (String) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null);
         }
         if (arg instanceof Boolean) {
             playable = (Boolean) arg;
             if (playable)
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,null);
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null);
             else
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current,playable,winner);
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner);
 
         }
         setChanged();
@@ -95,7 +95,8 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
     public Object getData() {
         return data;
     }
-    public void newObserver(Observer o){
+
+    public void newObserver(Observer o) {
         addObserver(o);
         setChanged();
         notifyObservers(data);

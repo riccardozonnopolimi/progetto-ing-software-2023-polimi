@@ -2,6 +2,7 @@ package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
@@ -60,6 +61,7 @@ public class CLI extends View {
 
         System.out.println("");
         System.out.println(verde + "MATCH PRONTO" + reset);
+        System.out.println("");
 
 
         while (match_data.isPlayable()) {
@@ -75,8 +77,8 @@ public class CLI extends View {
                     }
                 }
             } else {
-                System.out.println(CLI.verde + "### E' IL TUO TURNO " + nickname + " ###" + CLI.reset);
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi", "Fai la tua mossa, tocca a te!"}, "Scegli una delle seguenti azioni:");
+                System.out.println(CLI.verde + "### TOCCA A TE " + nickname + " ###" + CLI.reset);
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi", "Fai la tua mossa, "+verde+"tocca a te!"+reset}, "Scegli una delle seguenti azioni:");
 
             }
 
@@ -170,7 +172,7 @@ public class CLI extends View {
 
                         //mostra tiles in mano
 
-                        if (quantity >1) {
+                        if (quantity > 1) {
                             System.out.println("Inserisci le tiles nell'ordine che preferisci.");
 
 
@@ -197,7 +199,7 @@ public class CLI extends View {
                                 handTiles[selected] = null;
                                 sc.reset();
                             }
-                        }else{
+                        } else {
                             con.insertTile(nickname, (handTiles[0]), column);
                         }
 
@@ -347,6 +349,27 @@ public class CLI extends View {
             System.out.println();
         }
         System.out.println(grigio + "0|1|2|3|4|" + reset);
+    }
+
+    @Override
+    public void updatePublicData(PublicModelNetwork publicData) {
+        if (publicData.getIdMatch() == matchId || matchId == -1) {
+            String temp = null;
+            if (match_data != null)
+                temp = match_data.getCurrent();
+
+            super.updatePublicData(publicData);
+
+            if (publicData.isPlayable())
+                if (temp != null && match_data != null && this.nickname != null)
+                    if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                        System.out.println(CLI.verde + "### TOCCA A TE " + nickname + " ###" + CLI.reset);
+                        System.out.println(CLI.grigio + "5)" + CLI.reset + " Fai la tua mossa");
+                    } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
+                        System.out.println(CLI.giallo + "### E' IL TURNO DI " + match_data.getCurrent() + " ###" + CLI.reset);
+
+        }
+
     }
 
 }
