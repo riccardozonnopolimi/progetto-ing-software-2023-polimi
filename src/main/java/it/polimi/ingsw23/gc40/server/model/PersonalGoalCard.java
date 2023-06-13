@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-public class PersonalGoalCard  {
+public class PersonalGoalCard {
     private ItemTile[][] goal;
     public int id;
 
@@ -24,7 +24,8 @@ public class PersonalGoalCard  {
 
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 5; j++)
-                if ((goal[i][j].getItem() != Item.EMPTY) && (goal[i][j].getItem() == s[i][j].getItem())) count++;
+                if (!(goal[i][j].getItem().equals(Item.EMPTY)) && (goal[i][j].getItem().equals(s[i][j].getItem())))
+                    count++;
 
         switch (count) {
             case 1:
