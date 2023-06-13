@@ -52,9 +52,9 @@ public class G4 implements Goal {
                     ;
                 }
                else {
-                    if ((s[i][j].getItem() == s[i][j + 1].getItem())
-                            && (s[i][j].getItem() == s[i + 1][j].getItem())
-                            && (s[i][j].getItem() == s[i + 1][j + 1].getItem())
+                    if ((s[i][j].getItem().equals(s[i][j + 1].getItem()))
+                            && (s[i][j].getItem().equals(s[i + 1][j].getItem()))
+                            && (s[i][j].getItem().equals(s[i + 1][j + 1].getItem()))
                             && (s[i][j].getItem() != Item.EMPTY)) {
                         count.put(s[i][j].getItem(), count.get(s[i][j].getItem()) + 1);
                         temp_j.put(s[i][j].getItem(), j + 1);

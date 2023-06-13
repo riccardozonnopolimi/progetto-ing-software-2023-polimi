@@ -138,7 +138,7 @@ public class CLI extends View {
 
                             handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
                             for (int i = 0; i < quantity; i++)
-                                if (handTiles[i].getItem() == Item.EMPTY) {
+                                if (handTiles[i].getItem().equals(Item.EMPTY)) {
                                     handTiles = null;
                                     i = quantity;
                                 }

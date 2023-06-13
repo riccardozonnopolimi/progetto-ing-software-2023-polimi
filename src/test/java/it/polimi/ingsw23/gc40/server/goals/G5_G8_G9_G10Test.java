@@ -11,42 +11,85 @@ public class G5_G8_G9_G10Test extends TestCase {
 @Test
     public void testInstanceGoal5Case1() {
     Player p1 = new Player("Fil");
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 0);
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 0);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 0);
 
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 1);
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 1);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 1);
 
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 2);
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 2);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 2);
 
     p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 3);
     p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 3);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 3);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 3);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 3);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 3);
 
-    p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
-    p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 4);
-    p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
-    p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
-    p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
-    p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
+    p1.getBookshelf().print();
+    G5_G8_G9_G10 goal = new G5_G8_G9_G10(3,4,false,8);
+    //verificare
+    assertFalse(goal.instanceGoal(p1));
+    }
+    @Test
+    public void testInstanceGoal5Case2() {
+        Player p1 = new Player("Fil");
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 0);
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 0);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 0);
 
-    G5_G8_G9_G10 goal = new G5_G8_G9_G10(3,3,true);
-    assertTrue(goal.instanceGoal(p1));
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 1);
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 1);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 1);
+
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 2);
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 2);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 2);
+
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 3);
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 3);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 3);
+
+        p1.getBookshelf().insertIT(new ItemTile(Item.CAT, 2), 4);
+        p1.getBookshelf().insertIT(new ItemTile(Item.GAME, 2), 4);
+        p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
+        p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
+        p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
+        p1.getBookshelf().insertIT(new ItemTile(Item.TROPHY, 2), 4);
+
+        p1.getBookshelf().print();
+        G5_G8_G9_G10 goal = new G5_G8_G9_G10(3,4,false,5);
+        assertTrue(goal.instanceGoal(p1));
     }
 }

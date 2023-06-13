@@ -51,12 +51,19 @@ public class G5_G8_G9_G10 implements Goal {
             count.put(Item.TROPHY, false);
             count.put(Item.PLANT, false);
             count.put(Item.EMPTY, false);
+            count.put(Item.NOTREACHABLE, false);
             counterBool = 0;
             for (int i = 0; i < k; i++) {
                 //if need to check for column
-                if (c) count.put(s[i][j].getItem(), true);
-                    //if need to check for row
-                else count.put(s[j][i].getItem(), true);
+                if (c) {
+                    if (!s[i][j].getItem().equals(Item.EMPTY))
+                        count.put(s[i][j].getItem(), true);
+                }
+                //if need to check for row
+                else {
+                    if (!s[j][i].getItem().equals(Item.EMPTY))
+                        count.put(s[j][i].getItem(), true);
+                }
             }
             //count how many types there are
             if (count.get(Item.PLANT)) counterBool++;
@@ -66,19 +73,24 @@ public class G5_G8_G9_G10 implements Goal {
             if (count.get(Item.BOOK)) counterBool++;
             if (count.get(Item.TROPHY)) counterBool++;
             //if the condition is verified set that a new valid block is find
-            if (differentType == 3)
-                if(counterBool <= differentType)
+            if (differentType == 3) {
+                if ((counterBool <= differentType) && (!count.get(Item.EMPTY)) && (counterBool > 0))
                     countValid++;
-            else if(counterBool == differentType)
-                countValid++;
+            }
+            else {
+                if (counterBool == differentType)
+                    countValid++;
+            }
             //if the number of blocks needed is reached return true and stop
             if (countValid == numBlocks) return true;
         }
         return false;
     }
-    public void print(){
+
+    public void print() {
         System.out.println("G5_G8_G9_G10");
     }
+
     @Override
     public int getId() {
         return this.id;
