@@ -3,6 +3,8 @@ package it.polimi.ingsw23.gc40.server.controller;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.updateRMI;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
@@ -92,9 +94,13 @@ public class ProxyController extends Observable implements ConnectionController,
     }
 
     @Override
-    public void addObserver(Remote aRemoteObj) throws RemoteException {
+    public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
 
-        super.addObserver(new Observer() {
+        PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
+
+        PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
+
+        Observer o =  new Observer() {
             @Override
             public void update(Observable o, Object arg) {
                 try {
@@ -105,9 +111,11 @@ public class ProxyController extends Observable implements ConnectionController,
                     throw new RuntimeException(e);
                 }
             }
-        });
+        };
 
-
+        publicobs.addObserver(o);
+        privateobs.addObserver(o);
+        
     }
 
 

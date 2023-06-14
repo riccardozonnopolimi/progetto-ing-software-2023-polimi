@@ -102,4 +102,13 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
         notifyObservers(data);
     }
 
+    @Override
+    public void addObserver(Observer o) {
+
+        super.addObserver(o);
+        setChanged();
+        notifyObservers(data);
+
+    }
+
 }

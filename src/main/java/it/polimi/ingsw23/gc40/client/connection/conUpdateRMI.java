@@ -12,6 +12,7 @@ public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
 
     private View view;
 
+
     public conUpdateRMI(View view) throws RemoteException {
         super();
         this.view = view;

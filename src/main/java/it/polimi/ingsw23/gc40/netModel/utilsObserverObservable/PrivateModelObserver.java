@@ -22,21 +22,22 @@ public class PrivateModelObserver extends Observable implements Observer, Serial
     public PrivateModelObserver(Player p) {
         p.addObserver(this);
     }
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof ItemTile[][]) {
             shelf = (ItemTile[][]) arg;
-            data = new PrivateModelNetwork(shelf, pgc, nickname,scores);
+            data = new PrivateModelNetwork(shelf, pgc, nickname, scores);
         }
         if (arg instanceof Integer) {
             pgc = (int) arg;
-            data = new PrivateModelNetwork(shelf, pgc, nickname,scores);
+            data = new PrivateModelNetwork(shelf, pgc, nickname, scores);
         }
         if (arg instanceof String) {
             nickname = (String) arg;
-            data = new PrivateModelNetwork(shelf, pgc, nickname,scores);
+            data = new PrivateModelNetwork(shelf, pgc, nickname, scores);
         }
-        if (arg instanceof int[]){
+        if (arg instanceof int[]) {
             scores = (int[]) arg;
         }
         setChanged();
@@ -44,9 +45,14 @@ public class PrivateModelObserver extends Observable implements Observer, Serial
     }
 
 
+    @Override
+    public void addObserver(Observer o) {
 
+        super.addObserver(o);
+        setChanged();
+        notifyObservers(data);
 
-
+    }
 
 
 /*    public PrivateModelNetwork getData() {

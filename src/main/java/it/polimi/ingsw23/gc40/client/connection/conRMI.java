@@ -28,7 +28,6 @@ public class conRMI implements ConnectionController {
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
-        stub.addObserver(new conUpdateRMI(view));
     }
 
     @Override
@@ -69,7 +68,8 @@ public class conRMI implements ConnectionController {
 
     @Override
     public int addToLastMatch(String name) throws RemoteException {
-        return stub.addToLastMatch(name);
+        int n = stub.addToLastMatch(name);
+        return n;
     }
 
 
@@ -90,8 +90,8 @@ public class conRMI implements ConnectionController {
     }
 
     @Override
-    public void addObserver(Remote aRemoteObj) throws RemoteException {
-
+    public void addObserver(Remote aRemoteObj, String s, int n) throws RemoteException {
+        stub.addObserver(new conUpdateRMI(view), s, n);
     }
 
 }

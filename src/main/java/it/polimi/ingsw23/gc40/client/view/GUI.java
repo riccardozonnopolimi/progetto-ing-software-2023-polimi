@@ -89,6 +89,8 @@ public class GUI extends View {
 
     public void init() {
         frame = new JFrame("MyShelfie");
+
+
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

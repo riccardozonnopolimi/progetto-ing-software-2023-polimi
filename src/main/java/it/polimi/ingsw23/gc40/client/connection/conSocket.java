@@ -3,21 +3,16 @@ package it.polimi.ingsw23.gc40.client.connection;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
-import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
-import java.util.Observable;
 
 
 public class conSocket extends Thread implements ConnectionController {
@@ -108,7 +103,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public void addObserver(Remote aRemoteObj) throws RemoteException {
+    public void addObserver(Remote aRemoteObj, String s, int n) throws RemoteException {
 
     }
 

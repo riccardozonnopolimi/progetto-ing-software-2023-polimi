@@ -35,5 +35,5 @@ public interface ConnectionController extends Remote {
 
     void nextRound(String nickname, int matchId) throws RemoteException;
 
-    void addObserver(Remote aRemoteObj) throws RemoteException;
+    void addObserver(Remote aRemoteObj, String name, int matchid) throws RemoteException;
 }
