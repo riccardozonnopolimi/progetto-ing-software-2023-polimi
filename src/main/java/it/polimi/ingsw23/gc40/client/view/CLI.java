@@ -66,7 +66,10 @@ public class CLI extends View {
             System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGHERANNO GLI ALTRI GIOCATORI" + reset);
         }
 
+        System.out.println("addobserver");
         con.addObserver(null, super.nickname, super.matchId);
+        System.out.println("addobserver");
+
 
         while (!match_data.isPlayable()) {
             System.out.print("");

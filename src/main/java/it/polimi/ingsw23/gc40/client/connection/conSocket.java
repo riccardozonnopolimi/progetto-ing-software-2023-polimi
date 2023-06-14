@@ -326,7 +326,7 @@ public class conSocket extends Thread implements ConnectionController {
                         break;
 
                     default:
-                        System.out.println("consocket riceve " + line);
+                        //System.out.println("consocket riceve " + line);
                         this.value = line;
                         break;
                 }

@@ -107,13 +107,13 @@ public class SocketHandler implements Runnable, Observer {
                         proxyController.getLobbyController().getPlayer(nickname).getObserver().addObserver(this);
                         break;
                     case "#reconnect":
-                        writeInt(proxyController.reconnect(in.readUTF()));
+                        matchid = proxyController.reconnect(in.readUTF());
+                        writeInt(matchid);
                         break;
                     case "#close":
                         writeUTF("#quit");
                         proxyController.close(in.readUTF());
                         online=false;
-                        //devo distruggere questo thread
                         break;
 
                     default:
