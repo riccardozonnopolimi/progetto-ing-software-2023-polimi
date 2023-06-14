@@ -4,6 +4,7 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -25,7 +26,9 @@ public class GUI extends View {
     private JPanel LRBPanel;
     private JLabel LRBImageLabel;
     private ImageIcon LRBImageIcon = new ImageIcon("img/boards/livingroom.png");
-
+// resize image
+    Image LRBResized = LRBImageIcon.getImage().getScaledInstance(200,200, Image.SCALE_SMOOTH);
+    ImageIcon LRBResizedIcon = new ImageIcon(LRBResized);
 
     public GUI(ConnectionController con) {
 
@@ -46,8 +49,8 @@ public class GUI extends View {
                         if (con.hasQueueMatch()) {
                             matchId = con.addToLastMatch(nickname);
                             showOnly(waitingPanel);
+                            con.addObserver(null, nickname, matchId);
                             popup("Sei stato aggiunto al match n."+matchId);
-
                         } else {
                             showOnly(newmatchPanel);
                         }
@@ -91,7 +94,7 @@ public class GUI extends View {
 
         waitingLabel.setText("Attendi l'inizio del match!");
 
-        LRBImageLabel.setIcon(LRBImageIcon);
+        LRBImageLabel.setIcon(LRBResizedIcon);
     }
 
     public void init() {
@@ -120,7 +123,7 @@ public class GUI extends View {
             if (publicData.isPlayable()) {
                 //System.out.println("playable");
                 if (!wasplayable) {
-                    //System.out.println("Match pronto!");
+                    System.out.println("Match pronto!");
                     showOnly(gamePanel);
                 }
 
