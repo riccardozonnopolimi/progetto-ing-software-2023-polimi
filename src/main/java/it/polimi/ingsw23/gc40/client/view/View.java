@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Observer;
 import java.util.Scanner;
 
 public abstract class View {
@@ -48,7 +47,7 @@ public abstract class View {
     }
 
     public void addPlayer(String name) throws RemoteException, Exception {
-        con.addPlayer(name);
+        con.connect(name);
     }
 
     public void updatePrivateData(PrivateModelNetwork privateData) {

@@ -24,8 +24,7 @@ public class GUI extends View {
     private JPanel gamePanel;
     private JPanel LRBPanel;
     private JLabel LRBImageLabel;
-    private ImageIcon LRBImageIcon =new ImageIcon("img/boards/livingroom.png");
-
+    private ImageIcon LRBImageIcon = new ImageIcon("img/boards/livingroom.png");
 
 
     public GUI(ConnectionController con) {
@@ -40,14 +39,14 @@ public class GUI extends View {
             public void actionPerformed(ActionEvent e) {
                 nickname = newplayerField.getText();
                 try {
-                    if (!con.addPlayer(nickname)) {
+                    if (!con.connect(nickname)) {
                         popup("Nome utente già in uso, riprova...");
                     } else {
                         newplayerField.setVisible(false);
                         if (con.hasQueueMatch()) {
                             matchId = con.addToLastMatch(nickname);
                             showOnly(waitingPanel);
-                            popup("Sei stato aggiunto ad un match pre-esistente in attesa di giocatori.");
+                            popup("Sei stato aggiunto al match n."+matchId);
 
                         } else {
                             showOnly(newmatchPanel);
@@ -68,11 +67,19 @@ public class GUI extends View {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (!con.newMatch((int) newmatchSpinner.getValue()))
-                        popup("Inserisci un numero tra 2 e 4 giocatori.");
-                    else {
+                    if (!con.newMatch((int) newmatchSpinner.getValue())) {
+                        if (con.hasQueueMatch()) {
+                            matchId = con.addToLastMatch(nickname);
+                            showOnly(waitingPanel);
+                            con.addObserver(null, nickname, matchId);
+                            popup("Non è stato possibile creare il match perchè esiste un match appena creato in attesa di giocatori.");
+                            popup("Sei stato aggiunto al match n."+matchId);
+                        } else
+                            popup("Inserisci un numero tra 2 e 4 giocatori.");
+                    } else {
                         matchId = con.addToLastMatch(nickname);
                         showOnly(waitingPanel);
+                        con.addObserver(null, nickname, matchId);
                         popup("Match creato!");
 
                     }
@@ -89,8 +96,6 @@ public class GUI extends View {
 
     public void init() {
         frame = new JFrame("MyShelfie");
-
-
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -110,17 +115,17 @@ public class GUI extends View {
 
             super.updatePublicData(publicData);
 
-            System.out.println("aggiorno public");
+            //System.out.println("aggiorno public");
 
             if (publicData.isPlayable()) {
-                System.out.println("playable");
+                //System.out.println("playable");
                 if (!wasplayable) {
-                    System.out.println("Match pronto!");
+                    //System.out.println("Match pronto!");
                     showOnly(gamePanel);
                 }
 
                 if (temp != null && match_data != null && this.nickname != null) {
-                    System.out.println("tutto diverso da null");
+                    //System.out.println("tutto diverso da null");
                     if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
                         System.out.println("tocca a te");
                     } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))

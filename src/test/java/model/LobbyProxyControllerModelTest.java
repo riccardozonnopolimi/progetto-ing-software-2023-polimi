@@ -20,12 +20,12 @@ public class LobbyProxyControllerModelTest extends TestCase {
     public void testCheckExistingNickName() throws RemoteException {
         var SM = new LobbyController();
         SM.addPlayer("Giorgio");
-        assertTrue(SM.checkExistingNickName("Giorgio"));
+        assertTrue(SM.checkOnlinePlayers("Giorgio"));
         SM.addPlayer("Filiberto");
         SM.addPlayer("Giuseppe");
         SM.addPlayer("Riccardo");
-        assertTrue(SM.checkExistingNickName("Giuseppe"));
-        assertFalse(SM.checkExistingNickName("GianpaoloCugola"));
+        assertTrue(SM.checkOnlinePlayers("Giuseppe"));
+        assertFalse(SM.checkOnlinePlayers("GianpaoloCugola"));
 
     }
 

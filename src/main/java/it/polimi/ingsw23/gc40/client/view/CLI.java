@@ -13,11 +13,11 @@ import java.util.Scanner;
 
 public class CLI extends View {
     private Scanner sc;
-    static public String verde = "\u001b[42m\u001b[30m";
-    static String rosso = "\u001B[41m\u001B[30m";
-    static String giallo = "\u001b[43m\u001b[30m";
-    static public String reset = "\u001b[0m";
-    static public String grigio = "\u001b[47m\u001b[30m";
+    public static String verde = "\u001b[42m\u001b[30m";
+    public static String rosso = "\u001B[41m\u001B[30m";
+    public static String giallo = "\u001b[43m\u001b[30m";
+    public static String reset = "\u001b[0m";
+    public static String grigio = "\u001b[47m\u001b[30m";
     private PublicModelObserver publicObserver;
     private PrivateModelObserver privateObserver;
 
@@ -30,31 +30,41 @@ public class CLI extends View {
         System.out.println(verde + "Interfaccia di gioco testuale avviata!" + reset);
         System.out.println("");
         super.nickname = inString("Inserisci nome giocatore: ");
-        while (!con.addPlayer(super.nickname)) {
+        while (!con.connect(super.nickname)) {
             System.out.println(giallo + "Nome utente già in uso, riprova..." + reset);
             super.nickname = inString("Inserisci nome giocatore: ");
         }
-        System.out.println(verde + "Giocatore creato!" + reset);
-        System.out.println("");
+
+        this.matchId = con.reconnect(super.nickname);
+
+        if (matchId != -1)
+            System.out.println(giallo + "BROH ERI IN UN MATCH, VEDI DI TORNARCI SUBITO DENTRO!" + reset);
+        else {
+            System.out.println(verde + "Giocatore creato!" + reset);
+            System.out.println("");
 
 
-        if (con.hasQueueMatch()) {
-            System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
-        } else {
-            while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? "))) {
-                System.out.println(rosso + "MATCH NON CREATO" + reset);
-                if (con.hasQueueMatch())
-                    break;
+            if (con.hasQueueMatch()) {
+                System.out.println(verde + "Sei stato aggiunto ad un match pre-esistente in attesa di giocatori." + reset);
+            } else {
+                while (!con.newMatch(inInt("Stai creando un nuovo match, di quanti giocatori vuoi che sia la partita? "))) {
+                    if (con.hasQueueMatch()) {
+                        System.out.println(rosso + "Non è stato possibile creare il match perchè esiste un match appena creato in attesa di giocatori." + reset);
+                        break;
+                    } else {
+                        System.out.println(rosso + "Inserisci un numero di giocatori compreso tra 2 e 4" + reset);
+                    }
+                }
+                System.out.println(verde + "Match creato!" + reset);
             }
+            super.matchId = con.addToLastMatch(super.nickname);
+
+            System.out.println("SEI STATO AGGIUNTO AL MATCH N." + super.matchId);
+
+
+            System.out.println("");
+            System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGHERANNO GLI ALTRI GIOCATORI" + reset);
         }
-        super.matchId = con.addToLastMatch(super.nickname);
-
-        System.out.println(verde + "SEI STATO AGGIUNTO AL MATCH N." + super.matchId + reset);
-
-
-        System.out.println("");
-        System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGHERANNO GLI ALTRI GIOCATORI" + reset);
-
 
         con.addObserver(null, super.nickname, super.matchId);
 
@@ -67,23 +77,27 @@ public class CLI extends View {
         System.out.println("");
 
 
-        while (match_data.isPlayable()) {
+        boolean play = match_data.isPlayable();
+        boolean close = false;
+
+        while (play && !close) {
             int choice;
 
             if (!match_data.getCurrent().equals(nickname)) {
                 System.out.println(CLI.giallo + "### E' IL TURNO DI " + match_data.getCurrent() + " ###" + CLI.reset);
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi"}, "Scegli una delle seguenti azioni:", 1);
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi", "Esci dal gioco"}, "Scegli una delle seguenti azioni:", 1);
                 if (!match_data.getCurrent().equals(nickname)) {
-                    if (choice == 5) {
+                    if (choice == 6) {
                         System.out.println("Scelta errata");
                         choice = 0;
                     }
                 }
             } else {
                 System.out.println(CLI.verde + "### TOCCA A TE " + nickname + " ###" + CLI.reset);
-                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi", "Fai la tua mossa, "+verde+"tocca a te!"+reset}, "Scegli una delle seguenti azioni:");
+                choice = getChoice(new String[]{"Mostra LRB", "Mostra Personal Goal Card", "Mostra BookShelf", "Visualizza Common Goals", "Visualizza i tuoi punteggi", "Esci dal gioco", "Fai la tua mossa, " + verde + "tocca a te!" + reset}, "Scegli una delle seguenti azioni:");
 
             }
+
 
             if (match_data.isPlayable()) {
                 switch (choice) {
@@ -103,7 +117,10 @@ public class CLI extends View {
                         printScores(player_data.getScores());
                         break;
                     case 5:
-
+                        con.close(nickname);
+                        close = true;
+                        break;
+                    case 6:
                         System.out.println("Fai la tua mossa!");
                         int placeables = con.startRound(nickname, matchId);
                         System.out.println("Puoi pescare " + placeables + " tiles...");
@@ -208,7 +225,9 @@ public class CLI extends View {
 
                         con.nextRound(nickname, matchId);
 
-                        while (match_data.getCurrent().equals(nickname)) System.out.print("");
+                        while (match_data.getCurrent().equals(nickname))
+                            System.out.print("");
+                        //in caso di partita a due giocatori, ed uno si disconnette questo while è sempre true ed il player rimasto online resta fermo per sempre
 
                         break;
                     default:
@@ -218,9 +237,11 @@ public class CLI extends View {
 
             }
         }
-
-        System.out.println("FINEEEEEEE!!!");
-
+        if (!close) {
+            System.out.println("FINEEEEEEE!!!");
+        } else {
+            System.out.println("Sei uscito dal gioco.");
+        }
 
     }
 
@@ -367,7 +388,7 @@ public class CLI extends View {
                 if (temp != null && match_data != null && this.nickname != null)
                     if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
                         System.out.println(CLI.verde + "### TOCCA A TE " + nickname + " ###" + CLI.reset);
-                        System.out.println(CLI.grigio + "5)" + CLI.reset + " Fai la tua mossa");
+                        System.out.println(CLI.grigio + "6)" + CLI.reset + " Fai la tua mossa");
                     } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
                         System.out.println(CLI.giallo + "### E' IL TURNO DI " + match_data.getCurrent() + " ###" + CLI.reset);
 

@@ -1,20 +1,37 @@
 package it.polimi.ingsw23.gc40.server.controller;
 
-import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
 
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
+
+    public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
+        this.onlinePlayers = onlinePlayers;
+    }
+
+    public ArrayList<Player> getOfflinePlayers() {
+        return offlinePlayers;
+    }
+
+    public void setOfflinePlayers(ArrayList<Player> offlinePlayers) {
+        this.offlinePlayers = offlinePlayers;
+    }
+
+    private ArrayList<Player> offlinePlayers = new ArrayList<>();
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
     private GameController queueMatch;
+
+    public ArrayList<GameController> getActiveMatches() {
+        return activeGameControllers;
+    }
+
+    public void setActiveGameControllers(ArrayList<GameController> activeGameControllers) {
+        this.activeGameControllers = activeGameControllers;
+    }
+
     private ArrayList<Score> SavedScores = new ArrayList<>();
     private int numMatch;
 
@@ -40,7 +57,24 @@ public class LobbyController {
         }
     }
 
-    public  GameController addToLastMatch(Player player) {
+    public void killPlayer(String name) {
+        Player p = getPlayer(name);
+        onlinePlayers.remove(p);
+        offlinePlayers.add(p);
+    }
+
+    public void unkillPlayer(String name) {
+        Player p = null;
+        for (int i = 0; i < offlinePlayers.size(); i++) {
+            if (offlinePlayers.get(i).getNickName().equals(name)) {
+                p = offlinePlayers.get(i);
+            }
+        }
+        onlinePlayers.add(p);
+        offlinePlayers.remove(p);
+    }
+
+    public GameController addToLastMatch(Player player) {
         if (queueMatch.addPlayer(player)) {
 
             GameController m = queueMatch;
@@ -52,13 +86,24 @@ public class LobbyController {
         return queueMatch;
     }
 
-    public Boolean checkExistingNickName(String nickName) {
+    public boolean checkOnlinePlayers(String nickName) {
+
         if (onlinePlayers.isEmpty()) return false;
         for (int i = 0; i < onlinePlayers.size(); i++) {
             if (onlinePlayers.get(i).getNickName().equals(nickName)) {
                 return true;
             }
         }
+        return false;
+    }
+
+    public boolean checkOfflinePlayers(String nickName) {
+        if (!offlinePlayers.isEmpty())
+            for (int i = 0; i < offlinePlayers.size(); i++) {
+                if (offlinePlayers.get(i).getNickName().equals(nickName)) {
+                    return true;
+                }
+            }
         return false;
     }
 
@@ -94,26 +139,6 @@ public class LobbyController {
         }
         return null;
     }
-
-
-    public ArrayList<Player> getOnlinePlayers() throws RemoteException {
-        return null;
-    }
-
-    public ArrayList<GameController> getActiveMatches() throws RemoteException {
-        return null;
-    }
-
-   /* @Override
-    public void run() {
-        GameController match = this.activeGameControllers.get(this.activeGameControllers.size() - 1);
-        while (match.playable()) {
-            System.out.println("E' il turno di " + match.getNext().getNickName());
-            match.round(match.getNext());
-        }
-
-    }*/
-
 
     public GameController getMatchById(int n) {
         if (queueMatch != null) if (queueMatch.getId() == n) return queueMatch;

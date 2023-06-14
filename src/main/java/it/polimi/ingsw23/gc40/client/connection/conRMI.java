@@ -2,17 +2,10 @@ package it.polimi.ingsw23.gc40.client.connection;
 
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
-import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Observable;
 
 public class conRMI implements ConnectionController {
     ConnectionController stub;
@@ -53,8 +46,8 @@ public class conRMI implements ConnectionController {
     }
 
     @Override
-    public boolean addPlayer(String name) throws RemoteException {
-        return stub.addPlayer(name);
+    public boolean connect(String name) throws RemoteException {
+        return stub.connect(name);
     }
 
     public boolean newMatch(int n) throws RemoteException {
@@ -74,7 +67,8 @@ public class conRMI implements ConnectionController {
 
 
     @Override
-    public void close() throws RemoteException {
+    public void close(String nickname) throws RemoteException {
+        stub.close(nickname);
         this.stub = null;
     }
 
@@ -92,6 +86,11 @@ public class conRMI implements ConnectionController {
     @Override
     public void addObserver(Remote aRemoteObj, String s, int n) throws RemoteException {
         stub.addObserver(new conUpdateRMI(view), s, n);
+    }
+
+    @Override
+    public int reconnect(String nickname) throws RemoteException {
+        return stub.reconnect(nickname);
     }
 
 }

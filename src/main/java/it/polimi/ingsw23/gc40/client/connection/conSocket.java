@@ -104,7 +104,23 @@ public class conSocket extends Thread implements ConnectionController {
 
     @Override
     public void addObserver(Remote aRemoteObj, String s, int n) throws RemoteException {
+        outprint("#addObserver");
+    }
 
+    @Override
+    public int reconnect(String nickname) throws RemoteException {
+        outprint("#reconnect");
+        outprint(nickname);
+
+        //sostituire con wait todo
+        while (this.value.equals("#")) {
+            System.out.print("");
+        }
+        int number;
+        number = (int) temp_obj;
+        temp_obj = null;
+        this.value = "#";
+        return number;
     }
 
 
@@ -129,24 +145,21 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public boolean addPlayer(String name) {
-        outprint("#addPlayer");
+    public boolean connect(String name) {
+        outprint("#connect");
         return check(name);
     }
 
     @Override
-    public void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void close(String nickname) {
+        outprint("#close");
+        outprint(nickname);
     }
 
     @Override
     public boolean newMatch(int n) {
         outprint("#newMatch");
-       return check(n);
+        return check(n);
 
     }
 
@@ -285,7 +298,8 @@ public class conSocket extends Thread implements ConnectionController {
     @Override
     public void run() {
         try {
-            while (true) {
+            boolean online = true;
+            while (online) {
                 String line = ois.readUTF();
                 switch (line) {
 
@@ -305,13 +319,14 @@ public class conSocket extends Thread implements ConnectionController {
                         temp_obj = ois.readInt();
                         this.value = "#int";
                         break;
+                    case "#quit":
+
+                        socket.close();
+                        online = false;
+                        break;
+
                     default:
-                        if (line.equals("#quit")) {
-                            obj = ois.readObject();
-                            view.updatePublicData((PublicModelNetwork) obj);
-                            socket.close();
-                            break;
-                        }
+                        System.out.println("consocket riceve " + line);
                         this.value = line;
                         break;
                 }
