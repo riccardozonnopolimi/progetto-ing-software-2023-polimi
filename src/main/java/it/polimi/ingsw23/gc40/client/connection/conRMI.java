@@ -13,9 +13,6 @@ public class conRMI implements ConnectionController {
 
     public conRMI(ConnectionController stub) throws RemoteException {
         this.stub = stub;
-        print("#nuova connessione RMI");
-
-
     }
 
     @Override
@@ -72,11 +69,6 @@ public class conRMI implements ConnectionController {
         this.stub = null;
     }
 
-    @Override
-    public void print(String s) throws RemoteException {
-        stub.print(s);
-    }
-
 
     @Override
     public void nextRound(String nickname, int matchId) throws RemoteException {
@@ -89,7 +81,7 @@ public class conRMI implements ConnectionController {
     }
 
     @Override
-    public int reconnect(String nickname) throws RemoteException {
+    public int reconnect(String nickname) throws RemoteException, InterruptedException {
         return stub.reconnect(nickname);
     }
 

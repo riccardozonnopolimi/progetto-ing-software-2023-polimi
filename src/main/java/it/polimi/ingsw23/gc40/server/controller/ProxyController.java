@@ -215,10 +215,7 @@ public class ProxyController extends Observable implements ConnectionController,
         System.out.println("disconnesso giocatore: " + nickname);
     }
 
-    @Override
-    public void print(String s) throws RemoteException {
-        System.out.println(s);
-    }
+
 
     @Override
     public void setView(View view) throws RemoteException {

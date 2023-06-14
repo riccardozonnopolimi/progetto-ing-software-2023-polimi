@@ -38,7 +38,7 @@ public class CLI extends View {
         this.matchId = con.reconnect(super.nickname);
 
         if (matchId != -1)
-            System.out.println(giallo + "BROH ERI IN UN MATCH, VEDI DI TORNARCI SUBITO DENTRO!" + reset);
+            System.out.println("Rieccoti "+super.nickname+"!\n"+giallo + "RICONNESSIONE ALLA PARTITA PRECEDENTE" + reset);
         else {
             System.out.println(verde + "Giocatore creato!" + reset);
             System.out.println("");
@@ -66,9 +66,7 @@ public class CLI extends View {
             System.out.println(giallo + "IL MATCH PARTIRA' NON APPENA SI COLLEGHERANNO GLI ALTRI GIOCATORI" + reset);
         }
 
-        System.out.println("addobserver");
         con.addObserver(null, super.nickname, super.matchId);
-        System.out.println("addobserver");
 
 
         while (!match_data.isPlayable()) {

@@ -25,7 +25,6 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
 
     public PublicModelObserver(GameController gameController) {
         gameController.addObserver(this);
-        // todo implement remove listener or destructor
         match = gameController;
         playable = false;
     }

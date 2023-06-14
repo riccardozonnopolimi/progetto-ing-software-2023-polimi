@@ -19,8 +19,6 @@ public interface ConnectionController extends Remote {
 
     void close(String nickname) throws RemoteException;
 
-    void print(String s) throws RemoteException;
-
     void setView(View view) throws RemoteException;
 
     int startRound(String nickname, int matchID) throws RemoteException;
@@ -35,5 +33,5 @@ public interface ConnectionController extends Remote {
 
     void addObserver(Remote aRemoteObj, String name, int matchid) throws RemoteException;
 
-    int reconnect(String nickname) throws RemoteException;
+    int reconnect(String nickname) throws RemoteException, InterruptedException;
 }

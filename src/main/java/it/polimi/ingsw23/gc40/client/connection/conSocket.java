@@ -31,12 +31,17 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(name);
         outprint(mID);
 
-        //sostituire con wait todo
         while (this.value.equals("#")) {
-            System.out.print("");
+            try {
+                Thread.sleep(500);
+                System.out.print("...");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        int number;
-        number = (int) temp_obj;
+        System.out.println("");
+
+        int number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";
         return number;
@@ -50,10 +55,16 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(quantity);
         outprint(direction);
 
-        //sostituire con wait todo
         while (temp_obj == null) {
-            System.out.print("");
+            try {
+                Thread.sleep(500);
+                System.out.print("...");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+        System.out.println("");
+
         ItemTile[] ht = (ItemTile[]) temp_obj;
         temp_obj = null;
         return ht;
@@ -65,12 +76,17 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(nickname);
         outprint(column);
 
-        //sostituire con wait todo
         while (this.value.equals("#")) {
-            System.out.print("");
+            try {
+                Thread.sleep(500);
+                System.out.print("...");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        int number;
-        number = (int) temp_obj;
+        System.out.println("");
+
+        int number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";
         return number;
@@ -112,10 +128,15 @@ public class conSocket extends Thread implements ConnectionController {
         outprint("#reconnect");
         outprint(nickname);
 
-        //sostituire con wait todo
         while (this.value.equals("#")) {
-            System.out.print("");
+            try {
+                Thread.sleep(500);
+                System.out.print("...");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+        System.out.println("");
         int number;
         number = (int) temp_obj;
         temp_obj = null;
@@ -167,12 +188,17 @@ public class conSocket extends Thread implements ConnectionController {
     public int addToLastMatch(String name) throws RemoteException {
         outprint("#addToLastMatch");
         outprint(name);
-        //sostituire con wait todo
+
         while (this.value.equals("#")) {
-            System.out.print("");
+            try {
+                Thread.sleep(500);
+                System.out.print("...");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        int number;
-        number = (int) temp_obj;
+        System.out.println("");
+        int number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";
         return number;
@@ -184,10 +210,6 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
 
-    @Override
-    public void print(String s) throws RemoteException {
-        //todo implementation
-    }
 
     @Override
     public void setView(View view) throws RemoteException {

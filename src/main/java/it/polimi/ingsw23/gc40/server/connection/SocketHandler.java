@@ -88,10 +88,7 @@ public class SocketHandler implements Runnable, Observer {
                         writeInt(matchid);
                         //sendObj("#update", proxyController.getLobbyController().getMatchById(matchid).getObserver().getData());
                         break;
-                    case "#serverPrint":
-                        line2 = in.readUTF();
-                        proxyController.print(line2);
-                        break;
+
                     case "#startRound":
                         writeInt(proxyController.startRound(in.readUTF(), in.readInt()));
                         break;
