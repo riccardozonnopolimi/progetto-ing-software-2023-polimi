@@ -335,7 +335,7 @@ public class GameController extends Observable {
         switch (direction) {
             case 'U':
                 for (int i = 0; i < quantity; i++)
-                    if ((x - quantity) < 0) return chosen;
+                    if ((x - quantity + 1) < 0) return chosen;
                     else {
                         if (this.map.isTakeable(x - i, y))
                             chosen[i] = this.map.getTileInMap(x - i, y);
@@ -347,7 +347,7 @@ public class GameController extends Observable {
                 return chosen;
             case 'D':
                 for (int i = 0; i < quantity; i++)
-                    if ((x + quantity) > 8) {
+                    if ((x + quantity - 1) > 8) {
                         return chosen;
                     } else {
                         if (this.map.isTakeable(x + i, y))
@@ -363,7 +363,7 @@ public class GameController extends Observable {
                 return chosen;
             case 'L':
                 for (int i = 0; i < quantity; i++)
-                    if ((y - quantity) < 0)
+                    if ((y - quantity + 1) < 0)
                         return chosen;
                     else {
                         if (this.map.isTakeable(x, y - i))
@@ -377,7 +377,7 @@ public class GameController extends Observable {
                 return chosen;
             case 'R':
                 for (int i = 0; i < quantity; i++)
-                    if ((y + quantity) > 8) return chosen;
+                    if ((y + quantity - 1) > 8) return chosen;
                     else {
                         if (this.map.isTakeable(x, y + i))
                             chosen[i] = this.map.getTileInMap(x, y + i);

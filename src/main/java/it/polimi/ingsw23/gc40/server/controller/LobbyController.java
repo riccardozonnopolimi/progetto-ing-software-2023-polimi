@@ -64,14 +64,19 @@ public class LobbyController {
     }
 
     public void unkillPlayer(String name) {
+        Player p = getOfflinePlayer(name);
+
+        onlinePlayers.add(p);
+        offlinePlayers.remove(p);
+    }
+    public Player getOfflinePlayer(String name){
         Player p = null;
         for (int i = 0; i < offlinePlayers.size(); i++) {
             if (offlinePlayers.get(i).getNickName().equals(name)) {
                 p = offlinePlayers.get(i);
             }
         }
-        onlinePlayers.add(p);
-        offlinePlayers.remove(p);
+        return p;
     }
 
     public GameController addToLastMatch(Player player) {

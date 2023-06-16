@@ -6,10 +6,9 @@ public class LRB {
 
     private ItemTile[][] map;
 
-    public LRB(int nump)  {
-
+    public LRB(int numPlayer)  {
         this.map = new ItemTile[9][9];
-        if (nump == 2) {
+        if (numPlayer == 2) {
             //initialize all the ItemTile to EMPTY except notReachable items
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -38,7 +37,7 @@ public class LRB {
 
             }
         }
-        if (nump == 3) {
+        if (numPlayer == 3) {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (i == 0 && j != 3) {
@@ -66,7 +65,7 @@ public class LRB {
 
             }
         }
-        if (nump == 4) {
+        if (numPlayer == 4) {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (i == 0 && (j < 3 || j > 4)) {
@@ -127,7 +126,7 @@ public class LRB {
     } else {
             if (this.map[coordX + 1][coordY].getItem().equals(Item.EMPTY) || this.map[coordX - 1][coordY].getItem().equals(Item.EMPTY) || this.map[coordX][coordY + 1].getItem().equals(Item.EMPTY) || this.map[coordX][coordY - 1].getItem().equals(Item.EMPTY)) {
                 return true;
-            } else if ((this.map[coordX + 1][coordY].getItem().equals(Item.NOTREACHABLE) || this.map[coordX - 1][coordY].getItem().equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].getItem().equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].getItem().equals(Item.NOTREACHABLE))) {
+            } else if (this.map[coordX + 1][coordY].getItem().equals(Item.NOTREACHABLE) || this.map[coordX - 1][coordY].getItem().equals(Item.NOTREACHABLE) || this.map[coordX][coordY + 1].getItem().equals(Item.NOTREACHABLE) || this.map[coordX][coordY - 1].getItem().equals(Item.NOTREACHABLE)) {
                 return true;
             }
         }

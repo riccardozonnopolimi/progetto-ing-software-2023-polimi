@@ -25,7 +25,7 @@ public class GUI extends View {
     private JPanel gamePanel;
     private JPanel LRBPanel;
     private JLabel LRBImageLabel;
-    private ImageIcon LRBImageIcon = new ImageIcon("img/boards/livingroom.png");
+    private ImageIcon LRBImageIcon = new ImageIcon("src/main/resources/img/boards/livingroom.png");
 // resize image
     Image LRBResized = LRBImageIcon.getImage().getScaledInstance(200,200, Image.SCALE_SMOOTH);
     ImageIcon LRBResizedIcon = new ImageIcon(LRBResized);

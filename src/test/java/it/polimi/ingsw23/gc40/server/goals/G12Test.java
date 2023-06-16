@@ -3,7 +3,7 @@ package it.polimi.ingsw23.gc40.server.goals;
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
-import it.polimi.ingsw23.gc40.server.model.goals.G7;
+import it.polimi.ingsw23.gc40.server.model.goals.G12;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -48,10 +48,10 @@ public class G12Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
 
         p1.getBookshelf().print();
-        G7 goal = new G7(7);
+        G12 goal = new G12(12);
         assertTrue(goal.instanceGoal(p1));
     }
-    /*@Test
+    @Test
     public void testInstanceGoalFalse() {
         Player p1 = new Player("Fil");
         p1.getBookshelf().insertIT(new ItemTile(Item.PLANT, 2), 0);
@@ -90,7 +90,7 @@ public class G12Test extends TestCase {
         p1.getBookshelf().insertIT(new ItemTile(Item.EMPTY, 2), 4);
 
         p1.getBookshelf().print();
-        G7 goal = new G7(7);
+        G12 goal = new G12(12);
         assertFalse(goal.instanceGoal(p1));
-    }*/
+    }
 }

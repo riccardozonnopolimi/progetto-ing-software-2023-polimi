@@ -14,11 +14,12 @@ public class ConnectionStarter {
     public ConnectionStarter() {
     }
 
+    //creating socket and trying to connect with serverSocket
     public Socket socketStart(int port, String host) {
         Socket socket = null;
         try {
             socket = new Socket(host, port);
-            System.out.println(CLI.verde+"#Connessione Socket riuscita - porta: " + port+CLI.reset);
+            System.out.println(CLI.green +"#Connessione Socket riuscita - porta: " + port+CLI.reset);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
@@ -27,10 +28,11 @@ public class ConnectionStarter {
         return socket;
     }
 
+    //starting RMI connection
     public static ConnectionController rmi(String name, String host) throws Exception {
         Registry registry = LocateRegistry.getRegistry(host);
-        ConnectionController fac = ((ConnectionController) registry.lookup(name));
-        System.out.println(CLI.verde+"#Connessione RMI riuscita"+CLI.reset);
-        return fac;
+        ConnectionController stub = ((ConnectionController) registry.lookup(name));
+        System.out.println(CLI.green +"#Connessione RMI riuscita"+CLI.reset);
+        return stub;
     }
 }

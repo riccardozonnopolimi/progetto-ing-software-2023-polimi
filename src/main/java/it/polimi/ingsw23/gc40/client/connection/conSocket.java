@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
-
+//todo comment class
 
 public class conSocket extends Thread implements ConnectionController {
     private Socket socket;
@@ -31,6 +31,7 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(name);
         outprint(mID);
 
+        //waiting until recive a command
         while (this.value.equals("#")) {
             try {
                 Thread.sleep(500);
@@ -49,11 +50,13 @@ public class conSocket extends Thread implements ConnectionController {
 
     @Override
     public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+
         outprint("#chooseTiles");
         outprint(x);
         outprint(y);
         outprint(quantity);
         outprint(direction);
+
 
         while (temp_obj == null) {
             try {

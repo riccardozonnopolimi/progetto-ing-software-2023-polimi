@@ -15,6 +15,8 @@ public class conRMI implements ConnectionController {
         this.stub = stub;
     }
 
+    //calling all method on server using stub
+
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
@@ -72,6 +74,7 @@ public class conRMI implements ConnectionController {
 
     @Override
     public void nextRound(String nickname, int matchId) throws RemoteException {
+
         stub.nextRound(nickname, matchId);
     }
 

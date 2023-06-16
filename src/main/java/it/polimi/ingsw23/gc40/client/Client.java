@@ -21,7 +21,7 @@ public class Client {
 
 
         System.out.println("");
-        System.out.println(CLI.verde+"Benvenuto in MyShelfie!"+CLI.reset);
+        System.out.println(CLI.green +"Benvenuto in MyShelfie!"+CLI.reset);
         System.out.println("");
 
 
@@ -33,7 +33,7 @@ public class Client {
         if (host.equals(""))
             host="localhost";
 
-        System.out.println(CLI.verde+"Hai scelto di connetterti all'indirizzo:"+CLI.reset+" "+host);
+        System.out.println(CLI.green +"Hai scelto di connetterti all'indirizzo:"+CLI.reset+" "+host);
         System.out.println("");
 
 

@@ -21,6 +21,7 @@ public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
 
     @Override
     public void update(Object obj) throws RemoteException {
+        //dividing public or private update
         if (obj instanceof PrivateModelNetwork)
             view.updatePrivateData((PrivateModelNetwork) obj);
         if (obj instanceof PublicModelNetwork)

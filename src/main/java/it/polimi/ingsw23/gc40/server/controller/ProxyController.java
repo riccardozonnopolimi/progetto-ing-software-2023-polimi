@@ -8,18 +8,18 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserv
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
+import java.rmi.ConnectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class ProxyController extends Observable implements ConnectionController, Observer {
+public class ProxyController implements ConnectionController {
     public LobbyController getLobbyController() {
         return lobbyController;
     }
 
     private LobbyController lobbyController;
-    private HashMap
-            <String, Observer> mapObs = new HashMap<>();
+    private HashMap<String, Observer> mapObs = new HashMap<>();
 
 
     public ProxyController(LobbyController lobbyController) {
@@ -67,75 +67,81 @@ public class ProxyController extends Observable implements ConnectionController,
 
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
-
         //check if there is space in the player bookshelf
-        if (lobbyController.getPlayer(nickname).getBookshelf().isFull()) {
-            lobbyController.getPlayer(nickname).setFirstScore(1);
-            lobbyController.getMatchById(match).setEnding(true);
-        }
-        Player p = lobbyController.getPlayer(nickname);
-        GameController m = lobbyController.getMatchById(match);
+            Player p;
+            if (lobbyController.getOfflinePlayer(nickname) == null) {
+                p = lobbyController.getPlayer(nickname);
+            } else {
+                p = lobbyController.getOfflinePlayer(nickname);
+            }
+            GameController m = lobbyController.getMatchById(match);
+            if (p.getBookshelf().isFull()) {
+                p.setFirstScore(1);
+                m.setEnding(true);
+            }
 
-        //refresh scores
-        m.checkScores(p);
+            //refresh scores
+            m.checkScores(p);
 
-        //refill map if needed
-        if (lobbyController.getMatchById(match).getMap().needRefill()) {
-            lobbyController.getMatchById(match).refill();
-        }
-
-
-        //set turn to next player (while next is offline)
-        do {
-            int num;
-            if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
-                num = 0;
-            else
-                num = m.getPlayers().indexOf(p) + 1;
-
-            p = m.getPlayers().get(num);
-        } while (lobbyController.checkOfflinePlayers(p.getNickName()));
+            //refill map if needed
+            if (lobbyController.getMatchById(match).getMap().needRefill()) {
+                lobbyController.getMatchById(match).refill();
+            }
 
 
-        m.setNext(p);
+            //set turn to next player (while next is offline)
+            do {
+                int num;
+                if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
+                    num = 0;
+                else
+                    num = m.getPlayers().indexOf(p) + 1;
 
-        //check if match is completed
-        if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
-            lobbyController.getMatchById(match).setPlayable(false);
+                p = m.getPlayers().get(num);
+            } while (lobbyController.checkOfflinePlayers(p.getNickName()));
+
+
+            m.setNext(p);
+
+            //check if match is completed
+            if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
+                lobbyController.getMatchById(match).setPlayable(false);
+
 
 
     }
 
-    public void addSockObs(String s, Observer o){
+    public void addSockObs(String s, Observer o) {
         mapObs.put(s, o);
     }
 
     @Override
     public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
-        PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
-        PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
-
-        Observer o = null;
-
-
-        o = new Observer() {
-            @Override
-            public void update(Observable o, Object arg) {
-                try {
-                    ((updateRMI) aRemoteObj).update(arg);
-                } catch (RemoteException e) {
-                    System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
-                    System.err.println(e);
-                    throw new RuntimeException(e);
+            PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
+            PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
+            Observer o = new Observer() {
+                @Override
+                public void update(Observable o, Object arg) {
+                    try {
+                        ((updateRMI) aRemoteObj).update(arg);
+                    } catch (RemoteException e) {
+                        System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
+                        try {
+                            close(nickname);
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        /*System.err.println(e);
+                        throw new RuntimeException(e);*/
+                    }
                 }
-            }
-        };
+            };
+            publicobs.addObserver(o);
+            privateobs.addObserver(o);
 
 
-        publicobs.addObserver(o);
-        privateobs.addObserver(o);
+            mapObs.put(nickname, o);
 
-        mapObs.put(nickname, o);
 
     }
 
@@ -183,7 +189,6 @@ public class ProxyController extends Observable implements ConnectionController,
         if (gameController == null) return false;
         else {
             System.out.println("@PC: Creato Match per " + n);
-            gameController.getObserver().addObserver(this);
             return true;
         }
 
@@ -203,6 +208,10 @@ public class ProxyController extends Observable implements ConnectionController,
 
     @Override
     public void close(String nickname) throws RemoteException {
+        if (!lobbyController.checkOnlinePlayers(nickname))
+            return;
+        if (idMatchByPlayer(nickname) == -1)
+            return;
 
         Observer o = mapObs.get(nickname);
         mapObs.remove(nickname);
@@ -210,21 +219,16 @@ public class ProxyController extends Observable implements ConnectionController,
         lobbyController.getPlayer(nickname).getObserver().deleteObserver(o);
         lobbyController.getMatchById(idMatchByPlayer(nickname)).getObserver().deleteObserver(o);
         lobbyController.killPlayer(nickname);
-
+        if (lobbyController.getMatchById(idMatchByPlayer(nickname)).getNext().getNickName().equals(nickname)) {
+            nextRound(nickname, idMatchByPlayer(nickname));
+        }
 
         System.out.println("disconnesso giocatore: " + nickname);
     }
-
-
 
     @Override
     public void setView(View view) throws RemoteException {
     }
 
 
-    @Override
-    public void update(Observable o, Object arg) {
-        setChanged();
-        notifyObservers(arg);
-    }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,11 +30,18 @@ public class SocketHandler implements Runnable, Observer {
 
 
     public void sendObj(String st, Object obj) throws Exception {
-        out.writeUTF(st);
-        out.flush();
-        out.writeObject(obj);
-        out.flush();
-        out.reset();
+        try {
+            out.writeUTF(st);
+            out.flush();
+            out.writeObject(obj);
+            out.flush();
+            out.reset();
+        /*}catch (RemoteException e){
+            proxyController.close(nickname);*/
+        }catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+        }
     }
 
 
@@ -56,6 +64,7 @@ public class SocketHandler implements Runnable, Observer {
 
             boolean online = true;
             while (online) {
+
                 line = in.readUTF();
 
                 GameController gameController = null;
@@ -96,8 +105,12 @@ public class SocketHandler implements Runnable, Observer {
                         proxyController.insertTile(in.readUTF(), (ItemTile) in.readObject(), in.readInt());
                         break;
                     case "#nextRound":
-                        proxyController.nextRound(in.readUTF(), in.readInt());
-                        break;
+                        try {
+                            proxyController.nextRound(in.readUTF(), in.readInt());
+                            break;
+                        }catch(RemoteException e){
+                            proxyController.close(nickname);
+                        }
                     case "#addObserver":
                         proxyController.addSockObs(nickname, this);
                         proxyController.getLobbyController().getMatchById(matchid).getObserver().addObserver(this);
@@ -125,7 +138,14 @@ public class SocketHandler implements Runnable, Observer {
             }
             in.close();
             socket.close();
-        } catch (IOException e) {
+        }catch (EOFException e){
+            try {
+                proxyController.close(nickname);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        catch (IOException e) {
             System.out.println("#SocketHandler class - run method - catch error:");
             e.printStackTrace();
         } catch (Exception e) {
