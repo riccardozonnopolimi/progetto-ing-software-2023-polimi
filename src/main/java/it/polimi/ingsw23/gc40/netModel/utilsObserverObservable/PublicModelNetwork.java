@@ -12,7 +12,7 @@ public class PublicModelNetwork implements Serializable {
     private final boolean playable;
     private final String winner;
     private final String current;
-
+    private final short turnNumber;
 
 
     public boolean isPlayable() {
@@ -27,13 +27,14 @@ public class PublicModelNetwork implements Serializable {
         return current;
     }
 
-    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current, boolean playable, String winner) {
+    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current, boolean playable, String winner, short turnNumber) {
         this.cgs = cgs;
         this.lrb = lrb;
         this.idMatch = idMatch;
         this.current = current;
         this.playable = playable;
         this.winner = winner;
+        this.turnNumber = turnNumber;
     }
 
 
@@ -48,5 +49,9 @@ public class PublicModelNetwork implements Serializable {
 
     public int getIdMatch() {
         return idMatch;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 }

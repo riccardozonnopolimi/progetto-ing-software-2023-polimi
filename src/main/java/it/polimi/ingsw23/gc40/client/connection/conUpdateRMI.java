@@ -18,6 +18,10 @@ public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
         this.view = view;
     }
 
+    public void ping() throws RemoteException{
+        return;
+    }
+
 
     @Override
     public void update(Object obj) throws RemoteException {

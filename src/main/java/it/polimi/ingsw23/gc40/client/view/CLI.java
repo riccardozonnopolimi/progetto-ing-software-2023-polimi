@@ -5,6 +5,7 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwor
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
+import javax.swing.plaf.TableHeaderUI;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -16,7 +17,6 @@ public class CLI extends View {
     public static String yellow = "\u001b[43m\u001b[30m";
     public static String reset = "\u001b[0m";
     public static String grey = "\u001b[47m\u001b[30m";
-
 
 
     public CLI(ConnectionController con) {
@@ -38,7 +38,7 @@ public class CLI extends View {
         this.matchId = con.reconnect(super.nickname);
         //If match id !=-1 player has disconnected, it will join the previous game
         if (matchId != -1)
-            System.out.println("Welcome back"+super.nickname+"!\n"+ yellow + "Reconnecting to the previous game." + reset);
+            System.out.println("Welcome back " + super.nickname + "!\n" + yellow + "Reconnecting to the previous game." + reset);
         else {
             //creating new player
             System.out.println(green + "Created player" + reset);
@@ -69,6 +69,10 @@ public class CLI extends View {
             System.out.println("");
             System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + reset);
         }
+
+        int turnNumber = 0;
+
+
         //waiting notify when all player are connected
         con.addObserver(null, super.nickname, super.matchId);
         //waiting for match is ready
@@ -108,6 +112,10 @@ public class CLI extends View {
 
 
             if (match_data.isPlayable()) {
+
+
+                turnNumber = match_data.getTurnNumber();
+                //System.out.println("TURNO NUMERO: "+turnNumber);
                 //switch case for different move
                 switch (choice) {
                     case 0:
@@ -184,8 +192,6 @@ public class CLI extends View {
                         } while (handTiles == null);
 
 
-
-
                         //show bookshelf and ask in which column insert tile
 
                         int column;
@@ -207,7 +213,6 @@ public class CLI extends View {
                                 }
                             }
                         } while (retry);
-
 
 
                         if (quantity > 1) {
@@ -243,19 +248,17 @@ public class CLI extends View {
                         //set next player as current player
                         con.nextRound(nickname, matchId);
 
-                        //wainting for change of current player
-                        while (match_data.getCurrent().equals(nickname))
-                            System.out.print("");
-
-                        /*if(attivi==1)
-                            System.out.println("sei solo scemo ahhaha");
-
-                        while(attivi==1) {
+                        while (turnNumber == match_data.getTurnNumber())
                             Thread.sleep(500);
-                            System.out.print("...");
+                        if (match_data.getCurrent().equals(nickname))
+                            System.out.println(yellow+"You are alone in the match, the match will automatically resume as soon as at least one other player reconnects"+reset);
+
+
+                        //waiting for change of current player
+                        while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
+                            Thread.sleep(500);
                         }
-*/
-                        //in caso di partita a due giocatori, ed uno si disconnette questo while è sempre true ed il player rimasto online resta fermo per sempre
+
 
                         break;
                     default:
@@ -276,8 +279,20 @@ public class CLI extends View {
     //todo description of this method
     public String inString(String question) {
         System.out.println(grey + question + reset);
-        String line = sc.nextLine();
-        sc.reset();
+
+        String line = "";
+
+        do {
+            line = sc.nextLine();
+            sc.reset();
+
+            if ((line.isBlank()||line.isEmpty()||line.equals("")))
+                System.out.println(red+"Insert a valid character"+reset);
+
+        } while (line.isBlank()||line.isEmpty()||line.equals(""));
+
+        //todo studiare meglio le stringhe in java :D
+
         return line;
     }
 
@@ -412,18 +427,16 @@ public class CLI extends View {
         //todo finish method description
         if (publicData.getIdMatch() == matchId || matchId == -1) {
             String temp = null;
-            if (match_data != null)
-                temp = match_data.getCurrent();
+            if (match_data != null) temp = match_data.getCurrent();
 
             super.updatePublicData(publicData);
 
-            if (publicData.isPlayable())
-                if (temp != null && match_data != null && this.nickname != null)
-                    if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                        System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.reset);
-                        System.out.println(CLI.grey + "6)" + CLI.reset + " Make your move");
-                    } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
-                        System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.reset);
+            if (publicData.isPlayable()) if (temp != null && match_data != null && this.nickname != null)
+                if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
+                    System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.reset);
+                    System.out.println(CLI.grey + "6)" + CLI.reset + " Make your move");
+                } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
+                    System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.reset);
 
         }
 

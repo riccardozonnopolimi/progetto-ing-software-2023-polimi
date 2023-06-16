@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class GameController extends Observable {
     private final Integer id;
     private final int numPlayers;
+    public int activePlayers;
     private ArrayList<ItemTile> bag = new ArrayList<>();
     private CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private ArrayList<Integer> CG1Scores = new ArrayList<>();
@@ -25,6 +26,7 @@ public class GameController extends Observable {
     private LRB map;
     private boolean ending;
     private boolean playable;
+    private short turnNumber;
 
     public boolean isPlayable() {
         return playable;
@@ -91,6 +93,8 @@ public class GameController extends Observable {
         this.next = null;
         this.ending = false;
         this.id = id;
+        this.turnNumber = 0;
+        this.activePlayers = 0;
 
 
         //create a map for n players
@@ -261,13 +265,12 @@ public class GameController extends Observable {
         }
         players.get(0).setStartedFirst(true);
         setNext(players.get(0));
-
-
     }
 
     //This method returns true to server if the match is ready to start (has all players)
     public boolean addPlayer(Player p) {
         players.add(p);
+        activePlayers++;
 
         if (players.size() == numPlayers) {
             setPlayersOrder();
@@ -311,6 +314,9 @@ public class GameController extends Observable {
 
     public void setNext(Player next) {
         this.next = next;
+        this.turnNumber++;
+        setChanged();
+        notifyObservers(turnNumber);
         setChanged();
         notifyObservers(next.getNickName());
     }
@@ -318,17 +324,16 @@ public class GameController extends Observable {
 
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
         //tested
-        try{
-            if(quantity<1 || quantity>3)
-            {
+        try {
+            if (quantity < 1 || quantity > 3) {
                 throw new RuntimeException();
             }
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             return null;
 
         }
         ItemTile[] chosen = new ItemTile[quantity];
-        for (int i = 0; i< quantity; i++){
+        for (int i = 0; i < quantity; i++) {
             chosen[i] = new ItemTile(Item.EMPTY);
         }
 
@@ -398,124 +403,6 @@ public class GameController extends Observable {
         return map;
     }
 
-    public void round(Player p) {
-        if (map.needRefill()) {
-            refill();
-            setChanged();
-            notifyObservers(this.getMap().getMap());
-        }
-        int placeables = p.getBookshelf().placeables();
-        ItemTile[] handTiles;
-
-        //utente sceglie tile
-
-        Scanner sc = new Scanner(System.in);
-        map.print();
-
-        int y, x, quantity;
-        char direction;
-        do {
-            System.out.println("Per selezionare le Tiles inserisci le coordinate della prima Tile nella riga che vuoi prendere:");
-            System.out.print("X: ");
-            x = sc.nextInt();
-            System.out.print("Y: ");
-            sc.reset();
-            y = sc.nextInt();
-            System.out.print("Quante Tiles vuoi prendere? ");
-            sc.reset();
-
-
-            do {
-                quantity = sc.nextInt();
-                if (quantity > placeables)
-                    System.out.print("Non hai spazio sufficiente nella tua bookshelf per " + quantity + " tiles!\nRiprova, quante Tiles vuoi prendere? ");
-            } while (quantity > placeables);
-            handTiles = new ItemTile[quantity];
-
-            System.out.println("Verso dove vuoi prendere?   (U per Up - D per Down - L per Left - R per Right)");
-            sc.reset();
-
-            direction = sc.next().charAt(0);
-            handTiles = this.chooseTiles(x, y, quantity, direction);
-            if (handTiles == null) {
-                System.out.println("Hai selezionato una o più Tiles non prendibili, riprova:");
-                map.print();
-            }
-
-        } while (handTiles == null);
-        for (int i = 0; i < quantity; i++) {
-
-        }
-
-        //mostro la bookshelf e chiedo colonna in cui vuole inserire
-        int column;
-        p.getBookshelf().print();
-        boolean retry;
-        do {
-            retry = false;
-            System.out.println("In quale colonna vuoi inserire le tiles?");
-            sc.reset();
-            column = sc.nextInt();
-            if (column < 0 || column > 4) {
-                retry = true;
-                System.out.println("Hai scelto una colonna inesistente");
-            }
-            if (p.getBookshelf().getAvailableSlots(column) < handTiles.length) {
-                System.out.println("La colonna non ha sufficiente spazio, riprova:");
-                retry = true;
-            }
-        } while (retry);
-
-        //mostra tiles in mano
-        System.out.println("Hai selezionato i seguenti Tiles:");
-        for (int i = 0; i < handTiles.length; i++) {
-            System.out.print(i + ": " + handTiles[i].toString() + "|");
-        }
-
-        //inserisci le tiles che hai in mano
-        for (int i = 0; i < handTiles.length; i++) {
-            System.out.println("Scegli una tile da inserire:");
-            int selected;
-            do {
-                retry = false;
-                selected = sc.nextInt();
-                if (selected >= handTiles.length || selected < 0) {
-                    System.out.println("Riprova:");
-                    retry = true;
-                } else {
-                    if (handTiles[selected] == null) {
-                        System.out.println("Riprova:");
-                        retry = true;
-                    }
-                }
-            } while (retry);
-            p.getBookshelf().insertIT(handTiles[selected], column);
-            handTiles[selected] = null;
-            sc.reset();
-        }
-
-        //check if there is space in the player bookshelf
-        if (p.getBookshelf().isFull()) {
-            //p.getBookshelf().setFull(true);
-            p.setFirstScore(1);
-            this.ending = true;
-        }
-
-        //refresh scores
-        p.setADJScore(p.getBookshelf().ADJScore());
-        if (commonGoals[0].getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + CG1Scores.get(CG1Scores.size()) - 1);
-        if (commonGoals[1].getGoal().instanceGoal(p))
-            p.setCGScore(p.getCGScore() + CG2Scores.get(CG2Scores.size()) - 1);
-        p.getPersonalGoal().checkScore(p);
-
-        //set turn to next player
-        int num;
-        if (players.indexOf(p) == players.size() - 1) num = 0;
-        else num = players.indexOf(p) + 1;
-        next = players.get(num);
-    }
-
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
@@ -529,10 +416,6 @@ public class GameController extends Observable {
     @Override
     public void notifyObservers(Object arg) {
         super.notifyObservers(arg);
-    }
-
-    public void print(String s) {
-        System.out.println(s);
     }
 
     public boolean isEnding() {
@@ -556,26 +439,32 @@ public class GameController extends Observable {
     }
 
     public void checkScores(Player p) {
-       p.setADJScore(p.getBookshelf().ADJScore());
-        System.out.println("punteggio adiacenze: " +p.getADJScore()+" user: "+p.getNickName());
+        p.setADJScore(p.getBookshelf().ADJScore());
+        System.out.println("punteggio adiacenze: " + p.getADJScore() + " user: " + p.getNickName());
         int cgscore = p.getCGScore();
-        System.out.println("cgscore attuale: "+cgscore);
-        if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)){
+        System.out.println("cgscore attuale: " + cgscore);
+        if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)) {
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
             this.CG1Scores.remove(this.CG1Scores.size() - 1);
-            System.out.println("CG1 reached by "+p.getNickName());
+            System.out.println("CG1 reached by " + p.getNickName());
             p.setCG1Reached(true);
         }
         if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
             cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
             this.CG2Scores.remove(this.CG2Scores.size() - 1);
-            System.out.println("CG2 reached by "+p.getNickName());
+            System.out.println("CG2 reached by " + p.getNickName());
             p.setCG2Reached(true);
         }
 
         p.setCGScore(cgscore);
         p.getPersonalGoal().checkScore(p);
     }
+
+    public int getActive() {
+        return activePlayers;
+    }
+
+    public void setActive(int i) {
+        this.activePlayers = i;
+    }
 }
-
-

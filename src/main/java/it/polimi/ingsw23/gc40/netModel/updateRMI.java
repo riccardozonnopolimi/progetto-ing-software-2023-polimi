@@ -5,4 +5,5 @@ import java.rmi.RemoteException;
 
 public interface updateRMI extends Remote {
     void update(Object obj) throws RemoteException;
+    void ping() throws RemoteException;
 }

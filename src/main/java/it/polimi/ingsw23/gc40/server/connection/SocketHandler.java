@@ -38,7 +38,7 @@ public class SocketHandler implements Runnable, Observer {
             out.reset();
         /*}catch (RemoteException e){
             proxyController.close(nickname);*/
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e);
             e.printStackTrace();
         }
@@ -105,12 +105,8 @@ public class SocketHandler implements Runnable, Observer {
                         proxyController.insertTile(in.readUTF(), (ItemTile) in.readObject(), in.readInt());
                         break;
                     case "#nextRound":
-                        try {
-                            proxyController.nextRound(in.readUTF(), in.readInt());
-                            break;
-                        }catch(RemoteException e){
-                            proxyController.close(nickname);
-                        }
+                        proxyController.nextRound(in.readUTF(), in.readInt());
+                        break;
                     case "#addObserver":
                         proxyController.addSockObs(nickname, this);
                         proxyController.getLobbyController().getMatchById(matchid).getObserver().addObserver(this);
@@ -123,7 +119,7 @@ public class SocketHandler implements Runnable, Observer {
                     case "#close":
                         writeUTF("#quit");
                         proxyController.close(in.readUTF());
-                        online=false;
+                        online = false;
                         break;
 
                     default:
@@ -138,14 +134,13 @@ public class SocketHandler implements Runnable, Observer {
             }
             in.close();
             socket.close();
-        }catch (EOFException e){
+        } catch (EOFException e) {
             try {
                 proxyController.close(nickname);
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("#SocketHandler class - run method - catch error:");
             e.printStackTrace();
         } catch (Exception e) {

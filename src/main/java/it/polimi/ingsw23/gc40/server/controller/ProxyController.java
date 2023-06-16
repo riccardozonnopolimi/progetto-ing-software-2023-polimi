@@ -8,23 +8,24 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserv
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
-import java.rmi.ConnectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class ProxyController implements ConnectionController {
+public class ProxyController extends Thread implements ConnectionController {
     public LobbyController getLobbyController() {
         return lobbyController;
     }
 
     private LobbyController lobbyController;
-    private HashMap<String, Observer> mapObs = new HashMap<>();
-
+    private HashMap<String, Observer> mapObservers = new HashMap<>();
+    private HashMap<String, Remote> mapRemote = new HashMap<>();
 
     public ProxyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
+        start();
     }
+
 
     public boolean connect(String name) throws RemoteException {
         if (lobbyController.checkOnlinePlayers(name)) {
@@ -33,8 +34,6 @@ public class ProxyController implements ConnectionController {
         } else {
             if (lobbyController.checkOfflinePlayers(name)) {
                 System.out.println("@PC: utente riconnesso: " + name);
-
-
             } else {
                 System.out.println("@PC: creo utente: " + name);
                 lobbyController.addPlayer(name);
@@ -44,6 +43,34 @@ public class ProxyController implements ConnectionController {
         return true;
     }
 
+
+    @Override
+    public void run() {
+        //System.out.println("entro nella run");
+        while (true) {
+            //System.out.println("entro nel while");
+            mapRemote.forEach((nickname, remote) -> {
+                //System.out.println("entro nel foreach");
+                try {
+                    //System.out.println("provo a pingare");
+                    ((updateRMI) remote).ping();
+                } catch (RemoteException e) {
+                    try {
+                        //System.out.println("non ci riesco");
+                        close(nickname);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public int startRound(String player, int matchId) {
 
@@ -68,97 +95,92 @@ public class ProxyController implements ConnectionController {
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
         //check if there is space in the player bookshelf
-            Player p;
-            if (lobbyController.getOfflinePlayer(nickname) == null) {
-                p = lobbyController.getPlayer(nickname);
-            } else {
-                p = lobbyController.getOfflinePlayer(nickname);
-            }
-            GameController m = lobbyController.getMatchById(match);
-            if (p.getBookshelf().isFull()) {
-                p.setFirstScore(1);
-                m.setEnding(true);
-            }
+        Player p;
+        if (lobbyController.getOfflinePlayer(nickname) == null) {
+            p = lobbyController.getPlayer(nickname);
+        } else {
+            p = lobbyController.getOfflinePlayer(nickname);
+        }
+        GameController m = lobbyController.getMatchById(match);
+        if (p.getBookshelf().isFull()) {
+            p.setFirstScore(1);
+            m.setEnding(true);
+        }
 
-            //refresh scores
-            m.checkScores(p);
+        //refresh scores
+        m.checkScores(p);
 
-            //refill map if needed
-            if (lobbyController.getMatchById(match).getMap().needRefill()) {
-                lobbyController.getMatchById(match).refill();
-            }
-
-
-            //set turn to next player (while next is offline)
-            do {
-                int num;
-                if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
-                    num = 0;
-                else
-                    num = m.getPlayers().indexOf(p) + 1;
-
-                p = m.getPlayers().get(num);
-            } while (lobbyController.checkOfflinePlayers(p.getNickName()));
+        //refill map if needed
+        if (lobbyController.getMatchById(match).getMap().needRefill()) {
+            lobbyController.getMatchById(match).refill();
+        }
 
 
-            m.setNext(p);
+        //set turn to next player (while next is offline)
+        do {
+            int num;
+            if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
+                num = 0;
+            else
+                num = m.getPlayers().indexOf(p) + 1;
 
-            //check if match is completed
-            if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
-                lobbyController.getMatchById(match).setPlayable(false);
+            p = m.getPlayers().get(num);
+        } while (lobbyController.checkOfflinePlayers(p.getNickName()));
 
+
+        m.setNext(p);
+
+        //check if match is completed
+        if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
+            lobbyController.getMatchById(match).setPlayable(false);
 
 
     }
 
     public void addSockObs(String s, Observer o) {
-        mapObs.put(s, o);
+        mapObservers.put(s, o);
     }
 
     @Override
     public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
-            PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
-            PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
-            Observer o = new Observer() {
-                @Override
-                public void update(Observable o, Object arg) {
+        PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
+        PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
+        Observer o = new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
+                try {
+                    ((updateRMI) aRemoteObj).update(arg);
+                } catch (RemoteException e) {
+
+                    //System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
+
                     try {
-                        ((updateRMI) aRemoteObj).update(arg);
-                    } catch (RemoteException e) {
-                        System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
-                        try {
-                            close(nickname);
-                        } catch (RemoteException ex) {
-                            throw new RuntimeException(ex);
-                        }
+                        close(nickname);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
                         /*System.err.println(e);
                         throw new RuntimeException(e);*/
-                    }
                 }
-            };
-            publicobs.addObserver(o);
-            privateobs.addObserver(o);
+            }
+        };
+        publicobs.addObserver(o);
+        privateobs.addObserver(o);
 
+        mapRemote.put(nickname, aRemoteObj);
 
-            mapObs.put(nickname, o);
+        mapObservers.put(nickname, o);
 
 
     }
 
     private int idMatchByPlayer(String nickname) {
-        ArrayList<GameController> ms = lobbyController.getActiveMatches();
 
-        for (int i = 0; i < ms.size(); i++) {
-            ArrayList<Player> ps = ms.get(i).getPlayers();
-            for (int j = 0; j < ps.size(); j++) {
-                if (ps.get(j).getNickName().equals(nickname)) {
-                    return ms.get(i).getId();
+        GameController m = lobbyController.matchByPlayer(nickname);
 
+        if (m != null)
+            return m.getId();
 
-                }
-            }
-
-        }
         return -1;
     }
 
@@ -170,7 +192,7 @@ public class ProxyController implements ConnectionController {
         boolean trovato = false;
         if (!ms.isEmpty()) {
             mID = idMatchByPlayer(nickname);
-            lobbyController.unkillPlayer(nickname);
+            lobbyController.reBorn(nickname);
         }
 
         return mID;
@@ -213,15 +235,19 @@ public class ProxyController implements ConnectionController {
         if (idMatchByPlayer(nickname) == -1)
             return;
 
-        Observer o = mapObs.get(nickname);
-        mapObs.remove(nickname);
+        Observer o = mapObservers.get(nickname);
+        mapObservers.remove(nickname);
+
+        GameController match = lobbyController.getMatchById(idMatchByPlayer(nickname));
 
         lobbyController.getPlayer(nickname).getObserver().deleteObserver(o);
-        lobbyController.getMatchById(idMatchByPlayer(nickname)).getObserver().deleteObserver(o);
+        match.getObserver().deleteObserver(o);
         lobbyController.killPlayer(nickname);
         if (lobbyController.getMatchById(idMatchByPlayer(nickname)).getNext().getNickName().equals(nickname)) {
             nextRound(nickname, idMatchByPlayer(nickname));
         }
+
+        match.setActive(match.getActive() - 1);
 
         System.out.println("disconnesso giocatore: " + nickname);
     }

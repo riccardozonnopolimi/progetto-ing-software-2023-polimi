@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
-
+    private ArrayList<Player> offlinePlayers = new ArrayList<>();
+    private ArrayList<GameController> activeGameControllers = new ArrayList<>();
+    private GameController queueMatch;
+    private ArrayList<Score> SavedScores = new ArrayList<>();
+    private int numMatch;
     public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
         this.onlinePlayers = onlinePlayers;
     }
@@ -20,10 +24,6 @@ public class LobbyController {
         this.offlinePlayers = offlinePlayers;
     }
 
-    private ArrayList<Player> offlinePlayers = new ArrayList<>();
-    private ArrayList<GameController> activeGameControllers = new ArrayList<>();
-    private GameController queueMatch;
-
     public ArrayList<GameController> getActiveMatches() {
         return activeGameControllers;
     }
@@ -31,9 +31,6 @@ public class LobbyController {
     public void setActiveGameControllers(ArrayList<GameController> activeGameControllers) {
         this.activeGameControllers = activeGameControllers;
     }
-
-    private ArrayList<Score> SavedScores = new ArrayList<>();
-    private int numMatch;
 
     public LobbyController() {
         this.numMatch = 0;
@@ -61,14 +58,39 @@ public class LobbyController {
         Player p = getPlayer(name);
         onlinePlayers.remove(p);
         offlinePlayers.add(p);
+
     }
 
-    public void unkillPlayer(String name) {
+    public GameController matchByPlayer(String name){
+
+        for (int i = 0; i < activeGameControllers.size(); i++) {
+            ArrayList<Player> ps = activeGameControllers.get(i).getPlayers();
+            for (int j = 0; j < ps.size(); j++) {
+                if (ps.get(j).getNickName().equals(name)) {
+                    return activeGameControllers.get(i);
+                }
+            }
+        }
+        return null;
+    }
+
+    public void reBorn(String name){
         Player p = getOfflinePlayer(name);
 
         onlinePlayers.add(p);
         offlinePlayers.remove(p);
+
+        if (matchByPlayer(name).getActive() == 1) {
+
+            matchByPlayer(name).setNext(getPlayer(name));
+            System.out.println("reborn ok");
+        }
+
+        matchByPlayer(name).setActive(matchByPlayer(name).getActive() + 1);
+
+
     }
+
     public Player getOfflinePlayer(String name){
         Player p = null;
         for (int i = 0; i < offlinePlayers.size(); i++) {
@@ -112,7 +134,6 @@ public class LobbyController {
         return false;
     }
 
-
     public void endMatch(GameController gameController) {
         //TO TEST TODO
         if (gameController.isEnding() && !gameController.isPlayable()) {
@@ -130,7 +151,6 @@ public class LobbyController {
     public void print(String str) {
         System.out.println(str);
     }
-
 
     public boolean hasQueueMatch() {
         return (queueMatch != null);
