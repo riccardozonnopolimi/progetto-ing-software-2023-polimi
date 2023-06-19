@@ -1,6 +1,7 @@
 package it.polimi.ingsw23.gc40.client.view;
 
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.Observer;
 
 public class GUI extends View {
     private JFrame frame;
@@ -25,10 +27,10 @@ public class GUI extends View {
     private JPanel gamePanel;
     private JPanel LRBPanel;
     private JLabel LRBImageLabel;
-    private ImageIcon LRBImageIcon = new ImageIcon("src/main/resources/img/boards/livingroom.png");
-// resize image
+
+    /*// resize image
     Image LRBResized = LRBImageIcon.getImage().getScaledInstance(200,200, Image.SCALE_SMOOTH);
-    ImageIcon LRBResizedIcon = new ImageIcon(LRBResized);
+    ImageIcon LRBResizedIcon = new ImageIcon(LRBResized);*/
 
     public GUI(ConnectionController con) {
 
@@ -96,15 +98,11 @@ public class GUI extends View {
 
         waitingLabel.setText("Attendi l'inizio del match!");
 
-        LRBImageLabel.setIcon(LRBResizedIcon);
     }
 
     private void startMatch() {
         GUI_Match matchFrame = new GUI_Match();
         this.addObserver(matchFrame);
-
-        setChanged();
-        notifyObservers("pippo");
         matchFrame.init();
         frame.setExtendedState(JFrame.ICONIFIED);
     }
@@ -116,39 +114,37 @@ public class GUI extends View {
         frame.pack();
         frame.setVisible(true);
         showOnly(newplayerPanel);
-
-
     }
 
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
-        if (publicData.getIdMatch() == matchId || matchId == -1) {
-            boolean wasplayable = match_data.isPlayable();
-            String temp = null;
-            if (match_data != null)
-                temp = match_data.getCurrent();
+
+        if (publicData.getIdMatch() == this.matchId || this.matchId == -1) {
+
+            boolean wasplayable = this.match_data.isPlayable();
 
             super.updatePublicData(publicData);
 
+            setChanged();
+            notifyObservers(this.match_data);
             //System.out.println("aggiorno public");
 
-            if (publicData.isPlayable()) {
+            if (this.match_data.isPlayable()) {
                 //System.out.println("playable");
                 if (!wasplayable) {
                     //System.out.println("Match pronto!");
                     startMatch();
-
-                }
-
-                if (temp != null && match_data != null && this.nickname != null) {
-                    //System.out.println("tutto diverso da null");
-                    if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                        System.out.println("tocca a te");
-                    } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
-                        System.out.println("non tocca a te");
                 }
             }
         }
+    }
+
+    @Override
+    public void updatePrivateData(PrivateModelNetwork privateData)
+    {
+        super.updatePrivateData(privateData);
+        setChanged();
+        notifyObservers(this.player_data);
     }
 
     public void showOnly(JPanel panelAttr) {
@@ -163,4 +159,12 @@ public class GUI extends View {
         JOptionPane.showMessageDialog(frame, st);
     }
 
+    @Override
+    public void addObserver(Observer o) {
+        super.addObserver(o);
+        setChanged();
+        notifyObservers(match_data);
+        setChanged();
+        notifyObservers(player_data);
+    }
 }

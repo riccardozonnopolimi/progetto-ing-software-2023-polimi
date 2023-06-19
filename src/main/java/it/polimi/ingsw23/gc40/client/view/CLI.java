@@ -464,8 +464,6 @@ public class CLI extends View {
 
             if (match_data != null) {
                 precedente = match_data.getCurrent();
-
-
             }
 
             String giocatore = this.nickname;
