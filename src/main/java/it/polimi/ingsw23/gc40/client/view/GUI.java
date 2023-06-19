@@ -50,7 +50,9 @@ public class GUI extends View {
                             matchId = con.addToLastMatch(nickname);
                             showOnly(waitingPanel);
                             con.addObserver(null, nickname, matchId);
-                            popup("Sei stato aggiunto al match n."+matchId);
+
+                            // todo avvisare il giocatore di ciò che segue:
+                            // popup("Sei stato aggiunto al match n."+matchId);
                         } else {
                             showOnly(newmatchPanel);
                         }
@@ -97,6 +99,16 @@ public class GUI extends View {
         LRBImageLabel.setIcon(LRBResizedIcon);
     }
 
+    private void startMatch() {
+        GUI_Match matchFrame = new GUI_Match();
+        this.addObserver(matchFrame);
+
+        setChanged();
+        notifyObservers("pippo");
+        matchFrame.init();
+        frame.setExtendedState(JFrame.ICONIFIED);
+    }
+
     public void init() {
         frame = new JFrame("MyShelfie");
         frame.setContentPane(panel);
@@ -123,8 +135,9 @@ public class GUI extends View {
             if (publicData.isPlayable()) {
                 //System.out.println("playable");
                 if (!wasplayable) {
-                    System.out.println("Match pronto!");
-                    showOnly(gamePanel);
+                    //System.out.println("Match pronto!");
+                    startMatch();
+
                 }
 
                 if (temp != null && match_data != null && this.nickname != null) {

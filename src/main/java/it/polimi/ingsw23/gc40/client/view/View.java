@@ -12,9 +12,10 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Scanner;
 
-public abstract class View {
+public abstract class View extends Observable {
     ConnectionController con;
     public int matchId;
     public String nickname;
@@ -77,4 +78,7 @@ public abstract class View {
         } while (n < 0 || n >= choices.length);
         return n;
     }
+
+
+
 }
