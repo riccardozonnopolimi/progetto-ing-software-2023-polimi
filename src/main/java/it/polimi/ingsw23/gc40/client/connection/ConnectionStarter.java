@@ -19,7 +19,7 @@ public class ConnectionStarter {
         Socket socket = null;
         try {
             socket = new Socket(host, port);
-            System.out.println(CLI.green +"#Connessione Socket riuscita - porta: " + port+CLI.reset);
+            System.out.println(CLI.green +"Socket connection started successfully on port: " + port+CLI.resetStdColor);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host");
         } catch (IOException e) {
@@ -32,7 +32,7 @@ public class ConnectionStarter {
     public static ConnectionController rmi(String name, String host) throws Exception {
         Registry registry = LocateRegistry.getRegistry(host);
         ConnectionController stub = ((ConnectionController) registry.lookup(name));
-        System.out.println(CLI.green +"#Connessione RMI riuscita"+CLI.reset);
+        System.out.println(CLI.green +"RMI connection started successfully"+CLI.resetStdColor);
         return stub;
     }
 }

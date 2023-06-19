@@ -117,18 +117,20 @@ public class ProxyController extends Thread implements ConnectionController {
 
 
         //set turn to next player (while next is offline)
-        do {
-            int num;
-            if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1)
-                num = 0;
-            else
-                num = m.getPlayers().indexOf(p) + 1;
+        if (lobbyController.getMatchById(match).getActive() == 1) {
+            //caso in cui si è disconnesso il penultimo utente non devo passare il turno ma devo stare fermo? oppure comunicare qualcosa?
+            m.setNext(null);
+        } else {
+            do {
+                int num;
+                if (m.getPlayers().indexOf(p) == m.getPlayers().size() - 1) num = 0;
+                else num = m.getPlayers().indexOf(p) + 1;
 
-            p = m.getPlayers().get(num);
-        } while (lobbyController.checkOfflinePlayers(p.getNickName()));
+                p = m.getPlayers().get(num);
+            } while (lobbyController.checkOfflinePlayers(p.getNickName()));
+            m.setNext(p);
+        }
 
-
-        m.setNext(p);
 
         //check if match is completed
         if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
@@ -178,8 +180,7 @@ public class ProxyController extends Thread implements ConnectionController {
 
         GameController m = lobbyController.matchByPlayer(nickname);
 
-        if (m != null)
-            return m.getId();
+        if (m != null) return m.getId();
 
         return -1;
     }
@@ -192,9 +193,13 @@ public class ProxyController extends Thread implements ConnectionController {
         boolean trovato = false;
         if (!ms.isEmpty()) {
             mID = idMatchByPlayer(nickname);
-            lobbyController.reBorn(nickname);
+            lobbyController.setPlayerOnline(nickname);
+            GameController m = lobbyController.matchByPlayer(nickname);
+            if (m.getActive() == 1) {
+                m.setNext(lobbyController.getPlayer(nickname));
+            }
+            m.setActive(m.getActive() + 1);
         }
-
         return mID;
     }
 
@@ -230,10 +235,8 @@ public class ProxyController extends Thread implements ConnectionController {
 
     @Override
     public void close(String nickname) throws RemoteException {
-        if (!lobbyController.checkOnlinePlayers(nickname))
-            return;
-        if (idMatchByPlayer(nickname) == -1)
-            return;
+        if (!lobbyController.checkOnlinePlayers(nickname)) return;
+        if (idMatchByPlayer(nickname) == -1) return;
 
         Observer o = mapObservers.get(nickname);
         mapObservers.remove(nickname);
@@ -242,12 +245,22 @@ public class ProxyController extends Thread implements ConnectionController {
 
         lobbyController.getPlayer(nickname).getObserver().deleteObserver(o);
         match.getObserver().deleteObserver(o);
-        lobbyController.killPlayer(nickname);
-        if (lobbyController.getMatchById(idMatchByPlayer(nickname)).getNext().getNickName().equals(nickname)) {
-            nextRound(nickname, idMatchByPlayer(nickname));
-        }
+
+        lobbyController.setPlayerOffline(nickname);
 
         match.setActive(match.getActive() - 1);
+
+        if (match.getNext().getNickName().equals(nickname)) {
+            System.out.println("tocca a chi si è disconnesso");
+            nextRound(nickname, match.getId());
+        } else {
+            System.out.println("tocca a chi non si è disconnesso");
+            if (match.getActive() == 1) {
+                System.out.println("chi è online in questo match è da solo");
+                match.setNext(null);
+            }
+        }
+
 
         System.out.println("disconnesso giocatore: " + nickname);
     }

@@ -5,7 +5,6 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwor
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import javax.swing.plaf.TableHeaderUI;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,7 +14,7 @@ public class CLI extends View {
     public static String green = "\u001b[42m\u001b[30m";
     public static String red = "\u001B[41m\u001B[30m";
     public static String yellow = "\u001b[43m\u001b[30m";
-    public static String reset = "\u001b[0m";
+    public static String resetStdColor = "\u001b[0m";
     public static String grey = "\u001b[47m\u001b[30m";
 
 
@@ -27,47 +26,58 @@ public class CLI extends View {
     public void init() throws RemoteException, Exception {
 
         //starting textual user interface
-        System.out.println(green + "Text-based game interface started!" + reset);
+        System.out.println(green + "Command Line Interface has started!" + resetStdColor);
         System.out.println("");
-        super.nickname = inString("Insert player name: ");
+        super.nickname = askString("Insert player name: ");
         while (!con.connect(super.nickname)) {
-            System.out.println(yellow + "Name already in use, retry..." + reset);
-            super.nickname = inString("Insert player name: ");
+            System.out.println(yellow + "Name already in use, retry..." + resetStdColor);
+            super.nickname = askString("Insert player name: ");
         }
 
         this.matchId = con.reconnect(super.nickname);
         //If match id !=-1 player has disconnected, it will join the previous game
         if (matchId != -1)
-            System.out.println("Welcome back " + super.nickname + "!\n" + yellow + "Reconnecting to the previous game." + reset);
+            System.out.println("Welcome back " + super.nickname + "!\n" + yellow + "Reconnecting to the previous game." + resetStdColor);
         else {
             //creating new player
-            System.out.println(green + "Created player" + reset);
+            System.out.println(green + "Created player" + resetStdColor);
             System.out.println("");
 
 
             if (con.hasQueueMatch()) {
                 //adding player to last match
-                System.out.println(green + "You have been added to an existing match, waiting for players." + reset);
+                System.out.println(green + "You are being added to the pending match" + resetStdColor);
             } else {
-                // no gaming exists, creating new game
-                while (!con.newMatch(inInt("Creating new match, how many players would you like the game to have? "))) {
+                // no match exists, creating new game
+                boolean matchcreato = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
+
+                if (matchcreato)
+                    System.out.println(green + "You successfully created a match" + resetStdColor);
+
+                while (!matchcreato) {
+                    //if while condition is false the match is not created, there are 2 possible reasons
                     if (con.hasQueueMatch()) {
-                        System.out.println(red + "Can't create match: there is another match waiting for players." + reset);
+                        //in the meantime the player was chosing the number of players another client created a match
+                        System.out.println(red + "Can't create match: there is another match waiting for players." + resetStdColor);
+                        System.out.println("");
+                        System.out.println(green + "You are being added to the pending match" + resetStdColor);
                         break;
                     } else {
-                        System.out.println(red + "Insert player number between 2 and 4" + reset);
+                        //the player wrote a wrong number
+                        System.out.println(red + "Insert player number between 2 and 4" + resetStdColor);
                     }
+                    matchcreato = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
                 }
-                System.out.println(green + "Created match" + reset);
             }
             //adding player to the game
             super.matchId = con.addToLastMatch(super.nickname);
 
-            System.out.println("JOINED MATCH N°" + super.matchId);
+            System.out.println("");
+            System.out.println(green + "You are in the match N°" + super.matchId + resetStdColor);
 
 
             System.out.println("");
-            System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + reset);
+            System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + resetStdColor);
         }
 
         int turnNumber = 0;
@@ -81,7 +91,7 @@ public class CLI extends View {
         }
 
         System.out.println("");
-        System.out.println(green + "MATCH READY" + reset);
+        System.out.println(green + "MATCH READY" + resetStdColor);
         System.out.println("");
 
 
@@ -95,19 +105,23 @@ public class CLI extends View {
 
             if (!match_data.getCurrent().equals(nickname)) {
                 //isn't your turn, you can't take tiles from LRB
-                System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.reset);
+                if (match_data.getCurrent().equals("###gamepaused###")) {
+                    System.out.println(yellow + "You remained the only player online in this match, the game will resume as soon as at least one other player reconnects."+resetStdColor);
+                } else
+                    System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.resetStdColor);
                 choice = getChoice(new String[]{"Show LRB", "Show Personal Goal Card", "Show BookShelf", "Show Common Goals", "Show your score", "Exit"}, "Choose one of following action:", 1);
-                if (!match_data.getCurrent().equals(nickname)) {
-                    if (choice == 6) {
-                        System.out.println("Wrong choice");
-                        choice = 0;
-                    }
-                }
+
             } else {
                 // is your turn, take tiles from LRB to make your move
-                System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.reset);
-                choice = getChoice(new String[]{"Show LRB", "Show Personal Goal Card", "Show BookShelf", "Show Common Goals", "Show your score", "Exit", "Make your move, " + green + "is your turn!" + reset}, "Choose one of following action:");
+                System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.resetStdColor);
+                choice = getChoice(new String[]{"Show LRB", "Show Personal Goal Card", "Show BookShelf", "Show Common Goals", "Show your score", "Exit", "Make your move, " + green + "is your turn!" + resetStdColor}, "Choose one of following action:");
 
+            }
+            if (!match_data.getCurrent().equals(nickname)) {
+                if (choice == 6) {
+                    System.out.println("Wrong choice");
+                    choice = 0;
+                }
             }
 
 
@@ -138,131 +152,11 @@ public class CLI extends View {
                         close = true;
                         break;
                     case 6:
-                        System.out.println("Make your move!");
-                        int placeables = con.startRound(nickname, matchId);
-                        System.out.println("Can draw " + placeables + " tiles...");
-                        //handTiles represents chosen tiles
-                        ItemTile[] handTiles;
-                        printLRB(match_data.getLrb());
-
-
-                        int y, x, quantity;
-                        char direction;
-                        do {
-                            System.out.println("To select Tiles provide first Tile coordinates:");
-
-                            x = inInt("X: ");
-
-                            y = inInt("Y: ");
-
-
-                            do {
-                                //saving number of tiles that we want to take
-                                quantity = inInt("How many tiles do you want to choose?");
-                                if (quantity > placeables)
-                                    //placeables returns max number of free cells in the column of the bookshelf with most free cells
-                                    System.out.print("There isn't enough space in your bookshelf to place " + quantity + " tiles!\nRetry, how many Tiles do you want to take? ");
-                            } while (quantity > placeables || quantity == 0);
-
-
-                            do {
-                                //choosing direction to take tiles
-                                if (quantity == 1) direction = 'R';
-                                else {
-                                    System.out.println("in which direction you want to go for choice?   (U for Up - D for Down - L for Left - R for Right)");
-                                    sc.reset();
-                                    direction = sc.next().charAt(0);
-                                }
-                                if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
-                                    System.out.println(red + "Wrong choice, you can insert only U D L R directions" + reset);
-                            } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
-
-                            handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
-                            //taking items using direction and quantity
-                            for (int i = 0; i < quantity; i++)
-                                if (handTiles[i].getItem().equals(Item.EMPTY)) {
-                                    handTiles = null;
-                                    i = quantity;
-                                }
-                            //if an empty or "not reachable" item are taken, print wrong choice and allows you to take another choice
-                            if (handTiles == null) {
-                                System.out.println("Selected one or more not takeable Tiles, retry:");
-                                printLRB(match_data.getLrb());
-                            }
-                        } while (handTiles == null);
-
-
-                        //show bookshelf and ask in which column insert tile
-
-                        int column;
-                        printBS(player_data.getBookshelf());
-                        boolean retry;
-
-                        do {
-                            retry = false;
-
-                            column = inInt("In which column do you want to insert tile?");
-                            if (column < 0 || column > 4) {
-                                retry = true;
-                                System.out.println("Choice an not existing column");
-                            } else {
-                                if (con.getAvailableSlots(nickname, column) < handTiles.length) {
-                                    //if is chosen a column with free spaces < number of selected tiles
-                                    System.out.println("Column hasn't enough space, retry:");
-                                    retry = true;
-                                }
-                            }
-                        } while (retry);
-
-
-                        if (quantity > 1) {
-                            System.out.println("Insert tile in the order you prefer.");
-
-                            //show tiles, decide order and insert tiles
-                            for (int i = 0; i < handTiles.length; i++) {
-                                for (int j = 0; j < handTiles.length; j++) {
-                                    if (handTiles[j] != null) System.out.println(j + ") " + handTiles[j].toString());
-                                }
-                                int selected;
-                                do {
-                                    retry = false;
-                                    selected = inInt("Digit the number of tile you want to insert:");
-                                    if (selected >= handTiles.length || selected < 0) {
-                                        System.out.println("Retry:");
-                                        retry = true;
-                                    } else {
-                                        if (handTiles[selected] == null) {
-                                            System.out.println("Retry:");
-                                            retry = true;
-                                        }
-                                    }
-                                } while (retry);
-                                con.insertTile(nickname, (handTiles[selected]), column);
-                                handTiles[selected] = null;
-                                sc.reset();
-                            }
-                        } else {
-                            con.insertTile(nickname, (handTiles[0]), column);
-                        }
-
-                        //set next player as current player
-                        con.nextRound(nickname, matchId);
-
-                        while (turnNumber == match_data.getTurnNumber())
-                            Thread.sleep(500);
-                        if (match_data.getCurrent().equals(nickname))
-                            System.out.println(yellow+"You are alone in the match, the match will automatically resume as soon as at least one other player reconnects"+reset);
-
-
-                        //waiting for change of current player
-                        while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
-                            Thread.sleep(500);
-                        }
-
+                        makemove(turnNumber);
 
                         break;
                     default:
-                        System.out.println(red + "Wrong choice!" + reset);
+                        System.out.println(red + "Wrong choice!" + resetStdColor);
                         break;
                 }
 
@@ -276,9 +170,149 @@ public class CLI extends View {
 
     }
 
+    private void makemove(int turnNumber) throws RemoteException {
+        System.out.println("Make your move!");
+        int placeables = con.startRound(nickname, matchId);
+        System.out.println("Can draw " + placeables + " tiles...");
+        //handTiles represents chosen tiles
+        ItemTile[] handTiles;
+        printLRB(match_data.getLrb());
+
+
+        int y, x, quantity;
+        char direction;
+        do {
+            System.out.println("To select Tiles provide first Tile coordinates:");
+
+            x = askInt("X: ");
+
+            y = askInt("Y: ");
+
+            do {
+                //saving number of tiles that we want to take
+                quantity = askInt("How many tiles do you want to choose?");
+                if (quantity > placeables) {
+                    //placeables returns max number of free cells in the column of the bookshelf with most free cells
+                    System.out.println(red + "There isn't enough space in your bookshelf to place " + quantity + " tiles!" + resetStdColor);
+                    System.out.print("Retry, how many Tiles do you want to take? ");
+                }
+                if (quantity < 1) {
+                    //placeables returns max number of free cells in the column of the bookshelf with most free cells
+                    System.out.println(red + "You have to select at least 1 Tile" + quantity + " tiles!" + resetStdColor);
+                    System.out.print("Retry, how many Tiles do you want to take? ");
+                }
+
+            } while (quantity > placeables || quantity < 1);
+
+            do {
+                //choosing direction to take tiles
+                if (quantity == 1) direction = 'R';
+                else {
+                    System.out.println("in which direction you want to go for choice?   (U for Up - D for Down - L for Left - R for Right)");
+                    sc.reset();
+                    direction = sc.next().charAt(0);
+                }
+                if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
+                    System.out.println(red + "Wrong choice, you can insert only U D L R directions" + resetStdColor);
+            } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
+
+            handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
+            //taking items using direction and quantity
+            for (int i = 0; i < quantity; i++)
+                if (handTiles[i].getItem().equals(Item.EMPTY)) {
+                    handTiles = null;
+                    i = quantity;
+                }
+            //if an empty or "not reachable" item are taken, print wrong choice and allows you to take another choice
+            if (handTiles == null) {
+                System.out.println(red + "Selected one or more un-takeable Tiles, retry:" + resetStdColor);
+                printLRB(match_data.getLrb());
+            }
+        } while (handTiles == null);
+
+
+        //show bookshelf and ask in which column insert tile
+
+        int column;
+        printBS(player_data.getBookshelf());
+        boolean retry;
+
+        do {
+            retry = false;
+
+            column = askInt("In which column do you want to insert tile?");
+            if (column < 0 || column > 4) {
+                retry = true;
+                System.out.println("Choice an not existing column");
+            } else {
+                if (con.getAvailableSlots(nickname, column) < handTiles.length) {
+                    //if is chosen a column with free spaces < number of selected tiles
+                    System.out.println(red + "Column hasn't enough space, retry:" + resetStdColor);
+                    retry = true;
+                }
+            }
+        } while (retry);
+
+
+        if (quantity > 1) {
+            System.out.println("Insert tile in the order you prefer.");
+
+            //show tiles, decide order and insert tiles
+            for (int i = 0; i < handTiles.length; i++) {
+                for (int j = 0; j < handTiles.length; j++) {
+                    if (handTiles[j] != null) System.out.println(j + ") " + handTiles[j].toString());
+                }
+                int selected;
+                do {
+                    retry = false;
+                    selected = askInt("Digit the number of tile you want to insert:");
+                    if (selected >= handTiles.length || selected < 0) {
+                        System.out.println("Retry:");
+                        retry = true;
+                    } else {
+                        if (handTiles[selected] == null) {
+                            System.out.println(red + "Retry:" + resetStdColor);
+                            retry = true;
+                        }
+                    }
+                } while (retry);
+                con.insertTile(nickname, (handTiles[selected]), column);
+                handTiles[selected] = null;
+                sc.reset();
+            }
+        } else {
+            con.insertTile(nickname, (handTiles[0]), column);
+        }
+
+        //set next player as current player
+        con.nextRound(nickname, matchId);
+
+        while (turnNumber == match_data.getTurnNumber()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        /*if (match_data.getCurrent().equals(nickname))
+            System.out.println(yellow + "You are alone in the match, the match will automatically resume as soon as at least one other player reconnects" + resetStdColor);
+*/
+
+        //waiting for change of current player
+        while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
     //todo description of this method
-    public String inString(String question) {
-        System.out.println(grey + question + reset);
+    public String askString(String question) {
+        System.out.println(grey + question + resetStdColor);
 
         String line = "";
 
@@ -286,10 +320,10 @@ public class CLI extends View {
             line = sc.nextLine();
             sc.reset();
 
-            if ((line.isBlank()||line.isEmpty()||line.equals("")))
-                System.out.println(red+"Insert a valid character"+reset);
+            if ((line.isBlank() || line.isEmpty() || line.equals("")))
+                System.out.println(red + "Insert a valid character" + resetStdColor);
 
-        } while (line.isBlank()||line.isEmpty()||line.equals(""));
+        } while (line.isBlank() || line.isEmpty() || line.equals(""));
 
         //todo studiare meglio le stringhe in java :D
 
@@ -297,8 +331,8 @@ public class CLI extends View {
     }
 
     //todo description of this method
-    public int inInt(String question) {
-        System.out.println(grey + question + reset);
+    public int askInt(String question) {
+        System.out.println(grey + question + resetStdColor);
         boolean retry = false;
         int n = -1;
         do {
@@ -307,7 +341,7 @@ public class CLI extends View {
                 sc.reset();
                 retry = false;
             } catch (InputMismatchException e) {
-                System.out.println(red + "Insert wrong character, retry using an int!" + reset);
+                System.out.println(red + "Insert wrong character, retry using an int!" + resetStdColor);
                 sc.next();
                 retry = true;
             }
@@ -321,9 +355,9 @@ public class CLI extends View {
         int n;
 
         do {
-            System.out.println(grey + question + reset);
+            System.out.println(grey + question + resetStdColor);
             for (int i = 0; i < choices.length; i++)
-                System.out.println(grey + i + ")" + reset + " " + choices[i]);
+                System.out.println(grey + i + ")" + resetStdColor + " " + choices[i]);
             System.out.println("Insert a number to make your choice: ");
             n = 0;
             boolean retry = false;
@@ -334,13 +368,13 @@ public class CLI extends View {
                     retry = false;
                 } catch (InputMismatchException e) {
                     //if you don't put a number
-                    System.out.println(red + "A character was insert, retry using an int!" + reset);
+                    System.out.println(red + "A character was insert, retry using an int!" + resetStdColor);
                     sc.next();
                     retry = true;
                 }
             } while (retry);
             //if you choose a not existing or not available choice
-            if (n < 0 || n >= choices.length) System.out.println(red + "Wrong choice, retry." + reset);
+            if (n < 0 || n >= choices.length) System.out.println(red + "Wrong choice, retry." + resetStdColor);
         } while (n < 0 || n >= choices.length);
         return n;
     }
@@ -352,9 +386,9 @@ public class CLI extends View {
         int n;
 
         do {
-            System.out.println(grey + question + reset);
+            System.out.println(grey + question + resetStdColor);
             for (int i = 0; i < choices.length; i++)
-                System.out.println(grey + i + ")" + reset + " " + choices[i]);
+                System.out.println(grey + i + ")" + resetStdColor + " " + choices[i]);
             System.out.println("Insert a number to make your choice: ");
             n = 0;
             boolean retry = false;
@@ -364,21 +398,21 @@ public class CLI extends View {
                     sc.reset();
                     retry = false;
                 } catch (InputMismatchException e) {
-                    System.out.println(red + "A character was insert, retry using an int!" + reset);
+                    System.out.println(red + "A character was insert, retry using an int!" + resetStdColor);
                     sc.next();
                     retry = true;
                 }
             } while (retry);
 
-            if (n < 0 || n >= choices.length + k) System.out.println(red + "Wrong choice, retry." + reset);
+            if (n < 0 || n >= choices.length + k) System.out.println(red + "Wrong choice, retry." + resetStdColor);
         } while (n < 0 || n >= choices.length + k);
         return n;
     }
 
     public void printLRB(ItemTile[][] map) {
-        System.out.println(grey + "#|0|1|2|3|4|5|6|7|8" + reset + "|");
+        System.out.println(grey + "#|0|1|2|3|4|5|6|7|8" + resetStdColor + "|");
         for (int i = 0; i < 9; i++) {
-            System.out.print(grey + i + "|" + reset);
+            System.out.print(grey + i + "|" + resetStdColor);
             for (int j = 0; j < 9; j++) {
                 System.out.print(map[i][j].toString() + "|");
             }
@@ -394,32 +428,30 @@ public class CLI extends View {
 
     public void printCGS(int[] cgs) {
         for (int i = 0; i < cgs.length; i++) {
-            System.out.println(grey + (i + 1) + ")" + reset + " Common Goal Card n." + cgs[i] + ":");
+            System.out.println(grey + (i + 1) + ")" + resetStdColor + " Common Goal Card n." + cgs[i] + ":");
             System.out.println(cgDescriptions[cgs[i] - 1]);
             System.out.println("");
         }
     }
 
     public void printScores(int[] scores) {
-        System.out.println("1: PGscore " + scores[0]);
-        System.out.println("2: CGscore " + scores[1]);
-        System.out.println("3: ADJscore " + scores[2]);
-        System.out.println("4: First Score " + scores[3]);
+        System.out.println("1: Personal Goal Card score " + scores[0]);
+        System.out.println("2: Common Goal Cards score " + scores[1]);
+        System.out.println("3: Adjacenses score " + scores[2]);
+        System.out.println("4: First finished score " + scores[3]);
+        System.out.println("#: TOT scores " + scores[0] + scores[1] + scores[2] + scores[3]);
         System.out.println("");
-        // scores[0] PGscore, scores[1] CGscores, scores[2] ADJscores, scores[3] firstScores
     }
 
 
     public void printBS(ItemTile[][] shelf) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-
                 System.out.print(shelf[i][j].toString() + "|");
-
             }
             System.out.println();
         }
-        System.out.println(grey + "0|1|2|3|4|" + reset);
+        System.out.println(grey + "0|1|2|3|4|" + resetStdColor);
     }
 
     @Override
@@ -433,10 +465,20 @@ public class CLI extends View {
 
             if (publicData.isPlayable()) if (temp != null && match_data != null && this.nickname != null)
                 if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                    System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.reset);
-                    System.out.println(CLI.grey + "6)" + CLI.reset + " Make your move");
-                } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname))
-                    System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.reset);
+                    System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.resetStdColor);
+                    System.out.println(CLI.grey + "6)" + CLI.resetStdColor + " Make your move");
+                } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname)) {
+                    if (match_data.getCurrent().equals("###gamepaused###")) {
+                        System.out.println(red + "ATTENTION:" + resetStdColor + " You remained the only player online in this match, the game will resume as soon as at least one other player reconnects");
+                    } else {
+                        System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.resetStdColor);
+                    }
+                } else {
+                    if (match_data.getCurrent().equals("###gamepaused###")) {
+                        System.out.println(red + "ATTENTION:" + resetStdColor + " You remained the only player online in this match, the game will resume as soon as at least one other player reconnects");
+                    }
+                }
+
 
         }
 

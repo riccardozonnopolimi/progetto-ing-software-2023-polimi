@@ -54,11 +54,10 @@ public class LobbyController {
         }
     }
 
-    public void killPlayer(String name) {
+    public void setPlayerOffline(String name) {
         Player p = getPlayer(name);
         onlinePlayers.remove(p);
         offlinePlayers.add(p);
-
     }
 
     public GameController matchByPlayer(String name){
@@ -74,21 +73,10 @@ public class LobbyController {
         return null;
     }
 
-    public void reBorn(String name){
+    public void setPlayerOnline(String name){
         Player p = getOfflinePlayer(name);
-
         onlinePlayers.add(p);
         offlinePlayers.remove(p);
-
-        if (matchByPlayer(name).getActive() == 1) {
-
-            matchByPlayer(name).setNext(getPlayer(name));
-            System.out.println("reborn ok");
-        }
-
-        matchByPlayer(name).setActive(matchByPlayer(name).getActive() + 1);
-
-
     }
 
     public Player getOfflinePlayer(String name){

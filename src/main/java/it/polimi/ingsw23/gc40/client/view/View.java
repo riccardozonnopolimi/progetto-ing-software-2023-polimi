@@ -38,7 +38,7 @@ public abstract class View {
         Type personalGoalsType = new TypeToken<ArrayList<ItemTile[][]>>() {
         }.getType();
         try {
-            pgCards = gson.fromJson(new FileReader("personalGoals.json"), personalGoalsType);
+            pgCards = gson.fromJson(new FileReader("src/main/resources/personalGoals.json"), personalGoalsType);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

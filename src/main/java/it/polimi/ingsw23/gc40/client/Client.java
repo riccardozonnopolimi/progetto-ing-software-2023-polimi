@@ -21,30 +21,25 @@ public class Client {
 
 
         System.out.println("");
-        System.out.println(CLI.green +"Benvenuto in MyShelfie!"+CLI.reset);
+        System.out.println(CLI.green +"Welcome in MyShelfie!"+CLI.resetStdColor);
         System.out.println("");
 
 
         //LET USER CHOICE IP SERVER
-        System.out.println("Inserisci l'indirizzo ip del server: (press enter for localhost)");
+        System.out.println("Write the target (ip address or domain) of the server: "+CLI.green+"(You can press enter for localhost)"+CLI.resetStdColor);
         Scanner scanner = new Scanner(System.in);
         String host = scanner.nextLine();
 
         if (host.equals(""))
             host="localhost";
 
-        System.out.println(CLI.green +"Hai scelto di connetterti all'indirizzo:"+CLI.reset+" "+host);
+        System.out.println(CLI.green +"You chosen the target:"+CLI.resetStdColor +" "+host);
         System.out.println("");
-
 
         ConnectionStarter starter = new ConnectionStarter();
 
-
-
-
-
         View view;
-        if (CLI.getChoice(new String[]{"RMI", "Socket"}, "Scegliere connessione:") == 0) {
+        if (CLI.getChoice(new String[]{"RMI (Remote Method Invocation)", "Socket"}, "Choose a type of connection method: (if you don't know, is the same)") == 0) {
             //rmi
             con = new conRMI(starter.rmi("Server", host));
         } else {
@@ -52,7 +47,7 @@ public class Client {
             con = new conSocket(starter.socketStart(6789, host));
         }
         System.out.println("");
-        if (CLI.getChoice(new String[]{"CLI", "GUI"}, "Scegliere interfaccia di gioco:") == 0) {
+        if (CLI.getChoice(new String[]{"CLI (Command Line Interface)", "GUI (Graphic User Interface)"}, "Choose the game interface:") == 0) {
             //CLI
             view = new CLI(con);
         } else {
@@ -61,7 +56,6 @@ public class Client {
         }
 
         con.setView(view);
-        //ifnameinofflineplayer
         view.init();
     }
 }

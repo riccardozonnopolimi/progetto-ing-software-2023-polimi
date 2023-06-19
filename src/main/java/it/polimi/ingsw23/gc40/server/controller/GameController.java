@@ -190,7 +190,7 @@ public class GameController extends Observable {
         Type personalGoalsType = new TypeToken<ArrayList<ItemTile[][]>>() {
         }.getType();
         try {
-            goalsFromFile = gson.fromJson(new FileReader("personalGoals.json"), personalGoalsType);
+            goalsFromFile = gson.fromJson(new FileReader("src/main/resources/personalGoals.json"), personalGoalsType);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -312,13 +312,21 @@ public class GameController extends Observable {
         this.commonGoals = commonGoals;
     }
 
-    public void setNext(Player next) {
-        this.next = next;
+    public void setNext(Player player) {
+
         this.turnNumber++;
         setChanged();
         notifyObservers(turnNumber);
+
+        this.next = player;
         setChanged();
-        notifyObservers(next.getNickName());
+
+        if (this.next == null) {
+            System.out.println("setnext null");
+            notifyObservers("###gamepaused###");
+        } else {
+            notifyObservers(next.getNickName());
+        }
     }
 
 
