@@ -11,7 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 public class GameController extends Observable {
     private final Integer id;
@@ -26,7 +25,8 @@ public class GameController extends Observable {
     private LRB map;
     private boolean ending;
     private boolean playable;
-    private short turnNumber;
+    private short moveNumber;
+    private Player wasnext;
 
     public boolean isPlayable() {
         return playable;
@@ -93,7 +93,7 @@ public class GameController extends Observable {
         this.next = null;
         this.ending = false;
         this.id = id;
-        this.turnNumber = 0;
+        this.moveNumber = 0;
         this.activePlayers = 0;
 
 
@@ -314,19 +314,25 @@ public class GameController extends Observable {
 
     public void setNext(Player player) {
 
-        this.turnNumber++;
-        setChanged();
-        notifyObservers(turnNumber);
 
-        this.next = player;
-        setChanged();
+        if (player == null) {
+            this.wasnext = this.next;
 
-        if (this.next == null) {
-            System.out.println("setnext null");
+            this.next = player;
+            setChanged();
             notifyObservers("###gamepaused###");
+
+
         } else {
+            this.moveNumber++;
+            setChanged();
+            notifyObservers(moveNumber);
+
+            this.next = player;
+            setChanged();
             notifyObservers(next.getNickName());
         }
+
     }
 
 
@@ -448,19 +454,19 @@ public class GameController extends Observable {
 
     public void checkScores(Player p) {
         p.setADJScore(p.getBookshelf().ADJScore());
-        System.out.println("punteggio adiacenze: " + p.getADJScore() + " user: " + p.getNickName());
+        //System.out.println("punteggio adiacenze: " + p.getADJScore() + " user: " + p.getNickName());
         int cgscore = p.getCGScore();
-        System.out.println("cgscore attuale: " + cgscore);
+        //System.out.println("cgscore attuale: " + cgscore);
         if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)) {
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
             this.CG1Scores.remove(this.CG1Scores.size() - 1);
-            System.out.println("CG1 reached by " + p.getNickName());
+            //System.out.println("CG1 reached by " + p.getNickName());
             p.setCG1Reached(true);
         }
         if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
             cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
             this.CG2Scores.remove(this.CG2Scores.size() - 1);
-            System.out.println("CG2 reached by " + p.getNickName());
+            //System.out.println("CG2 reached by " + p.getNickName());
             p.setCG2Reached(true);
         }
 
@@ -474,5 +480,9 @@ public class GameController extends Observable {
 
     public void setActive(int i) {
         this.activePlayers = i;
+    }
+
+    public Player getWasNext() {
+        return this.wasnext;
     }
 }

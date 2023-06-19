@@ -155,7 +155,6 @@ public class conSocket extends Thread implements ConnectionController {
 
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            serverPrint("#nuova connessione Socket");
         } catch (IOException e) {
             System.out.println("catch: " + e);
             throw new RuntimeException(e);
@@ -313,11 +312,6 @@ public class conSocket extends Thread implements ConnectionController {
             System.out.println("Catch in conSocket outprint");
             throw new RuntimeException(e);
         }
-    }
-
-    public void serverPrint(String s) throws RemoteException {
-        outprint("#serverPrint");
-        outprint(s);
     }
 
     @Override

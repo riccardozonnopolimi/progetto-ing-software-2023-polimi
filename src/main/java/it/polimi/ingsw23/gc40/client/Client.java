@@ -20,8 +20,7 @@ public class Client {
         ConnectionController con;
 
 
-        System.out.println("");
-        System.out.println(CLI.green +"Welcome in MyShelfie!"+CLI.resetStdColor);
+
         System.out.println("");
 
 

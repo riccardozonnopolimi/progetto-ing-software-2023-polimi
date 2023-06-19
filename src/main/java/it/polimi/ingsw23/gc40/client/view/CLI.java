@@ -59,6 +59,7 @@ public class CLI extends View {
                     if (con.hasQueueMatch()) {
                         //in the meantime the player was chosing the number of players another client created a match
                         System.out.println(red + "Can't create match: there is another match waiting for players." + resetStdColor);
+                        System.out.println("This error occurs only if while you were choosing the number of players some other player connected on the server and started a game faster than you");
                         System.out.println("");
                         System.out.println(green + "You are being added to the pending match" + resetStdColor);
                         break;
@@ -106,7 +107,7 @@ public class CLI extends View {
             if (!match_data.getCurrent().equals(nickname)) {
                 //isn't your turn, you can't take tiles from LRB
                 if (match_data.getCurrent().equals("###gamepaused###")) {
-                    System.out.println(yellow + "You remained the only player online in this match, the game will resume as soon as at least one other player reconnects."+resetStdColor);
+                    System.out.println(yellow + "You remained the only player online in this match, the game will resume as soon as at least one other player reconnects." + resetStdColor);
                 } else
                     System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.resetStdColor);
                 choice = getChoice(new String[]{"Show LRB", "Show Personal Goal Card", "Show BookShelf", "Show Common Goals", "Show your score", "Exit"}, "Choose one of following action:", 1);
@@ -243,7 +244,7 @@ public class CLI extends View {
             column = askInt("In which column do you want to insert tile?");
             if (column < 0 || column > 4) {
                 retry = true;
-                System.out.println("Choice an not existing column");
+                System.out.println(red + "You have selected an invalid column" + resetStdColor);
             } else {
                 if (con.getAvailableSlots(nickname, column) < handTiles.length) {
                     //if is chosen a column with free spaces < number of selected tiles
@@ -439,7 +440,7 @@ public class CLI extends View {
         System.out.println("2: Common Goal Cards score " + scores[1]);
         System.out.println("3: Adjacenses score " + scores[2]);
         System.out.println("4: First finished score " + scores[3]);
-        System.out.println("#: TOT scores " + scores[0] + scores[1] + scores[2] + scores[3]);
+        System.out.println("#: TOT scores " + (scores[0] + scores[1] + scores[2] + scores[3]));
         System.out.println("");
     }
 
@@ -458,28 +459,71 @@ public class CLI extends View {
     public void updatePublicData(PublicModelNetwork publicData) {
         //todo finish method description
         if (publicData.getIdMatch() == matchId || matchId == -1) {
-            String temp = null;
-            if (match_data != null) temp = match_data.getCurrent();
+            String precedente = null;
+            String corrente = null;
+
+            if (match_data != null) {
+                precedente = match_data.getCurrent();
+
+
+            }
+
+            String giocatore = this.nickname;
 
             super.updatePublicData(publicData);
+            if(match_data!=null)
+            {
+                corrente = match_data.getCurrent();
+            }
 
-            if (publicData.isPlayable()) if (temp != null && match_data != null && this.nickname != null)
-                if ((match_data.getCurrent().equals(this.nickname)) && !temp.equals(nickname)) {
-                    System.out.println(CLI.green + "### IS YOUR TURN " + nickname + " ###" + CLI.resetStdColor);
-                    System.out.println(CLI.grey + "6)" + CLI.resetStdColor + " Make your move");
-                } else if (!match_data.getCurrent().equals(temp) && !match_data.getCurrent().equals(nickname) && !temp.equals(nickname)) {
-                    if (match_data.getCurrent().equals("###gamepaused###")) {
-                        System.out.println(red + "ATTENTION:" + resetStdColor + " You remained the only player online in this match, the game will resume as soon as at least one other player reconnects");
+            //condizione necessaria per far si che le istruzioni seguenti vengano eseguite solo se il match è in corso
+            if (publicData.isPlayable()) {
+
+                //if necessario per evitare a priori nullPointerException
+                if (precedente != null && match_data != null && giocatore != null && corrente != null) {
+
+                    //se tocca a me ma non toccava a me (è cambiato il turno)
+                    if ((corrente.equals(giocatore)) && !precedente.equals(giocatore)) {
+
+                        //se non toccava a me perchè il match era in pausa
+                        if (precedente.equals("###gamepaused###"))
+                            System.out.println(green + "The match started again" + resetStdColor + "\n");
+
+                        //avviso il giocatore che tocca a lui
+                        System.out.println(CLI.green + "### IS YOUR TURN " + giocatore + " ###" + CLI.resetStdColor);
+
+                        //lo informo della mossa numero 6 adesso selezionabile
+                        System.out.println(CLI.grey + "6)" + CLI.resetStdColor + " Make your move");
+
+                        //altrimenti se è cambiato il turno ma non tocca a me
+                    } else if (!corrente.equals(precedente) && !corrente.equals(giocatore) && !precedente.equals(giocatore)) {
+
+                        //se il gioco è entrato in pausa
+                        if (corrente.equals("###gamepaused###")) {
+                            System.out.println("\n" + red + "ATTENTION:" + resetStdColor + "\nYou remained the only player online in this match, the game will resume as soon as at least one other player reconnects...\n\n");
+
+                            //altrimenti se non è entrato in pausa
+                        } else {
+                            //se era in pausa avviso che è ripartito
+                            if (precedente.equals("###gamepaused###"))
+                                System.out.println(green + "The match started again" + resetStdColor + "\n");
+
+                            //ad ogni modo avviso che è cambiato il turno
+                            System.out.println(CLI.yellow + "### IS " + corrente + "'S TURN ###" + CLI.resetStdColor);
+                        }
+
                     } else {
-                        System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.resetStdColor);
+                        //in questo else ci entro ad ogni notify anche se non sta cambiando turno da un giocatore all'altro
+
+                        //perciò se il gioco non era in pausa ma entra in pausa avviso
+                        if (!precedente.equals("###gamepaused###") && corrente.equals("###gamepaused###")) {
+                            System.out.println("\n" + red + "ATTENTION:" + resetStdColor + "\nYou remained the only player online in this match, the game will resume as soon as at least one other player reconnects...\n\n");
+                        }
+
                     }
-                } else {
-                    if (match_data.getCurrent().equals("###gamepaused###")) {
-                        System.out.println(red + "ATTENTION:" + resetStdColor + " You remained the only player online in this match, the game will resume as soon as at least one other player reconnects");
-                    }
+
                 }
-
-
+            }
         }
 
     }

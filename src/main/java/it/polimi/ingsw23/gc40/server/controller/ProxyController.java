@@ -193,12 +193,16 @@ public class ProxyController extends Thread implements ConnectionController {
         boolean trovato = false;
         if (!ms.isEmpty()) {
             mID = idMatchByPlayer(nickname);
-            lobbyController.setPlayerOnline(nickname);
-            GameController m = lobbyController.matchByPlayer(nickname);
-            if (m.getActive() == 1) {
-                m.setNext(lobbyController.getPlayer(nickname));
+            if (mID!=-1){
+                lobbyController.setPlayerOnline(nickname);
+                GameController m = lobbyController.matchByPlayer(nickname);
+
+                m.setActive(m.getActive() + 1);
+                if (m.getNext()==null && m.getActive()>1) {
+                    m.setNext(m.getWasNext());
+                }
+
             }
-            m.setActive(m.getActive() + 1);
         }
         return mID;
     }
@@ -250,14 +254,16 @@ public class ProxyController extends Thread implements ConnectionController {
 
         match.setActive(match.getActive() - 1);
 
-        if (match.getNext().getNickName().equals(nickname)) {
-            System.out.println("tocca a chi si è disconnesso");
-            nextRound(nickname, match.getId());
-        } else {
-            System.out.println("tocca a chi non si è disconnesso");
-            if (match.getActive() == 1) {
-                System.out.println("chi è online in questo match è da solo");
-                match.setNext(null);
+        if(match.getNext()!=null){
+            if (match.getNext().getNickName().equals(nickname)) {
+                System.out.println("tocca a chi si è disconnesso");
+                nextRound(nickname, match.getId());
+            } else {
+                System.out.println("tocca a chi non si è disconnesso");
+                if (match.getActive() == 1) {
+                    System.out.println("chi è online in questo match è da solo");
+                    match.setNext(null);
+                }
             }
         }
 

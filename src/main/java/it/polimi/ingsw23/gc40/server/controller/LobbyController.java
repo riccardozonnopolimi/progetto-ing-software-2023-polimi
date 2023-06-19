@@ -12,6 +12,7 @@ public class LobbyController {
     private GameController queueMatch;
     private ArrayList<Score> SavedScores = new ArrayList<>();
     private int numMatch;
+
     public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
         this.onlinePlayers = onlinePlayers;
     }
@@ -60,7 +61,7 @@ public class LobbyController {
         offlinePlayers.add(p);
     }
 
-    public GameController matchByPlayer(String name){
+    public GameController matchByPlayer(String name) {
 
         for (int i = 0; i < activeGameControllers.size(); i++) {
             ArrayList<Player> ps = activeGameControllers.get(i).getPlayers();
@@ -73,13 +74,13 @@ public class LobbyController {
         return null;
     }
 
-    public void setPlayerOnline(String name){
+    public void setPlayerOnline(String name) {
         Player p = getOfflinePlayer(name);
         onlinePlayers.add(p);
         offlinePlayers.remove(p);
     }
 
-    public Player getOfflinePlayer(String name){
+    public Player getOfflinePlayer(String name) {
         Player p = null;
         for (int i = 0; i < offlinePlayers.size(); i++) {
             if (offlinePlayers.get(i).getNickName().equals(name)) {
@@ -103,7 +104,9 @@ public class LobbyController {
 
     public boolean checkOnlinePlayers(String nickName) {
 
-        if (onlinePlayers.isEmpty()) return false;
+        if (onlinePlayers.isEmpty())
+            return false;
+
         for (int i = 0; i < onlinePlayers.size(); i++) {
             if (onlinePlayers.get(i).getNickName().equals(nickName)) {
                 return true;
