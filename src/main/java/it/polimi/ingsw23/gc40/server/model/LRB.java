@@ -94,6 +94,7 @@ public class LRB {
     }
 
     public boolean isTakeable(int coordX, int coordY) {
+        //verify if a single tile is takeable from the LRB
     if((this.map[coordX][coordY].getItem().equals(Item.NOTREACHABLE)) || (this.map[coordX][coordY].getItem().equals(Item.EMPTY))){
         return false;
     }
@@ -136,9 +137,11 @@ public class LRB {
     public ItemTile[][] getMap() {
         return map;
     }
+
     public ItemTile getTileInMap(int coordX, int coordY) {
         return this.map[coordX][coordY];
     }
+
     public void setTileInMap(ItemTile it, int coordX, int coordY)
     {
         this.map[coordX][coordY] = it;

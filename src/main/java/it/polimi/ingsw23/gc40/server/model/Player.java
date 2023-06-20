@@ -20,10 +20,6 @@ public class Player extends Observable {
     // scores[0] PGscore, scores[1] CGscores, scores[2] ADJscores, scores[3] firstScores
     private int[] scores;
 
-
-
-
-
     public Player(String nickName) {
         this.nickName = nickName;
         this.CGScore = 0;
@@ -43,7 +39,6 @@ public class Player extends Observable {
         notifyObservers(this.getBookshelf().getShelf());
         setChanged();
         notifyObservers(scores);
-
     }
 
     public int getScores(int index) {
@@ -59,6 +54,7 @@ public class Player extends Observable {
     public PrivateModelObserver getPrivateModelObserver() {
         return observer;
     }
+
     public Boolean getCG1Reached() {
         return CG1Reached;
     }
@@ -74,10 +70,12 @@ public class Player extends Observable {
     public void setCG2Reached(Boolean CG2Reached) {
         this.CG2Reached = CG2Reached;
     }
+
     public void setFirstScore(int firstScore) {
         this.firstScore = firstScore;
         setScores(3,firstScore);
     }
+
     public int getPGScore() {
         return PGScore;
     }
@@ -89,7 +87,6 @@ public class Player extends Observable {
     public void setADJScore(int adjScore) {
         this.ADJScore = adjScore;
         setScores(2,adjScore);
-
     }
 
     public void setPGScore(int PGScore) {

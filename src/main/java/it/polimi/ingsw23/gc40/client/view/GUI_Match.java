@@ -4,6 +4,7 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwo
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,25 +18,44 @@ public class GUI_Match implements Observer {
     private JLabel pgLabel;
     private JPanel centerPanel;
     private JPanel bsPanel;
+    private JLabel cg1DescLabel;
+    private JLabel cg2DescLabel;
+    private JPanel lrbPanel;
     private PublicModelNetwork match_data;
     private PrivateModelNetwork player_data;
-    private ImageIcon LRBImageIcon = new ImageIcon("src/main/resources/img/boards/livingroom.png");
-    private ImageIcon cg1ImageIcon;
-    private ImageIcon cg2ImageIcon;
+    private View view;
+
+    public GUI_Match(PublicModelNetwork md, PrivateModelNetwork pd, View view) {
+        this.view =view;
+        this.match_data = md;
+        this.player_data =pd;
+        matchFrame = new JFrame("MyShelfie match");
+        createUIComponents();
+    }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+
+        //showing common goal cards using file path
+        cg2Label.setIcon(new ImageIcon("src/main/resources/img/cgs/"+match_data.getCgs()[1]+".jpg"));
+        pgLabel.setIcon(new ImageIcon("src/main/resources/img/pgc/Personal_Goals"+ player_data.getPgc()+".png"));
+        cg1Label.setIcon(new ImageIcon("src/main/resources/img/cgs/"+match_data.getCgs()[0]+".jpg"));
+        cg1Label.setPreferredSize(new Dimension(200,100));
+        cg2Label.setPreferredSize(new Dimension(200,100));
+        cg2Label.setPreferredSize(new Dimension(100,200));
+
+
+        cg1DescLabel.setText(view.cgDescriptions[match_data.getCgs()[0]]);
+        cg2DescLabel.setText(view.cgDescriptions[match_data.getCgs()[1]]);
+
+
+        lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
     }
 
     public void init() {
 
-        cg1ImageIcon = new ImageIcon("src/main/resources/img/common goal card/"+match_data.getCgs()[0]+".jpg");
-        cg2ImageIcon = new ImageIcon("src/main/resources/img/common goal card/"+match_data.getCgs()[1]+".jpg");
 
-        cg1Label.setIcon(cg1ImageIcon);
-        cg2Label.setIcon(cg2ImageIcon);
 
-        matchFrame = new JFrame("MyShelfie match");
+
         matchFrame.setContentPane(matchPanel);
         matchFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         matchFrame.pack();

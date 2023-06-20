@@ -25,8 +25,6 @@ public class GUI extends View {
     private JPanel waitingPanel;
     private JLabel waitingLabel;
     private JPanel gamePanel;
-    private JPanel LRBPanel;
-    private JLabel LRBImageLabel;
 
     /*// resize image
     Image LRBResized = LRBImageIcon.getImage().getScaledInstance(200,200, Image.SCALE_SMOOTH);
@@ -101,7 +99,7 @@ public class GUI extends View {
     }
 
     private void startMatch() {
-        GUI_Match matchFrame = new GUI_Match();
+        GUI_Match matchFrame = new GUI_Match(match_data, player_data, this);
         this.addObserver(matchFrame);
         matchFrame.init();
         frame.setExtendedState(JFrame.ICONIFIED);

@@ -21,12 +21,12 @@ public class PersonalGoalCard {
         //TO TEST
         int count = 0;
         ItemTile[][] s = p.getBookshelf().getShelf();
-
+        //calculate how many tiles are in the Bookshelf of Player p
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 5; j++)
                 if (!(goal[i][j].getItem().equals(Item.EMPTY)) && (goal[i][j].getItem().equals(s[i][j].getItem())))
                     count++;
-
+        //assign the personal goal card points reached
         switch (count) {
             case 1:
                 p.setPGScore(1);
