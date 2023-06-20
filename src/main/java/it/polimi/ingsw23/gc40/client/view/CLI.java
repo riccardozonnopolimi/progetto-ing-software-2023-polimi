@@ -186,12 +186,18 @@ public class CLI extends View {
             System.out.println("To select Tiles provide first Tile coordinates:");
 
             x = askInt("X: ");
+            //if (!match_data.getCurrent().equals(nickname)) return;
 
             y = askInt("Y: ");
+            //if (!match_data.getCurrent().equals(nickname)) return;
+
 
             do {
+
                 //saving number of tiles that we want to take
                 quantity = askInt("How many tiles do you want to choose?");
+                //if (!match_data.getCurrent().equals(nickname)) return;
+
                 if (quantity > placeables) {
                     //placeables returns max number of free cells in the column of the bookshelf with most free cells
                     System.out.println(red + "There isn't enough space in your bookshelf to place " + quantity + " tiles!" + resetStdColor);
@@ -206,32 +212,47 @@ public class CLI extends View {
             } while (quantity > placeables || quantity < 1);
 
             do {
+                //if (!match_data.getCurrent().equals(nickname)) return;
+
                 //choosing direction to take tiles
                 if (quantity == 1) direction = 'R';
                 else {
                     System.out.println("in which direction you want to go for choice?   (U for Up - D for Down - L for Left - R for Right)");
                     sc.reset();
                     direction = sc.next().charAt(0);
+                    //if (!match_data.getCurrent().equals(nickname)) return;
+
                 }
                 if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
                     System.out.println(red + "Wrong choice, you can insert only U D L R directions" + resetStdColor);
             } while (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L');
 
-            handTiles = con.chooseTiles(matchId, x, y, quantity, direction);
-            //taking items using direction and quantity
-            for (int i = 0; i < quantity; i++)
-                if (handTiles[i].getItem().equals(Item.EMPTY)) {
-                    handTiles = null;
-                    i = quantity;
-                }
-            //if an empty or "not reachable" item are taken, print wrong choice and allows you to take another choice
+            handTiles = con.chooseTiles(nickname, matchId, x, y, quantity, direction);
             if (handTiles == null) {
-                System.out.println(red + "Selected one or more un-takeable Tiles, retry:" + resetStdColor);
-                printLRB(match_data.getLrb());
+                System.out.println(red + "Error:" + resetStdColor + "\n There is a problem taking tiles from map, probably is not your turn or you are alone in the match.");
+                break;
+            }else {
+                //taking items using direction and quantity
+                for (int i = 0; i < quantity; i++)
+                    if (handTiles[i].getItem().equals(Item.EMPTY)) {
+                        handTiles = null;
+                        i = quantity;
+                    }
+                //if an empty or "not reachable" item are taken, print wrong choice and allows you to take another choice
+                if (handTiles == null) {
+                    System.out.println(red + "Selected one or more un-takeable Tiles, retry:" + resetStdColor);
+                    printLRB(match_data.getLrb());
+                }
             }
         } while (handTiles == null);
 
+        if (handTiles!=null){
+            insertTile(handTiles, quantity, turnNumber);
+        }
 
+    }
+
+    private void insertTile(ItemTile[] handTiles, int quantity, int turnNumber) throws RemoteException {
         //show bookshelf and ask in which column insert tile
 
         int column;
@@ -254,9 +275,12 @@ public class CLI extends View {
             }
         } while (retry);
 
+        boolean success=false;
 
         if (quantity > 1) {
             System.out.println("Insert tile in the order you prefer.");
+
+
 
             //show tiles, decide order and insert tiles
             for (int i = 0; i < handTiles.length; i++) {
@@ -267,6 +291,8 @@ public class CLI extends View {
                 do {
                     retry = false;
                     selected = askInt("Digit the number of tile you want to insert:");
+                    if (!match_data.getCurrent().equals(nickname)) return;
+
                     if (selected >= handTiles.length || selected < 0) {
                         System.out.println("Retry:");
                         retry = true;
@@ -277,14 +303,17 @@ public class CLI extends View {
                         }
                     }
                 } while (retry);
-                con.insertTile(nickname, (handTiles[selected]), column);
+                success = con.insertTile(nickname, (handTiles[selected]), column);
                 handTiles[selected] = null;
                 sc.reset();
             }
         } else {
-            con.insertTile(nickname, (handTiles[0]), column);
+            success = con.insertTile(nickname, (handTiles[0]), column);
         }
-
+        if (!success){
+            System.out.println(red + "Error:" + resetStdColor + "\n There is a problem inserting tiles in your bookshelf, probably is not your turn or you are alone in the match.");
+            return;
+        }
         //set next player as current player
         con.nextRound(nickname, matchId);
 
@@ -296,9 +325,6 @@ public class CLI extends View {
             }
         }
 
-        /*if (match_data.getCurrent().equals(nickname))
-            System.out.println(yellow + "You are alone in the match, the match will automatically resume as soon as at least one other player reconnects" + resetStdColor);
-*/
 
         //waiting for change of current player
         while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
@@ -308,7 +334,6 @@ public class CLI extends View {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     //todo description of this method
@@ -469,8 +494,7 @@ public class CLI extends View {
             String giocatore = this.nickname;
 
             super.updatePublicData(publicData);
-            if(match_data!=null)
-            {
+            if (match_data != null) {
                 corrente = match_data.getCurrent();
             }
 

@@ -78,8 +78,24 @@ public class ProxyController extends Thread implements ConnectionController {
     }
 
     @Override
-    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
-        return lobbyController.getMatchById(mid).chooseTiles(x, y, quantity, direction);
+    public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
+        GameController m = lobbyController.getMatchById(mid);
+
+        if (m.getNext()==null || !m.getNext().getNickName().equals(nickname)){
+            System.out.println("next nullo oppure turno di qaltro");
+        }
+
+        if (m.getNext() != null) {
+            if (!m.getNext().getNickName().equals(nickname)) {
+                //System.out.println("ops");
+                return null;
+            }
+        } else {
+            //System.out.println("ops");
+            return null;
+        }
+        //System.out.println("ok");
+        return m.chooseTiles(x, y, quantity, direction);
     }
 
     @Override
@@ -88,8 +104,20 @@ public class ProxyController extends Thread implements ConnectionController {
     }
 
     @Override
-    public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+    public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+        GameController m = lobbyController.matchByPlayer(nickname);
+        if (m.getNext() != null) {
+            if (!m.getNext().getNickName().equals(nickname)) {
+                System.out.println("ops");
+                return false;
+            }
+        } else {
+            System.out.println("ops");
+            return false;
+        }
+
         lobbyController.getPlayer(nickname).insertIT(handTile, column);
+        return true;
     }
 
     @Override
@@ -193,12 +221,12 @@ public class ProxyController extends Thread implements ConnectionController {
         boolean trovato = false;
         if (!ms.isEmpty()) {
             mID = idMatchByPlayer(nickname);
-            if (mID!=-1){
+            if (mID != -1) {
                 lobbyController.setPlayerOnline(nickname);
                 GameController m = lobbyController.matchByPlayer(nickname);
 
                 m.setActive(m.getActive() + 1);
-                if (m.getNext()==null && m.getActive()>1) {
+                if (m.getNext() == null && m.getActive() > 1) {
                     m.setNext(m.getWasNext());
                 }
 
@@ -254,7 +282,7 @@ public class ProxyController extends Thread implements ConnectionController {
 
         match.setActive(match.getActive() - 1);
 
-        if(match.getNext()!=null){
+        if (match.getNext() != null) {
             if (match.getNext().getNickName().equals(nickname)) {
                 System.out.println("tocca a chi si è disconnesso");
                 nextRound(nickname, match.getId());

@@ -78,7 +78,7 @@ public class SocketHandler implements Runnable, Observer {
 
                         break;
                     case "#chooseTiles":
-                        sendObj("#handTiles", proxyController.chooseTiles(matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
+                        sendObj("#handTiles", proxyController.chooseTiles(nickname, matchid, in.readInt(), in.readInt(), in.readInt(), in.readChar()));
                         break;
                     case "#hasQueueMatch":
                         bool(proxyController.hasQueueMatch());

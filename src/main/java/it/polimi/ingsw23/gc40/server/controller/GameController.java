@@ -337,6 +337,8 @@ public class GameController extends Observable {
 
 
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
+
+
         //tested
         try {
             if (quantity < 1 || quantity > 3) {

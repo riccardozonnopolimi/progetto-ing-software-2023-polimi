@@ -28,9 +28,9 @@ public class conRMI implements ConnectionController {
     }
 
     @Override
-    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+    public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
 
-        ItemTile[] ht = stub.chooseTiles(mid, x, y, quantity, direction);
+        ItemTile[] ht = stub.chooseTiles(nickname, mid, x, y, quantity, direction);
         return ht;
     }
 
@@ -40,8 +40,9 @@ public class conRMI implements ConnectionController {
     }
 
     @Override
-    public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+    public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
         stub.insertTile(nickname, handTile, column);
+        return false;
     }
 
     @Override

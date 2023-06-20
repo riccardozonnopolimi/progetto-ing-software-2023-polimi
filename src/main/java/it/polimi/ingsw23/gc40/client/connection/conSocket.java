@@ -49,7 +49,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public ItemTile[] chooseTiles(int mid, int x, int y, int quantity, char direction) throws RemoteException {
+    public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
 
         outprint("#chooseTiles");
         outprint(x);
@@ -107,11 +107,11 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     @Override
-    public void insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
+    public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
         outprint("#insertTile");
         outprint(nickname);
         outobject(handTile);
-        outprint(column);
+        return check(column);
     }
 
     @Override
@@ -210,7 +210,6 @@ public class conSocket extends Thread implements ConnectionController {
     public boolean hasQueueMatch() {
         return check("#hasQueueMatch");
     }
-
 
 
     @Override
