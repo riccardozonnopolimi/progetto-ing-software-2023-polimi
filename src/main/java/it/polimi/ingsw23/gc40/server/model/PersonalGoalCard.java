@@ -1,7 +1,7 @@
 package it.polimi.ingsw23.gc40.server.model;
 
 public class PersonalGoalCard {
-    private ItemTile[][] goal;
+    private final ItemTile[][] goal;
     public int id;
 
     public PersonalGoalCard(ItemTile[][] goal, int id) {
@@ -28,27 +28,13 @@ public class PersonalGoalCard {
                     count++;
         //assign the personal goal card points reached
         switch (count) {
-            case 1:
-                p.setPGScore(1);
-                break;
-            case 2:
-                p.setPGScore(2);
-                break;
-            case 3:
-                p.setPGScore(4);
-                break;
-            case 4:
-                p.setPGScore(6);
-                break;
-            case 5:
-                p.setPGScore(9);
-                break;
-            case 6:
-                p.setPGScore(12);
-                break;
-            default:
-                p.setPGScore(0);
-                break;
+            case 1 -> p.setPGScore(1);
+            case 2 -> p.setPGScore(2);
+            case 3 -> p.setPGScore(4);
+            case 4 -> p.setPGScore(6);
+            case 5 -> p.setPGScore(9);
+            case 6 -> p.setPGScore(12);
+            default -> p.setPGScore(0);
         }
 
     }

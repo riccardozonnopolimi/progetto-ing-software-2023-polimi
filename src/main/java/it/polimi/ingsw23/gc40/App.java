@@ -10,10 +10,10 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         System.out.println(CLI.green+"Welcome in myShelfie!"+CLI.resetStdColor);
-        System.out.println("");
+        System.out.println();
 
         System.out.println("You can Play by selecting \"client\" or host a game by selecting \"server\"");
-        System.out.println("");
+        System.out.println();
 
         if (CLI.getChoice(new String[]{"Client (to start playing)", "Server (to host a game)"}, "What process do you want to start?") == 0) {
             Client.main(new String[]{});

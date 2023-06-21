@@ -51,7 +51,6 @@ public class G4 implements Goal {
                         && ((j == temp_j.get(s[i][j].getItem()) - 1)
                         || (j == temp_j.get(s[i][j].getItem()) - 2)
                         || (j == temp_j.get(s[i][j].getItem())))) {
-                    ;
                 }
                else {
                     if ((s[i][j].getItem().equals(s[i][j + 1].getItem()))

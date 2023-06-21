@@ -24,7 +24,7 @@ public abstract class View extends Observable {
     public String[] cgDescriptions;
     public ArrayList<ItemTile[][]> pgCards = new ArrayList<>();
 
-    public abstract void init() throws RemoteException, Exception;
+    public abstract void init() throws Exception;
 
     public View(ConnectionController connection) {
         this.con = connection;
@@ -47,7 +47,7 @@ public abstract class View extends Observable {
 
     }
 
-    public void addPlayer(String name) throws RemoteException, Exception {
+    public void addPlayer(String name) throws Exception {
         con.connect(name);
     }
 

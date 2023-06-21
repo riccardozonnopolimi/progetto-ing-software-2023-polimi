@@ -10,7 +10,7 @@ public class LobbyController {
     private ArrayList<Player> offlinePlayers = new ArrayList<>();
     private ArrayList<GameController> activeGameControllers = new ArrayList<>();
     private GameController queueMatch;
-    private ArrayList<Score> SavedScores = new ArrayList<>();
+    private final ArrayList<Score> SavedScores = new ArrayList<>();
     private int numMatch;
 
     public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
@@ -80,14 +80,13 @@ public class LobbyController {
         offlinePlayers.remove(p);
     }
 
-    public Player getOfflinePlayer(String name) {
-        Player p = null;
+    private Player getOfflinePlayer(String name) {
         for (int i = 0; i < offlinePlayers.size(); i++) {
             if (offlinePlayers.get(i).getNickName().equals(name)) {
-                p = offlinePlayers.get(i);
+                return offlinePlayers.get(i);
             }
         }
-        return p;
+        return null;
     }
 
     public GameController addToLastMatch(Player player) {
@@ -153,7 +152,8 @@ public class LobbyController {
                 return onlinePlayers.get(i);
             }
         }
-        return null;
+        return getOfflinePlayer(nome);
+
     }
 
     public GameController getMatchById(int n) {

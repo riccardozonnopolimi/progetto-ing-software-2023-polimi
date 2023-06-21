@@ -8,15 +8,15 @@ import java.rmi.Remote;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PrivateModelObserver extends Observable implements Observer, Serializable, Remote {
+public class PrivateModelObserver extends Observable implements Observer {
     private static final long serialVersionUID = 7829136991241571165L;
     private PrivateModelNetwork data;
     private ItemTile[][] shelf;
     public int pgc = -1;
     private String nickname;
     private int[] scores;
-    private transient ObjectOutputStream out;
-    private transient SocketHandler sh;
+    private  ObjectOutputStream out;
+    private  SocketHandler sh;
     private boolean hasNewData;
 
     public PrivateModelObserver(Player p) {

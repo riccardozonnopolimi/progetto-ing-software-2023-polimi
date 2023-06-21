@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
 
-    private View view;
+    private final View view;
 
 
     public conUpdateRMI(View view) throws RemoteException {
@@ -19,7 +19,6 @@ public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
     }
 
     public void ping() throws RemoteException{
-        return;
     }
 
 

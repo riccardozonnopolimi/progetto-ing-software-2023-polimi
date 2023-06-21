@@ -13,12 +13,12 @@ public class Player extends Observable {
     private int firstScore;
     private Boolean CG1Reached;
     private Boolean CG2Reached;
-    private Boolean finishedFirst;
+    private final Boolean finishedFirst;
     private PersonalGoalCard personalGoal;
-    private Bookshelf bookshelf;
-    private PrivateModelObserver observer = new PrivateModelObserver(this);
+    private final Bookshelf bookshelf;
+    private final PrivateModelObserver observer = new PrivateModelObserver(this);
     // scores[0] PGscore, scores[1] CGscores, scores[2] ADJscores, scores[3] firstScores
-    private int[] scores;
+    private final int[] scores;
 
     public Player(String nickName) {
         this.nickName = nickName;
