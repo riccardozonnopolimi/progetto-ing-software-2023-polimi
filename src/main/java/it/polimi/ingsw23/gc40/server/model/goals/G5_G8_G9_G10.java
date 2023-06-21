@@ -7,17 +7,17 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import java.util.HashMap;
 
 public class G5_G8_G9_G10 implements Goal {
-    //number of different type
+    //number of maximum different type
     private final int differentType;
     //number of blocks need to reach the goal
-    private final int numBlocks;
+    private final int numOfBlocks;
     //boolean to chose if the goal search for column or not
     private final boolean c;
     private final int id;
 
-    public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c, int id) {
-        this.differentType = DifferentType;
-        this.numBlocks = numBlocks;
+    public G5_G8_G9_G10(int differentType, int numOfBlocks, boolean c, int id) {
+        this.differentType = differentType;
+        this.numOfBlocks = numOfBlocks;
         this.c = c;
         this.id = id;
     }
@@ -82,7 +82,7 @@ public class G5_G8_G9_G10 implements Goal {
                     countValid++;
             }
             //if the number of blocks needed is reached return true and stop
-            if (countValid == numBlocks) return true;
+            if (countValid == numOfBlocks) return true;
         }
         return false;
     }

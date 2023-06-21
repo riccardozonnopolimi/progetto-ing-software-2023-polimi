@@ -2,7 +2,6 @@ package it.polimi.ingsw23.gc40.server.model;
 
 public class Bookshelf   {
     private ItemTile[][] shelf;
-
     private int ADJCounter;
 
     public Bookshelf() {
@@ -24,6 +23,7 @@ public class Bookshelf   {
         return shelf;
     }
     public void insertIT(ItemTile it, int column) {
+        //insert an ItemTile in the Bookshelf in the first empty cell from the bottom of the selected column
         for (int i = 5; i >= 0; i--) {
             if (shelf[i][column].getItem().equals(Item.EMPTY)) {
                 shelf[i][column] = it;
@@ -38,20 +38,21 @@ public class Bookshelf   {
     }
 
     public void print() {
+        //todo serve che stia qui?
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 System.out.print(shelf[i][j].toString() + "|");
             }
             System.out.println();
-
         }
     }
 
     public ItemTile getItemTile(int x, int y) {
         return shelf[x][y];
     }
-    //return the max number of ItemTiles that we can take from the LRB checking empty slots in bookshelf
+
     public int placeables() {
+        //return the max number of ItemTiles that we can take from the LRB checking empty slots in bookshelf
         int maxSlotAvailable = 0;
         //checking in order:
         //      if there are at least 3 free cell return directly 3 (we can take max 3 ItemTiles)
@@ -70,8 +71,8 @@ public class Bookshelf   {
         return maxSlotAvailable;
     }
 
-    //returning the number of free slots for a column, if there aren't free slots return 0
     public int getAvailableSlots(int n) {
+        //returning the number of free slots for a column, if there aren't free slots return 0
         for (int i = 2; i >= 0; i--) {
             if (shelf[i][n].getItem().equals(Item.EMPTY))
                 return i + 1;
@@ -140,6 +141,7 @@ public class Bookshelf   {
         return sum;
     }
 
+    //todo serve ancora?
     //Creating two methods to set/get ADJCounter to test this class
     public int getADJCounter() {
         return ADJCounter;

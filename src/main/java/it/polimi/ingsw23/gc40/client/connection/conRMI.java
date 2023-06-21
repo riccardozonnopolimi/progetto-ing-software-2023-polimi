@@ -41,8 +41,8 @@ public class conRMI implements ConnectionController {
 
     @Override
     public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
-        stub.insertTile(nickname, handTile, column);
-        return false;
+
+        return  stub.insertTile(nickname, handTile, column);
     }
 
     @Override

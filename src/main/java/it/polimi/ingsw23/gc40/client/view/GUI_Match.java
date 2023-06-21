@@ -48,7 +48,7 @@ public class GUI_Match implements Observer {
         cg2DescLabel.setText(view.cgDescriptions[match_data.getCgs()[1]]);
 
 
-        lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
+       // lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
     }
 
     public void init() {

@@ -10,8 +10,9 @@ public class G7 implements Goal{
     }
     @Override
     public boolean instanceGoal(Player p) {
+        //TESTED
         ItemTile[][] s = p.getBookshelf().getShelf();
-        //control if there is a diagonal of 5 in the bookshelf that is all the same type
+        //control if there is a diagonal of 5 ItemTiles in the bookshelf that is all the same type
         return ((s[0][0].equals(s[1][1])
                 && s[1][1].equals(s[2][2])
                 && s[2][2].equals(s[3][3])

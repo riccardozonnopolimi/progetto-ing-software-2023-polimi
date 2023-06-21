@@ -5,15 +5,14 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 
 public class G1_G3 implements Goal {
-    private final int grandezzaBlocco;
-    private final int numeroBlocchi;
+    private final int blockSize;
+    private final int numOfBlocks;
     private final int id;
 
-    public G1_G3(int grandezzaBlocco, int numeroBlocchi, int id) {
-        this.grandezzaBlocco = grandezzaBlocco;
-        this.numeroBlocchi = numeroBlocchi;
+    public G1_G3(int blockSize, int numOfBlocks, int id) {
+        this.blockSize = blockSize;
+        this.numOfBlocks = numOfBlocks;
         this.id = id;
-
     }
 
     @Override
@@ -24,18 +23,16 @@ public class G1_G3 implements Goal {
                 p.getBookshelf().getShelf()[i][j].setCheckedADJ(false);
             }
         }
-
         //value to update when a column or a line is found
-        int validBlock = numeroBlocchi;
+        int validBlock = numOfBlocks;
         ItemTile[][] s = p.getBookshelf().getShelf();
+        //check if there is a block long like grandezzaBlocco of the same type in a column
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 if (!s[i][j].getCheckedADJ() && !s[i][j].getItem().equals(Item.EMPTY)) {
                     p.getBookshelf().setADJCounter(0);
-
                     p.getBookshelf().checker(i, j, s[i][j].getItem());
-
-                    if (p.getBookshelf().getADJCounter() >= grandezzaBlocco) {
+                    if (p.getBookshelf().getADJCounter() >= blockSize) {
                         validBlock--;
                     }
                     if (validBlock == 0) {
@@ -43,7 +40,6 @@ public class G1_G3 implements Goal {
                         return true;
                     }
                 }
-
             }
         }
         //goal not achieved

@@ -11,12 +11,13 @@ public class G4 implements Goal {
     }
     @Override
     public boolean instanceGoal(Player p) {
-        //TO TEST
+        //TESTED
         HashMap<Item, Integer> count = new HashMap<>();
         ItemTile[][] s = p.getBookshelf().getShelf();
         HashMap<Item, Integer> temp_j = new HashMap<>();
         HashMap<Item, Integer> temp_i = new HashMap<>();
 
+        //set all the hashMaps to a default value
         count.put(Item.CAT, 0);
         count.put(Item.BOOK, 0);
         count.put(Item.GAME, 0);
@@ -42,6 +43,7 @@ public class G4 implements Goal {
         temp_j.put(Item.PLANT, -1);
         temp_j.put(Item.EMPTY, -1);
 
+        //verify if there is two 2x2 square of the same ItemTiles type in the Bookshelf of Player p
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
 

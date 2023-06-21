@@ -186,17 +186,17 @@ public class CLI extends View {
             System.out.println("To select Tiles provide first Tile coordinates:");
 
             x = askInt("X: ");
-            //if (!match_data.getCurrent().equals(nickname)) return;
+            if (!match_data.getCurrent().equals(nickname)) return;
 
             y = askInt("Y: ");
-            //if (!match_data.getCurrent().equals(nickname)) return;
+            if (!match_data.getCurrent().equals(nickname)) return;
 
 
             do {
 
                 //saving number of tiles that we want to take
                 quantity = askInt("How many tiles do you want to choose?");
-                //if (!match_data.getCurrent().equals(nickname)) return;
+                if (!match_data.getCurrent().equals(nickname)) return;
 
                 if (quantity > placeables) {
                     //placeables returns max number of free cells in the column of the bookshelf with most free cells
@@ -212,7 +212,7 @@ public class CLI extends View {
             } while (quantity > placeables || quantity < 1);
 
             do {
-                //if (!match_data.getCurrent().equals(nickname)) return;
+                if (!match_data.getCurrent().equals(nickname)) return;
 
                 //choosing direction to take tiles
                 if (quantity == 1) direction = 'R';
@@ -220,7 +220,7 @@ public class CLI extends View {
                     System.out.println("in which direction you want to go for choice?   (U for Up - D for Down - L for Left - R for Right)");
                     sc.reset();
                     direction = sc.next().charAt(0);
-                    //if (!match_data.getCurrent().equals(nickname)) return;
+                    if (!match_data.getCurrent().equals(nickname)) return;
 
                 }
                 if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')

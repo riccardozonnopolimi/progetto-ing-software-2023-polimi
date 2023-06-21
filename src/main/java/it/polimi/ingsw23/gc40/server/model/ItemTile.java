@@ -3,34 +3,42 @@ package it.polimi.ingsw23.gc40.server.model;
 import java.io.*;
 
 public class ItemTile implements Serializable {
+    private static final long serialVersionUID = 7829136421241571165L;
     private final Item type;
     private final int num;
-
-    private static final long serialVersionUID = 7829136421241571165L;
-
     private boolean checkedADJ = false;
 
-
     public ItemTile(Item t) {
+        //todo verificare se abbiamo ancora bisogno
         super();
         type = t;
         num = 0;
     }
 
     public ItemTile(Item t, int n) {
-        //todo
         super();
         type = t;
         num = n % 3;
     }
 
+    public int getNum() {
+        return num;
+    }
 
     public Item getItem() {
         return type;
     }
 
+    public void setCheckedADJ(boolean check) {
+        this.checkedADJ = check;
+    }
+    public boolean getCheckedADJ() {
+        return checkedADJ;
+    }
+
     @Override
     public String toString() {
+        //assign a color after looking his type
         switch (this.type) {
             case CAT -> {
                 return "\u001b[42m\u001b[30mC\u001b[0m";
@@ -57,14 +65,6 @@ public class ItemTile implements Serializable {
                 return "\u001b[41m\u001b[30m \u001b[0m";
             }
         }
-    }
-
-    public boolean getCheckedADJ() {
-        return checkedADJ;
-    }
-
-    public void setCheckedADJ(boolean check) {
-        this.checkedADJ = check;
     }
 
     public boolean equals(ItemTile it) {

@@ -4,17 +4,17 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
 public class G11 implements Goal {
     private final int id;
+
     public G11(int id){
         this.id = id;
     }
     @Override
     public boolean instanceGoal(Player p) {
-        ItemTile it;
-        int count = 0;
+        //TESTED
+        //verify if there is a sequence of five ItemTile in the bookshelf that form a X and are of the same type
         ItemTile[][] s = p.getBookshelf().getShelf();
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 4; j++) {
-
                 if ((s[i][j].getItem().equals(s[i - 1][j - 1].getItem())) && (s[i][j].getItem().equals(s[i + 1][j - 1].getItem())) && (s[i][j].getItem().equals(s[i - 1][j + 1].getItem())) && (s[i][j].getItem().equals(s[i + 1][j + 1].getItem())) && !s[i][j].getItem().equals(Item.EMPTY)) {
                     return true;
                 }
@@ -22,9 +22,11 @@ public class G11 implements Goal {
         }
         return false;
     }
+
     public void print() {
         System.out.println("G11");
     }
+
     @Override
     public int getId() {
         return this.id;

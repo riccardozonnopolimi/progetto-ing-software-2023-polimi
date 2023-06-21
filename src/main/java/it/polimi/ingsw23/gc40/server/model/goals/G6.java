@@ -13,7 +13,7 @@ public class G6 implements Goal {
     public boolean instanceGoal(Player p) {
         //TESTED
         ItemTile[][] s = p.getBookshelf().getShelf();
-        //control all the shelf of player and
+        //control all the shelf of player p and
         // count how many item of same type are in shelf
         HashMap<Item, Integer> count = new HashMap<>();
         count.put(Item.EMPTY, 0);

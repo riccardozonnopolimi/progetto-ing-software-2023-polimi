@@ -1,7 +1,5 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
-
 public class LRB {
 
     private ItemTile[][] map;
@@ -95,6 +93,7 @@ public class LRB {
 
     public boolean isTakeable(int coordX, int coordY) {
         //verify if a single tile is takeable from the LRB
+        //todo giorgio se vuoi commentare meglio
     if((this.map[coordX][coordY].getItem().equals(Item.NOTREACHABLE)) || (this.map[coordX][coordY].getItem().equals(Item.EMPTY))){
         return false;
     }
@@ -152,12 +151,14 @@ public class LRB {
     }
 
     public boolean needRefill() {
+        //if there is a tile that is adjacent to another the method return false
+        // else it returns true because the lrb need to be refilled
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (((map[i][j].getItem() != Item.EMPTY) &&
-                        (map[i][j].getItem() != Item.NOTREACHABLE))) {
-                    if (((map[i + 1][j].getItem() != Item.EMPTY) && (map[i + 1][j].getItem() != Item.NOTREACHABLE))
-                            || ((map[i][j + 1].getItem() != Item.EMPTY) &&(map[i][j + 1].getItem() != Item.NOTREACHABLE)))
+                if (((!map[i][j].getItem().equals(Item.EMPTY)) &&
+                        (!map[i][j].getItem().equals(Item.NOTREACHABLE)))) {
+                    if (((!map[i + 1][j].getItem().equals(Item.EMPTY)) && (!map[i + 1][j].getItem().equals(Item.NOTREACHABLE)))
+                            || ((!map[i][j + 1].getItem().equals(Item.EMPTY)) &&(!map[i][j + 1].getItem().equals(Item.NOTREACHABLE))))
                         return false;
                 }
             }
@@ -166,6 +167,7 @@ public class LRB {
     }
 
     public ItemTile[][] takeables() {
+        //populate a new matrix like lrb whit only the takeables Item Tiles
         ItemTile[][] matrixTakeables = new ItemTile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -176,11 +178,12 @@ public class LRB {
                 }
             }
         }
-
         return matrixTakeables;
     }
 
     public void print(){
+        //todo vedere usage e nel caso non necessario
+        // eliminare metodo perche'e'nel posto sbagliato
         System.out.println("#|0|1|2|3|4|5|6|7|8|");
         for (int i = 0; i < 9; i++) {
             System.out.print(i+"|");
@@ -193,6 +196,8 @@ public class LRB {
     }
 
     public void print(ItemTile[][] map){
+        //todo questo ha 0 usage
+        // e non dovrebbe neanche stare qui
         System.out.println("#|0|1|2|3|4|5|6|7|8|");
         for (int i = 0; i < 9; i++) {
             System.out.print(i+"|");
@@ -200,7 +205,6 @@ public class LRB {
                 System.out.print(map[i][j].toString()+"|");
             }
             System.out.println();
-
         }
     }
 }
