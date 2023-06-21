@@ -77,22 +77,17 @@ public class ProxyController extends Thread implements ConnectionController {
     public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
         GameController m = lobbyController.getMatchById(mid);
         //deny the move if the player that calls the method is not allowed to do the move
-        if (m.getNext()==null || !m.getNext().getNickName().equals(nickname)){
-            //todo fil non deve fare nulla quest'if ? tutte le sout sotto invece?
-            System.out.println("next nullo oppure turno di qaltro");
-        }
 
         if (m.getNext() != null) {
             if (!m.getNext().getNickName().equals(nickname)) {
-                //System.out.println("ops");
+
                 return null;
             }
         } else {
-            //System.out.println("ops");
+
             return null;
         }
         //calls the method in the model that take tiles from LRB
-        //System.out.println("ok");
         return m.chooseTiles(x, y, quantity, direction);
     }
 
@@ -107,11 +102,9 @@ public class ProxyController extends Thread implements ConnectionController {
         //deny the move if the player that calls the method is not allowed to do the move
         if (m.getNext() != null) {
             if (!m.getNext().getNickName().equals(nickname)) {
-                System.out.println("ops");
                 return false;
             }
         } else {
-            System.out.println("ops");
             return false;
         }
         //calls the method in the model that insert tiles in Bookshelf of Player nickname

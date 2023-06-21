@@ -4,19 +4,33 @@ public class PersonalGoalCard {
     private final ItemTile[][] goal;
     public int id;
 
+    /**
+     * @param goal initializes the matrix 6x5 with the personal goal
+     * @param id of the personal goal
+     */
     public PersonalGoalCard(ItemTile[][] goal, int id) {
         this.goal = goal;
         this.id = id;
     }
 
+    /**
+     * @return personal goal id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @return the 6x5 matrix of player personal goal
+     */
     public ItemTile[][] getGoal() {
         return goal;
     }
 
+    /**
+     * called every end of player round, checks if the player scored points in his updated bookshelf
+     * @param p player who ended round
+     */
     public void checkScore(Player p) {
         //TO TEST
         int count = 0;

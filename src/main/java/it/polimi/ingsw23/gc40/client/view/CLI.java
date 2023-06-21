@@ -17,12 +17,27 @@ public class CLI extends View {
     public static String resetStdColor = "\u001b[0m";
     public static String grey = "\u001b[47m\u001b[30m";
 
-
+    /**
+     * CLI constructor create the textual view
+     * @param con used for take data from server to create interface
+     */
     public CLI(ConnectionController con) {
         super(con);
         sc = new Scanner(System.in);
     }
 
+
+    /**
+     * Starts CLI, asks for player name.
+     * Checks if player was disconnected, or if he is a new player.
+     * In first case it reconnects him to right match.
+     * Otherwise, checks if the name is already in use or not.
+     * If there is an existing match, adds player to that match, if there isn't an existing match creates a new on and adds player to it.
+     * In case, check if the name is already used or not.
+     * When match is started, checks the correct sequence of turns and allows players to make their moves.
+     * Prints END when game is ended.
+     * @throws Exception :throws RemoteException when there is a connection problem
+     */
     public void init() throws Exception {
 
         //starting textual user interface
@@ -171,6 +186,11 @@ public class CLI extends View {
 
     }
 
+    /**
+     * permits current player to take tiles from LRB
+     * @param turnNumber allow to differentiate the current player from the others
+     * @throws RemoteException if there is a connection problem
+     */
     private void makemove(int turnNumber) throws RemoteException {
         System.out.println("Make your move!");
         int placeables = con.startRound(nickname, matchId);
@@ -252,6 +272,13 @@ public class CLI extends View {
 
     }
 
+    /**
+     * Puts item taken from LRB into bookshelf and change current player to next player
+     * @param handTiles represents the item taken from LRB
+     * @param quantity represents how many items has been taken
+     * @param turnNumber to check if the current player is making the move
+     * @throws RemoteException for connection problem
+     */
     private void insertTile(ItemTile[] handTiles, int quantity, int turnNumber) throws RemoteException {
         //show bookshelf and ask in which column insert tile
 
@@ -374,9 +401,9 @@ public class CLI extends View {
         } while (retry);
         return n;
     }
-
+    //todo description of this method
     public static int getChoice(String[] choices, String question) {
-        //choosing between possible moves
+
         Scanner sc = new Scanner(System.in);
         int n;
 
@@ -435,6 +462,10 @@ public class CLI extends View {
         return n;
     }
 
+    /**
+     * Prints LivingRoomBoard
+     * @param map to print LRB
+     */
     public void printLRB(ItemTile[][] map) {
         System.out.println(grey + "#|0|1|2|3|4|5|6|7|8" + resetStdColor + "|");
         for (int i = 0; i < 9; i++) {
@@ -447,11 +478,19 @@ public class CLI extends View {
     }
 
 
+    /**
+     * Prints PersonalGoalCard
+     * @param n to choose the assigned PGC
+     */
     public void printPGC(int n) {
         System.out.println("Your personal Goal Card:");
         printBS(pgCards.get(n - 1));
     }
 
+    /**
+     * Prints CommonGoalCard
+     * @param cgs contains the CGS of the match
+     */
     public void printCGS(int[] cgs) {
         for (int i = 0; i < cgs.length; i++) {
             System.out.println(grey + (i + 1) + ")" + resetStdColor + " Common Goal Card n." + cgs[i] + ":");
@@ -460,6 +499,10 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * Prints scores
+     * @param scores contains scores of all type
+     */
     public void printScores(int[] scores) {
         System.out.println("1: Personal Goal Card score " + scores[0]);
         System.out.println("2: Common Goal Cards score " + scores[1]);
@@ -470,6 +513,10 @@ public class CLI extends View {
     }
 
 
+    /**
+     * print Bookshelf
+     * @param shelf is the Bookshelf to print
+     */
     public void printBS(ItemTile[][] shelf) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -482,7 +529,7 @@ public class CLI extends View {
 
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
-        //todo finish method description
+        //todo finish method description and javadoc
         if (publicData.getIdMatch() == matchId || matchId == -1) {
             String precedente = null;
             String corrente = null;
