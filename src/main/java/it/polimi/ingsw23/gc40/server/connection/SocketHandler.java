@@ -102,7 +102,7 @@ public class SocketHandler implements Runnable, Observer {
                         writeInt(proxyController.startRound(in.readUTF(), in.readInt()));
                         break;
                     case "#insertTile":
-                        proxyController.insertTile(in.readUTF(), (ItemTile) in.readObject(), in.readInt());
+                        bool(proxyController.insertTile(nickname, (ItemTile) in.readObject(), in.readInt()));
                         break;
                     case "#nextRound":
                         proxyController.nextRound(in.readUTF(), in.readInt());

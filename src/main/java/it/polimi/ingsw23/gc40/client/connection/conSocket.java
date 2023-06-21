@@ -34,8 +34,8 @@ public class conSocket extends Thread implements ConnectionController {
         //waiting until recive a command
         while (this.value.equals("#")) {
             try {
-                Thread.sleep(500);
-                System.out.print("...");
+                Thread.sleep(100);
+                //System.out.print("...");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -60,8 +60,8 @@ public class conSocket extends Thread implements ConnectionController {
 
         while (temp_obj == null) {
             try {
-                Thread.sleep(500);
-                System.out.print("...");
+                Thread.sleep(100);
+                //System.out.print("...");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -81,8 +81,8 @@ public class conSocket extends Thread implements ConnectionController {
 
         while (this.value.equals("#")) {
             try {
-                Thread.sleep(500);
-                System.out.print("...");
+                Thread.sleep(100);
+                //System.out.print("...");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -109,7 +109,6 @@ public class conSocket extends Thread implements ConnectionController {
     @Override
     public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
         outprint("#insertTile");
-        outprint(nickname);
         outobject(handTile);
         return check(column);
     }
@@ -133,8 +132,8 @@ public class conSocket extends Thread implements ConnectionController {
 
         while (this.value.equals("#")) {
             try {
-                Thread.sleep(500);
-                System.out.print("...");
+                Thread.sleep(100);
+                //System.out.print("...");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -193,8 +192,8 @@ public class conSocket extends Thread implements ConnectionController {
 
         while (this.value.equals("#")) {
             try {
-                Thread.sleep(500);
-                System.out.print("...");
+                Thread.sleep(100);
+                //System.out.print("...");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
