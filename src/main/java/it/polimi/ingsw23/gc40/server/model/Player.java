@@ -123,12 +123,21 @@ public class Player extends Observable {
         return personalGoal;
     }
 
+    /**
+     * @param personalGoal is randomly instantiated
+     * in LobbyController and it is assigned to a player when the match starts
+     */
+
     public void setPersonalGoal(PersonalGoalCard personalGoal) {
         this.personalGoal = personalGoal;
         setChanged();
         notifyObservers(this.getPersonalGoal().getId());
     }
 
+    /**
+     *
+     * @return the nickname player of which it is instantiated
+     */
     public String getNickName() {
         return nickName;
     }
