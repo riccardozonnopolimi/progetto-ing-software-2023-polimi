@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Scanner;
 
-public abstract class View extends Observable {
+public abstract class View {
     ConnectionController con;
     public int matchId;
     public String nickname;
@@ -52,6 +52,7 @@ public abstract class View extends Observable {
     }
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
+        System.out.println(nickname);
         if (privateData.getNickname().equals(nickname) || nickname.equals("###notdefined###"))
             this.player_data = privateData;
 

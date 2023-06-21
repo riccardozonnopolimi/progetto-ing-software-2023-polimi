@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.util.Observer;
 
 public class GUI extends View {
+    private GUI_Match guiMatch;
     private JFrame frame;
     private JPanel panel;
     private JPanel newplayerPanel;
@@ -24,15 +25,11 @@ public class GUI extends View {
     private JButton newmatchButton;
     private JPanel waitingPanel;
     private JLabel waitingLabel;
-    private JPanel gamePanel;
-
-    /*// resize image
-    Image LRBResized = LRBImageIcon.getImage().getScaledInstance(200,200, Image.SCALE_SMOOTH);
-    ImageIcon LRBResizedIcon = new ImageIcon(LRBResized);*/
 
     public GUI(ConnectionController con) {
 
         super(con);
+        guiMatch = null;
 
 
         newplayerLabel.setText("Insert player name:");
@@ -78,7 +75,7 @@ public class GUI extends View {
                             showOnly(waitingPanel);
                             con.addObserver(null, nickname, matchId);
                             popup("Non è stato possibile creare il match perchè esiste un match appena creato in attesa di giocatori.");
-                            popup("Sei stato aggiunto al match n."+matchId);
+                            popup("Sei stato aggiunto al match n." + matchId);
                         } else
                             popup("Inserisci un numero tra 2 e 4 giocatori.");
                     } else {
@@ -99,9 +96,8 @@ public class GUI extends View {
     }
 
     private void startMatch() {
-        GUI_Match matchFrame = new GUI_Match(match_data, player_data, this);
-        this.addObserver(matchFrame);
-        matchFrame.init();
+        guiMatch = new GUI_Match(this);
+        guiMatch.init();
         frame.setExtendedState(JFrame.ICONIFIED);
     }
 
@@ -123,30 +119,28 @@ public class GUI extends View {
 
             super.updatePublicData(publicData);
 
-            setChanged();
-            notifyObservers(this.match_data);
-            //System.out.println("aggiorno public");
-
             if (this.match_data.isPlayable()) {
-                //System.out.println("playable");
                 if (!wasplayable) {
-                    //System.out.println("Match pronto!");
-                    startMatch();
+                    if (player_data != null && guiMatch == null)
+                        startMatch();
                 }
             }
         }
     }
 
     @Override
-    public void updatePrivateData(PrivateModelNetwork privateData)
-    {
+    public void updatePrivateData(PrivateModelNetwork privateData) {
         super.updatePrivateData(privateData);
-        setChanged();
-        notifyObservers(this.player_data);
+
+        if (match_data != null)
+            if (this.match_data.isPlayable()) {
+                if (guiMatch == null)
+                    startMatch();
+            }
+
     }
 
     public void showOnly(JPanel panelAttr) {
-        gamePanel.setVisible(false);
         waitingPanel.setVisible(false);
         newmatchPanel.setVisible(false);
         newplayerPanel.setVisible(false);
@@ -157,12 +151,4 @@ public class GUI extends View {
         JOptionPane.showMessageDialog(frame, st);
     }
 
-    @Override
-    public void addObserver(Observer o) {
-        super.addObserver(o);
-        setChanged();
-        notifyObservers(match_data);
-        setChanged();
-        notifyObservers(player_data);
-    }
 }

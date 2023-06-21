@@ -1,14 +1,9 @@
 package it.polimi.ingsw23.gc40.client.view;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwork;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
-public class GUI_Match implements Observer {
+public class GUI_Match{
     private JFrame matchFrame;
 
     private JPanel matchPanel;
@@ -21,39 +16,118 @@ public class GUI_Match implements Observer {
     private JLabel cg1DescLabel;
     private JLabel cg2DescLabel;
     private JPanel lrbPanel;
-    private PublicModelNetwork match_data;
-    private PrivateModelNetwork player_data;
+    private JButton button1;
+    private JButton it00;
+    private JButton it01;
+    private JButton it02;
+    private JButton it03;
+    private JButton it04;
+    private JButton it05;
+    private JButton it06;
+    private JButton it07;
+    private JButton it08;
+    private JButton it10;
+    private JButton it11;
+    private JButton it12;
+    private JButton it13;
+    private JButton it14;
+    private JButton it15;
+    private JButton it16;
+    private JButton it17;
+    private JButton it18;
+    private JButton it20;
+    private JButton it21;
+    private JButton it22;
+    private JButton it23;
+    private JButton it24;
+    private JButton it25;
+    private JButton it26;
+    private JButton it27;
+    private JButton it28;
+    private JButton it30;
+    private JButton it31;
+    private JButton it32;
+    private JButton it33;
+    private JButton it34;
+    private JButton it35;
+    private JButton it36;
+    private JButton it37;
+    private JButton it38;
+    private JButton it40;
+    private JButton it41;
+    private JButton it42;
+    private JButton it43;
+    private JButton it44;
+    private JButton it45;
+    private JButton it46;
+    private JButton it47;
+    private JButton it48;
+    private JButton it50;
+    private JButton it51;
+    private JButton it52;
+    private JButton it53;
+    private JButton it54;
+    private JButton it55;
+    private JButton it56;
+    private JButton it57;
+    private JButton it58;
+    private JButton it60;
+    private JButton it61;
+    private JButton it62;
+    private JButton it63;
+    private JButton it64;
+    private JButton it65;
+    private JButton it66;
+    private JButton it67;
+    private JButton it68;
+    private JButton it70;
+    private JButton it71;
+    private JButton it72;
+    private JButton it73;
+    private JButton it74;
+    private JButton it75;
+    private JButton it76;
+    private JButton it77;
+    private JButton it78;
+    private JButton it80;
+    private JButton it81;
+    private JButton it82;
+    private JButton it83;
+    private JButton it84;
+    private JButton it85;
+    private JButton it86;
+    private JButton it87;
+    private JButton it88;
+
+
     private View view;
 
-    public GUI_Match(PublicModelNetwork md, PrivateModelNetwork pd, View view) {
-        this.view =view;
-        this.match_data = md;
-        this.player_data =pd;
+    public GUI_Match(View view) {
+        this.view = view;
+
+
         matchFrame = new JFrame("MyShelfie match");
         createUIComponents();
     }
 
     private void createUIComponents() {
+        // dentro la setIcon() > new ImageIcon(new ImageIcon(" PATH ").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH))
+
 
         //showing common goal cards using file path
-        cg2Label.setIcon(new ImageIcon("src/main/resources/img/cgs/"+match_data.getCgs()[1]+".jpg"));
-        pgLabel.setIcon(new ImageIcon("src/main/resources/img/pgc/Personal_Goals"+ player_data.getPgc()+".png"));
-        cg1Label.setIcon(new ImageIcon("src/main/resources/img/cgs/"+match_data.getCgs()[0]+".jpg"));
-        cg1Label.setPreferredSize(new Dimension(200,100));
-        cg2Label.setPreferredSize(new Dimension(200,100));
-        cg2Label.setPreferredSize(new Dimension(100,200));
+        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + view.match_data.getCgs()[1] + ".jpg").getImage().getScaledInstance(200,100, Image.SCALE_SMOOTH)));
+        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + view.match_data.getCgs()[0] + ".jpg").getImage().getScaledInstance(200,100, Image.SCALE_SMOOTH)));
+        pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/Personal_Goals" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH)));
 
+        cg1DescLabel.setText(view.cgDescriptions[view.match_data.getCgs()[0]]);
+        cg2DescLabel.setText(view.cgDescriptions[view.match_data.getCgs()[1]]);
 
-        cg1DescLabel.setText(view.cgDescriptions[match_data.getCgs()[0]]);
-        cg2DescLabel.setText(view.cgDescriptions[match_data.getCgs()[1]]);
-
-
-        lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
+        it00.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/Cornici1.1.png").getImage().getScaledInstance(40,40, Image.SCALE_SMOOTH)));
+        it00.setText("");
+        //lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
     }
 
     public void init() {
-
-
 
 
         matchFrame.setContentPane(matchPanel);
@@ -63,13 +137,4 @@ public class GUI_Match implements Observer {
 
     }
 
-
-    @Override
-    public void update(Observable o, Object arg) {
-        //todo comunicare aggiornamenti turno etc
-        if (arg instanceof PrivateModelNetwork)
-            this.player_data = (PrivateModelNetwork) arg;
-        if (arg instanceof PublicModelNetwork)
-            this.match_data  = (PublicModelNetwork) arg;
-    }
 }
