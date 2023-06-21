@@ -17,7 +17,7 @@ public class LRBTest extends TestCase {
 
     public void testIsTakeable() {
         var lrb = new LRB(2);
-        assertEquals(lrb.isTakeable(4, 4), false); //check initialized map works
+        assertFalse(lrb.isTakeable(4, 4)); //check initialized map works
         ItemTile it = new ItemTile(Item.CAT);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

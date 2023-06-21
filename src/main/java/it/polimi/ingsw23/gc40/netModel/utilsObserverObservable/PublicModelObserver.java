@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PublicModelObserver extends Observable implements Observer, Serializable, Remote {
+public class PublicModelObserver extends Observable implements Observer {
     private static final long serialVersionUID = 7829136881241571165L;
     private PublicModelNetwork data;
     public ItemTile[][] lrb;
@@ -19,8 +19,8 @@ public class PublicModelObserver extends Observable implements Observer, Seriali
     public Boolean playable;
     public String winner;
     public String current;
-    private transient GameController match;
-    private transient ArrayList<String> downloaded = new ArrayList<>();
+    private final GameController match;
+    private final ArrayList<String> downloaded = new ArrayList<>();
     private short turnNumber;
 
 

@@ -15,8 +15,8 @@ import java.util.Observer;
 
 public class SocketHandler implements Runnable, Observer {
 
-    private ProxyController proxyController;
-    private Socket socket;
+    private final ProxyController proxyController;
+    private final Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private int matchid = -1;
@@ -124,9 +124,9 @@ public class SocketHandler implements Runnable, Observer {
 
                     default:
                         System.out.println("###### Ho ricevuto: ");
-                        System.out.println("");
+                        System.out.println();
                         System.out.println(line);
-                        System.out.println("");
+                        System.out.println();
                         System.out.println("#comando non riconosciuto");
                         break;
                 }

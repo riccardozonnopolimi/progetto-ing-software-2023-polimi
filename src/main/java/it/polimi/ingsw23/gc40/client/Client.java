@@ -16,12 +16,12 @@ import java.util.Scanner;
 public class Client {
 
 
-    public static void main(String[] args) throws RemoteException, NotBoundException, Exception {
+    public static void main(String[] args) throws Exception {
         ConnectionController con;
 
 
 
-        System.out.println("");
+        System.out.println();
 
 
         //LET USER CHOICE IP SERVER
@@ -33,7 +33,7 @@ public class Client {
             host="localhost";
 
         System.out.println(CLI.green +"You chosen the target:"+CLI.resetStdColor +" "+host);
-        System.out.println("");
+        System.out.println();
 
         ConnectionStarter starter = new ConnectionStarter();
 
@@ -45,7 +45,7 @@ public class Client {
             //socket
             con = new conSocket(starter.socketStart(6789, host));
         }
-        System.out.println("");
+        System.out.println();
         if (CLI.getChoice(new String[]{"CLI (Command Line Interface)", "GUI (Graphic User Interface)"}, "Choose the game interface:") == 0) {
             //CLI
             view = new CLI(con);

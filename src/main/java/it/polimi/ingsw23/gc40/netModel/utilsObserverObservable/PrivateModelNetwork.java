@@ -11,7 +11,7 @@ public class PrivateModelNetwork implements Serializable {
     private final int pgc;
     private final ItemTile[][] bookshelf;
     private final String nickname;
-    private int[] scores;
+    private final int[] scores;
 
 
 

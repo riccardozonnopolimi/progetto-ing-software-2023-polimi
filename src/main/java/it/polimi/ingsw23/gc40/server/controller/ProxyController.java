@@ -13,9 +13,9 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public class ProxyController extends Thread implements ConnectionController {
-    private LobbyController lobbyController;
-    private HashMap<String, Observer> mapObservers = new HashMap<>();
-    private HashMap<String, Remote> mapRemote = new HashMap<>();
+    private final LobbyController lobbyController;
+    private final HashMap<String, Observer> mapObservers = new HashMap<>();
+    private final HashMap<String, Remote> mapRemote = new HashMap<>();
 
     public ProxyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
@@ -122,12 +122,7 @@ public class ProxyController extends Thread implements ConnectionController {
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
         //check if there is space in the player bookshelf
-        Player p;
-        if (lobbyController.getOfflinePlayer(nickname) == null) {
-            p = lobbyController.getPlayer(nickname);
-        } else {
-            p = lobbyController.getOfflinePlayer(nickname);
-        }
+        Player p=lobbyController.getPlayer(nickname);
         GameController m = lobbyController.getMatchById(match);
         if (p.getBookshelf().isFull()) {
             p.setFirstScore(1);
@@ -166,7 +161,9 @@ public class ProxyController extends Thread implements ConnectionController {
     @Override
     public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
         PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
-        PrivateModelObserver privateobs = lobbyController.getPlayer(nickname).getObserver();
+        Player p = lobbyController.getPlayer(nickname);
+
+        PrivateModelObserver privateobs = p.getObserver();
         Observer o = new Observer() {
             @Override
             public void update(Observable o, Object arg) {

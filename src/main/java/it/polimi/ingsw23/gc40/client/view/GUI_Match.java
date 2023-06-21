@@ -9,7 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class GUI_Match implements Observer {
-    private JFrame matchFrame;
+    private final JFrame matchFrame;
 
     private JPanel matchPanel;
     private JPanel goalPanel;
@@ -23,7 +23,7 @@ public class GUI_Match implements Observer {
     private JPanel lrbPanel;
     private PublicModelNetwork match_data;
     private PrivateModelNetwork player_data;
-    private View view;
+    private final View view;
 
     public GUI_Match(PublicModelNetwork md, PrivateModelNetwork pd, View view) {
         this.view =view;

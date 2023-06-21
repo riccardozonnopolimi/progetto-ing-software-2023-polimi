@@ -16,10 +16,10 @@ import java.util.NoSuchElementException;
 //todo comment class
 
 public class conSocket extends Thread implements ConnectionController {
-    private Socket socket;
-    private ObjectOutputStream out;
+    private final Socket socket;
+    private final ObjectOutputStream out;
     public String value;
-    private ObjectInputStream ois;
+    private final ObjectInputStream ois;
     private Object obj;
     private Object temp_obj;
     private View view;
@@ -40,7 +40,7 @@ public class conSocket extends Thread implements ConnectionController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("");
+        System.out.println();
 
         int number = (int) temp_obj;
         temp_obj = null;
@@ -66,7 +66,7 @@ public class conSocket extends Thread implements ConnectionController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("");
+        System.out.println();
 
         ItemTile[] ht = (ItemTile[]) temp_obj;
         temp_obj = null;
@@ -87,7 +87,7 @@ public class conSocket extends Thread implements ConnectionController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("");
+        System.out.println();
 
         int number = (int) temp_obj;
         temp_obj = null;
@@ -139,7 +139,7 @@ public class conSocket extends Thread implements ConnectionController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("");
+        System.out.println();
         int number;
         number = (int) temp_obj;
         temp_obj = null;
@@ -199,7 +199,7 @@ public class conSocket extends Thread implements ConnectionController {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("");
+        System.out.println();
         int number = (int) temp_obj;
         temp_obj = null;
         this.value = "#";

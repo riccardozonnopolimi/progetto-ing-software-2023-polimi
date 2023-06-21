@@ -10,7 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI extends View {
-    private Scanner sc;
+    private final Scanner sc;
     public static String green = "\u001b[42m\u001b[30m";
     public static String red = "\u001B[41m\u001B[30m";
     public static String yellow = "\u001b[43m\u001b[30m";
@@ -23,11 +23,11 @@ public class CLI extends View {
         sc = new Scanner(System.in);
     }
 
-    public void init() throws RemoteException, Exception {
+    public void init() throws Exception {
 
         //starting textual user interface
         System.out.println(green + "Command Line Interface has started!" + resetStdColor);
-        System.out.println("");
+        System.out.println();
         super.nickname = askString("Insert player name: ");
         while (!con.connect(super.nickname)) {
             System.out.println(yellow + "Name already in use, retry..." + resetStdColor);
@@ -41,7 +41,7 @@ public class CLI extends View {
         else {
             //creating new player
             System.out.println(green + "Created player" + resetStdColor);
-            System.out.println("");
+            System.out.println();
 
 
             if (con.hasQueueMatch()) {
@@ -60,7 +60,7 @@ public class CLI extends View {
                         //in the meantime the player was chosing the number of players another client created a match
                         System.out.println(red + "Can't create match: there is another match waiting for players." + resetStdColor);
                         System.out.println("This error occurs only if while you were choosing the number of players some other player connected on the server and started a game faster than you");
-                        System.out.println("");
+                        System.out.println();
                         System.out.println(green + "You are being added to the pending match" + resetStdColor);
                         break;
                     } else {
@@ -73,11 +73,11 @@ public class CLI extends View {
             //adding player to the game
             super.matchId = con.addToLastMatch(super.nickname);
 
-            System.out.println("");
+            System.out.println();
             System.out.println(green + "You are in the match N°" + super.matchId + resetStdColor);
 
 
-            System.out.println("");
+            System.out.println();
             System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + resetStdColor);
         }
 
@@ -91,9 +91,9 @@ public class CLI extends View {
             System.out.print("");
         }
 
-        System.out.println("");
+        System.out.println();
         System.out.println(green + "MATCH READY" + resetStdColor);
-        System.out.println("");
+        System.out.println();
 
 
         boolean play = match_data.isPlayable();
@@ -456,7 +456,7 @@ public class CLI extends View {
         for (int i = 0; i < cgs.length; i++) {
             System.out.println(grey + (i + 1) + ")" + resetStdColor + " Common Goal Card n." + cgs[i] + ":");
             System.out.println(cgDescriptions[cgs[i] - 1]);
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -466,7 +466,7 @@ public class CLI extends View {
         System.out.println("3: Adjacenses score " + scores[2]);
         System.out.println("4: First finished score " + scores[3]);
         System.out.println("#: TOT scores " + (scores[0] + scores[1] + scores[2] + scores[3]));
-        System.out.println("");
+        System.out.println();
     }
 
 
