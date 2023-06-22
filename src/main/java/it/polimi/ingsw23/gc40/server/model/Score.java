@@ -2,7 +2,7 @@ package it.polimi.ingsw23.gc40.server.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
+//todo javadoc
 public class Score {
     LocalDateTime date;
     ArrayList<Player> players;
