@@ -2,8 +2,10 @@ package it.polimi.ingsw23.gc40.client.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GUI_Match{
+public class GUI_Match {
     private JFrame matchFrame;
 
     private JPanel matchPanel;
@@ -108,6 +110,7 @@ public class GUI_Match{
 
         matchFrame = new JFrame("MyShelfie match");
         createUIComponents();
+
     }
 
     private void createUIComponents() {
@@ -115,15 +118,33 @@ public class GUI_Match{
 
 
         //showing common goal cards using file path
-        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + view.match_data.getCgs()[1] + ".jpg").getImage().getScaledInstance(200,100, Image.SCALE_SMOOTH)));
-        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + view.match_data.getCgs()[0] + ".jpg").getImage().getScaledInstance(200,100, Image.SCALE_SMOOTH)));
-        pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/Personal_Goals" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH)));
+        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[1] ) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
+        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[0] ) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
+        pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200, 500, Image.SCALE_SMOOTH)));
 
-        cg1DescLabel.setText(view.cgDescriptions[view.match_data.getCgs()[0]]);
-        cg2DescLabel.setText(view.cgDescriptions[view.match_data.getCgs()[1]]);
+        cg2Label.setText("");
+        cg1Label.setText("");
+        pgLabel.setText("");
 
-        it00.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/Cornici1.1.png").getImage().getScaledInstance(40,40, Image.SCALE_SMOOTH)));
+
+
+        //TODO ELIMINARE
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                System.out.print(view.pgCards.get(view.player_data.getPgc()-1)[i][j].toString() + "|");
+            }
+            System.out.println();
+        }
+        //MI SERVE PER VERIFICARE CORRETTA ASSOCIAZIONE PGC CLI E GUI
+
+        cg1DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[0]-1)]);
+        cg2DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[1]-1)]);
+
+        it00.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/Cornici1.1.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         it00.setText("");
+        it00.setOpaque(false);
+        it00.setBorderPainted(false);
+
         //lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
     }
 

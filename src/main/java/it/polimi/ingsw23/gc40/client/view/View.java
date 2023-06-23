@@ -52,7 +52,6 @@ public abstract class View {
     }
 
     public void updatePrivateData(PrivateModelNetwork privateData) {
-        System.out.println(nickname);
         if (privateData.getNickname().equals(nickname) || nickname.equals("###notdefined###"))
             this.player_data = privateData;
 

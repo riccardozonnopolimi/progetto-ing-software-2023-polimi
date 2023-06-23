@@ -5,11 +5,9 @@ import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelNetwo
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.Observer;
 
 public class GUI extends View {
     private GUI_Match guiMatch;
@@ -42,20 +40,28 @@ public class GUI extends View {
                     if (!con.connect(nickname)) {
                         popup("Nome utente già in uso, riprova...");
                     } else {
-                        newplayerField.setVisible(false);
-                        if (con.hasQueueMatch()) {
-                            matchId = con.addToLastMatch(nickname);
+                        matchId = con.reconnect(nickname);
+                        if (matchId != -1) {
+                            //todo avvisare il giocatore di ciò che segue:
+                            //popup("welcome back into match n."+matchId);
                             showOnly(waitingPanel);
                             con.addObserver(null, nickname, matchId);
-
-                            // todo avvisare il giocatore di ciò che segue:
-                            // popup("Sei stato aggiunto al match n."+matchId);
                         } else {
-                            showOnly(newmatchPanel);
-                        }
+                            if (con.hasQueueMatch()) {
+                                matchId = con.addToLastMatch(nickname);
+                                showOnly(waitingPanel);
+                                con.addObserver(null, nickname, matchId);
 
+                                // todo avvisare il giocatore di ciò che segue:
+                                // popup("Sei stato aggiunto al match n."+matchId);
+                            } else {
+                                showOnly(newmatchPanel);
+                            }
+                        }
                     }
                 } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
 
