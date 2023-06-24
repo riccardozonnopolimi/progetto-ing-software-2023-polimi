@@ -22,6 +22,11 @@ public class SocketHandler implements Runnable, Observer {
     private int matchid = -1;
     private String nickname = "###notdefined###";
 
+    /**
+     * SocketHandler constructor
+     * @param socketClient client connected in socket
+     * @param proxyController proxycontroller
+     */
     public SocketHandler(Socket socketClient, ProxyController proxyController) {
         this.socket = socketClient;
         this.proxyController = proxyController;
@@ -29,6 +34,12 @@ public class SocketHandler implements Runnable, Observer {
     }
 
 
+    /**
+     * method used to send objects in socket by using "messages"
+     * @param st
+     * @param obj
+     * @throws Exception
+     */
     public void sendObj(String st, Object obj) throws Exception {
         try {
             out.writeUTF(st);
@@ -45,6 +56,9 @@ public class SocketHandler implements Runnable, Observer {
     }
 
 
+    /**
+     * starts  a socket client thread
+     */
     @Override
     public void run() {
         try {
@@ -63,6 +77,7 @@ public class SocketHandler implements Runnable, Observer {
 
 
             boolean online = true;
+            //reading every input while player is online
             while (online) {
 
                 line = in.readUTF();
@@ -148,6 +163,11 @@ public class SocketHandler implements Runnable, Observer {
         }
     }
 
+    /**
+     * @param bool true if the message arrives correctly , false if not
+     * @throws IOException occurs whenever an input or output operation is failed or interpreted.
+     */
+    // todo ??
     private void bool(boolean bool) throws IOException {
         if (bool) {
             out.writeUTF("#true");
@@ -159,6 +179,10 @@ public class SocketHandler implements Runnable, Observer {
         }
     }
 
+    /**
+     * @param st string sent in socket
+     * @throws IOException occurs whenever an input or output operation is failed or interpreted.
+     */
     private void writeUTF(String st) throws IOException {
         out.writeUTF(st);
         out.flush();
@@ -166,6 +190,10 @@ public class SocketHandler implements Runnable, Observer {
 
     }
 
+    /**
+     * @param intero int sent in socket
+     * @throws IOException occurs whenever an input or output operation is failed or interpreted.
+     */
     private void writeInt(int intero) throws IOException {
         out.writeUTF("#int");
         out.flush();
@@ -175,6 +203,12 @@ public class SocketHandler implements Runnable, Observer {
 
     }
 
+    /**
+     * used to update public and private model observer using socket connection
+     * @param o   the observable object.
+     * @param arg an argument passed to the {@code notifyObservers}
+     *            method.
+     */
     @Override
     public void update(Observable o, Object arg) {
 
