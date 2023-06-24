@@ -17,15 +17,27 @@ public class ProxyController extends Thread implements ConnectionController {
     private final HashMap<String, Observer> mapObservers = new HashMap<>();
     private final HashMap<String, Remote> mapRemote = new HashMap<>();
 
+    /**
+     *ProxyController constructor
+     *  @param lobbyController sets lobbyController to this
+     */
     public ProxyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
         start();
     }
 
+    /**
+     * @return lobbyController
+     */
     public LobbyController getLobbyController() {
         return lobbyController;
     }
 
+    /**
+     * @param name nickname written by the client
+     * @return true if there is no other player connected with that nickname
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     public boolean connect(String name) throws RemoteException {
         if (lobbyController.checkOnlinePlayers(name)) {
             System.out.println("@PC: utente già esistente: " + name);
@@ -43,6 +55,10 @@ public class ProxyController extends Thread implements ConnectionController {
         return true;
     }
 
+    /**
+     *Inside this run there is a thread that pings every RMI user every second to check if it has not crashed,
+     * if the ping fails, the player crashed
+     */
     @Override
     public void run() {
         // thread that ping every user with RMI connection
@@ -69,10 +85,26 @@ public class ProxyController extends Thread implements ConnectionController {
         }
     }
 
+    /**
+     * @param player player nickname who is going to start the round
+     * @param matchId at which the player belongs
+     * @return the max number of item tiles which the player can take by checking empty slots in its bookshelf
+     *
+     */
     public int startRound(String player, int matchId) {
         return lobbyController.getPlayer(player).getBookshelf().placeables();
     }
 
+    /**
+     * @param nickname player nickname who can make the move
+     * @param mid match id of that player
+     * @param x axis in map of the tile chosen
+     * @param y allies in map of the tile chosen
+     * @param quantity the number of tiles the player decided to take
+     * @param direction the direction of the tile to take
+     * @return item tile array with the tiles chosen
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
         GameController m = lobbyController.getMatchById(mid);
@@ -91,11 +123,24 @@ public class ProxyController extends Thread implements ConnectionController {
         return m.chooseTiles(x, y, quantity, direction);
     }
 
+    /**
+     * @param nickname player nickname
+     * @param column bookshelf column
+     * @return the number of empty slots player bookshelf column has
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public int getAvailableSlots(String nickname, int column) throws RemoteException {
         return lobbyController.getPlayer(nickname).getBookshelf().getAvailableSlots(column);
     }
 
+    /**
+     * @param nickname player nickname
+     * @param handTile tile taken from the lrb
+     * @param column player decides to put handtile
+     * @return true after calling the method in model that insert handtile in bookshelf
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
         GameController m = lobbyController.matchByPlayer(nickname);
@@ -112,6 +157,13 @@ public class ProxyController extends Thread implements ConnectionController {
         return true;
     }
 
+    /**
+     * nextround updates player score, refills lrb if needed,checks if the match is completed,
+     * sets the next player round
+     * @param nickname player nickname
+     * @param match id match
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
         //check if there is space in the player bookshelf
@@ -147,10 +199,20 @@ public class ProxyController extends Thread implements ConnectionController {
             lobbyController.getMatchById(match).setPlayable(false);
     }
 
+    /**
+     * @param s player nickname (hashmap key)
+     * @param o obsever player
+     */
     public void addSockObs(String s, Observer o) {
         mapObservers.put(s, o);
     }
 
+    /**
+     * @param aRemoteObj Remote objects sent with RMI connection
+     * @param nickname player nickname
+     * @param matchid matchid
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
         PublicModelObserver publicobs = lobbyController.getMatchById(matchid).getObserver();
@@ -158,6 +220,11 @@ public class ProxyController extends Thread implements ConnectionController {
 
         PrivateModelObserver privateobs = p.getObserver();
         Observer o = new Observer() {
+            /**
+             * @param o   the observable object.
+             * @param arg an argument passed to the {@code notifyObservers}
+             *            method.
+             */
             @Override
             public void update(Observable o, Object arg) {
                 try {
@@ -178,6 +245,10 @@ public class ProxyController extends Thread implements ConnectionController {
         mapObservers.put(nickname, o);
     }
 
+    /**
+     * @param nickname player nickname
+     * @return id match where the player with that nickname belongs
+     */
     private int idMatchByPlayer(String nickname) {
         GameController m = lobbyController.matchByPlayer(nickname);
         if (m != null)
@@ -185,6 +256,11 @@ public class ProxyController extends Thread implements ConnectionController {
         return -1;
     }
 
+    /**
+     * @param nickname player nickname
+     * @return match id in which the player that crashed will be reconnected, -1 if it's a new player
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public int reconnect(String nickname) throws RemoteException {
         //return id match if reconnected or -1 if newplayer
@@ -205,6 +281,10 @@ public class ProxyController extends Thread implements ConnectionController {
         return mID;
     }
 
+    /**
+     * @param n number of players chosen in match
+     * @return true if the match has successfully been created
+     */
     public boolean newMatch(int n) {
         GameController gameController;
         if (n > 4 || n < 2) {
@@ -219,16 +299,28 @@ public class ProxyController extends Thread implements ConnectionController {
         }
     }
 
+    /**
+     * @return true if hasQueueMatch != null
+     */
     public boolean hasQueueMatch() {
         return lobbyController.hasQueueMatch();
     }
 
+    /**
+     * @param name player nickname added to the match
+     * @return match id where name is added
+     */
     public int addToLastMatch(String name) {
         GameController gameController = lobbyController.addToLastMatch(lobbyController.getPlayer(name));
         System.out.println("@PC: Aggiunto il giocarore " + name + " al match in attesa");
         return gameController.getId();
     }
 
+    /**
+     * closes player connection and deletes it from observers
+     * @param nickname player nickname
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public void close(String nickname) throws RemoteException {
         if (!lobbyController.checkOnlinePlayers(nickname))
@@ -257,6 +349,10 @@ public class ProxyController extends Thread implements ConnectionController {
         System.out.println("disconnesso giocatore: " + nickname);
     }
 
+    /**
+     * @param view new view set
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     @Override
     public void setView(View view) throws RemoteException {
         //used only in client side

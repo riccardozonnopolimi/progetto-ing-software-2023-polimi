@@ -13,6 +13,7 @@ public class LobbyController {
     private final ArrayList<Score> SavedScores = new ArrayList<>();
     private int numMatch;
 
+    //todo metodi inutilizzati
     public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
         this.onlinePlayers = onlinePlayers;
     }
@@ -25,6 +26,9 @@ public class LobbyController {
         this.offlinePlayers = offlinePlayers;
     }
 
+    /**
+     * @return the list of current active matches
+     */
     public ArrayList<GameController> getActiveMatches() {
         return activeGameControllers;
     }
@@ -33,19 +37,31 @@ public class LobbyController {
         this.activeGameControllers = activeGameControllers;
     }
 
+    /**
+     * LobbyController constructor. At first there are no match inside
+     */
     public LobbyController() {
         this.numMatch = 0;
     }
 
+   //todo inutilizzato
     public GameController getQueueMatch() {
         return this.queueMatch;
     }
 
+    /**
+     * @param name player nickname added to online players list
+     */
     public void addPlayer(String name) {
         Player p = new Player(name);
         onlinePlayers.add(p);
     }
 
+    /**
+     * @param numPlayer of the new match to create.
+     * @return the GameController if the match is succesfully created, null if the numPlayers is not allowed or if
+     * there is a queuematch
+     */
     public GameController createNewMatch(int numPlayer) {
         if (numPlayer > 4 || numPlayer < 2 || hasQueueMatch()) return null;
         else {
@@ -55,14 +71,22 @@ public class LobbyController {
         }
     }
 
+    /**
+     * @param name nickname of the player who was playing that crashed
+     */
     public void setPlayerOffline(String name) {
         Player p = getPlayer(name);
         onlinePlayers.remove(p);
         offlinePlayers.add(p);
     }
 
+    /**
+     * @param name player nickname
+     * @return the match in which there is the player with that nickname
+     */
     public GameController matchByPlayer(String name) {
 
+       //checking if effectively the player exists and returning the match
         for (int i = 0; i < activeGameControllers.size(); i++) {
             ArrayList<Player> ps = activeGameControllers.get(i).getPlayers();
             for (int j = 0; j < ps.size(); j++) {
@@ -71,15 +95,24 @@ public class LobbyController {
                 }
             }
         }
+        //if there is not this nickname
         return null;
     }
 
+    /**
+     * set the player online if reconnected
+     * @param name of player that was offline
+     */
     public void setPlayerOnline(String name) {
         Player p = getOfflinePlayer(name);
         onlinePlayers.add(p);
         offlinePlayers.remove(p);
     }
 
+    /**
+     * @param name player nickname that is offline
+     * @return the player that crashed from offline player list
+     */
     private Player getOfflinePlayer(String name) {
         for (int i = 0; i < offlinePlayers.size(); i++) {
             if (offlinePlayers.get(i).getNickName().equals(name)) {
@@ -89,6 +122,11 @@ public class LobbyController {
         return null;
     }
 
+    /**
+     * @param player
+     * @return the match in which player is added, if it is the last player to start the match
+     * queue match becomes null
+     */
     public GameController addToLastMatch(Player player) {
         if (queueMatch.addPlayer(player)) {
 
@@ -101,6 +139,10 @@ public class LobbyController {
         return queueMatch;
     }
 
+    /**
+     * @param nickName of the player
+     * @return true if the nicknames exists in one match
+     */
     public boolean checkOnlinePlayers(String nickName) {
 
         if (onlinePlayers.isEmpty())
@@ -114,6 +156,10 @@ public class LobbyController {
         return false;
     }
 
+    /**
+     * @param nickName of the player
+     * @return true if the offline players arraylist contains the player with that nickname
+     */
     public boolean checkOfflinePlayers(String nickName) {
         if (!offlinePlayers.isEmpty())
             for (int i = 0; i < offlinePlayers.size(); i++) {
@@ -124,6 +170,7 @@ public class LobbyController {
         return false;
     }
 
+    //todo inutilizzato
     public void endMatch(GameController gameController) {
         //TO TEST TODO
         if (gameController.isEnding() && !gameController.isPlayable()) {
@@ -138,14 +185,22 @@ public class LobbyController {
 
     }
 
+    //todo ??
     public void print(String str) {
         System.out.println(str);
     }
 
+    /**
+     * @return true if queuematch is != null
+     */
     public boolean hasQueueMatch() {
         return (queueMatch != null);
     }
 
+    /**
+     * @param nome nickname of the player
+     * @return true if the online players arraylist contains the player with that nickname
+     */
     public Player getPlayer(String nome) {
         for (int i = 0; i < onlinePlayers.size(); i++) {
             if (onlinePlayers.get(i).getNickName().equals(nome)) {
@@ -156,6 +211,10 @@ public class LobbyController {
 
     }
 
+    /**
+     * @param n id of the match passed by parameter
+     * @return the queue match if its id is == to n,activeGame controller if is one of the list
+     */
     public GameController getMatchById(int n) {
         if (queueMatch != null) if (queueMatch.getId() == n) return queueMatch;
 
