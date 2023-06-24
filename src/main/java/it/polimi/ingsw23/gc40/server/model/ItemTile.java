@@ -16,7 +16,7 @@ public class ItemTile implements Serializable {
     }
 
     /**
-     * Constructore of ItemTile
+     * ItemTile Constructor
      * @param t item type
      * @param n used to assign to Item the right icon
      */

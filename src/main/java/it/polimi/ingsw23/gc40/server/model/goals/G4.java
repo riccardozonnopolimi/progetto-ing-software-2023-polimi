@@ -6,9 +6,20 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import java.util.HashMap;
 public class G4 implements Goal {
     private final int id;
+
+    /**
+     * Common Goal Cards numbered following Rulebook in italian
+     * from the first on the left to the bottom of the right
+     * @param id set the common goal id passed by parameter in gamecontroller
+     */
     public G4(int id){
         this.id = id;
     }
+
+    /**
+     * @param p player that has already finished the round
+     * @return true if the goal is achieved by the player, false if it is not.
+     */
     @Override
     public boolean instanceGoal(Player p) {
         //TESTED
@@ -69,9 +80,14 @@ public class G4 implements Goal {
         }
         return false;
     }
+     //todo usata solo nei test
     public void print() {
         System.out.println("G4");
     }
+
+    /**
+     * @return Common Goal id
+     */
     @Override
     public int getId() {
         return this.id;
