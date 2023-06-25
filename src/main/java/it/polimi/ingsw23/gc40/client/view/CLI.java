@@ -189,7 +189,7 @@ public class CLI extends View {
     /**
      * permits current player to take tiles from LRB
      * @param turnNumber allow to differentiate the current player from the others
-     * @throws RemoteException if there is a connection problem
+     * @throws RemoteException if remote communication falis
      */
     private void makemove(int turnNumber) throws RemoteException {
         System.out.println("Make your move!");
@@ -277,7 +277,7 @@ public class CLI extends View {
      * @param handTiles represents the item taken from LRB
      * @param quantity represents how many items has been taken
      * @param turnNumber to check if the current player is making the move
-     * @throws RemoteException for connection problem
+     * @throws RemoteException if remote communication fails
      */
     private void insertTile(ItemTile[] handTiles, int quantity, int turnNumber) throws RemoteException {
         //show bookshelf and ask in which column insert tile

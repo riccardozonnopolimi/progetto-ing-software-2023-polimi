@@ -15,6 +15,9 @@ public class PublicModelNetwork implements Serializable {
     private final short turnNumber;
 
 
+    /**
+     * @return true if the match can start or if it can restart
+     */
     public boolean isPlayable() {
         return playable;
     }
@@ -23,10 +26,23 @@ public class PublicModelNetwork implements Serializable {
         return winner;
     }
 
+    /**
+     * @return player nickname that is currently playing the turn
+     */
     public String getCurrent() {
         return current;
     }
 
+    /**
+     * PublicModelNetwork constructor. It just sets value passed by parameters
+     * @param lrb map
+     * @param cgs commongoals array
+     * @param idMatch match id
+     * @param current current player, playing round
+     * @param playable match status
+     * @param winner nickname of the winner
+     * @param turnNumber turn number
+     */
     public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current, boolean playable, String winner, short turnNumber) {
         this.cgs = cgs;
         this.lrb = lrb;
@@ -38,19 +54,30 @@ public class PublicModelNetwork implements Serializable {
     }
 
 
-
+    /**
+     * @return map
+     */
     public ItemTile[][] getLrb() {
         return lrb;
     }
 
+    /**
+     * @return common goals
+     */
     public int[] getCgs() {
         return cgs;
     }
 
+    /**
+     * @return match id
+     */
     public int getIdMatch() {
         return idMatch;
     }
 
+    /**
+     * @return current turn number
+     */
     public int getTurnNumber() {
         return turnNumber;
     }

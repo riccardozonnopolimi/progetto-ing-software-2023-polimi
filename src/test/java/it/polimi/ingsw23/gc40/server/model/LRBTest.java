@@ -1,4 +1,4 @@
-package model;
+package it.polimi.ingsw23.gc40.server.model;
 
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;

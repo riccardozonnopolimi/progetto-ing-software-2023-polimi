@@ -25,6 +25,11 @@ public class conSocket extends Thread implements ConnectionController {
     private View view;
 
 
+    /**
+     * @param name player nickname who is going to start the round
+     * @param mID at which the player belongs
+     * @return the max number of item tiles which the player can take by checking empty slots in its bookshelf
+     */
     @Override
     public int startRound(String name, int mID) {
         outprint("#startRound");
@@ -48,6 +53,16 @@ public class conSocket extends Thread implements ConnectionController {
         return number;
     }
 
+    /**
+     * @param nickname player nickname who can make the move
+     * @param mid match id of that player
+     * @param x axis in map of the tile chosen
+     * @param y allies in map of the tile chosen
+     * @param quantity the number of tiles the player decided to take
+     * @param direction the direction of the tile to take
+     * @return item tile array with the tiles chosen
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
 
@@ -73,6 +88,12 @@ public class conSocket extends Thread implements ConnectionController {
         return ht;
     }
 
+    /**
+     * @param nickname player nickname
+     * @param column bookshelf column
+     * @return the number of empty slots player bookshelf column has
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public int getAvailableSlots(String nickname, int column) throws RemoteException {
         outprint("#getAvailableSlots");
@@ -95,6 +116,9 @@ public class conSocket extends Thread implements ConnectionController {
         return number;
     }
 
+    /**
+     * @param obj object sent in a socketmessage
+     */
     public void outobject(Object obj) {
         try {
             out.writeObject(obj);
@@ -106,6 +130,13 @@ public class conSocket extends Thread implements ConnectionController {
 
     }
 
+    /**
+     * @param nickname player nickname
+     * @param handTile tile taken from the lrb
+     * @param column player decides to put handtile
+     * @return true after calling the method in model that insert handtile in bookshelf
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
         outprint("#insertTile");
@@ -113,6 +144,13 @@ public class conSocket extends Thread implements ConnectionController {
         return check(column);
     }
 
+    /**
+     *updates player score, refills lrb if needed,checks if the match is completed,
+     * sets the next player round
+     * @param nickname player nickname
+     * @param matchId id match
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public void nextRound(String nickname, int matchId) throws RemoteException {
         outprint("#nextRound");
@@ -120,11 +158,22 @@ public class conSocket extends Thread implements ConnectionController {
         outprint(matchId);
     }
 
+    /**
+     * @param aRemoteObj Remote objects sent in cnnection
+     * @param s player nickname
+     * @param n matchid
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public void addObserver(Remote aRemoteObj, String s, int n) throws RemoteException {
         outprint("#addObserver");
     }
 
+    /**
+     * @param nickname player nickname
+     * @return match id in which the player that crashed will be reconnected , -1 if it's a new player
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public int reconnect(String nickname) throws RemoteException {
         outprint("#reconnect");
@@ -147,6 +196,10 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
 
+    /**
+     * conSocket constructor. It takes a client socket and starts the connection with the server
+     * @param socket
+     */
     public conSocket(Socket socket) {
         this.socket = socket;
         try {
@@ -166,18 +219,30 @@ public class conSocket extends Thread implements ConnectionController {
 
     }
 
+    /**
+     * @param name nickname written by the client
+     * @return true if there is no other player connected with that nickname
+     */
     @Override
     public boolean connect(String name) {
         outprint("#connect");
         return check(name);
     }
 
+    /**
+     * closes player connection and deletes it from observers
+     * @param nickname player nickname
+     */
     @Override
     public void close(String nickname) {
         outprint("#close");
         outprint(nickname);
     }
 
+    /**
+     * @param n number of players chosen in match
+     * @return true if the match has successfully been created
+     */
     @Override
     public boolean newMatch(int n) {
         outprint("#newMatch");
@@ -185,6 +250,11 @@ public class conSocket extends Thread implements ConnectionController {
 
     }
 
+    /**
+     * @param name player nickname added to the match
+     * @return match id where name is added
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public int addToLastMatch(String name) throws RemoteException {
         outprint("#addToLastMatch");
@@ -205,18 +275,29 @@ public class conSocket extends Thread implements ConnectionController {
         return number;
     }
 
+    /**
+     * @return true if there is one match which is filling that is not started yet
+     */
     @Override
     public boolean hasQueueMatch() {
         return check("#hasQueueMatch");
     }
 
 
+    /**
+     * @param view client view
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
     }
 
-    //send string to socket server; return true or false depending on server answer
+    /**
+     * send string to socket server
+     * @param string
+     * @return return true or false depending on server answer
+     */
     private boolean check(String string) {
         outprint(string);
         try {
@@ -241,6 +322,11 @@ public class conSocket extends Thread implements ConnectionController {
         return false;
     }
 
+    /**
+     * send int to socket server
+     * @param n
+     * @return return true or false depending on server answer
+     */
     private boolean check(int n) {
         outprint(n);
         try {
@@ -265,6 +351,9 @@ public class conSocket extends Thread implements ConnectionController {
         return false;
     }
 
+    /**
+     * @param s output string from client
+     */
     private void outprint(String s) {
         try {
             out.writeUTF(s);
@@ -282,6 +371,9 @@ public class conSocket extends Thread implements ConnectionController {
 
     }
 
+    /**
+     * @param s output int from client
+     */
     private void outprint(int s) {
         try {
             out.writeInt(s);
@@ -297,6 +389,9 @@ public class conSocket extends Thread implements ConnectionController {
         }
     }
 
+    /**
+     * @param c output char from client
+     */
     private void outprint(char c) {
         try {
             out.writeChar(c);
@@ -312,6 +407,9 @@ public class conSocket extends Thread implements ConnectionController {
         }
     }
 
+    /**
+     * a new Thread run when a socket client connection starts
+     */
     @Override
     public void run() {
         try {

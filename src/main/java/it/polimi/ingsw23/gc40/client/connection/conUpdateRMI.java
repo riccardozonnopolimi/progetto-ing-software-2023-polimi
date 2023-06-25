@@ -13,15 +13,27 @@ public class conUpdateRMI extends UnicastRemoteObject implements updateRMI {
     private final View view;
 
 
+    /**
+     * @param view client view
+     * @throws RemoteException if remote communication fails
+     */
     public conUpdateRMI(View view) throws RemoteException {
         super();
         this.view = view;
     }
 
+    /**
+     * ping to check if the player not crashed
+     * @throws RemoteException if remote communication fails
+     */
     public void ping() throws RemoteException{
     }
 
 
+    /**
+     * @param obj privatemodel or publicmodel that send update
+     * @throws RemoteException if remote communication fails
+     */
     @Override
     public void update(Object obj) throws RemoteException {
         //dividing public or private update

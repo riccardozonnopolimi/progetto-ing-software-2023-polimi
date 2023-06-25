@@ -3,9 +3,6 @@ package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-
-import java.io.Serializable;
-import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,6 +21,10 @@ public class PublicModelObserver extends Observable implements Observer {
     private short turnNumber;
 
 
+    /**
+     * Constructor. It sets PublicModelObserver object as GameController observer
+     *  @param gameController
+     */
     public PublicModelObserver(GameController gameController) {
         gameController.addObserver(this);
         match = gameController;
@@ -31,30 +32,40 @@ public class PublicModelObserver extends Observable implements Observer {
     }
 
 
+    /**
+     * @param o   the observable object.
+     * @param arg an argument passed to the {@code notifyObservers}
+     *            method.
+     */
     @Override
     public void update(Observable o, Object arg) {
+       //updating lrb
         if (arg instanceof ItemTile[][]) {
             lrb = (ItemTile[][]) arg;
             data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null,turnNumber);
         }
+        //updating turnNumber
         if (arg instanceof Short) {
             turnNumber = (short) arg;
             data = new PublicModelNetwork(lrb,cgs,idMatch,current,playable,null,turnNumber);
         }
-
+        //sending commongoals id
         if (arg instanceof int[]) {
             cgs = (int[]) arg;
             data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
         }
+        //updating idMatch
         if (arg instanceof Integer) {
             idMatch = (int) arg;
             data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
         }
+        //updating winner and current
         if (arg instanceof String) {
             winner = (String) arg;
             current = (String) arg;
             data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
         }
+       //updating match status (playable or not)
         if (arg instanceof Boolean) {
             playable = (Boolean) arg;
             if (playable)
@@ -65,6 +76,7 @@ public class PublicModelObserver extends Observable implements Observer {
         }
         setChanged();
         notifyObservers(data);
+        //todo cancellare eventualmente
         //System.out.println("server notifica public dati correttamente");
        /* try {
 
@@ -96,6 +108,7 @@ public class PublicModelObserver extends Observable implements Observer {
     }
 */
 
+   //todo inutilizzato
     public Object getData() {
         return data;
     }
@@ -106,6 +119,10 @@ public class PublicModelObserver extends Observable implements Observer {
         notifyObservers(data);
     }
 
+    /**
+     * Notifies data (PublicModelNetwork)
+     * @param o an observer to be added.
+     */
     @Override
     public void addObserver(Observer o) {
 

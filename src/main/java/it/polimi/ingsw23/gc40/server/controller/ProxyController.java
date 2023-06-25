@@ -36,7 +36,7 @@ public class ProxyController extends Thread implements ConnectionController {
     /**
      * @param name nickname written by the client
      * @return true if there is no other player connected with that nickname
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     public boolean connect(String name) throws RemoteException {
         if (lobbyController.checkOnlinePlayers(name)) {
@@ -103,7 +103,7 @@ public class ProxyController extends Thread implements ConnectionController {
      * @param quantity the number of tiles the player decided to take
      * @param direction the direction of the tile to take
      * @return item tile array with the tiles chosen
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public ItemTile[] chooseTiles(String nickname, int mid, int x, int y, int quantity, char direction) throws RemoteException {
@@ -127,7 +127,7 @@ public class ProxyController extends Thread implements ConnectionController {
      * @param nickname player nickname
      * @param column bookshelf column
      * @return the number of empty slots player bookshelf column has
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public int getAvailableSlots(String nickname, int column) throws RemoteException {
@@ -139,7 +139,7 @@ public class ProxyController extends Thread implements ConnectionController {
      * @param handTile tile taken from the lrb
      * @param column player decides to put handtile
      * @return true after calling the method in model that insert handtile in bookshelf
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public boolean insertTile(String nickname, ItemTile handTile, int column) throws RemoteException {
@@ -162,7 +162,7 @@ public class ProxyController extends Thread implements ConnectionController {
      * sets the next player round
      * @param nickname player nickname
      * @param match id match
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
@@ -211,7 +211,7 @@ public class ProxyController extends Thread implements ConnectionController {
      * @param aRemoteObj Remote objects sent with RMI connection
      * @param nickname player nickname
      * @param matchid matchid
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public void addObserver(Remote aRemoteObj, String nickname, int matchid) throws RemoteException {
@@ -258,8 +258,8 @@ public class ProxyController extends Thread implements ConnectionController {
 
     /**
      * @param nickname player nickname
-     * @return match id in which the player that crashed will be reconnected, -1 if it's a new player
-     * @throws RemoteException if there are any problems calling the remote method
+     * @return match id in which the player that crashed will be reconnected , -1 if it's a new player
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public int reconnect(String nickname) throws RemoteException {
@@ -300,7 +300,7 @@ public class ProxyController extends Thread implements ConnectionController {
     }
 
     /**
-     * @return true if hasQueueMatch != null
+     * @return true if there is one match which is filling that is not started yet
      */
     public boolean hasQueueMatch() {
         return lobbyController.hasQueueMatch();
@@ -319,7 +319,7 @@ public class ProxyController extends Thread implements ConnectionController {
     /**
      * closes player connection and deletes it from observers
      * @param nickname player nickname
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public void close(String nickname) throws RemoteException {
@@ -351,7 +351,7 @@ public class ProxyController extends Thread implements ConnectionController {
 
     /**
      * @param view new view set
-     * @throws RemoteException if there are any problems calling the remote method
+     * @throws RemoteException if remote communication fails
      */
     @Override
     public void setView(View view) throws RemoteException {
