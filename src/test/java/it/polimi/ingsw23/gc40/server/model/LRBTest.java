@@ -9,12 +9,6 @@ import org.junit.Test;
 
 public class LRBTest extends TestCase {
 
-    @Test
-    protected TestResult createResult() {
-        return super.createResult();
-    }
-
-
     public void testIsTakeable() {
         var lrb = new LRB(2);
         assertFalse(lrb.isTakeable(4, 4)); //check initialized map works
@@ -26,16 +20,11 @@ public class LRBTest extends TestCase {
                 }
             }
         }
-
-
         assertTrue(lrb.isTakeable(7, 5));
         assertTrue(lrb.isTakeable(1, 3));
         assertFalse(lrb.isTakeable(4, 4));
         assertFalse(lrb.isTakeable(0, 3));
-
-
     }
-
 
     public void testEveryTileCompletelyFree() {
         LRB lrb = new LRB(2);
@@ -72,9 +61,6 @@ public class LRBTest extends TestCase {
                 System.out.print(mappaTemp[i][j].toString() + "|");
             }
             System.out.println();
-
         }
-
-
     }
 }

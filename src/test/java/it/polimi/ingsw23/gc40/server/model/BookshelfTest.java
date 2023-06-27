@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.server.model.BookShelfTest;
+package it.polimi.ingsw23.gc40.server.model;
 
 import it.polimi.ingsw23.gc40.server.model.Bookshelf;
 import it.polimi.ingsw23.gc40.server.model.Item;

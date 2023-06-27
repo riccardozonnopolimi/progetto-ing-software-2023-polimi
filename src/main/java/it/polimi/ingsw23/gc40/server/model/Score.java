@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 //todo javadoc
 public class Score {
+    //todo ???
     LocalDateTime date;
     ArrayList<Player> players;
     Player winner;
