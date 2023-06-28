@@ -30,6 +30,12 @@ public class LobbyController {
      * @return the list of current active matches
      */
     public ArrayList<GameController> getActiveMatches() {
+        GameController gameController;
+        for (int i = 0; i < activeGameControllers.size(); i++){
+            gameController = activeGameControllers.get(i);
+            if (gameController.isEnding() && !gameController.isPlayable())
+                activeGameControllers.remove(i);
+        }
         return activeGameControllers;
     }
 

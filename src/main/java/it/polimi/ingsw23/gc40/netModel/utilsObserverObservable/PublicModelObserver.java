@@ -3,9 +3,7 @@ package it.polimi.ingsw23.gc40.netModel.utilsObserverObservable;
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class PublicModelObserver extends Observable implements Observer {
     private static final long serialVersionUID = 7829136881241571165L;
@@ -17,13 +15,15 @@ public class PublicModelObserver extends Observable implements Observer {
     public String winner;
     public String current;
     private final GameController match;
-    private final ArrayList<String> downloaded = new ArrayList<>();
     private short turnNumber;
+    private short[] points;
+    private String[] playersNick;
 
 
     /**
      * Constructor. It sets PublicModelObserver object as GameController observer
-     *  @param gameController
+     *
+     * @param gameController
      */
     public PublicModelObserver(GameController gameController) {
         gameController.addObserver(this);
@@ -39,76 +39,58 @@ public class PublicModelObserver extends Observable implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-       //updating lrb
+        //updating player's name
+        if (arg instanceof String[]) {
+            playersNick = (String[]) arg;
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
+        }
+        //updating points
+        if (arg instanceof short[]) {
+            points = (short[]) arg;
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
+        }
+        //updating lrb
         if (arg instanceof ItemTile[][]) {
             lrb = (ItemTile[][]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null,turnNumber);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
         }
         //updating turnNumber
         if (arg instanceof Short) {
             turnNumber = (short) arg;
-            data = new PublicModelNetwork(lrb,cgs,idMatch,current,playable,null,turnNumber);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
         }
         //sending commongoals id
         if (arg instanceof int[]) {
             cgs = (int[]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
         }
         //updating idMatch
         if (arg instanceof Integer) {
             idMatch = (int) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
         }
         //updating winner and current
         if (arg instanceof String) {
             winner = (String) arg;
             current = (String) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
         }
-       //updating match status (playable or not)
+        //updating match status (playable or not)
         if (arg instanceof Boolean) {
             playable = (Boolean) arg;
             if (playable)
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber);
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
             else
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber);
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber, points, playersNick);
 
         }
+
         setChanged();
         notifyObservers(data);
-        //todo cancellare eventualmente
-        //System.out.println("server notifica public dati correttamente");
-       /* try {
-
-            System.out.println("public update");
-            for (int i = 0; i < match.getPlayers().size(); i++) {
-                if (match.getPlayers().get(i).getPrivateModelObserver().getSH() != null) {
-                    System.out.println("public update in socket: " + match.getPlayers().get(i).getNickName());
-                    match.getPlayers().get(i).getPrivateModelObserver().getSH().sendObj("#public_object", data);
-                } else {
-                    downloaded.add(match.getPlayers().get(i).getNickName());
-                    System.out.println("public update in rmi: " + match.getPlayers().get(i).getNickName());
-                }
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-
-
     }
 
-/*
-    public ArrayList<String> getDownloaded() {
-        return downloaded;
-    }
 
-    public void setDownloaded(ArrayList<String> downloaded) {
-        this.downloaded = downloaded;
-    }
-*/
-
-   //todo inutilizzato
+    //todo inutilizzato
     public Object getData() {
         return data;
     }
@@ -121,16 +103,13 @@ public class PublicModelObserver extends Observable implements Observer {
 
     /**
      * Notifies data (PublicModelNetwork)
+     *
      * @param o an observer to be added.
      */
     @Override
     public void addObserver(Observer o) {
-
         super.addObserver(o);
         setChanged();
         notifyObservers(data);
-
     }
-
-
 }

@@ -8,21 +8,13 @@ import it.polimi.ingsw23.gc40.client.view.GUI;
 import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 
-
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
-
-
     public static void main(String[] args) throws Exception {
         ConnectionController con;
 
-
-
         System.out.println();
-
 
         //LET USER CHOICE IP SERVER
         System.out.println("Write the target (ip address or domain) of the server: "+CLI.green+"(You can press enter for localhost)"+CLI.resetStdColor);

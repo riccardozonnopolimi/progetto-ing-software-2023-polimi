@@ -29,6 +29,7 @@ public class GameController extends Observable {
     private Player wasnext;
     private Player next;
     private final PublicModelObserver observer = new PublicModelObserver(this);
+    private short[] points;
 
     /**
      * @return true if the match can start or restart in case remains just one player in the match
@@ -95,8 +96,6 @@ public class GameController extends Observable {
         return observer;
     }
 
-
-
     /**
      * GameController constructor. Initializes a lrb with empty tiles,creates a bag with 22 item tile for each tile
      * creates common goal cards and sets two of them randomly, sets scores based on numPlayers
@@ -111,7 +110,7 @@ public class GameController extends Observable {
         this.id = id;
         this.moveNumber = 0;
         this.activePlayers = 0;
-
+        this.points = new short[numPlayers];
 
         //create a map for n players
         this.map = new LRB(numPlayers);
@@ -182,9 +181,7 @@ public class GameController extends Observable {
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
 
-
         int[] cgsids = new int[]{commonGoals[0].getGoal().getId(), commonGoals[1].getGoal().getId()};
-
 
         setChanged();
         notifyObservers(id);
@@ -195,12 +192,9 @@ public class GameController extends Observable {
         setChanged();
         notifyObservers(map.getMap());
 
-
         //import all existing personal goals from json
         Gson gson = new Gson();
-
         ArrayList<ItemTile[][]> goalsFromFile = new ArrayList<>();
-
         Type personalGoalsType = new TypeToken<ArrayList<ItemTile[][]>>() {
         }.getType();
         try {
@@ -208,13 +202,9 @@ public class GameController extends Observable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-
         //choosing n personal goal randomly
         for (int i = 0; i < numPlayers; i++) {
-
             rand = (int) (Math.random() * goalsFromFile.size());
-
             personalGoals.add(new PersonalGoalCard(goalsFromFile.get(rand), rand + 1));
             goalsFromFile.remove(rand);
         }
@@ -226,23 +216,6 @@ public class GameController extends Observable {
     public Player getNext() {
         return this.next;
     }
-
-  /*  public boolean playable() {
-        //Tested
-        //starts when there are all the players
-        if (players.size() == numPlayers){
-            setPlayable(true);
-            return true;
-        }
-
-
-        // if a player has filled his bookshelf and nextPlayer is first player I can not play
-        if (next != null) if (ending && next.isFirst()) {
-            winner();
-            return false;
-        }
-        return false;
-    }*/
 
     /**
      * @return the winner of the match
@@ -311,7 +284,12 @@ public class GameController extends Observable {
             notifyObservers(this.getId());
             refill();
             setPlayable(true);
-
+            String[] playersNick = new String[numPlayers];
+            for (int i = 0; i<players.size();i++ ){
+                playersNick[i] = players.get(i).getNickName();
+            }
+            setChanged();
+            notifyObservers(playersNick);
             return true;
         }
         return false;
@@ -362,16 +340,12 @@ public class GameController extends Observable {
      * @param player is the next that makes the move
      */
     public void setNext(Player player) {
-
-
         if (player == null) {
             this.wasnext = this.next;
 
             this.next = player;
             setChanged();
             notifyObservers("###gamepaused###");
-
-
         } else {
             this.moveNumber++;
             setChanged();
@@ -381,9 +355,7 @@ public class GameController extends Observable {
             setChanged();
             notifyObservers(next.getNickName());
         }
-
     }
-
 
     /**
      * @param x axis in the lrb
@@ -553,9 +525,12 @@ public class GameController extends Observable {
             this.CG2Scores.remove(this.CG2Scores.size() - 1);
             p.setCG2Reached(true);
         }
-
         p.setCGScore(cgscore);
         p.getPersonalGoal().checkScore(p);
+
+        points [players.indexOf(p)] = (short) p.totScore();
+        setChanged();
+        notifyObservers(points);
     }
 
     /**

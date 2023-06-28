@@ -28,7 +28,7 @@ public abstract class View extends Observable {
 
     public View(ConnectionController connection) {
         this.con = connection;
-        this.match_data = new PublicModelNetwork(null, null, -1, null, false, null, (short)0);
+        this.match_data = new PublicModelNetwork(null, null, -1, null, false, null, (short)0,null,null);
         this.player_data = null;
         this.matchId = -1;
         this.nickname = "###notdefined###";

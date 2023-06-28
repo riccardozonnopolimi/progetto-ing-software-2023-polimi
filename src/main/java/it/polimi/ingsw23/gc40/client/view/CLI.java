@@ -177,9 +177,14 @@ public class CLI extends View {
                 }
 
             }
+            play = match_data.isPlayable();
         }
         if (!close) {
-            System.out.println("END!!!");
+            System.out.println("The winner is... "+ match_data.getWinner());
+            System.out.println("The total scores of each player is:");
+            for (int i = 0; i < match_data.getPlayersNick().length; i++){
+                System.out.println("-" + match_data.getPlayersNick()[i] + ": " + match_data.getPoints()[i]);
+            }
         } else {
             System.out.println("Exit from the game.");
         }
