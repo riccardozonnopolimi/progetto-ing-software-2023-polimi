@@ -182,7 +182,7 @@ public class ProxyController extends Thread implements ConnectionController {
                     ((updateRMI) aRemoteObj).update(arg);
                 } catch (RemoteException e) {
 
-                    //System.out.println("Entro in catch nel proxycontroller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
+                    //System.out.println("Entro in catch nel proxy controller quando un client si è disconnesso in rmi e non riceve la notify... questo perchè invio tutte le notify a tutti, male. \n proxycontroller, metodo update dentro addobserver");
 
                     try {
                         close(nickname);

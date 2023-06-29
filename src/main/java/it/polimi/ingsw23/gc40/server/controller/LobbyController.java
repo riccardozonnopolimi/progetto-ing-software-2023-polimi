@@ -153,7 +153,7 @@ public class LobbyController {
                 return onlinePlayers.get(i);
             }
         }
-        return null;
+        return getOfflinePlayer(nome);
     }
 
     public GameController getMatchById(int n) {

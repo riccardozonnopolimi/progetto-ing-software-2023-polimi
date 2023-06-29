@@ -1,9 +1,12 @@
 package it.polimi.ingsw23.gc40.client.view;
 
+import it.polimi.ingsw23.gc40.server.model.ItemTile;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
 
 public class GUI_Match {
     private JFrame matchFrame;
@@ -113,37 +116,78 @@ public class GUI_Match {
 
     }
 
+    private String getTileUri(ItemTile it) {
+        String uri = "";
+        switch (it.getItem()) {
+            case CAT -> {
+                uri += "Gatti";
+            }
+            case BOOK -> {
+                uri += "Libri";
+            }
+            case GAME -> {
+                uri += "Giochi";
+            }
+            case FRAME -> {
+                uri += "Cornici";
+            }
+            case TROPHY -> {
+                uri += "Trofei";
+            }
+            case PLANT -> {
+                uri += "Piante";
+            }
+            case EMPTY -> {
+                return "Empty";
+            }
+            case NOTREACHABLE -> {
+                return "NR";
+            }
+        }
+        uri += "1." + (it.getNum() + 1);
+
+        return uri;
+    }
+
     private void createUIComponents() {
         // dentro la setIcon() > new ImageIcon(new ImageIcon(" PATH ").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH))
 
 
         //showing common goal cards using file path
-        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[1] ) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
-        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[0] ) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
+        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[1]) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
+        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[0]) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
         pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200, 500, Image.SCALE_SMOOTH)));
 
         cg2Label.setText("");
         cg1Label.setText("");
         pgLabel.setText("");
 
+        cg1DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[0] - 1)]);
+        cg2DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[1] - 1)]);
 
 
-        //TODO ELIMINARE
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(view.pgCards.get(view.player_data.getPgc()-1)[i][j].toString() + "|");
+// Ripetizione per tutti gli elementi da it00 a it88
+        for (int i = 0; i <= 8; i++) {
+            for (int j = 0; j <= 8; j++) {
+                String elementName = "it" + i + j;
+                try {
+                    Field field = GUI_Match.class.getDeclaredField(elementName);
+                    JButton button = (JButton) field.get(this);
+                    if (!getTileUri(view.match_data.getLrb()[i][j]).equals("NR"))
+                        button.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/" + getTileUri(view.match_data.getLrb()[i][j]) + ".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                    else
+                        button.setEnabled(false);
+                    button.setText("");
+                    button.setOpaque(false);
+                    button.setBorderPainted(false);
+                    button.addActionListener(e -> {
+
+                    });
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
-            System.out.println();
         }
-        //MI SERVE PER VERIFICARE CORRETTA ASSOCIAZIONE PGC CLI E GUI
-
-        cg1DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[0]-1)]);
-        cg2DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[1]-1)]);
-
-        it00.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/Cornici1.1.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        it00.setText("");
-        it00.setOpaque(false);
-        it00.setBorderPainted(false);
 
         //lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
     }
