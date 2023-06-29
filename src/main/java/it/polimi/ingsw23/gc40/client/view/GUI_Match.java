@@ -4,13 +4,11 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
+import java.rmi.RemoteException;
 
 public class GUI_Match {
     private JFrame matchFrame;
-
     private JPanel matchPanel;
     private JPanel goalPanel;
     private JLabel cg1Label;
@@ -21,7 +19,7 @@ public class GUI_Match {
     private JLabel cg1DescLabel;
     private JLabel cg2DescLabel;
     private JPanel lrbPanel;
-    private JButton button1;
+    private JButton makeMoveBTN;
     private JButton it00;
     private JButton it01;
     private JButton it02;
@@ -103,17 +101,80 @@ public class GUI_Match {
     private JButton it86;
     private JButton it87;
     private JButton it88;
-
-
+    private int tilequantity;
+    private char tiledirection;
+    private int tileY;
+    private int tileX;
+    private int[] coordX;
+    private int[] coordY;
+    private ItemTile[] handtiles;
     private View view;
 
     public GUI_Match(View view) {
         this.view = view;
-
+        this.tilequantity = 0;
+        this.coordX = new int[3];
+        this.coordY = new int[3];
+        this.handtiles = null;
+        this.tiledirection = ' ';
+        this.tileX = -1;
+        this.tileY = -1;
 
         matchFrame = new JFrame("MyShelfie match");
         createUIComponents();
+    }
 
+    public boolean checkSameRowOrColumn(int[] cordX, int[] cordY) {
+
+        // Controllo se i due array hanno la stessa lunghezza e se la quantità è valida
+        if (cordX.length != cordY.length || tilequantity <= 0 || tilequantity > cordX.length) {
+            return false;
+        }
+
+        // Controllo se le tessere sono sulla stessa riga
+        boolean sameRow = true;
+        int startRow = cordY[0];
+
+        for (int i = 1; i < tilequantity; i++) {
+            if (cordY[i] != startRow) {
+                sameRow = false;
+                break;
+            }
+        }
+
+        // Controllo se le tessere sono sulla stessa colonna
+        boolean sameColumn = true;
+        int startColumn = cordX[0];
+
+        for (int i = 1; i < tilequantity; i++) {
+            if (cordX[i] != startColumn) {
+                sameColumn = false;
+                break;
+            }
+        }
+
+        //inverto ma perchè?
+        tileY = cordX[0];
+        tileX = cordY[0];
+
+        if (sameRow) {
+            int deltaX = cordX[1] - cordX[0];
+            if (deltaX > 0) {
+                tiledirection = 'R';
+            } else if (deltaX < 0) {
+                tiledirection = 'L';
+            }
+            return true;
+        } else if (sameColumn) {
+            int deltaY = cordY[1] - cordY[0];
+            if (deltaY > 0) {
+                tiledirection = 'D';
+            } else if (deltaY < 0) {
+                tiledirection = 'U';
+            }
+            return true;
+        }
+        return false;
     }
 
     private String getTileUri(ItemTile it) {
@@ -152,19 +213,63 @@ public class GUI_Match {
     private void createUIComponents() {
         // dentro la setIcon() > new ImageIcon(new ImageIcon(" PATH ").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH))
 
+        goalPanel.setPreferredSize(new Dimension(250, 1000));
 
         //showing common goal cards using file path
-        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[1]) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
-        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[0]) + ".jpg").getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH)));
-        pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200, 500, Image.SCALE_SMOOTH)));
+        cg2Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[1]) + ".jpg").getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH)));
+        cg1Label.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/cgs/" + (view.match_data.getCgs()[0]) + ".jpg").getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH)));
+        pgLabel.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/pgc/" + view.player_data.getPgc() + ".png").getImage().getScaledInstance(200, 400, Image.SCALE_SMOOTH)));
 
         cg2Label.setText("");
         cg1Label.setText("");
         pgLabel.setText("");
 
-        cg1DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[0] - 1)]);
-        cg2DescLabel.setText(view.cgDescriptions[(view.match_data.getCgs()[1] - 1)]);
+        cg1DescLabel.setText("<html><body style='width: 200px;'>" + view.cgDescriptions[(view.match_data.getCgs()[0] - 1)] + "</body></html>");
+        cg2DescLabel.setText("<html><body style='width: 200px;'>" + view.cgDescriptions[(view.match_data.getCgs()[1] - 1)] + "</body></html>");
 
+
+        makeMoveBTN.setText("Scegli tiles");
+        makeMoveBTN.addActionListener(e -> {
+            if (handtiles != null) {
+                //todo popup bro hai già delle tiles
+
+            } else {
+                if (checkSameRowOrColumn(coordX, coordY)) {
+                    try {
+                        handtiles = view.con.chooseTiles(view.nickname, view.matchId, tileX, tileY, tilequantity, tiledirection);
+                    } catch (RemoteException ex) {
+                        popup("catch");
+                        throw new RuntimeException(ex);
+                    }
+                }else{
+                    popup("else");
+                }
+                //handle if handtiles ==null
+                if (handtiles!=null)
+
+                    popup("handtiles non nullo");
+
+                else
+                    popup("handtiles nullo");
+
+
+                for (int i = 0; i <= 8; i++) {
+                    for (int j = 0; j <= 8; j++) {
+                        String elementName = "it" + i + j;
+                        try {
+                            Field field = GUI_Match.class.getDeclaredField(elementName);
+                            JButton button = (JButton) field.get(this);
+                            if (!getTileUri(view.match_data.getLrb()[i][j]).equals("NR") && !getTileUri(view.match_data.getLrb()[i][j]).equals("Empty")) {
+                                button.setEnabled(true);
+                                tilequantity = 0;
+                            }
+                        } catch (NoSuchFieldException | IllegalAccessException er) {
+                            er.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
 
 // Ripetizione per tutti gli elementi da it00 a it88
         for (int i = 0; i <= 8; i++) {
@@ -180,9 +285,23 @@ public class GUI_Match {
                     button.setText("");
                     button.setOpaque(false);
                     button.setBorderPainted(false);
+                    int finalI = i;
+                    int finalJ = j;
                     button.addActionListener(e -> {
+                        if (tilequantity > 2) {
+                            JOptionPane.showMessageDialog(null, "Select maximum 3 tiles", "Error", 1);
+                        } else {
+                            button.setEnabled(false);
+                            button.setBorderPainted(true);
 
+                            coordX[tilequantity] = finalJ;
+                            coordY[tilequantity] = finalI;
+                            tilequantity++;
+                        }
                     });
+
+                    button.setPreferredSize(new Dimension(45, 45));
+
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -190,6 +309,10 @@ public class GUI_Match {
         }
 
         //lrbLabel.setIcon(new ImageIcon("src/main/resources/img/boards/livingroom.png"));
+    }
+
+    private void popup(String msg) {
+        JOptionPane.showMessageDialog(null,msg,"todo",1);
     }
 
     public void init() {
