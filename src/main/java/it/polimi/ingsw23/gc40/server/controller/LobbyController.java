@@ -4,6 +4,7 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import it.polimi.ingsw23.gc40.server.model.Score;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 public class LobbyController {
     private ArrayList<Player> onlinePlayers = new ArrayList<>();
@@ -184,18 +185,25 @@ public class LobbyController {
             SavedScores.add(s);*/
             m.winner();
         }
-
     }
-    public void destroyMatch(GameController m){
+
+    public void destroyMatch(GameController m, Observer observer){
+        m.getObserver().deleteObserver(observer);
+
         m.setPndf(m.getPndf() + 1);
-        if (m.getPndf()>= m.getNumPlayers()) {
+        if (m.getPndf()== m.getActive()) {
             for (int i = 0; i < m.getPlayers().size(); i++) {
                 if (checkOnlinePlayers(m.getPlayers().get(i).getNickName()))
                     onlinePlayers.remove(m.getPlayers().get(i));
                 else
                     offlinePlayers.remove(m.getPlayers().get(i));
-                m.getPlayers().remove(i);
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            m.getPlayers().clear();
             activeGameControllers.remove(m);
         }
     }
@@ -213,17 +221,16 @@ public class LobbyController {
     }
 
     /**
-     * @param nome nickname of the player
-     * @return true if the online players arraylist contains the player with that nickname
+     * @param name  nickname of the player
+     * @return player with name as nickname
      */
-    public Player getPlayer(String nome) {
+    public Player getPlayer(String name) {
         for (int i = 0; i < onlinePlayers.size(); i++) {
-            if (onlinePlayers.get(i).getNickName().equals(nome)) {
+            if (onlinePlayers.get(i).getNickName().equals(name)) {
                 return onlinePlayers.get(i);
             }
         }
-        return getOfflinePlayer(nome);
-
+        return getOfflinePlayer(name);
     }
 
     /**

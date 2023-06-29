@@ -32,6 +32,14 @@ public class GameController extends Observable {
     private short[] points;
     private int pndf;
 
+    public short[] getPoints() {
+        return points;
+    }
+
+    public void setPoints(short[] points) {
+        this.points = points;
+    }
+
     public int getPndf() {
         return pndf;
     }
@@ -235,19 +243,22 @@ public class GameController extends Observable {
         int[] scores = new int[players.size()];
         //calculating total score of each player
         for (int i = 0; i < players.size(); i++) {
-            scores[i] = players.get(i).getCGScore() + players.get(i).getPGScore() + players.get(i).getADJScore() + players.get(i).getFirstScore();
+            scores[i] = players.get(i).totScore();
         }
         int max = 0;
         //calculating the maximum score
-        for (int i = 0; i < players.size(); i++)
-            if (scores[i] >= scores[max]) max = i;
-
+        for (int i = 0; i < players.size(); i++) {
+            if (scores[i] >= scores[max]) {
+                max = i;
+            }
+        }
+        moveNumber++;
+        setChanged();
+        notifyObservers(moveNumber);
         setChanged();
         notifyObservers(players.get(max).getNickName());
         setChanged();
-        notifyObservers(true);
-
-
+        notifyObservers(getPoints());
     }
 
     /**
@@ -540,12 +551,7 @@ public class GameController extends Observable {
         p.getPersonalGoal().checkScore(p);
 
         points [players.indexOf(p)] = (short) p.totScore();
-        setChanged();
-        notifyObservers(points);
-
-
-
-
+        //todo tolta da qui notify dei points
     }
 
     /**

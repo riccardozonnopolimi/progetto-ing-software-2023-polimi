@@ -214,8 +214,7 @@ public class SocketHandler implements Runnable, Observer {
 
         if (arg instanceof PublicModelNetwork) {
             if (((PublicModelNetwork) arg).getIdMatch() == matchid) {
-                if (((PublicModelNetwork) arg).getWinner() != null)
-                    proxyController.getLobbyController().destroyMatch(proxyController.getLobbyController().getMatchById(matchid));
+
                 try {
                     sendObj("#update", arg);
 
@@ -223,6 +222,12 @@ public class SocketHandler implements Runnable, Observer {
                     System.out.println("Errore SG-Update: " + e);
                     throw new RuntimeException(e);
                 }
+                if (((PublicModelNetwork) arg).getPoints() != null) {
+                    proxyController.getLobbyController().destroyMatch(proxyController.getLobbyController().getMatchById(matchid), this);
+                    System.out.println("sto distruggendo tutto in socket");
+
+                }
+
             }
         }
         if (arg instanceof PrivateModelNetwork) {

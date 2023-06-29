@@ -19,8 +19,9 @@ public class ProxyController extends Thread implements ConnectionController {
     private final HashMap<String, Remote> mapRemote = new HashMap<>();
 
     /**
-     *ProxyController constructor
-     *  @param lobbyController sets lobbyController to this
+     * ProxyController constructor
+     *
+     * @param lobbyController sets lobbyController to this
      */
     public ProxyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
@@ -57,7 +58,7 @@ public class ProxyController extends Thread implements ConnectionController {
     }
 
     /**
-     *Inside this run there is a thread that pings every RMI user every second to check if it has not crashed,
+     * Inside this run there is a thread that pings every RMI user every second to check if it has not crashed,
      * if the ping fails, the player crashed
      */
     @Override
@@ -87,21 +88,20 @@ public class ProxyController extends Thread implements ConnectionController {
     }
 
     /**
-     * @param player player nickname who is going to start the round
+     * @param player  player nickname who is going to start the round
      * @param matchId at which the player belongs
      * @return the max number of item tiles which the player can take by checking empty slots in its bookshelf
-     *
      */
     public int startRound(String player, int matchId) {
         return lobbyController.getPlayer(player).getBookshelf().placeables();
     }
 
     /**
-     * @param nickname player nickname who can make the move
-     * @param mid match id of that player
-     * @param x axis in map of the tile chosen
-     * @param y allies in map of the tile chosen
-     * @param quantity the number of tiles the player decided to take
+     * @param nickname  player nickname who can make the move
+     * @param mid       match id of that player
+     * @param x         axis in map of the tile chosen
+     * @param y         allies in map of the tile chosen
+     * @param quantity  the number of tiles the player decided to take
      * @param direction the direction of the tile to take
      * @return item tile array with the tiles chosen
      * @throws RemoteException if remote communication fails
@@ -126,7 +126,7 @@ public class ProxyController extends Thread implements ConnectionController {
 
     /**
      * @param nickname player nickname
-     * @param column bookshelf column
+     * @param column   bookshelf column
      * @return the number of empty slots player bookshelf column has
      * @throws RemoteException if remote communication fails
      */
@@ -138,7 +138,7 @@ public class ProxyController extends Thread implements ConnectionController {
     /**
      * @param nickname player nickname
      * @param handTile tile taken from the lrb
-     * @param column player decides to put handtile
+     * @param column   player decides to put handtile
      * @return true after calling the method in model that insert handtile in bookshelf
      * @throws RemoteException if remote communication fails
      */
@@ -161,14 +161,15 @@ public class ProxyController extends Thread implements ConnectionController {
     /**
      * nextround updates player score, refills lrb if needed,checks if the match is completed,
      * sets the next player round
+     *
      * @param nickname player nickname
-     * @param match id match
+     * @param match    id match
      * @throws RemoteException if remote communication fails
      */
     @Override
     public void nextRound(String nickname, int match) throws RemoteException {
         //check if there is space in the player bookshelf
-        Player p=lobbyController.getPlayer(nickname);
+        Player p = lobbyController.getPlayer(nickname);
         GameController m = lobbyController.getMatchById(match);
         if (p.getBookshelf().isFull()) {
             p.setFirstScore(1);
@@ -178,14 +179,15 @@ public class ProxyController extends Thread implements ConnectionController {
         m.checkScores(p);
 
 
-
         //refill map if needed
         if (lobbyController.getMatchById(match).getMap().needRefill()) {
             lobbyController.getMatchById(match).refill();
         }
+
+
         //set turn to next player (while next is offline)
         if (lobbyController.getMatchById(match).getActive() == 1) {
-            //caso in cui si è disconnesso il penultimo utente non devo passare il turno ma devo stare fermo? oppure comunicare qualcosa?
+            //caso in cui si è disconnesso il penultimo utente
             m.setNext(null);
         } else {
             do {
@@ -196,13 +198,20 @@ public class ProxyController extends Thread implements ConnectionController {
                     num = m.getPlayers().indexOf(p) + 1;
                 p = m.getPlayers().get(num);
             } while (lobbyController.checkOfflinePlayers(p.getNickName()));
-            m.setNext(p);
+
+
         }
-        //check if match is completed
-        if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
-            lobbyController.getMatchById(match).setPlayable(false);
+
+
+        //check if match is ending
+        if (m.isEnding() && p.isStartedFirst())
+            m.setPlayable(false);
+        else
+            m.setNext(p);
+
 
         lobbyController.endMatch(m);
+
     }
 
     /**
@@ -215,8 +224,8 @@ public class ProxyController extends Thread implements ConnectionController {
 
     /**
      * @param aRemoteObj Remote objects sent with RMI connection
-     * @param nickname player nickname
-     * @param matchid matchid
+     * @param nickname   player nickname
+     * @param matchid    matchid
      * @throws RemoteException if remote communication fails
      */
     @Override
@@ -233,18 +242,25 @@ public class ProxyController extends Thread implements ConnectionController {
              */
             @Override
             public void update(Observable o, Object arg) {
-                if (arg instanceof PublicModelNetwork && ((PublicModelNetwork) arg).getWinner() != null)
-                    lobbyController.destroyMatch(lobbyController.getMatchById(matchid));
+
                 try {
                     ((updateRMI) aRemoteObj).update(arg);
                 } catch (RemoteException e) {
-                    //if the notify cannot arrive to the player, it means it loose connection, so it will be removed
+                    //if notify doesn't arrive to the player, it means it lost connection, so it will be removed
                     try {
                         close(nickname);
                     } catch (RemoteException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
+
+                if (arg instanceof PublicModelNetwork && ((PublicModelNetwork) arg).getPoints() != null) {
+                    lobbyController.destroyMatch(lobbyController.getMatchById(matchid), this);
+
+
+                    System.out.println("sto distruggendo tutto in rmi");
+                }
+
             }
         };
         publicobs.addObserver(o);
@@ -326,6 +342,7 @@ public class ProxyController extends Thread implements ConnectionController {
 
     /**
      * closes player connection and deletes it from observers
+     *
      * @param nickname player nickname
      * @throws RemoteException if remote communication fails
      */

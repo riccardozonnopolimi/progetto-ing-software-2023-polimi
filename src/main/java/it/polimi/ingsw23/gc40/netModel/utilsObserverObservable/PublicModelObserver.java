@@ -29,6 +29,7 @@ public class PublicModelObserver extends Observable implements Observer {
         gameController.addObserver(this);
         match = gameController;
         playable = false;
+        points = null;
     }
 
 
@@ -47,7 +48,7 @@ public class PublicModelObserver extends Observable implements Observer {
         //updating points
         if (arg instanceof short[]) {
             points = (short[]) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber, points, playersNick);
         }
         //updating lrb
         if (arg instanceof ItemTile[][]) {
@@ -71,17 +72,22 @@ public class PublicModelObserver extends Observable implements Observer {
         }
         //updating winner and current
         if (arg instanceof String) {
-            winner = (String) arg;
             current = (String) arg;
-            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
+            if (!playable) {
+                winner = (String) arg;
+                System.out.println("sono in pmo update");
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber, points, playersNick);
+            }
+            else {
+                //todo non arrivera mai al client causa else
+
+                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
+            }
         }
         //updating match status (playable or not)
         if (arg instanceof Boolean) {
             playable = (Boolean) arg;
-            if (playable)
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
-            else
-                data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber, points, playersNick);
+            data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
 
         }
 

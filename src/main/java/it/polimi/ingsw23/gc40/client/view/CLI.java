@@ -19,6 +19,7 @@ public class CLI extends View {
 
     /**
      * CLI constructor create the textual view
+     *
      * @param con used for take data from server to create interface
      */
     public CLI(ConnectionController con) {
@@ -36,6 +37,7 @@ public class CLI extends View {
      * In case, check if the name is already used or not.
      * When match is started, checks the correct sequence of turns and allows players to make their moves.
      * Prints END when game is ended.
+     *
      * @throws Exception :throws RemoteException when there is a connection problem
      */
     public void init() throws Exception {
@@ -180,9 +182,9 @@ public class CLI extends View {
             play = match_data.isPlayable();
         }
         if (!close) {
-            System.out.println("The winner is... "+ match_data.getWinner());
+            System.out.println("The winner is... " + match_data.getWinner());
             System.out.println("The total scores of each player is:");
-            for (int i = 0; i < match_data.getPlayersNick().length; i++){
+            for (int i = 0; i < match_data.getPlayersNick().length; i++) {
                 System.out.println("-" + match_data.getPlayersNick()[i] + ": " + match_data.getPoints()[i]);
             }
         } else {
@@ -193,6 +195,7 @@ public class CLI extends View {
 
     /**
      * permits current player to take tiles from LRB
+     *
      * @param turnNumber allow to differentiate the current player from the others
      * @throws RemoteException if remote communication falis
      */
@@ -256,7 +259,7 @@ public class CLI extends View {
             if (handTiles == null) {
                 System.out.println(red + "Error:" + resetStdColor + "\n There is a problem taking tiles from map, probably is not your turn or you are alone in the match.");
                 break;
-            }else {
+            } else {
                 //taking items using direction and quantity
                 for (int i = 0; i < quantity; i++)
                     if (handTiles[i].getItem().equals(Item.EMPTY)) {
@@ -271,7 +274,7 @@ public class CLI extends View {
             }
         } while (handTiles == null);
 
-        if (handTiles!=null){
+        if (handTiles != null) {
             insertTile(handTiles, quantity, turnNumber);
         }
 
@@ -279,8 +282,9 @@ public class CLI extends View {
 
     /**
      * Puts item taken from LRB into bookshelf and change current player to next player
-     * @param handTiles represents the item taken from LRB
-     * @param quantity represents how many items has been taken
+     *
+     * @param handTiles  represents the item taken from LRB
+     * @param quantity   represents how many items has been taken
      * @param turnNumber to check if the current player is making the move
      * @throws RemoteException if remote communication fails
      */
@@ -307,11 +311,10 @@ public class CLI extends View {
             }
         } while (retry);
 
-        boolean success=false;
+        boolean success = false;
 
         if (quantity > 1) {
             System.out.println("Insert tile in the order you prefer.");
-
 
 
             //show tiles, decide order and insert tiles
@@ -342,7 +345,7 @@ public class CLI extends View {
         } else {
             success = con.insertTile(nickname, (handTiles[0]), column);
         }
-        if (!success){
+        if (!success) {
             System.out.println(red + "Error:" + resetStdColor + "\n There is a problem inserting tiles in your bookshelf, probably is not your turn or you are alone in the match.");
             return;
         }
@@ -358,13 +361,17 @@ public class CLI extends View {
         }
 
 
-        //waiting for change of current player
-        while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        if (match_data.getWinner() == null) {
+            //waiting for change of current player
+            while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
+        } else {
+            int niente = askInt("");
         }
     }
 
@@ -378,12 +385,27 @@ public class CLI extends View {
             line = sc.nextLine();
             sc.reset();
 
+            if (line.equals("Gianpy")){
+                System.out.println(green+"HA VINTO GIANPAOLO!"+resetStdColor);
+                try {
+                    Thread.sleep(8000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("Scherzetto... siamo dei burloni :D");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
             if ((line.isBlank() || line.isEmpty() || line.equals("")))
                 System.out.println(red + "Insert a valid character" + resetStdColor);
 
         } while (line.isBlank() || line.isEmpty() || line.equals(""));
 
-        //todo studiare meglio le stringhe in java :D
 
         return line;
     }
@@ -406,6 +428,7 @@ public class CLI extends View {
         } while (retry);
         return n;
     }
+
     //todo description of this method
     public static int getChoice(String[] choices, String question) {
 
@@ -469,6 +492,7 @@ public class CLI extends View {
 
     /**
      * Prints LivingRoomBoard
+     *
      * @param map to print LRB
      */
     public void printLRB(ItemTile[][] map) {
@@ -485,6 +509,7 @@ public class CLI extends View {
 
     /**
      * Prints PersonalGoalCard
+     *
      * @param n to choose the assigned PGC
      */
     public void printPGC(int n) {
@@ -494,6 +519,7 @@ public class CLI extends View {
 
     /**
      * Prints CommonGoalCard
+     *
      * @param cgs contains the CGS of the match
      */
     public void printCGS(int[] cgs) {
@@ -506,6 +532,7 @@ public class CLI extends View {
 
     /**
      * Prints scores
+     *
      * @param scores contains scores of all type
      */
     public void printScores(int[] scores) {
@@ -520,6 +547,7 @@ public class CLI extends View {
 
     /**
      * print Bookshelf
+     *
      * @param shelf is the Bookshelf to print
      */
     public void printBS(ItemTile[][] shelf) {
@@ -596,6 +624,10 @@ public class CLI extends View {
 
                     }
 
+                }
+            } else {
+                if (match_data.getPoints() != null) {
+                    System.out.println(green + "MATCH COMPLETATO!" + resetStdColor + " Digita 0 per scoprire chi ha vinto");
                 }
             }
         }
