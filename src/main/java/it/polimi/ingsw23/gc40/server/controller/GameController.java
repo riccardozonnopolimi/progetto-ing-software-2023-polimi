@@ -30,6 +30,15 @@ public class GameController extends Observable {
     private Player next;
     private final PublicModelObserver observer = new PublicModelObserver(this);
     private short[] points;
+    private int pndf;
+
+    public int getPndf() {
+        return pndf;
+    }
+
+    public void setPndf(int pndf) {
+        this.pndf = pndf;
+    }
 
     /**
      * @return true if the match can start or restart in case remains just one player in the match
@@ -111,6 +120,7 @@ public class GameController extends Observable {
         this.moveNumber = 0;
         this.activePlayers = 0;
         this.points = new short[numPlayers];
+        this.pndf = 0;
 
         //create a map for n players
         this.map = new LRB(numPlayers);
@@ -220,7 +230,7 @@ public class GameController extends Observable {
     /**
      * @return the winner of the match
      */
-    public Player winner() {
+    public void winner() {
         //TO TEST
         int[] scores = new int[players.size()];
         //calculating total score of each player
@@ -231,12 +241,13 @@ public class GameController extends Observable {
         //calculating the maximum score
         for (int i = 0; i < players.size(); i++)
             if (scores[i] >= scores[max]) max = i;
+
         setChanged();
         notifyObservers(players.get(max).getNickName());
         setChanged();
         notifyObservers(true);
-        //return the player with maximum score
-        return players.get(max);
+
+
     }
 
     /**
@@ -531,6 +542,10 @@ public class GameController extends Observable {
         points [players.indexOf(p)] = (short) p.totScore();
         setChanged();
         notifyObservers(points);
+
+
+
+
     }
 
     /**

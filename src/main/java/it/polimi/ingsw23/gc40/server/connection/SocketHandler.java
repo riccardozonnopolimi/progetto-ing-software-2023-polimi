@@ -214,6 +214,8 @@ public class SocketHandler implements Runnable, Observer {
 
         if (arg instanceof PublicModelNetwork) {
             if (((PublicModelNetwork) arg).getIdMatch() == matchid) {
+                if (((PublicModelNetwork) arg).getWinner() != null)
+                    proxyController.getLobbyController().destroyMatch(proxyController.getLobbyController().getMatchById(matchid));
                 try {
                     sendObj("#update", arg);
 

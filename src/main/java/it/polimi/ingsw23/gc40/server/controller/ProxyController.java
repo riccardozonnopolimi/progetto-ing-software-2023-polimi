@@ -4,6 +4,7 @@ import it.polimi.ingsw23.gc40.client.view.View;
 import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import it.polimi.ingsw23.gc40.netModel.updateRMI;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelNetwork;
 import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import it.polimi.ingsw23.gc40.server.model.Player;
@@ -175,6 +176,9 @@ public class ProxyController extends Thread implements ConnectionController {
         }
         //refresh scores
         m.checkScores(p);
+
+
+
         //refill map if needed
         if (lobbyController.getMatchById(match).getMap().needRefill()) {
             lobbyController.getMatchById(match).refill();
@@ -197,6 +201,8 @@ public class ProxyController extends Thread implements ConnectionController {
         //check if match is completed
         if (lobbyController.getMatchById(match).isEnding() && p.isStartedFirst())
             lobbyController.getMatchById(match).setPlayable(false);
+
+        lobbyController.endMatch(m);
     }
 
     /**
@@ -227,6 +233,8 @@ public class ProxyController extends Thread implements ConnectionController {
              */
             @Override
             public void update(Observable o, Object arg) {
+                if (arg instanceof PublicModelNetwork && ((PublicModelNetwork) arg).getWinner() != null)
+                    lobbyController.destroyMatch(lobbyController.getMatchById(matchid));
                 try {
                     ((updateRMI) aRemoteObj).update(arg);
                 } catch (RemoteException e) {

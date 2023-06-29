@@ -30,12 +30,6 @@ public class LobbyController {
      * @return the list of current active matches
      */
     public ArrayList<GameController> getActiveMatches() {
-        GameController gameController;
-        for (int i = 0; i < activeGameControllers.size(); i++){
-            gameController = activeGameControllers.get(i);
-            if (gameController.isEnding() && !gameController.isPlayable())
-                activeGameControllers.remove(i);
-        }
         return activeGameControllers;
     }
 
@@ -50,7 +44,7 @@ public class LobbyController {
         this.numMatch = 0;
     }
 
-   //todo inutilizzato
+    //todo inutilizzato
     public GameController getQueueMatch() {
         return this.queueMatch;
     }
@@ -92,7 +86,7 @@ public class LobbyController {
      */
     public GameController matchByPlayer(String name) {
 
-       //checking if effectively the player exists and returning the match
+        //checking if effectively the player exists and returning the match
         for (int i = 0; i < activeGameControllers.size(); i++) {
             ArrayList<Player> ps = activeGameControllers.get(i).getPlayers();
             for (int j = 0; j < ps.size(); j++) {
@@ -107,6 +101,7 @@ public class LobbyController {
 
     /**
      * set the player online if reconnected
+     *
      * @param name of player that was offline
      */
     public void setPlayerOnline(String name) {
@@ -176,19 +171,33 @@ public class LobbyController {
         return false;
     }
 
-    //todo inutilizzato
-    public void endMatch(GameController gameController) {
+    //todo commentare
+    public void endMatch(GameController m) {
         //TO TEST TODO
-        if (gameController.isEnding() && !gameController.isPlayable()) {
-            ArrayList<Integer> scores = new ArrayList<>();
+        if (m.isEnding() && !m.isPlayable()) {
+            /*ArrayList<Integer> scores = new ArrayList<>();
             for (int i = 0; i < gameController.getPlayers().size(); i++) {
                 Integer integer = Integer.valueOf(gameController.getPlayers().get(i).totScore());
                 scores.add(integer);
             }
             Score s = new Score(gameController.getPlayers(), gameController.winner(), scores);
-            SavedScores.add(s);
+            SavedScores.add(s);*/
+            m.winner();
         }
 
+    }
+    public void destroyMatch(GameController m){
+        m.setPndf(m.getPndf() + 1);
+        if (m.getPndf()>= m.getNumPlayers()) {
+            for (int i = 0; i < m.getPlayers().size(); i++) {
+                if (checkOnlinePlayers(m.getPlayers().get(i).getNickName()))
+                    onlinePlayers.remove(m.getPlayers().get(i));
+                else
+                    offlinePlayers.remove(m.getPlayers().get(i));
+                m.getPlayers().remove(i);
+            }
+            activeGameControllers.remove(m);
+        }
     }
 
     //todo ??
