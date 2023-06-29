@@ -6,17 +6,29 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import java.util.HashMap;
 public class G4 implements Goal {
     private final int id;
+
+    /**
+     * Common Goal Cards numbered following Rulebook in italian
+     * from the first on the left to the bottom of the right
+     * @param id set the common goal id passed by parameter in gamecontroller
+     */
     public G4(int id){
         this.id = id;
     }
+
+    /**
+     * @param p player that has already finished the round
+     * @return true if the goal is achieved by the player, false if it is not.
+     */
     @Override
     public boolean instanceGoal(Player p) {
-        //TO TEST
+        //TESTED
         HashMap<Item, Integer> count = new HashMap<>();
         ItemTile[][] s = p.getBookshelf().getShelf();
         HashMap<Item, Integer> temp_j = new HashMap<>();
         HashMap<Item, Integer> temp_i = new HashMap<>();
 
+        //set all the hashMaps to a default value
         count.put(Item.CAT, 0);
         count.put(Item.BOOK, 0);
         count.put(Item.GAME, 0);
@@ -42,6 +54,7 @@ public class G4 implements Goal {
         temp_j.put(Item.PLANT, -1);
         temp_j.put(Item.EMPTY, -1);
 
+        //verify if there is two 2x2 square of the same ItemTiles type in the Bookshelf of Player p
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
 
@@ -49,7 +62,6 @@ public class G4 implements Goal {
                         && ((j == temp_j.get(s[i][j].getItem()) - 1)
                         || (j == temp_j.get(s[i][j].getItem()) - 2)
                         || (j == temp_j.get(s[i][j].getItem())))) {
-                    ;
                 }
                else {
                     if ((s[i][j].getItem().equals(s[i][j + 1].getItem()))
@@ -68,9 +80,14 @@ public class G4 implements Goal {
         }
         return false;
     }
+     //todo usata solo nei test
     public void print() {
         System.out.println("G4");
     }
+
+    /**
+     * @return Common Goal id
+     */
     @Override
     public int getId() {
         return this.id;

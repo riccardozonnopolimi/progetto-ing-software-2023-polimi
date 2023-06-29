@@ -11,9 +11,18 @@ import java.net.*;
 
 
 public class ConnectionStarter {
+    /**
+     * Connection Starter constructor
+     */
     public ConnectionStarter() {
     }
 
+    /**
+     * This method starts connection between client and server after choosing Socket connection
+     * @param port port
+     * @param host hostname
+     * @return created socket from client to server
+     */
     //creating socket and trying to connect with serverSocket
     public Socket socketStart(int port, String host) {
         Socket socket = null;
@@ -28,8 +37,17 @@ public class ConnectionStarter {
         return socket;
     }
 
-    //starting RMI connection
-    public static ConnectionController rmi(String name, String host) throws Exception {
+    /**
+     * This method starts connection between client and server after choosing RMI connection
+     * @param name nickname
+     * @param host hostname
+     * @return the connection controller at which the player is connected
+     * @throws Exception if remote communication fails (RemoteException),
+     * if name is not currently bound (NotBoundException)
+     *  if this registry is local and it denies the caller access to perform this operation (AccessException)
+     *  if name is null (NullPointerException)
+     */
+    public ConnectionController rmi(String name, String host) throws Exception {
         Registry registry = LocateRegistry.getRegistry(host);
         ConnectionController stub = ((ConnectionController) registry.lookup(name));
         System.out.println(CLI.green +"RMI connection started successfully"+CLI.resetStdColor);

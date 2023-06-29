@@ -13,8 +13,72 @@ public class PublicModelNetwork implements Serializable {
     private final String winner;
     private final String current;
     private final short turnNumber;
+    private final short[] points;
+    private final String[] playersNick;
 
 
+
+    /**
+     * PublicModelNetwork constructor. It just sets value passed by parameters
+     * @param lrb map
+     * @param cgs commongoals array
+     * @param idMatch match id
+     * @param current current player, playing round
+     * @param playable match status
+     * @param winner nickname of the winner
+     * @param turnNumber turn number
+     */
+    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current, boolean playable, String winner, short turnNumber,short[] points,String[] playersNick) {
+        this.cgs = cgs;
+        this.lrb = lrb;
+        this.idMatch = idMatch;
+        this.current = current;
+        this.playable = playable;
+        this.winner = winner;
+        this.turnNumber = turnNumber;
+        this.points = points;
+        this.playersNick = playersNick;
+    }
+
+
+    /**
+     * @return map
+     */
+    public ItemTile[][] getLrb() {
+        return lrb;
+    }
+
+    /**
+     * @return common goals
+     */
+    public int[] getCgs() {
+        return cgs;
+    }
+
+    /**
+     * @return match id
+     */
+    public int getIdMatch() {
+        return idMatch;
+    }
+
+    /**
+     * @return current turn number
+     */
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+    public short[] getPoints() {
+        return points;
+    }
+
+    public String[] getPlayersNick() {
+        return playersNick;
+    }
+
+    /**
+     * @return true if the match can start or if it can restart
+     */
     public boolean isPlayable() {
         return playable;
     }
@@ -23,35 +87,10 @@ public class PublicModelNetwork implements Serializable {
         return winner;
     }
 
+    /**
+     * @return player nickname that is currently playing the turn
+     */
     public String getCurrent() {
         return current;
-    }
-
-    public PublicModelNetwork(ItemTile[][] lrb, int[] cgs, int idMatch, String current, boolean playable, String winner, short turnNumber) {
-        this.cgs = cgs;
-        this.lrb = lrb;
-        this.idMatch = idMatch;
-        this.current = current;
-        this.playable = playable;
-        this.winner = winner;
-        this.turnNumber = turnNumber;
-    }
-
-
-
-    public ItemTile[][] getLrb() {
-        return lrb;
-    }
-
-    public int[] getCgs() {
-        return cgs;
-    }
-
-    public int getIdMatch() {
-        return idMatch;
-    }
-
-    public int getTurnNumber() {
-        return turnNumber;
     }
 }

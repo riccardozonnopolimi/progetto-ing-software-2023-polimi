@@ -10,24 +10,41 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI extends View {
-    private Scanner sc;
+    private final Scanner sc;
     public static String green = "\u001b[42m\u001b[30m";
     public static String red = "\u001B[41m\u001B[30m";
     public static String yellow = "\u001b[43m\u001b[30m";
     public static String resetStdColor = "\u001b[0m";
     public static String grey = "\u001b[47m\u001b[30m";
 
-
+    /**
+     * CLI constructor create the textual view
+     *
+     * @param con used for take data from server to create interface
+     */
     public CLI(ConnectionController con) {
         super(con);
         sc = new Scanner(System.in);
     }
 
-    public void init() throws RemoteException, Exception {
+
+    /**
+     * Starts CLI, asks for player name.
+     * Checks if player was disconnected, or if he is a new player.
+     * In first case it reconnects him to right match.
+     * Otherwise, checks if the name is already in use or not.
+     * If there is an existing match, adds player to that match, if there isn't an existing match creates a new on and adds player to it.
+     * In case, check if the name is already used or not.
+     * When match is started, checks the correct sequence of turns and allows players to make their moves.
+     * Prints END when game is ended.
+     *
+     * @throws Exception :throws RemoteException when there is a connection problem
+     */
+    public void init() throws Exception {
 
         //starting textual user interface
         System.out.println(green + "Command Line Interface has started!" + resetStdColor);
-        System.out.println("");
+        System.out.println();
         super.nickname = askString("Insert player name: ");
         while (!con.connect(super.nickname)) {
             System.out.println(yellow + "Name already in use, retry..." + resetStdColor);
@@ -41,7 +58,7 @@ public class CLI extends View {
         else {
             //creating new player
             System.out.println(green + "Created player" + resetStdColor);
-            System.out.println("");
+            System.out.println();
 
 
             if (con.hasQueueMatch()) {
@@ -60,7 +77,7 @@ public class CLI extends View {
                         //in the meantime the player was chosing the number of players another client created a match
                         System.out.println(red + "Can't create match: there is another match waiting for players." + resetStdColor);
                         System.out.println("This error occurs only if while you were choosing the number of players some other player connected on the server and started a game faster than you");
-                        System.out.println("");
+                        System.out.println();
                         System.out.println(green + "You are being added to the pending match" + resetStdColor);
                         break;
                     } else {
@@ -73,11 +90,11 @@ public class CLI extends View {
             //adding player to the game
             super.matchId = con.addToLastMatch(super.nickname);
 
-            System.out.println("");
+            System.out.println();
             System.out.println(green + "You are in the match N°" + super.matchId + resetStdColor);
 
 
-            System.out.println("");
+            System.out.println();
             System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + resetStdColor);
         }
 
@@ -91,9 +108,9 @@ public class CLI extends View {
             System.out.print("");
         }
 
-        System.out.println("");
+        System.out.println();
         System.out.println(green + "MATCH READY" + resetStdColor);
-        System.out.println("");
+        System.out.println();
 
 
         boolean play = match_data.isPlayable();
@@ -162,15 +179,26 @@ public class CLI extends View {
                 }
 
             }
+            play = match_data.isPlayable();
         }
         if (!close) {
-            System.out.println("END!!!");
+            System.out.println("The winner is... " + match_data.getWinner());
+            System.out.println("The total scores of each player is:");
+            for (int i = 0; i < match_data.getPlayersNick().length; i++) {
+                System.out.println("-" + match_data.getPlayersNick()[i] + ": " + match_data.getPoints()[i]);
+            }
         } else {
             System.out.println("Exit from the game.");
         }
 
     }
 
+    /**
+     * permits current player to take tiles from LRB
+     *
+     * @param turnNumber allow to differentiate the current player from the others
+     * @throws RemoteException if remote communication falis
+     */
     private void makemove(int turnNumber) throws RemoteException {
         System.out.println("Make your move!");
         int placeables = con.startRound(nickname, matchId);
@@ -186,17 +214,17 @@ public class CLI extends View {
             System.out.println("To select Tiles provide first Tile coordinates:");
 
             x = askInt("X: ");
-            //if (!match_data.getCurrent().equals(nickname)) return;
+            if (!match_data.getCurrent().equals(nickname)) return;
 
             y = askInt("Y: ");
-            //if (!match_data.getCurrent().equals(nickname)) return;
+            if (!match_data.getCurrent().equals(nickname)) return;
 
 
             do {
 
                 //saving number of tiles that we want to take
                 quantity = askInt("How many tiles do you want to choose?");
-                //if (!match_data.getCurrent().equals(nickname)) return;
+                if (!match_data.getCurrent().equals(nickname)) return;
 
                 if (quantity > placeables) {
                     //placeables returns max number of free cells in the column of the bookshelf with most free cells
@@ -212,7 +240,7 @@ public class CLI extends View {
             } while (quantity > placeables || quantity < 1);
 
             do {
-                //if (!match_data.getCurrent().equals(nickname)) return;
+                if (!match_data.getCurrent().equals(nickname)) return;
 
                 //choosing direction to take tiles
                 if (quantity == 1) direction = 'R';
@@ -220,7 +248,7 @@ public class CLI extends View {
                     System.out.println("in which direction you want to go for choice?   (U for Up - D for Down - L for Left - R for Right)");
                     sc.reset();
                     direction = sc.next().charAt(0);
-                    //if (!match_data.getCurrent().equals(nickname)) return;
+                    if (!match_data.getCurrent().equals(nickname)) return;
 
                 }
                 if (direction != 'U' && direction != 'R' && direction != 'D' && direction != 'L')
@@ -231,7 +259,7 @@ public class CLI extends View {
             if (handTiles == null) {
                 System.out.println(red + "Error:" + resetStdColor + "\n There is a problem taking tiles from map, probably is not your turn or you are alone in the match.");
                 break;
-            }else {
+            } else {
                 //taking items using direction and quantity
                 for (int i = 0; i < quantity; i++)
                     if (handTiles[i].getItem().equals(Item.EMPTY)) {
@@ -246,12 +274,20 @@ public class CLI extends View {
             }
         } while (handTiles == null);
 
-        if (handTiles!=null){
+        if (handTiles != null) {
             insertTile(handTiles, quantity, turnNumber);
         }
 
     }
 
+    /**
+     * Puts item taken from LRB into bookshelf and change current player to next player
+     *
+     * @param handTiles  represents the item taken from LRB
+     * @param quantity   represents how many items has been taken
+     * @param turnNumber to check if the current player is making the move
+     * @throws RemoteException if remote communication fails
+     */
     private void insertTile(ItemTile[] handTiles, int quantity, int turnNumber) throws RemoteException {
         //show bookshelf and ask in which column insert tile
 
@@ -275,11 +311,10 @@ public class CLI extends View {
             }
         } while (retry);
 
-        boolean success=false;
+        boolean success = false;
 
         if (quantity > 1) {
             System.out.println("Insert tile in the order you prefer.");
-
 
 
             //show tiles, decide order and insert tiles
@@ -310,7 +345,7 @@ public class CLI extends View {
         } else {
             success = con.insertTile(nickname, (handTiles[0]), column);
         }
-        if (!success){
+        if (!success) {
             System.out.println(red + "Error:" + resetStdColor + "\n There is a problem inserting tiles in your bookshelf, probably is not your turn or you are alone in the match.");
             return;
         }
@@ -326,13 +361,17 @@ public class CLI extends View {
         }
 
 
-        //waiting for change of current player
-        while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        if (match_data.getWinner() == null) {
+            //waiting for change of current player
+            while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
+        } else {
+            int niente = askInt("");
         }
     }
 
@@ -346,12 +385,27 @@ public class CLI extends View {
             line = sc.nextLine();
             sc.reset();
 
+            if (line.equals("Gianpy")){
+                System.out.println(green+"HA VINTO GIANPAOLO!"+resetStdColor);
+                try {
+                    Thread.sleep(8000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("Scherzetto... siamo dei burloni :D");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
             if ((line.isBlank() || line.isEmpty() || line.equals("")))
                 System.out.println(red + "Insert a valid character" + resetStdColor);
 
         } while (line.isBlank() || line.isEmpty() || line.equals(""));
 
-        //todo studiare meglio le stringhe in java :D
 
         return line;
     }
@@ -375,8 +429,9 @@ public class CLI extends View {
         return n;
     }
 
+    //todo description of this method
     public static int getChoice(String[] choices, String question) {
-        //choosing between possible moves
+
         Scanner sc = new Scanner(System.in);
         int n;
 
@@ -435,6 +490,11 @@ public class CLI extends View {
         return n;
     }
 
+    /**
+     * Prints LivingRoomBoard
+     *
+     * @param map to print LRB
+     */
     public void printLRB(ItemTile[][] map) {
         System.out.println(grey + "#|0|1|2|3|4|5|6|7|8" + resetStdColor + "|");
         for (int i = 0; i < 9; i++) {
@@ -447,29 +507,49 @@ public class CLI extends View {
     }
 
 
+    /**
+     * Prints PersonalGoalCard
+     *
+     * @param n to choose the assigned PGC
+     */
     public void printPGC(int n) {
         System.out.println("Your personal Goal Card:");
         printBS(pgCards.get(n - 1));
     }
 
+    /**
+     * Prints CommonGoalCard
+     *
+     * @param cgs contains the CGS of the match
+     */
     public void printCGS(int[] cgs) {
         for (int i = 0; i < cgs.length; i++) {
             System.out.println(grey + (i + 1) + ")" + resetStdColor + " Common Goal Card n." + cgs[i] + ":");
             System.out.println(cgDescriptions[cgs[i] - 1]);
-            System.out.println("");
+            System.out.println();
         }
     }
 
+    /**
+     * Prints scores
+     *
+     * @param scores contains scores of all type
+     */
     public void printScores(int[] scores) {
         System.out.println("1: Personal Goal Card score " + scores[0]);
         System.out.println("2: Common Goal Cards score " + scores[1]);
         System.out.println("3: Adjacenses score " + scores[2]);
         System.out.println("4: First finished score " + scores[3]);
         System.out.println("#: TOT scores " + (scores[0] + scores[1] + scores[2] + scores[3]));
-        System.out.println("");
+        System.out.println();
     }
 
 
+    /**
+     * print Bookshelf
+     *
+     * @param shelf is the Bookshelf to print
+     */
     public void printBS(ItemTile[][] shelf) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -482,7 +562,7 @@ public class CLI extends View {
 
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
-        //todo finish method description
+        //todo finish method description and javadoc
         if (publicData.getIdMatch() == matchId || matchId == -1) {
             String precedente = null;
             String corrente = null;
@@ -544,6 +624,10 @@ public class CLI extends View {
 
                     }
 
+                }
+            } else {
+                if (match_data.getPoints() != null) {
+                    System.out.println(green + "MATCH COMPLETATO!" + resetStdColor + " Digita 0 per scoprire chi ha vinto");
                 }
             }
         }

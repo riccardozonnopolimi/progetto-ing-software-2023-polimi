@@ -7,21 +7,33 @@ import it.polimi.ingsw23.gc40.server.model.Player;
 import java.util.HashMap;
 
 public class G5_G8_G9_G10 implements Goal {
-    //number of different type
+    //number of maximum different type
     private final int differentType;
     //number of blocks need to reach the goal
-    private final int numBlocks;
-    //boolean to chose if the goal search for column or not
+    private final int numOfBlocks;
+    //boolean to choose if the goal search for column or not
     private final boolean c;
     private final int id;
 
-    public G5_G8_G9_G10(int DifferentType, int numBlocks, boolean c, int id) {
-        this.differentType = DifferentType;
-        this.numBlocks = numBlocks;
+    /**
+     * Common Goal Cards numbered following Rulebook in italian
+     *from the first on the left to the bottom of the right
+     * @param differentType number of maximum different type in tthe same column/row, it could be 1,2 or 3
+     * @param numOfBlocks number of blocks achieved at the moment, value to update when a column or line is found
+     * @param c if true it checks the columns, if not checks the row
+     * @param id Common Goal Card id
+     */
+    public G5_G8_G9_G10(int differentType, int numOfBlocks, boolean c, int id) {
+        this.differentType = differentType;
+        this.numOfBlocks = numOfBlocks;
         this.c = c;
         this.id = id;
     }
 
+    /**
+     * @param p player that has already finished the round
+     * @return true if the goal is achieved by the player, false if it is not.
+     */
     @Override
     public boolean instanceGoal(Player p) {
         //TESTED
@@ -82,15 +94,20 @@ public class G5_G8_G9_G10 implements Goal {
                     countValid++;
             }
             //if the number of blocks needed is reached return true and stop
-            if (countValid == numBlocks) return true;
+            if (countValid == numOfBlocks) return true;
         }
         return false;
     }
 
+
+    //todo usata solo nei test
     public void print() {
         System.out.println("G5_G8_G9_G10");
     }
 
+    /**
+     * @return common goal id
+     */
     @Override
     public int getId() {
         return this.id;

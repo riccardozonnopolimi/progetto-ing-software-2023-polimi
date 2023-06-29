@@ -3,32 +3,60 @@ package it.polimi.ingsw23.gc40.server.model;
 import java.io.*;
 
 public class ItemTile implements Serializable {
+    private static final long serialVersionUID = 7829136421241571165L;
     private final Item type;
     private final int num;
-
-    private static final long serialVersionUID = 7829136421241571165L;
-
     private boolean checkedADJ = false;
 
-
     public ItemTile(Item t) {
+        //todo verificare se abbiamo ancora bisogno
         super();
         type = t;
         num = 0;
     }
 
+    /**
+     * ItemTile Constructor
+     * @param t item type
+     * @param n used to assign to Item the right icon
+     */
     public ItemTile(Item t, int n) {
-        //todo
         super();
         type = t;
         num = n % 3;
     }
 
+    //todo verificare se serve questo metodo senza usage
+    public int getNum() {
+        return num;
+    }
 
+    /**
+     * @return item type
+     */
     public Item getItem() {
         return type;
     }
 
+    /**
+     * @param check set checkedADJ to true if item tile was checked by checker,
+     *              set checkedADJ to false before starting another check for the adjacencies
+     */
+    public void setCheckedADJ(boolean check) {
+        this.checkedADJ = check;
+    }
+
+    /**
+     * @return checkedADJ value
+     */
+    public boolean getCheckedADJ() {
+        return checkedADJ;
+    }
+
+    /**
+     * //assign a color after looking his type
+     * @return return the string corresponding to the text style
+     */
     @Override
     public String toString() {
         switch (this.type) {
@@ -59,14 +87,11 @@ public class ItemTile implements Serializable {
         }
     }
 
-    public boolean getCheckedADJ() {
-        return checkedADJ;
-    }
-
-    public void setCheckedADJ(boolean check) {
-        this.checkedADJ = check;
-    }
-
+    /**
+     * confronts types of two items
+     * @param it
+     * @return true if items are equal, false otherwise
+     */
     public boolean equals(ItemTile it) {
         return (this.type == it.type);
     }

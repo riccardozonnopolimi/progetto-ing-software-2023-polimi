@@ -1,4 +1,4 @@
-package model;
+package it.polimi.ingsw23.gc40.server.model;
 
 import it.polimi.ingsw23.gc40.server.model.Item;
 import it.polimi.ingsw23.gc40.server.model.ItemTile;
@@ -9,15 +9,9 @@ import org.junit.Test;
 
 public class LRBTest extends TestCase {
 
-    @Test
-    protected TestResult createResult() {
-        return super.createResult();
-    }
-
-
     public void testIsTakeable() {
         var lrb = new LRB(2);
-        assertEquals(lrb.isTakeable(4, 4), false); //check initialized map works
+        assertFalse(lrb.isTakeable(4, 4)); //check initialized map works
         ItemTile it = new ItemTile(Item.CAT);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -26,16 +20,11 @@ public class LRBTest extends TestCase {
                 }
             }
         }
-
-
         assertTrue(lrb.isTakeable(7, 5));
         assertTrue(lrb.isTakeable(1, 3));
         assertFalse(lrb.isTakeable(4, 4));
         assertFalse(lrb.isTakeable(0, 3));
-
-
     }
-
 
     public void testEveryTileCompletelyFree() {
         LRB lrb = new LRB(2);
@@ -72,9 +61,6 @@ public class LRBTest extends TestCase {
                 System.out.print(mappaTemp[i][j].toString() + "|");
             }
             System.out.println();
-
         }
-
-
     }
 }

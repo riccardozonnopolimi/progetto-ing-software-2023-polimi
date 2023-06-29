@@ -2,27 +2,23 @@ package it.polimi.ingsw23.gc40.server.model;
 
 import it.polimi.ingsw23.gc40.server.model.goals.Goal;
 
-import java.io.Serializable;
+public class CommonGoalCard {
+    private final Goal goal;
+    private String cardName; //todo ??
 
-public class CommonGoalCard implements Serializable {
-    private Goal goal;
-    private String cardName;
-    private static final long serialVersionUID = 567789;
-
-
+    /**
+     * constructor of CommonGoalCard
+     * @param g the goal of the CGC
+     */
     public CommonGoalCard(Goal g) {
         this.goal=g;
     }
 
+    /**
+     * @return the goal of the common goal card
+     */
     public Goal getGoal() {
         return this.goal;
     }
-
-
-    public void checkScore(Player p) {
-        //check if goal.instanceGoal(Player p) is true or false
-        this.goal.instanceGoal(p);
-    }
-
 
 }

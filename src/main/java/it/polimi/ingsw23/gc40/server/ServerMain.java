@@ -13,14 +13,13 @@ import java.util.Scanner;
 
 public class ServerMain {
     public static void main(String[] args) throws Exception {
-
         //LET USER CHOICE IP SERVER
-        System.out.println("Write the target (ip address or domain) of the server: "+ CLI.green+"(You can press enter for localhost)"+CLI.resetStdColor);
+        System.out.println("Write the target (ip address or domain) of the server: " + CLI.green + "(You can press enter for localhost)" + CLI.resetStdColor);
         Scanner scanner = new Scanner(System.in);
         String host = scanner.nextLine();
 
         if (host.equals(""))
-            host="localhost";
+            host = "localhost";
 
         LobbyController lobbyController = new LobbyController();
         ProxyController proxyController = new ProxyController(lobbyController);

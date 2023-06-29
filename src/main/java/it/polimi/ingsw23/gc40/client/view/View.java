@@ -24,11 +24,11 @@ public abstract class View {
     public String[] cgDescriptions;
     public ArrayList<ItemTile[][]> pgCards = new ArrayList<>();
 
-    public abstract void init() throws RemoteException, Exception;
+    public abstract void init() throws Exception;
 
     public View(ConnectionController connection) {
         this.con = connection;
-        this.match_data = new PublicModelNetwork(null, null, -1, null, false, null, (short)0);
+        this.match_data = new PublicModelNetwork(null, null, -1, null, false, null, (short)0,null,null);
         this.player_data = null;
         this.matchId = -1;
         this.nickname = "###notdefined###";
@@ -47,7 +47,7 @@ public abstract class View {
 
     }
 
-    public void addPlayer(String name) throws RemoteException, Exception {
+    public void addPlayer(String name) throws Exception {
         con.connect(name);
     }
 

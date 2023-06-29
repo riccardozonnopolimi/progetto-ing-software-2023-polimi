@@ -7,8 +7,10 @@ import java.awt.*;
 import java.lang.reflect.Field;
 import java.rmi.RemoteException;
 
+
 public class GUI_Match {
     private JFrame matchFrame;
+
     private JPanel matchPanel;
     private JPanel goalPanel;
     private JLabel cg1Label;
@@ -109,6 +111,7 @@ public class GUI_Match {
     private int[] coordY;
     private ItemTile[] handtiles;
     private View view;
+
 
     public GUI_Match(View view) {
         this.view = view;
@@ -313,6 +316,7 @@ public class GUI_Match {
 
     private void popup(String msg) {
         JOptionPane.showMessageDialog(null,msg,"todo",1);
+
     }
 
     public void init() {

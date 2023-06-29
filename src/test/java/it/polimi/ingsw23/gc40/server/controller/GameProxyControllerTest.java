@@ -1,4 +1,4 @@
-package it.polimi.ingsw23.gc40.server;
+package it.polimi.ingsw23.gc40.server.controller;
 
 import it.polimi.ingsw23.gc40.server.controller.GameController;
 import it.polimi.ingsw23.gc40.server.model.Player;

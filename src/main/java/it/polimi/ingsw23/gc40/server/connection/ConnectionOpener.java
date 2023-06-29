@@ -18,12 +18,23 @@ public final class ConnectionOpener extends Thread {
     ProxyController proxyController;
     String host;
 
+    /**
+     * Connection Opener constructor, it has a proxycontroller and a hostname passed by parameter
+     * @param proxyController
+     * @param host hostname
+     */
     public ConnectionOpener(ProxyController proxyController, String host) {
         this.proxyController = proxyController;
         this.host = host;
 
     }
 
+    /**
+     * starts RMI server connection
+     * using attribute stub and ConnectionController interface
+     * to call remote methods from proxycontroller
+     * @throws RemoteException if there are any problems calling the remote method
+     */
     public void rmiInit() throws RemoteException {
         System.setProperty("java.rmi.server.hostname", host);
         try {
@@ -40,6 +51,9 @@ public final class ConnectionOpener extends Thread {
 
     }
 
+    /**
+     * starts socket server connection
+     */
     @Override
     public void run() {
 

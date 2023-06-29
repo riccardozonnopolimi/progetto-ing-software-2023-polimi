@@ -27,19 +27,45 @@ public class GameController extends Observable {
     private boolean playable;
     private short moveNumber;
     private Player wasnext;
+    private Player next;
+    private final PublicModelObserver observer = new PublicModelObserver(this);
+    private short[] points;
+    private int pndf;
 
+    public short[] getPoints() {
+        return points;
+    }
+
+    public void setPoints(short[] points) {
+        this.points = points;
+    }
+
+    public int getPndf() {
+        return pndf;
+    }
+
+    public void setPndf(int pndf) {
+        this.pndf = pndf;
+    }
+
+    /**
+     * @return true if the match can start or restart in case remains just one player in the match
+     */
     public boolean isPlayable() {
         return playable;
     }
 
+    /**
+     * @param playable set to true if if the match can start or restart
+     *  false by default, it could be set to false if there is just one player remained in an active match
+     */
     public void setPlayable(boolean playable) {
         this.playable = playable;
         setChanged();
         notifyObservers(playable);
     }
 
-    private Player next;
-
+        //todo cancellare tutti i metodi non utilizzati alla fine
     public ArrayList<ItemTile> getBag() {
         return bag;
     }
@@ -80,13 +106,19 @@ public class GameController extends Observable {
         this.map = map;
     }
 
+    /**
+     * @return Public Model Observer
+     */
     public PublicModelObserver getObserver() {
         return observer;
     }
 
-    private final PublicModelObserver observer = new PublicModelObserver(this);
-
-
+    /**
+     * GameController constructor. Initializes a lrb with empty tiles,creates a bag with 22 item tile for each tile
+     * creates common goal cards and sets two of them randomly, sets scores based on numPlayers
+     * @param numPlayers in the match
+     * @param id matchid
+     */
     public GameController(int numPlayers, int id) {
         if (numPlayers > 4 || numPlayers < 2) numPlayers = 2;
         this.numPlayers = numPlayers;
@@ -95,7 +127,8 @@ public class GameController extends Observable {
         this.id = id;
         this.moveNumber = 0;
         this.activePlayers = 0;
-
+        this.points = new short[numPlayers];
+        this.pndf = 0;
 
         //create a map for n players
         this.map = new LRB(numPlayers);
@@ -166,11 +199,7 @@ public class GameController extends Observable {
         commonGoals[1] = new CommonGoalCard(CGs.get(rand));
         CGs.remove(rand);
 
-        //setting CG n.8 to debug
-        //commonGoals[0] = new CommonGoalCard(new G5_G8_G9_G10(3, 4, false, 8));
-
         int[] cgsids = new int[]{commonGoals[0].getGoal().getId(), commonGoals[1].getGoal().getId()};
-
 
         setChanged();
         notifyObservers(id);
@@ -181,12 +210,9 @@ public class GameController extends Observable {
         setChanged();
         notifyObservers(map.getMap());
 
-
         //import all existing personal goals from json
         Gson gson = new Gson();
-
         ArrayList<ItemTile[][]> goalsFromFile = new ArrayList<>();
-
         Type personalGoalsType = new TypeToken<ArrayList<ItemTile[][]>>() {
         }.getType();
         try {
@@ -194,55 +220,50 @@ public class GameController extends Observable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-
         //choosing n personal goal randomly
         for (int i = 0; i < numPlayers; i++) {
-
             rand = (int) (Math.random() * goalsFromFile.size());
-
             personalGoals.add(new PersonalGoalCard(goalsFromFile.get(rand), rand + 1));
             goalsFromFile.remove(rand);
         }
     }
 
+    /**
+     * @return the next player who plays the round
+     */
     public Player getNext() {
         return this.next;
     }
 
-  /*  public boolean playable() {
-        //Tested
-        //starts when there are all the players
-        if (players.size() == numPlayers){
-            setPlayable(true);
-            return true;
-        }
-
-
-        // if a player has filled his bookshelf and nextPlayer is first player I can not play
-        if (next != null) if (ending && next.isFirst()) {
-            winner();
-            return false;
-        }
-        return false;
-    }*/
-
-    public Player winner() {
+    /**
+     * @return the winner of the match
+     */
+    public void winner() {
         //TO TEST
         int[] scores = new int[players.size()];
+        //calculating total score of each player
         for (int i = 0; i < players.size(); i++) {
-            scores[i] = players.get(i).getCGScore() + players.get(i).getPGScore() + players.get(i).getADJScore() + players.get(i).getFirstScore();
+            scores[i] = players.get(i).totScore();
         }
         int max = 0;
-        for (int i = 0; i < players.size(); i++)
-            if (scores[i] >= scores[max]) max = i;
+        //calculating the maximum score
+        for (int i = 0; i < players.size(); i++) {
+            if (scores[i] >= scores[max]) {
+                max = i;
+            }
+        }
+        moveNumber++;
+        setChanged();
+        notifyObservers(moveNumber);
         setChanged();
         notifyObservers(players.get(max).getNickName());
         setChanged();
-        notifyObservers(true);
-        return players.get(max);
+        notifyObservers(getPoints());
     }
 
+    /**
+     * @return a randomly chosen item tile taken from the bag
+     */
     public ItemTile takeItem() {
         //TO TEST
         int rand = (int) (Math.random() * bag.size());
@@ -251,11 +272,15 @@ public class GameController extends Observable {
         return tmp;
     }
 
+    /**
+     * set the order of the turn in a match when it starts
+     */
     public void setPlayersOrder() {
+        //initializing the array with all players
         ArrayList<Player> PLtemp = new ArrayList<>();
         PLtemp.addAll(players);
         int rand;
-
+        //choosing one randomly, then sets it at the head of the list and remove it from the temp list
         for (int i = 0; i < players.size(); i++) {
             rand = (int) (Math.random() * PLtemp.size());
             players.set(i, PLtemp.get(rand));
@@ -267,7 +292,10 @@ public class GameController extends Observable {
         setNext(players.get(0));
     }
 
-    //This method returns true to server if the match is ready to start (has all players)
+    /**
+     * @param p is added to the players arrayList
+     * @return true if the match is ready to start (has all players)
+     */
     public boolean addPlayer(Player p) {
         players.add(p);
         activePlayers++;
@@ -278,12 +306,21 @@ public class GameController extends Observable {
             notifyObservers(this.getId());
             refill();
             setPlayable(true);
-
+            String[] playersNick = new String[numPlayers];
+            for (int i = 0; i<players.size();i++ ){
+                playersNick[i] = players.get(i).getNickName();
+            }
+            setChanged();
+            notifyObservers(playersNick);
             return true;
         }
         return false;
     }
 
+    /**
+     * refill the lrb when there is no tiles left in the map or when tiles left are free in all sides
+     * by replacing Empty tiles with randomly taken items
+     */
     public void refill() {
         //TESTED
         ItemTile[][] temp_map = this.map.getMap();
@@ -300,29 +337,37 @@ public class GameController extends Observable {
         notifyObservers(this.map.getMap());
     }
 
+    /**
+     * @return the number of players in the match
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
 
+    /**
+     * @return the Common Goal Cards
+     */
     public CommonGoalCard[] getCommonGoals() {
         return commonGoals;
     }
 
+    /**
+     * @param commonGoals set in the match
+     */
     public void setCommonGoals(CommonGoalCard[] commonGoals) {
         this.commonGoals = commonGoals;
     }
 
+    /**
+     * @param player is the next that makes the move
+     */
     public void setNext(Player player) {
-
-
         if (player == null) {
             this.wasnext = this.next;
 
             this.next = player;
             setChanged();
             notifyObservers("###gamepaused###");
-
-
         } else {
             this.moveNumber++;
             setChanged();
@@ -332,10 +377,15 @@ public class GameController extends Observable {
             setChanged();
             notifyObservers(next.getNickName());
         }
-
     }
 
-
+    /**
+     * @param x axis in the lrb
+     * @param y allies in the lrb
+     * @param quantity the number of tile to choose in your turn (1<=quantity<=3)
+     * @param direction of the number of tiles chosen (Up,Down,Right,Left)
+     * @return the array with the item tile chosen
+     */
     public ItemTile[] chooseTiles(int x, int y, int quantity, char direction) {
 
 
@@ -348,11 +398,12 @@ public class GameController extends Observable {
             return null;
 
         }
+        // initializing an item tile array with the size==quantity
         ItemTile[] chosen = new ItemTile[quantity];
         for (int i = 0; i < quantity; i++) {
             chosen[i] = new ItemTile(Item.EMPTY);
         }
-
+        //choosing the direction of item tiles to take if they are takeable
         switch (direction) {
             case 'U':
                 for (int i = 0; i < quantity; i++)
@@ -415,75 +466,111 @@ public class GameController extends Observable {
 
     }
 
+    /**
+     * @return the lrb map
+     */
     public LRB getMap() {
         return map;
     }
 
+    /**
+     * @param o an observer to be added.
+     */
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
     }
 
+    /**
+     * an observer to be deleted.
+     */
     @Override
     public synchronized void deleteObservers() {
         super.deleteObservers();
     }
 
+    /**
+     * @param arg any object to be notified
+     */
     @Override
     public void notifyObservers(Object arg) {
         super.notifyObservers(arg);
     }
 
+    /**
+     * @return if the match is ending, true if one player puts the last tile in the bookshelf
+     */
     public boolean isEnding() {
         return ending;
     }
 
+    /**
+     * @return match id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @return player array list of the match
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
-
+        //todo inutilizzato
     public PublicModelObserver getPublicModelObserver() {
         return observer;
     }
 
+    /**
+     * @param b is false by default, it is set to true when one player puts the last tile in the bookshelf
+     */
     public void setEnding(boolean b) {
         this.ending = b;
     }
 
+    /**
+     * checks player score every end of the round, dividing partial scores (commongoal score, personalgoal score,
+     * adjscore,firstplayerscore)
+     *  @param p player in the match
+     */
     public void checkScores(Player p) {
         p.setADJScore(p.getBookshelf().ADJScore());
-        //System.out.println("punteggio adiacenze: " + p.getADJScore() + " user: " + p.getNickName());
         int cgscore = p.getCGScore();
-        //System.out.println("cgscore attuale: " + cgscore);
         if (!p.getCG1Reached() && this.commonGoals[0].getGoal().instanceGoal(p)) {
             cgscore = cgscore + this.CG1Scores.get(this.CG1Scores.size() - 1);
             this.CG1Scores.remove(this.CG1Scores.size() - 1);
-            //System.out.println("CG1 reached by " + p.getNickName());
             p.setCG1Reached(true);
         }
         if (!p.getCG2Reached() && this.getCommonGoals()[1].getGoal().instanceGoal(p)) {
             cgscore = cgscore + p.getCGScore() + this.CG2Scores.get(this.CG2Scores.size() - 1);
             this.CG2Scores.remove(this.CG2Scores.size() - 1);
-            //System.out.println("CG2 reached by " + p.getNickName());
             p.setCG2Reached(true);
         }
-
         p.setCGScore(cgscore);
         p.getPersonalGoal().checkScore(p);
+
+        points [players.indexOf(p)] = (short) p.totScore();
+        //todo tolta da qui notify dei points
     }
 
+    /**
+     * @return the number of players connected in a match
+     */
     public int getActive() {
         return activePlayers;
     }
 
+    /**
+     * @param i is the new number of active players in the match
+     */
     public void setActive(int i) {
         this.activePlayers = i;
     }
 
+    /**
+     * @return wasnext player
+     */
     public Player getWasNext() {
         return this.wasnext;
     }
