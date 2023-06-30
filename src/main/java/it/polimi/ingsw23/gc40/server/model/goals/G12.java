@@ -25,7 +25,6 @@ public class G12 implements Goal {
         //TESTED
         ItemTile[][] s = p.getBookshelf().getShelf();
         //control if there is a diagonal of 5 in the bookshelf that is all fill and the space at right is empty
-        //todo verficare se si deve contare anche colonna vuota come possibile colonna
         return (((s[0][0].getItem().equals(Item.EMPTY))
                 && (s[1][1].getItem().equals(Item.EMPTY))
                 && (s[2][2].getItem().equals(Item.EMPTY))
@@ -66,7 +65,7 @@ public class G12 implements Goal {
                 && !(s[5][0].getItem().equals(Item.EMPTY))));
     }
 
-   //todo usato solo nei test
+   //usato solo nei test
     public void print() {
         System.out.println("G12");
     }

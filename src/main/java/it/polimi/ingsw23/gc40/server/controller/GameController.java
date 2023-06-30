@@ -494,13 +494,7 @@ public class GameController extends Observable {
         return players;
     }
 
-    /**
-     * @return observer of PublicModelObserver
-     */
-    //todo inutilizzato
-    public PublicObserverObservable getPublicModelObserver() {
-        return observer;
-    }
+
 
     /**
      * @param b is false by default, it is set to true when one player puts the last tile in the bookshelf

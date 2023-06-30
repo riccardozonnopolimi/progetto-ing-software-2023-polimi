@@ -50,8 +50,6 @@ public class ProxyController extends Thread implements ConnectionController {
             } else {
                 System.out.println("@PC: creo utente: " + name);
                 lobbyController.addPlayer(name);
-                //todo fil ??
-                //lobbyController.getPlayer(name).getObserver().addObserver(this);
             }
         }
         return true;

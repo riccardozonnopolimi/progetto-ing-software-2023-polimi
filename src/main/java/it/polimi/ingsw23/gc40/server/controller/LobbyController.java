@@ -202,10 +202,6 @@ public class LobbyController {
         }
     }
 
-    //todo ??
-    public void print(String str) {
-        System.out.println(str);
-    }
 
     /**
      * @return true if queuematch is != null

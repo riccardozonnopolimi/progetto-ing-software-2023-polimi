@@ -64,7 +64,7 @@ public class G1_G3 implements Goal {
         return this.id;
     }
 
-   //todo utilizzata solo nelle classi di test, da cancellare?
+   // utilizzata solo nelle classi di test
     public void print(){
         System.out.println("G1_G3");
     }

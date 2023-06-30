@@ -33,7 +33,7 @@ public class G2 implements Goal {
     }
 
     @Override
-    //todo usata solo nei test
+    // usata solo nei test
     public void print() {
         System.out.println("G2");
     }

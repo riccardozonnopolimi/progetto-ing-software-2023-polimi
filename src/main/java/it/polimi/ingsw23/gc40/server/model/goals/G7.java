@@ -45,7 +45,7 @@ public class G7 implements Goal{
                 && s[4][1].equals(s[5][0])
                 && (s[4][1].getItem() != Item.EMPTY)));
     }
-   //todo usato solo nei test
+   // usato solo nei test
     public void print() {
         System.out.println("G7");
     }

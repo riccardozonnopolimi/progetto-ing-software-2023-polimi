@@ -94,22 +94,6 @@ public class PublicObserverObservable extends Observable implements Observer {
     }
 
 
-    //todo inutilizzato
-    public Object getData() {
-        return data;
-    }
-
-    //todo sotto c'è un metodo molto simile, cancellare?
-    /**
-     * creates new observer
-     * @param o
-     */
-    public void newObserver(Observer o) {
-        addObserver(o);
-        setChanged();
-        notifyObservers(data);
-    }
-
     /**
      * Notifies data (PublicModelNetwork)
      *

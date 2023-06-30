@@ -227,7 +227,6 @@ public class Player extends Observable {
     /**
      * @return player private model
      */
-    //todo refactor private e public model observer
     public PrivateObserverObservable getObserver() {
         return observer;
     }

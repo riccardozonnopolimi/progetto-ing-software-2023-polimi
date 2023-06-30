@@ -80,7 +80,7 @@ public class G4 implements Goal {
         }
         return false;
     }
-     //todo usata solo nei test
+     // usata solo nei test
     public void print() {
         System.out.println("G4");
     }

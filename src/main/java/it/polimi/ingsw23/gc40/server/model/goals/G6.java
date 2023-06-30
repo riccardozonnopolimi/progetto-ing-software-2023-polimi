@@ -42,7 +42,7 @@ public class G6 implements Goal {
         //if once of item type is almost eight return true, else false
         return (count.get(Item.CAT) >= 8 || count.get(Item.BOOK) >= 8 || count.get(Item.GAME) >= 8 || count.get(Item.FRAME) >= 8 || count.get(Item.TROPHY) >= 8 || count.get(Item.PLANT) >= 8);
     }
-    //todo utilizzato solo nei test
+    // utilizzato solo nei test
     public void print() {
         System.out.println("G6");
     }
