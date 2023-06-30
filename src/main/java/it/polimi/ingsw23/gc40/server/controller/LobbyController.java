@@ -172,6 +172,11 @@ public class LobbyController {
         return false;
     }
 
+    /**
+     * Called when the last round of the match has been played
+     * ( last round after one player has filled the whole bookshelf)
+     * @param m GameController of almost-ended match
+     */
     //todo commentare
     public void endMatch(GameController m) {
         //TO TEST TODO
@@ -187,6 +192,12 @@ public class LobbyController {
         }
     }
 
+    /**
+     *It takes the game controller, deletes all of his observers and removes from online player list and offline
+     * player list all players linked to m
+     *  @param m GameController of ended match
+     * @param observer
+     */
     public void destroyMatch(GameController m, Observer observer){
         m.getObserver().deleteObserver(observer);
 

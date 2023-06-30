@@ -375,6 +375,11 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * Used just for asking player nickname
+     * @param question printed
+     * @return string written by the client (answer)
+     */
     //todo description of this method
     public String askString(String question) {
         System.out.println(grey + question + resetStdColor);
@@ -410,6 +415,10 @@ public class CLI extends View {
         return line;
     }
 
+    /**
+     * @param question printed
+     * @return int written by the client (answer)
+     */
     //todo description of this method
     public int askInt(String question) {
         System.out.println(grey + question + resetStdColor);
@@ -429,6 +438,13 @@ public class CLI extends View {
         return n;
     }
 
+    /**
+     * used firstly to choose with what kind of view you want to play, what kind of connection you want to use.
+     * used secondly for options in match (show LRB,show Bookshelf...)
+     * @param choices
+     * @param question printed
+     * @return int written by the client (answer)
+     */
     //todo description of this method
     public static int getChoice(String[] choices, String question) {
 
@@ -460,6 +476,13 @@ public class CLI extends View {
         return n;
     }
 
+    /**
+     * ??
+     * @param choices
+     * @param question
+     * @param k
+     * @return
+     */
     //used for k hidden answers ;)
     //todo comment this method
     public static int getChoice(String[] choices, String question, int k) {
@@ -560,6 +583,9 @@ public class CLI extends View {
         System.out.println(grey + "0|1|2|3|4|" + resetStdColor);
     }
 
+    /**
+     * @param publicData updating PublicModelNetwork
+     */
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
         //todo finish method description and javadoc

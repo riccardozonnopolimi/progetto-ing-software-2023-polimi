@@ -32,6 +32,9 @@ public class GameController extends Observable {
     private short[] points;
     private int pndf;
 
+    /**
+     * @return
+     */
     public short[] getPoints() {
         return points;
     }
@@ -285,7 +288,7 @@ public class GameController extends Observable {
             rand = (int) (Math.random() * PLtemp.size());
             players.set(i, PLtemp.get(rand));
             PLtemp.remove(rand);
-            players.get(i).setPersonalGoal(personalGoals.get(0));
+           players.get(i).setPersonalGoal(personalGoals.get(0));
             personalGoals.remove(0);
         }
         players.get(0).setStartedFirst(true);

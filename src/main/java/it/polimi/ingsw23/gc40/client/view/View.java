@@ -10,9 +10,7 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Scanner;
 
 public abstract class View {
@@ -26,6 +24,10 @@ public abstract class View {
 
     public abstract void init() throws Exception;
 
+    /**
+     * View constructor. It initializes connection and CG descriptions. Other attributes to null
+     * @param connection
+     */
     public View(ConnectionController connection) {
         this.con = connection;
         this.match_data = new PublicModelNetwork(null, null, -1, null, false, null, (short)0,null,null);
@@ -51,12 +53,18 @@ public abstract class View {
         con.connect(name);
     }
 
+    /**
+     * @param privateData updating Private Model Network
+     */
     public void updatePrivateData(PrivateModelNetwork privateData) {
         if (privateData.getNickname().equals(nickname) || nickname.equals("###notdefined###"))
             this.player_data = privateData;
 
     }
 
+    /**
+     * @param publicData updating Public Model Network
+     */
     public void updatePublicData(PublicModelNetwork publicData) {
         if (publicData.getIdMatch() == matchId || matchId == -1)
             this.match_data = publicData;
