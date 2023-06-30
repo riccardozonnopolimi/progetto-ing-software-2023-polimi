@@ -21,8 +21,26 @@ public class GameControllerTest extends TestCase {
         this.ADJScore = 0;
         this.bookshelf = new Bookshelf();
         */
+        var gc = new GameController(3,1);
+        var p = new Player("Giosi");
+        var p1 = new Player("Rickz");
+        var p2 = new Player("FIl");
+        gc.addPlayer(p);
+        assertEquals(gc.getPlayers().size(), 1);
+        assertFalse(gc.isPlayable());
+        gc.addPlayer(p1);
+        assertEquals(gc.getPlayers().size(), 2);
+        assertFalse(gc.isPlayable());
+        gc.addPlayer(p2);
+        assertEquals(gc.getPlayers().size(), 3);
+        assertTrue(gc.isPlayable());
+        gc.getMap().print();
 
 
+    }
+    public void chooseTileTest(){
+
+        var gc = new gamecontroll
     }
 
     public void testGetPlayers() {

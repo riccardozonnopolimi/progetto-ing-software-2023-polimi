@@ -416,6 +416,8 @@ public class GameController extends Observable {
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x - i, y);
                 }
+                setChanged();
+                notifyObservers(this.map.getMap());
                 return chosen;
             case 'D':
                 for (int i = 0; i < quantity; i++)
@@ -432,6 +434,8 @@ public class GameController extends Observable {
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x + i, y);
                 }
+                setChanged();
+                notifyObservers(this.map.getMap());
                 return chosen;
             case 'L':
                 for (int i = 0; i < quantity; i++)
@@ -446,6 +450,8 @@ public class GameController extends Observable {
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x, y - i);
                 }
+                setChanged();
+                notifyObservers(this.map.getMap());
                 return chosen;
             case 'R':
                 for (int i = 0; i < quantity; i++)
@@ -459,6 +465,8 @@ public class GameController extends Observable {
                 for (int i = 0; i < quantity; i++) {
                     map.setTileInMap(new ItemTile(Item.EMPTY), x, y + i);
                 }
+                setChanged();
+                notifyObservers(this.map.getMap());
                 return chosen;
             default:
                 return null;

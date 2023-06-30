@@ -96,7 +96,5 @@ public class ItemTile implements Serializable {
         return (this.type == it.type);
     }
 
-    public int getNum() {
-        return num;
-    }
+
 }

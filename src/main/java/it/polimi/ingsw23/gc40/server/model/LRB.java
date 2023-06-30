@@ -191,8 +191,8 @@ public class LRB {
     public boolean needRefill() {
         //if there is a tile that is adjacent to another the method return false
         // else it returns true because the lrb need to be refilled
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 if (((!map[i][j].getItem().equals(Item.EMPTY)) &&
                         (!map[i][j].getItem().equals(Item.NOTREACHABLE)))) {
                     if (((!map[i + 1][j].getItem().equals(Item.EMPTY)) && (!map[i + 1][j].getItem().equals(Item.NOTREACHABLE)))

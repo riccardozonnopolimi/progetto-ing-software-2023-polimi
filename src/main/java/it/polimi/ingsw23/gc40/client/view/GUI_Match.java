@@ -103,6 +103,9 @@ public class GUI_Match {
     private JButton it86;
     private JButton it87;
     private JButton it88;
+    private JButton ht2;
+    private JButton ht3;
+    private JButton ht1;
     private int tilequantity;
     private char tiledirection;
     private int tileY;
@@ -213,6 +216,25 @@ public class GUI_Match {
         return uri;
     }
 
+    private void setLRB(ItemTile[][] map, boolean enabled) {
+
+        for (int i = 0; i <= 8; i++) {
+            for (int j = 0; j <= 8; j++) {
+                String elementName = "it" + i + j;
+                try {
+                    Field field = GUI_Match.class.getDeclaredField(elementName);
+                    JButton button = (JButton) field.get(this);
+                    if (!getTileUri(map[i][j]).equals("NR") && !getTileUri(map[i][j]).equals("Empty")) {
+                        button.setEnabled(enabled);
+                        tilequantity = 0;
+                    }
+                } catch (NoSuchFieldException | IllegalAccessException er) {
+                    er.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void createUIComponents() {
         // dentro la setIcon() > new ImageIcon(new ImageIcon(" PATH ").getImage().getScaledInstance(200,500, Image.SCALE_SMOOTH))
 
@@ -234,6 +256,7 @@ public class GUI_Match {
         makeMoveBTN.setText("Scegli tiles");
         makeMoveBTN.addActionListener(e -> {
             if (handtiles != null) {
+
                 //todo popup bro hai già delle tiles
 
             } else {
@@ -244,15 +267,14 @@ public class GUI_Match {
                         popup("catch");
                         throw new RuntimeException(ex);
                     }
-                }else{
+                } else {
                     popup("else");
                 }
                 //handle if handtiles ==null
-                if (handtiles!=null)
-
+                if (handtiles != null) {
                     popup("handtiles non nullo");
-
-                else
+                    setLRB(view.match_data.getLrb(), false);
+                } else
                     popup("handtiles nullo");
 
 
@@ -315,7 +337,7 @@ public class GUI_Match {
     }
 
     private void popup(String msg) {
-        JOptionPane.showMessageDialog(null,msg,"todo",1);
+        JOptionPane.showMessageDialog(null, msg, "todo", 1);
 
     }
 

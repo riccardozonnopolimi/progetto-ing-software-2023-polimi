@@ -32,40 +32,37 @@ public class GUI extends View {
 
         newplayerLabel.setText("Insert player name:");
         newplayerButton.setText("Create player");
-        newplayerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nickname = newplayerField.getText();
-                try {
-                    if (!con.connect(nickname)) {
-                        popup("Nome utente già in uso, riprova...");
+        newplayerButton.addActionListener(e -> {
+            nickname = newplayerField.getText();
+            try {
+                if (!con.connect(nickname)) {
+                    popup("Nome utente già in uso, riprova...");
+                } else {
+                    matchId = con.reconnect(nickname);
+                    if (matchId != -1) {
+                        //todo avvisare il giocatore di ciò che segue:
+                        //popup("welcome back into match n."+matchId);
+                        showOnly(waitingPanel);
+                        con.addObserver(null, nickname, matchId);
                     } else {
-                        matchId = con.reconnect(nickname);
-                        if (matchId != -1) {
-                            //todo avvisare il giocatore di ciò che segue:
-                            //popup("welcome back into match n."+matchId);
+                        if (con.hasQueueMatch()) {
+                            matchId = con.addToLastMatch(nickname);
                             showOnly(waitingPanel);
                             con.addObserver(null, nickname, matchId);
-                        } else {
-                            if (con.hasQueueMatch()) {
-                                matchId = con.addToLastMatch(nickname);
-                                showOnly(waitingPanel);
-                                con.addObserver(null, nickname, matchId);
 
-                                // todo avvisare il giocatore di ciò che segue:
-                                // popup("Sei stato aggiunto al match n."+matchId);
-                            } else {
-                                showOnly(newmatchPanel);
-                            }
+                            // todo avvisare il giocatore di ciò che segue:
+                            // popup("Sei stato aggiunto al match n."+matchId);
+                        } else {
+                            showOnly(newmatchPanel);
                         }
                     }
-                } catch (RemoteException ex) {
-                    throw new RuntimeException(ex);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
                 }
-
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
+
         });
 
 
