@@ -1,0 +1,14 @@
+Partendo dal package Client: ClientImpl che per ora ha solo la predisposizione per socket avvia una connessione verso il server (controlla che non ci sia già una partita in fase di creazione) dopo di che chiede all'utente tramite la TUI il numero di giocatori e il proprio nickname, una volta fornite queste informazioni la TUI le notifica a ClientImpl che vengono messe in un oggetto di tipo Message che implementa Serializable e vengono spedite lungo la rete al server. Durante la partita invece la TUI chiede all'utente le coordinate delle tiles, l'ordine di inserimento e la colonna della shelf, dopo di che avviene sempre l'evento di notifica del client che procede alla creazione dell'oggetto Message da inviare al server.
+
+Il Server riceve il messaggio e deserializza l'oggetto passando le informazioni non null al controller che procede ad analizzarle, dopo di che le passa al model. Il model quando viene modificato lo notifica a ServerImpl che procede a creare un oggetto GameView (Serializable) e invia il nuovo stato di gioco a tutti i client.
+
+Durante la partita tutti i client ricevono la GameView aggiornata così da mostrare in ogni instante la board che si svuota o si riempie e le shelf dei giocatori che vengono completate.
+
+Abbiamo usato come Observer pattern l'interfaccia PropertyChangeListener ma stiamo lavorando su una nostra interfaccia che non ha bisogno di importare la classe java.beans (solo perché un professore del laboratorio ce lo ha consigliato).
+
+Abbiamo ancora 12 diversi algoritmi per il controllo delle common goal card ma l'obbiettivo è ancora di accorparne alcune.
+
+il Client possiede molti controlli per verificare che l'utente non immetta dati sbagliati. Gli stessi controlli più altri specifici li possiede il controller così da evitare che nel caso in cui si colleghi un client malevolo, il model non venga modificato.
+
+Buon lavoro 😁
+Francesco
