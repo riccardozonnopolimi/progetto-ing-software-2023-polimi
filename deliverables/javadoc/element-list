@@ -1,0 +1,11 @@
+it.polimi.ingsw23.gc40
+it.polimi.ingsw23.gc40.client
+it.polimi.ingsw23.gc40.client.connection
+it.polimi.ingsw23.gc40.client.view
+it.polimi.ingsw23.gc40.netModel
+it.polimi.ingsw23.gc40.netModel.utilsObserverObservable
+it.polimi.ingsw23.gc40.server
+it.polimi.ingsw23.gc40.server.connection
+it.polimi.ingsw23.gc40.server.controller
+it.polimi.ingsw23.gc40.server.model
+it.polimi.ingsw23.gc40.server.model.goals
