@@ -66,12 +66,12 @@ public class CLI extends View {
                 System.out.println(green + "You are being added to the pending match" + resetStdColor);
             } else {
                 // no match exists, creating new game
-                boolean matchcreato = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
+                boolean createdmatch = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
 
-                if (matchcreato)
+                if (createdmatch)
                     System.out.println(green + "You successfully created a match" + resetStdColor);
 
-                while (!matchcreato) {
+                while (!createdmatch) {
                     //if while condition is false the match is not created, there are 2 possible reasons
                     if (con.hasQueueMatch()) {
                         //in the meantime the player was chosing the number of players another client created a match
@@ -84,7 +84,7 @@ public class CLI extends View {
                         //the player wrote a wrong number
                         System.out.println(red + "Insert player number between 2 and 4" + resetStdColor);
                     }
-                    matchcreato = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
+                    createdmatch = con.newMatch(askInt("Creating new match, how many players would you like the game to have? "));
                 }
             }
             //adding player to the game
@@ -98,7 +98,7 @@ public class CLI extends View {
             System.out.println(yellow + "MATCH WILL START AS SOON AS THE OTHER PLAYERS CONNECT" + resetStdColor);
         }
 
-        int turnNumber = 0;
+        super.turnNumber = 0;
 
 
         //waiting notify when all player are connected
@@ -125,8 +125,9 @@ public class CLI extends View {
                 //isn't your turn, you can't take tiles from LRB
                 if (match_data.getCurrent().equals("###gamepaused###")) {
                     System.out.println(yellow + "You remained the only player online in this match, the game will resume as soon as at least one other player reconnects." + resetStdColor);
-                } else
+                } else {
                     System.out.println(CLI.yellow + "### IS " + match_data.getCurrent() + "'S TURN ###" + CLI.resetStdColor);
+                }
                 choice = getChoice(new String[]{"Show LRB", "Show Personal Goal Card", "Show BookShelf", "Show Common Goals", "Show your score", "Exit"}, "Choose one of following action:", 1);
 
             } else {
@@ -146,7 +147,7 @@ public class CLI extends View {
             if (match_data.isPlayable()) {
 
 
-                turnNumber = match_data.getTurnNumber();
+                super.turnNumber = match_data.getTurnNumber();
                 //System.out.println("TURNO NUMERO: "+turnNumber);
                 //switch case for different move
                 switch (choice) {
@@ -170,7 +171,7 @@ public class CLI extends View {
                         close = true;
                         break;
                     case 6:
-                        makemove(turnNumber);
+                        makemove(super.turnNumber);
 
                         break;
                     default:
@@ -196,10 +197,10 @@ public class CLI extends View {
     /**
      * permits current player to take tiles from LRB
      *
-     * @param turnNumber allow to differentiate the current player from the others
+     * @param turnN allow to differentiate the current player from the others
      * @throws RemoteException if remote communication falis
      */
-    private void makemove(int turnNumber) throws RemoteException {
+    private void makemove(int turnN) throws RemoteException {
         System.out.println("Make your move!");
         int placeables = con.startRound(nickname, matchId);
         System.out.println("Can draw " + placeables + " tiles...");
@@ -275,7 +276,7 @@ public class CLI extends View {
         } while (handTiles == null);
 
         if (handTiles != null) {
-            insertTile(handTiles, quantity, turnNumber);
+            insertTile(handTiles, quantity, turnN);
         }
 
     }
@@ -285,10 +286,10 @@ public class CLI extends View {
      *
      * @param handTiles  represents the item taken from LRB
      * @param quantity   represents how many items has been taken
-     * @param turnNumber to check if the current player is making the move
+     * @param turnN to check if the current player is making the move
      * @throws RemoteException if remote communication fails
      */
-    private void insertTile(ItemTile[] handTiles, int quantity, int turnNumber) throws RemoteException {
+    private void insertTile(ItemTile[] handTiles, int quantity, int turnN) throws RemoteException {
         //show bookshelf and ask in which column insert tile
 
         int column;
@@ -352,7 +353,7 @@ public class CLI extends View {
         //set next player as current player
         con.nextRound(nickname, matchId);
 
-        while (turnNumber == match_data.getTurnNumber()) {
+        while (super.turnNumber == match_data.getTurnNumber()) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -363,7 +364,7 @@ public class CLI extends View {
 
         if (match_data.getWinner() == null) {
             //waiting for change of current player
-            while ((turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
+            while ((super.turnNumber == match_data.getTurnNumber() - 1) && (match_data.getCurrent().equals(nickname))) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -376,11 +377,10 @@ public class CLI extends View {
     }
 
     /**
-     * Used just for asking player nickname
+     * Used just for asking string from user
      * @param question printed
      * @return string written by the client (answer)
      */
-    //todo description of this method
     public String askString(String question) {
         System.out.println(grey + question + resetStdColor);
 
@@ -416,10 +416,10 @@ public class CLI extends View {
     }
 
     /**
+     * Used just for asking an int from user
      * @param question printed
      * @return int written by the client (answer)
      */
-    //todo description of this method
     public int askInt(String question) {
         System.out.println(grey + question + resetStdColor);
         boolean retry = false;
@@ -445,7 +445,6 @@ public class CLI extends View {
      * @param question printed
      * @return int written by the client (answer)
      */
-    //todo description of this method
     public static int getChoice(String[] choices, String question) {
 
         Scanner sc = new Scanner(System.in);
@@ -604,46 +603,46 @@ public class CLI extends View {
                 corrente = match_data.getCurrent();
             }
 
-            //condizione necessaria per far si che le istruzioni seguenti vengano eseguite solo se il match è in corso
+            //Condition necessary to ensure that the following instructions are executed only if the match is ongoing
             if (publicData.isPlayable()) {
 
-                //if necessario per evitare a priori nullPointerException
+                //if necessary to avoid NullPointerException beforehand
                 if (precedente != null && match_data != null && giocatore != null && corrente != null) {
 
-                    //se tocca a me ma non toccava a me (è cambiato il turno)
+                    //if it's my turn and before wasn't (turn is changed)
                     if ((corrente.equals(giocatore)) && !precedente.equals(giocatore)) {
 
-                        //se non toccava a me perchè il match era in pausa
+                        //if it wasn't my turn because the match was on pause
                         if (precedente.equals("###gamepaused###"))
                             System.out.println(green + "The match started again" + resetStdColor + "\n");
 
-                        //avviso il giocatore che tocca a lui
+                        //I notify the player that it's their turn.
                         System.out.println(CLI.green + "### IS YOUR TURN " + giocatore + " ###" + CLI.resetStdColor);
 
-                        //lo informo della mossa numero 6 adesso selezionabile
+                        //I inform him about move number 6, which is now selectable.
                         System.out.println(CLI.grey + "6)" + CLI.resetStdColor + " Make your move");
 
-                        //altrimenti se è cambiato il turno ma non tocca a me
+                        //otherwise if turn is changed and it is not my turn
                     } else if (!corrente.equals(precedente) && !corrente.equals(giocatore) && !precedente.equals(giocatore)) {
 
-                        //se il gioco è entrato in pausa
+                        //if game is on pause
                         if (corrente.equals("###gamepaused###")) {
                             System.out.println("\n" + red + "ATTENTION:" + resetStdColor + "\nYou remained the only player online in this match, the game will resume as soon as at least one other player reconnects...\n\n");
 
-                            //altrimenti se non è entrato in pausa
+                            //otherwise if it isn't on pause
                         } else {
-                            //se era in pausa avviso che è ripartito
+                            //if it was on pause, notify that it has resumed se era in pausa avviso che è ripartito
                             if (precedente.equals("###gamepaused###"))
                                 System.out.println(green + "The match started again" + resetStdColor + "\n");
 
-                            //ad ogni modo avviso che è cambiato il turno
+                            //In any case, I notify that the turn has changed.
                             System.out.println(CLI.yellow + "### IS " + corrente + "'S TURN ###" + CLI.resetStdColor);
                         }
 
                     } else {
-                        //in questo else ci entro ad ogni notify anche se non sta cambiando turno da un giocatore all'altro
+                        //In this 'else' statement, I enter and notify regardless of whether the turn is changing from one player to another
 
-                        //perciò se il gioco non era in pausa ma entra in pausa avviso
+                        //So, if the game wasn't on pause but enters a pause, I notify.
                         if (!precedente.equals("###gamepaused###") && corrente.equals("###gamepaused###")) {
                             System.out.println("\n" + red + "ATTENTION:" + resetStdColor + "\nYou remained the only player online in this match, the game will resume as soon as at least one other player reconnects...\n\n");
                         }

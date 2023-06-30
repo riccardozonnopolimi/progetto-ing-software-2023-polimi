@@ -21,6 +21,7 @@ public abstract class View {
     public PublicModelNetwork match_data;
     public String[] cgDescriptions;
     public ArrayList<ItemTile[][]> pgCards = new ArrayList<>();
+    public int turnNumber;
 
     public abstract void init() throws Exception;
 
@@ -49,6 +50,11 @@ public abstract class View {
 
     }
 
+    /**
+     * add a Player
+     * @param name
+     * @throws Exception
+     */
     public void addPlayer(String name) throws Exception {
         con.connect(name);
     }
@@ -70,6 +76,12 @@ public abstract class View {
             this.match_data = publicData;
     }
 
+    /**
+     *used to get an int from user,
+     * @param choices
+     * @param question
+     * @return
+     */
     public static int getChoice(String[] choices, String question) {
         Scanner sc = new Scanner(System.in);
         int n;

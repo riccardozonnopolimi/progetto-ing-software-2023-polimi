@@ -24,6 +24,10 @@ public class GUI extends View {
     private JPanel waitingPanel;
     private JLabel waitingLabel;
 
+    /**
+     * GUI constructor create the textual view for te connection
+     * @param con
+     */
     public GUI(ConnectionController con) {
 
         super(con);
@@ -48,6 +52,9 @@ public class GUI extends View {
                         if (con.hasQueueMatch()) {
                             matchId = con.addToLastMatch(nickname);
                             showOnly(waitingPanel);
+
+                            super.turnNumber=0;
+
                             con.addObserver(null, nickname, matchId);
 
                             // todo avvisare il giocatore di ciò che segue:
@@ -84,6 +91,9 @@ public class GUI extends View {
                     } else {
                         matchId = con.addToLastMatch(nickname);
                         showOnly(waitingPanel);
+
+                        turnNumber = 0;
+
                         con.addObserver(null, nickname, matchId);
                         popup("Match creato!");
 
@@ -98,12 +108,19 @@ public class GUI extends View {
 
     }
 
+    /**
+     * starts GUI
+     */
     private void startMatch() {
         guiMatch = new GUI_Match(this);
         guiMatch.init();
         frame.setExtendedState(JFrame.ICONIFIED);
     }
 
+
+    /**
+     * Shows first GUI frame
+     */
     public void init() {
         frame = new JFrame("MyShelfie");
         frame.setContentPane(panel);
@@ -113,6 +130,7 @@ public class GUI extends View {
         showOnly(newplayerPanel);
     }
 
+    //todo javadoc of this method
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
 
@@ -125,8 +143,7 @@ public class GUI extends View {
 
             super.updatePublicData(publicData);
 
-            if (guiMatch!=null)
-                guiMatch.setLRB(publicData.getLrb(), true);
+
 
             if (this.match_data.isPlayable()) {
                 if (!wasplayable) {
@@ -134,21 +151,37 @@ public class GUI extends View {
                         startMatch();
                 }
             }
+
+
+
+            if (guiMatch!=null)
+                guiMatch.setLRB(publicData.getLrb(), match_data.getCurrent().equals(nickname));
         }
     }
 
+    //todo javadoc of this method
     @Override
     public void updatePrivateData(PrivateModelNetwork privateData) {
         super.updatePrivateData(privateData);
 
-        if (match_data != null)
+        if (match_data != null) {
             if (this.match_data.isPlayable()) {
                 if (guiMatch == null)
                     startMatch();
             }
+        }
+        if (guiMatch!=null)
+        {
+            guiMatch.setBookShelf(privateData.getBookshelf());
+        }
 
     }
 
+
+    /**
+     * hide all panel except panelAttr
+     * @param panelAttr panel to show
+     */
     public void showOnly(JPanel panelAttr) {
         waitingPanel.setVisible(false);
         newmatchPanel.setVisible(false);
@@ -156,6 +189,11 @@ public class GUI extends View {
         panelAttr.setVisible(true);
     }
 
+
+    /**
+     * show a message on screen
+     * @param st
+     */
     public void popup(String st) {
         JOptionPane.showMessageDialog(frame, st);
     }

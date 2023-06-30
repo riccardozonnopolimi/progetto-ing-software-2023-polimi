@@ -12,6 +12,12 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class ServerMain {
+
+    /**
+     * "Start the server and create the necessary setup to establish connections.
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         //LET USER CHOICE IP SERVER
         System.out.println("Write the target (ip address or domain) of the server: " + CLI.green + "(You can press enter for localhost)" + CLI.resetStdColor);

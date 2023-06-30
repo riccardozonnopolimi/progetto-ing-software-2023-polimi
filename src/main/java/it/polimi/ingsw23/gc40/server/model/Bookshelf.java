@@ -49,10 +49,18 @@ public class Bookshelf   {
     }
 
     //todo verificare se questo metodo senza usi serve ancora. ricky
+
+    /**
+     * setting shelf
+     * @param shelf
+     */
     public void setShelf(ItemTile[][] shelf) {
         this.shelf = shelf;
     }
 
+    /**
+     *
+     */
     public void print() {
         //todo serve che stia qui?
         for (int i = 0; i < 6; i++) {
@@ -179,11 +187,18 @@ public class Bookshelf   {
         return sum;
     }
 
-    //todo serve ancora?
-    //Creating two methods to set/get ADJCounter to test this class
+    /**
+     * method used to test class
+     * @return
+     */
     public int getADJCounter() {
         return ADJCounter;
     }
+
+    /**
+     * method used to test class
+     * @param x
+     */
     public void setADJCounter(int x) {
         ADJCounter = x;
     }

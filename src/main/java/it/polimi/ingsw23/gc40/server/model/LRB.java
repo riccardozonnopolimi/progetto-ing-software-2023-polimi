@@ -222,6 +222,10 @@ public class LRB {
         return matrixTakeables;
     }
 
+
+    /**
+     * printing lrb
+     */
     public void print(){
         //todo vedere usage e nel caso non necessario
         // eliminare metodo perche'e'nel posto sbagliato
@@ -236,6 +240,10 @@ public class LRB {
         }
     }
 
+    /**
+     * printing lrb
+     * @param map
+     */
     public void print(ItemTile[][] map){
         //todo questo ha 0 usage
         // e non dovrebbe neanche stare qui

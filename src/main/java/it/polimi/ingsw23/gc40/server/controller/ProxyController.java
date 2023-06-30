@@ -296,6 +296,7 @@ public class ProxyController extends Thread implements ConnectionController {
             mID = idMatchByPlayer(nickname);
             if (mID != -1) {
                 lobbyController.setPlayerOnline(nickname);
+                lobbyController.getPlayer(nickname).setChangedAndNotify(lobbyController.getPlayer(nickname).getBookshelf().getShelf());
                 GameController m = lobbyController.matchByPlayer(nickname);
                 m.setActive(m.getActive() + 1);
                 if (m.getNext() == null && m.getActive() > 1) {

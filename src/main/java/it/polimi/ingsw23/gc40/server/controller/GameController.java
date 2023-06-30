@@ -32,9 +32,7 @@ public class GameController extends Observable {
     private short[] points;
     private int pndf;
 
-    /**
-     * @return
-     */
+    //todo javadoc
     public short[] getPoints() {
         return points;
     }
@@ -528,7 +526,11 @@ public class GameController extends Observable {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-        //todo inutilizzato
+
+    /**
+     * @return observer of PublicModelObserver
+     */
+    //todo inutilizzato
     public PublicModelObserver getPublicModelObserver() {
         return observer;
     }

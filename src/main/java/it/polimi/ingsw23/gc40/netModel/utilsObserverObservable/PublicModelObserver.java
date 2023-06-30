@@ -101,6 +101,11 @@ public class PublicModelObserver extends Observable implements Observer {
         return data;
     }
 
+    //todo sotto c'è un metodo molto simile, cancellare?
+    /**
+     * creates new observer
+     * @param o
+     */
     public void newObserver(Observer o) {
         addObserver(o);
         setChanged();

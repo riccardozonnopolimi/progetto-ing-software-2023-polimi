@@ -11,6 +11,12 @@ import it.polimi.ingsw23.gc40.netModel.ConnectionController;
 import java.util.Scanner;
 
 public class Client {
+
+    /**
+     * starts client and ask for type of connection and type of graphic he wants to use
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         ConnectionController con;
 

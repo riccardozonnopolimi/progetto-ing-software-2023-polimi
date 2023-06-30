@@ -157,6 +157,11 @@ public class SocketHandler implements Runnable, Observer {
             }
         } catch (IOException e) {
             System.out.println("#SocketHandler class - run method - catch error:");
+            try {
+                proxyController.close(nickname);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -167,7 +172,7 @@ public class SocketHandler implements Runnable, Observer {
      * @param bool true if the message arrives correctly , false if not
      * @throws IOException occurs whenever an input or output operation is failed or interpreted.
      */
-    // todo ??
+    //todo ??
     private void bool(boolean bool) throws IOException {
         if (bool) {
             out.writeUTF("#true");

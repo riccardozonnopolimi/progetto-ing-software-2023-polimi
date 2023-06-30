@@ -7,6 +7,11 @@ import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.server.ServerMain;
 
 public class App {
+    //todo javadoc
+    /**
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
 
         System.out.println(CLI.green+"Welcome in myShelfie!"+CLI.resetStdColor);

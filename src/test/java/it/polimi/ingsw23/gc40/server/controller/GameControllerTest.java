@@ -189,8 +189,6 @@ public class GameControllerTest extends TestCase {
         gc.addPlayer(p2);
         assertEquals(gc.getPlayers().size(), 3);
         assertTrue(gc.isPlayable());
-
-
     }
 
 

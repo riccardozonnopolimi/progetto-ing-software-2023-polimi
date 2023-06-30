@@ -231,4 +231,10 @@ public class Player extends Observable {
     public PrivateModelObserver getObserver() {
         return observer;
     }
+
+
+    public void setChangedAndNotify(Object obj){
+        setChanged();
+        notifyObservers(obj);
+    }
 }

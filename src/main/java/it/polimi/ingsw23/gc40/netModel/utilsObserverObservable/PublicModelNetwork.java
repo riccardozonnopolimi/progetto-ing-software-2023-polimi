@@ -83,6 +83,9 @@ public class PublicModelNetwork implements Serializable {
         return playable;
     }
 
+    /**
+     * @return winner of the match
+     */
     public String getWinner() {
         return winner;
     }

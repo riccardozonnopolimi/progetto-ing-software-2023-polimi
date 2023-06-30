@@ -23,7 +23,6 @@ public class ConnectionStarter {
      * @param host hostname
      * @return created socket from client to server
      */
-    //creating socket and trying to connect with serverSocket
     public Socket socketStart(int port, String host) {
         Socket socket = null;
         try {
