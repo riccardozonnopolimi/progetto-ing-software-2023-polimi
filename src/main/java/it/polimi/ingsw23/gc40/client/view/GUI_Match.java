@@ -141,7 +141,7 @@ public class GUI_Match {
         boolean sameRow = true;
         int startRow = cordY[0];
 
-        for (int i = 1; i < tilequantity; i++) {
+        for (int i = 0; i < tilequantity; i++) {
             if (cordY[i] != startRow) {
                 sameRow = false;
                 break;
@@ -152,7 +152,7 @@ public class GUI_Match {
         boolean sameColumn = true;
         int startColumn = cordX[0];
 
-        for (int i = 1; i < tilequantity; i++) {
+        for (int i = 0; i < tilequantity; i++) {
             if (cordX[i] != startColumn) {
                 sameColumn = false;
                 break;
@@ -216,7 +216,7 @@ public class GUI_Match {
         return uri;
     }
 
-    private void setLRB(ItemTile[][] map, boolean enabled) {
+    public void setLRB(ItemTile[][] map, boolean enabled) {
 
         for (int i = 0; i <= 8; i++) {
             for (int j = 0; j <= 8; j++) {
@@ -224,10 +224,16 @@ public class GUI_Match {
                 try {
                     Field field = GUI_Match.class.getDeclaredField(elementName);
                     JButton button = (JButton) field.get(this);
+
                     if (!getTileUri(map[i][j]).equals("NR") && !getTileUri(map[i][j]).equals("Empty")) {
                         button.setEnabled(enabled);
-                        tilequantity = 0;
+                        button.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/" + getTileUri(view.match_data.getLrb()[i][j]) + ".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                    } else {
+                        button.setEnabled(false);
+                        button.setIcon(null);
                     }
+
+
                 } catch (NoSuchFieldException | IllegalAccessException er) {
                     er.printStackTrace();
                 }
@@ -248,6 +254,7 @@ public class GUI_Match {
         cg2Label.setText("");
         cg1Label.setText("");
         pgLabel.setText("");
+        setLRB(view.match_data.getLrb(), true);
 
         cg1DescLabel.setText("<html><body style='width: 200px;'>" + view.cgDescriptions[(view.match_data.getCgs()[0] - 1)] + "</body></html>");
         cg2DescLabel.setText("<html><body style='width: 200px;'>" + view.cgDescriptions[(view.match_data.getCgs()[1] - 1)] + "</body></html>");
@@ -270,12 +277,20 @@ public class GUI_Match {
                 } else {
                     popup("else");
                 }
-                //handle if handtiles ==null
+
+                tilequantity = 0;
+                tileY = -1;
+                tileX = -1;
+                tiledirection = ' ';
+
                 if (handtiles != null) {
-                    popup("handtiles non nullo");
+                    popup("handtiles non nullo, dovrebbero sparire");
                     setLRB(view.match_data.getLrb(), false);
-                } else
-                    popup("handtiles nullo");
+
+                } else {
+                    setLRB(view.match_data.getLrb(), true);
+                    popup("riprovare perchè handtiles nullo");
+                }
 
 
                 for (int i = 0; i <= 8; i++) {
@@ -303,22 +318,17 @@ public class GUI_Match {
                 try {
                     Field field = GUI_Match.class.getDeclaredField(elementName);
                     JButton button = (JButton) field.get(this);
-                    if (!getTileUri(view.match_data.getLrb()[i][j]).equals("NR"))
-                        button.setIcon(new ImageIcon(new ImageIcon("src/main/resources/img/it/" + getTileUri(view.match_data.getLrb()[i][j]) + ".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                    else
-                        button.setEnabled(false);
+
+                    int finalI = i;
+                    int finalJ = j;
                     button.setText("");
                     button.setOpaque(false);
                     button.setBorderPainted(false);
-                    int finalI = i;
-                    int finalJ = j;
                     button.addActionListener(e -> {
                         if (tilequantity > 2) {
                             JOptionPane.showMessageDialog(null, "Select maximum 3 tiles", "Error", 1);
                         } else {
                             button.setEnabled(false);
-                            button.setBorderPainted(true);
-
                             coordX[tilequantity] = finalJ;
                             coordY[tilequantity] = finalI;
                             tilequantity++;

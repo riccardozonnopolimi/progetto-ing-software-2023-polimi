@@ -116,11 +116,17 @@ public class GUI extends View {
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
 
+
+
+
         if (publicData.getIdMatch() == this.matchId || this.matchId == -1) {
 
             boolean wasplayable = this.match_data.isPlayable();
 
             super.updatePublicData(publicData);
+
+            if (guiMatch!=null)
+                guiMatch.setLRB(publicData.getLrb(), true);
 
             if (this.match_data.isPlayable()) {
                 if (!wasplayable) {

@@ -40,7 +40,7 @@ public class GameControllerTest extends TestCase {
     }
     public void chooseTileTest(){
 
-        var gc = new gamecontroll
+
     }
 
     public void testGetPlayers() {
