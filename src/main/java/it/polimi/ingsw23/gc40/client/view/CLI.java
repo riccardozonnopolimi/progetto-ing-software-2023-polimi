@@ -203,7 +203,7 @@ public class CLI extends View {
     private void makemove(int turnN) throws RemoteException {
         System.out.println("Make your move!");
         int placeables = con.startRound(nickname, matchId);
-        System.out.println("Can draw " + placeables + " tiles...");
+        System.out.println("You can take " + placeables + " tiles...");
         //handTiles represents chosen tiles
         ItemTile[] handTiles;
         printLRB(match_data.getLrb());
@@ -230,12 +230,12 @@ public class CLI extends View {
                 if (quantity > placeables) {
                     //placeables returns max number of free cells in the column of the bookshelf with most free cells
                     System.out.println(red + "There isn't enough space in your bookshelf to place " + quantity + " tiles!" + resetStdColor);
-                    System.out.print("Retry, how many Tiles do you want to take? ");
+                    System.out.print(red+"Retry"+resetStdColor);
                 }
                 if (quantity < 1) {
                     //placeables returns max number of free cells in the column of the bookshelf with most free cells
                     System.out.println(red + "You have to select at least 1 Tile" + quantity + " tiles!" + resetStdColor);
-                    System.out.print("Retry, how many Tiles do you want to take? ");
+                    System.out.print(red+"Retry"+resetStdColor);
                 }
 
             } while (quantity > placeables || quantity < 1);
@@ -439,9 +439,9 @@ public class CLI extends View {
     }
 
     /**
-     * used firstly to choose with what kind of view you want to play, what kind of connection you want to use.
-     * used secondly for options in match (show LRB,show Bookshelf...)
-     * @param choices
+     * this method prints a question, the possible choices and ask user to input a number to make a choice, it
+     * returns the int entered by the user after checking if it is in the range ollowed
+     * @param choices possible choices to select
      * @param question printed
      * @return int written by the client (answer)
      */
@@ -476,14 +476,13 @@ public class CLI extends View {
     }
 
     /**
-     * ??
+     *
      * @param choices
      * @param question
-     * @param k
+     * @param k used to allow a k number of "hidden" answers
      * @return
      */
-    //used for k hidden answers ;)
-    //todo comment this method
+
     public static int getChoice(String[] choices, String question, int k) {
         Scanner sc = new Scanner(System.in);
         int n;
@@ -587,7 +586,8 @@ public class CLI extends View {
      */
     @Override
     public void updatePublicData(PublicModelNetwork publicData) {
-        //todo finish method description and javadoc
+
+
         if (publicData.getIdMatch() == matchId || matchId == -1) {
             String precedente = null;
             String corrente = null;
@@ -616,7 +616,7 @@ public class CLI extends View {
                         if (precedente.equals("###gamepaused###"))
                             System.out.println(green + "The match started again" + resetStdColor + "\n");
 
-                        //I notify the player that it's their turn.
+                        //I notify the player that it's his turn.
                         System.out.println(CLI.green + "### IS YOUR TURN " + giocatore + " ###" + CLI.resetStdColor);
 
                         //I inform him about move number 6, which is now selectable.

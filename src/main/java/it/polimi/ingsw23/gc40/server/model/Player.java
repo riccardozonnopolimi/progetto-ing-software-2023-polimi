@@ -1,6 +1,6 @@
 package it.polimi.ingsw23.gc40.server.model;
 
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PrivateObserverObservable;
 
 import java.util.Observable;
 
@@ -16,7 +16,7 @@ public class Player extends Observable {
     private final Boolean finishedFirst;
     private PersonalGoalCard personalGoal;
     private final Bookshelf bookshelf;
-    private final PrivateModelObserver observer = new PrivateModelObserver(this);
+    private final PrivateObserverObservable observer = new PrivateObserverObservable(this);
     // scores[0] PGscore, scores[1] CGscores, scores[2] ADJscores, scores[3] firstScores
     private final int[] scores;
 
@@ -67,7 +67,7 @@ public class Player extends Observable {
     /**
      * @return the PrivateModelObserver previously assigned to the player
      */
-    public PrivateModelObserver getPrivateModelObserver() {
+    public PrivateObserverObservable getPrivateModelObserver() {
         return observer;
     }
 
@@ -228,7 +228,7 @@ public class Player extends Observable {
      * @return player private model
      */
     //todo refactor private e public model observer
-    public PrivateModelObserver getObserver() {
+    public PrivateObserverObservable getObserver() {
         return observer;
     }
 

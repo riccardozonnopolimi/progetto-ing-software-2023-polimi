@@ -410,7 +410,7 @@ public class GUI_Match {
 
             boolean nullo = false;
             if (handtiles != null)
-                //todo test
+
                 for (int i = 0; i < handtiles.length; i++)
                     if (handtiles[i]==null || handtiles[i].getItem().equals(Item.EMPTY)) {
                         nullo = true;
@@ -448,17 +448,7 @@ public class GUI_Match {
 
         });
 
-        //dopo che scelgo la colonna
 
-       /*
-        for k handtiles etc actionlistener to inserttile
-        button.addActionListener(e -> {
-            if(handtiles!=null)
-                if (handtiles[finalK -1]!=null)
-                {
-                    //todo insert tile
-                }
-        });*/
 
         //initialize itemtiles buttons in lrb
         // Ripetizione per tutti gli elementi da it00 a it88

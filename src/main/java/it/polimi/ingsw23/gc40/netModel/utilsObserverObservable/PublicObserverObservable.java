@@ -5,7 +5,7 @@ import it.polimi.ingsw23.gc40.server.model.ItemTile;
 
 import java.util.*;
 
-public class PublicModelObserver extends Observable implements Observer {
+public class PublicObserverObservable extends Observable implements Observer {
     private static final long serialVersionUID = 7829136881241571165L;
     private PublicModelNetwork data;
     public ItemTile[][] lrb;
@@ -25,7 +25,7 @@ public class PublicModelObserver extends Observable implements Observer {
      *
      * @param gameController
      */
-    public PublicModelObserver(GameController gameController) {
+    public PublicObserverObservable(GameController gameController) {
         gameController.addObserver(this);
         match = gameController;
         playable = false;
@@ -79,8 +79,6 @@ public class PublicModelObserver extends Observable implements Observer {
                 data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, winner, turnNumber, points, playersNick);
             }
             else {
-                //todo non arrivera mai al client causa else
-
                 data = new PublicModelNetwork(lrb, cgs, idMatch, current, playable, null, turnNumber, points, playersNick);
             }
         }

@@ -13,7 +13,6 @@ import java.net.Socket;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
-//todo comment class
 
 public class conSocket extends Thread implements ConnectionController {
     private final Socket socket;
@@ -294,7 +293,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     /**
-     * send string to socket server
+     * send string to server and wait the server response
      * @param string
      * @return return true or false depending on server answer
      */
@@ -352,7 +351,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     /**
-     * @param s output string from client
+     * @param s print string to server from client
      */
     private void outprint(String s) {
         try {
@@ -372,7 +371,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     /**
-     * @param s output int from client
+     * @param s print to server int from client
      */
     private void outprint(int s) {
         try {
@@ -390,7 +389,7 @@ public class conSocket extends Thread implements ConnectionController {
     }
 
     /**
-     * @param c output char from client
+     * @param c print to server char from client
      */
     private void outprint(char c) {
         try {

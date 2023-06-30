@@ -4,7 +4,6 @@ import it.polimi.ingsw23.gc40.server.model.goals.Goal;
 
 public class CommonGoalCard {
     private final Goal goal;
-    private String cardName; //todo ??
 
     /**
      * constructor of CommonGoalCard

@@ -44,8 +44,7 @@ public class GUI extends View {
                 } else {
                     matchId = con.reconnect(nickname);
                     if (matchId != -1) {
-                        //todo avvisare il giocatore di ciò che segue:
-                        //popup("welcome back into match n."+matchId);
+
                         showOnly(waitingPanel);
                         con.addObserver(null, nickname, matchId);
                     } else {
@@ -57,8 +56,7 @@ public class GUI extends View {
 
                             con.addObserver(null, nickname, matchId);
 
-                            // todo avvisare il giocatore di ciò che segue:
-                            // popup("Sei stato aggiunto al match n."+matchId);
+
                         } else {
                             showOnly(newmatchPanel);
                         }

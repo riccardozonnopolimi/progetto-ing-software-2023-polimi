@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PrivateModelObserver extends Observable implements Observer {
+public class PrivateObserverObservable extends Observable implements Observer {
     private static final long serialVersionUID = 7829136991241571165L;
     private PrivateModelNetwork data;
     private ItemTile[][] shelf;
@@ -23,7 +23,7 @@ public class PrivateModelObserver extends Observable implements Observer {
      * PrivateModelObserver constructor. It sets this as player observer
      * @param p player
      */
-    public PrivateModelObserver(Player p) {
+    public PrivateObserverObservable(Player p) {
         p.addObserver(this);
     }
 
@@ -71,16 +71,4 @@ public class PrivateModelObserver extends Observable implements Observer {
 
     }
 
-//todo cancellare?
-
-    /*    public PrivateModelNetwork getData() {
-        return data;
-    }*/
-
-
-/*   public void newObserver(Observer o){
-       addObserver(o);
-       setChanged();
-       notifyObservers(data);
-   }*/
 }

@@ -48,21 +48,13 @@ public class Bookshelf   {
 
     }
 
-    //todo verificare se questo metodo senza usi serve ancora. ricky
+
+
 
     /**
-     * setting shelf
-     * @param shelf
-     */
-    public void setShelf(ItemTile[][] shelf) {
-        this.shelf = shelf;
-    }
-
-    /**
-     *
+     * usata nei test
      */
     public void print() {
-        //todo serve che stia qui?
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 System.out.print(shelf[i][j].toString() + "|");

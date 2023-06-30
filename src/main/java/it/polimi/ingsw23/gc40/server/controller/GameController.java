@@ -2,7 +2,7 @@ package it.polimi.ingsw23.gc40.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicModelObserver;
+import it.polimi.ingsw23.gc40.netModel.utilsObserverObservable.PublicObserverObservable;
 import it.polimi.ingsw23.gc40.server.model.*;
 import it.polimi.ingsw23.gc40.server.model.goals.*;
 
@@ -28,11 +28,10 @@ public class GameController extends Observable {
     private short moveNumber;
     private Player wasnext;
     private Player next;
-    private final PublicModelObserver observer = new PublicModelObserver(this);
+    private final PublicObserverObservable observer = new PublicObserverObservable(this);
     private short[] points;
     private int pndf;
 
-    //todo javadoc
     public short[] getPoints() {
         return points;
     }
@@ -66,38 +65,6 @@ public class GameController extends Observable {
         notifyObservers(playable);
     }
 
-        //todo cancellare tutti i metodi non utilizzati alla fine
-    public ArrayList<ItemTile> getBag() {
-        return bag;
-    }
-
-    public void setBag(ArrayList<ItemTile> bag) {
-        this.bag = bag;
-    }
-
-    public ArrayList<Integer> getCG1Scores() {
-        return CG1Scores;
-    }
-
-    public void setCG1Scores(ArrayList<Integer> CG1Scores) {
-        this.CG1Scores = CG1Scores;
-    }
-
-    public ArrayList<Integer> getCG2Scores() {
-        return CG2Scores;
-    }
-
-    public void setCG2Scores(ArrayList<Integer> CG2Scores) {
-        this.CG2Scores = CG2Scores;
-    }
-
-    public ArrayList<PersonalGoalCard> getPersonalGoals() {
-        return personalGoals;
-    }
-
-    public void setPersonalGoals(ArrayList<PersonalGoalCard> personalGoals) {
-        this.personalGoals = personalGoals;
-    }
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
@@ -110,7 +77,7 @@ public class GameController extends Observable {
     /**
      * @return Public Model Observer
      */
-    public PublicModelObserver getObserver() {
+    public PublicObserverObservable getObserver() {
         return observer;
     }
 
@@ -531,7 +498,7 @@ public class GameController extends Observable {
      * @return observer of PublicModelObserver
      */
     //todo inutilizzato
-    public PublicModelObserver getPublicModelObserver() {
+    public PublicObserverObservable getPublicModelObserver() {
         return observer;
     }
 
@@ -564,7 +531,6 @@ public class GameController extends Observable {
         p.getPersonalGoal().checkScore(p);
 
         points [players.indexOf(p)] = (short) p.totScore();
-        //todo tolta da qui notify dei points
     }
 
     /**

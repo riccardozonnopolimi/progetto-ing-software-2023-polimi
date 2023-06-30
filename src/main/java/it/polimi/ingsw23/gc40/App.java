@@ -7,8 +7,10 @@ import it.polimi.ingsw23.gc40.client.view.CLI;
 import it.polimi.ingsw23.gc40.server.ServerMain;
 
 public class App {
-    //todo javadoc
+
     /**
+     *
+     * Ask user if the instance of the app has to be client or server
      * @param args
      * @throws Exception
      */

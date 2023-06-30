@@ -100,7 +100,7 @@ public class G5_G8_G9_G10 implements Goal {
     }
 
 
-    //todo usata solo nei test
+    //usata solo nei test
     public void print() {
         System.out.println("G5_G8_G9_G10");
     }

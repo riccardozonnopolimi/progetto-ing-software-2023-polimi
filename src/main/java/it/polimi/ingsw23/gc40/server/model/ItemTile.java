@@ -9,7 +9,6 @@ public class ItemTile implements Serializable {
     private boolean checkedADJ = false;
 
     public ItemTile(Item t) {
-        //todo verificare se abbiamo ancora bisogno
         super();
         type = t;
         num = 0;
@@ -26,7 +25,6 @@ public class ItemTile implements Serializable {
         num = n % 3;
     }
 
-    //todo verificare se serve questo metodo senza usage
     public int getNum() {
         return num;
     }

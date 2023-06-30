@@ -14,18 +14,6 @@ public class LobbyController {
     private final ArrayList<Score> SavedScores = new ArrayList<>();
     private int numMatch;
 
-    //todo metodi inutilizzati
-    public void setOnlinePlayers(ArrayList<Player> onlinePlayers) {
-        this.onlinePlayers = onlinePlayers;
-    }
-
-    public ArrayList<Player> getOfflinePlayers() {
-        return offlinePlayers;
-    }
-
-    public void setOfflinePlayers(ArrayList<Player> offlinePlayers) {
-        this.offlinePlayers = offlinePlayers;
-    }
 
     /**
      * @return the list of current active matches
@@ -43,11 +31,6 @@ public class LobbyController {
      */
     public LobbyController() {
         this.numMatch = 0;
-    }
-
-    //todo inutilizzato
-    public GameController getQueueMatch() {
-        return this.queueMatch;
     }
 
     /**
@@ -177,10 +160,10 @@ public class LobbyController {
      * ( last round after one player has filled the whole bookshelf)
      * @param m GameController of almost-ended match
      */
-    //todo commentare
+
     public void endMatch(GameController m) {
-        //TO TEST TODO
         if (m.isEnding() && !m.isPlayable()) {
+            //predisposizione per funzionalit'avanzata di resilienza alle disconnessione
             /*ArrayList<Integer> scores = new ArrayList<>();
             for (int i = 0; i < gameController.getPlayers().size(); i++) {
                 Integer integer = Integer.valueOf(gameController.getPlayers().get(i).totScore());

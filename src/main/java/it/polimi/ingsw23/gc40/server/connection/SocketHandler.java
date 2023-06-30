@@ -169,10 +169,10 @@ public class SocketHandler implements Runnable, Observer {
     }
 
     /**
-     * @param bool true if the message arrives correctly , false if not
+     * @param bool is sent to client
      * @throws IOException occurs whenever an input or output operation is failed or interpreted.
      */
-    //todo ??
+
     private void bool(boolean bool) throws IOException {
         if (bool) {
             out.writeUTF("#true");
