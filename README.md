@@ -1,44 +1,57 @@
-
 # MyShelfie
 
+Digital, networked version of the board game **MyShelfie**, developed as the final team project of the **Software Engineering** course (Ingegneria del Software, 2023) at **Politecnico di Milano** by group **GC40**: Filiberto Canino, Riccardo Zonno, Giuseppe Preziosi and Giorgio Sidari.
 
-This is a digital adaptation of the physical game "MyShelfie"
-It is developed by Filiberto Canino, Riccardo Zonno, Giuseppe Preziosi, and Giorgio Sidari, who are students of Politecnico di Milano in the "Software Engineering" course. Together, they form the development group "GC40."
+> This repository is a public copy, published with the team's consent, of the original team repository [filibertocanino/ing-sw-2023-canino-zonno-sidari-preziosi](https://github.com/filibertocanino/ing-sw-2023-canino-zonno-sidari-preziosi). The full commit history and all branches are preserved, so every commit keeps its original author.
 
 ## Features
 
-- Implemented in Java, following the game rules of the physical board game "MyShelfie" and the game requirements specified by the course professors.
-- Supports both RMI and socket connections, allowing players to choose their preferred mode of connection.
-- Offers a choice between a text-based interface (fully functional) and a graphical interface (work in progress) for gameplay.
+- Complete implementation of the MyShelfie game rules, following the requirements set by the course professors.
+- **Client-server architecture** supporting both **RMI** and **socket** connections: each player chooses the connection type.
+- **Text-based interface (TUI)**, fully functional, and a **graphical interface (GUI)** built with Swing, partially implemented.
+- **Multiple games:** the server can run several games at the same time.
+- **Disconnection resilience:** the game state is kept even if a player temporarily loses the connection.
 
-## Game Requirements
+## Tech stack
 
-Our software adheres to the complete rules of the MyShelfie board game, including the following:
+| Area | Technologies |
+|---|---|
+| Language and build | Java 19, Maven |
+| Networking | Java RMI, TCP sockets, Java object serialization |
+| Data | Game configuration (personal goal cards) loaded from JSON with Gson |
+| User interfaces | Command line (TUI), Swing (GUI) |
+| Design | MVC architecture, Observer pattern, UML |
+| Testing | JUnit 4 (14 test classes) |
 
-- Text-based user interface (TUI) for seamless gameplay.
-- Remote Method Invocation (RMI) for networked play.
-- Socket connection for networked play.
-- Graphical User Interface (GUI) for an enhanced gaming experience.
+## Project structure
 
-## Advanced Features
+```
+src/main/java/it/polimi/ingsw23/gc40/
+├── server/      model (game logic, goal cards), controller, connection handling
+├── client/      views (TUI and GUI) and client-side connection
+└── netModel/    objects exchanged over the network and observer/observable utilities
+src/test/java/   unit tests
+deliverables/    UML diagrams, Javadoc, test coverage report, peer reviews, executable jar
+```
 
-In addition to the core game rules, our software includes two advanced features:
+## Getting started
 
-1. Multiple Games: The software supports the ability to run multiple games concurrently, allowing multiple groups of players to enjoy MyShelfie simultaneously.
-2. Disconnection Resilience: The software is designed to handle disconnections gracefully, ensuring that the game state is maintained even if a player loses network connectivity temporarily.
+1. Make sure Java 19 or later is installed.
+2. Open a terminal in the `deliverables/softeng_gc40_jar` folder.
+3. Start the program with `java -jar softeng-gc40.jar`.
+4. Choose whether to run it as a **server** (enter your own IP address) or as a **client** (enter the server's IP address).
+5. A game needs at least three instances of the program, one of them acting as the server; they can run on different computers on the same network.
+6. Each client chooses the connection type (RMI or socket) and the interface (text or graphical), then follows the on-screen instructions.
 
-## Getting Started
+## Documentation
 
-1. Open a terminal and navigate to the "softeng_gc40_jar" folder.
-2. Execute the following command to start the game: `java -jar softeng_gc40.jar`.
-3. The program will launch and prompt you to choose whether you want to run it as a client or a server.
-4. If you choose to run as a client, enter the target IP address to connect to the server.
-5. If you choose to run as a server, enter your own IP address.
-6. To play a game, you need at least three instances of the program, with at least one instance acting as the server. These instances can be running on different computers connected over a network.
+- **UML diagrams** (high-level design, connection and match creation, sequence of moves): `deliverables/UML`
+- **Javadoc**: `deliverables/javadoc/index.html`
+- **Test coverage report**: `deliverables/test coverage.png`
 
-## Usage
+## My contribution (Riccardo Zonno)
 
-- Upon launching the game, you will be prompted to select the desired mode of connection: RMI or socket.
-- For gameplay, you can choose between the text-based interface (fully implemented) or the graphical interface (partially implemented).
-- Follow the on-screen instructions and prompts to play the game.
-- Enjoy MyShelfie with your friends, either locally or over a network!
+- Implementation and unit testing of the **common goal cards** and of parts of the game model, including scoring.
+- **Networking layer:** RMI connection, socket communication and serialization of the data sent from server to clients.
+- **Observer/observable** mechanism linking model, server and clients.
+- Work on the **command-line interface**, the first version of the **GUI** and the end-of-game logic.
